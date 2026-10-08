@@ -16,6 +16,17 @@ const birdFixture=(scope:'real'|'demo'='real'):Bird=>({id:randomUUID(),scope,ide
 async function samplePdf(){const p=await PDFDocument.create();p.addPage();return p.save();}
 const attachment=(bytes:Uint8Array,extra:Record<string,unknown>={})=>({...issuedPayload(bytes,'exame.pdf','application/pdf'),birdId:null,contactId:null,saleId:null,title:'Exame de João',category:'Exame',date:'2025-02-01',issuer:'Clínica',reference:'',validUntil:'2025-12-31',notes:'',shareWithCustomer:false,previousId:null,...extra});
 function pdfText(bytes:Uint8Array):string{const path=mkdtempSync(join(tmpdir(),'rda-pdf-'));try{const file=join(path,'documento.pdf');writeFileSync(file,bytes);return execFileSync('pdftotext',['-layout',file,'-'],{encoding:'utf8'});}finally{rmSync(path,{recursive:true,force:true});}}
+function visibleHeaderPixels(bytes:Uint8Array):number {
+  const directory=mkdtempSync(join(tmpdir(),'rda-render-'));
+  try {
+    const file=join(directory,'documento.pdf'),image=join(directory,'pagina');writeFileSync(file,bytes);
+    execFileSync('pdftoppm',['-f','1','-singlefile','-scale-to','1200','-gray',file,image]);
+    const pgm=readFileSync(image+'.pgm');
+    const header=/^P5\s+(\d+)\s+(\d+)\s+255\s/.exec(pgm.subarray(0,100).toString('ascii'));
+    if(!header)throw new Error('Formato de imagem inesperado');
+    return pgm.subarray(header[0].length,header[0].length+Number(header[1])*150).reduce((count,pixel)=>count+(pixel<220?1:0),0);
+  } finally {rmSync(directory,{recursive:true,force:true});}
+}
 describe('integridade e versões de arquivos',()=>{
   it('SHA-256 matches authoritative crypto including padding boundaries and non ASCII',()=>{for(const size of [0,1,55,56,63,64,65,10000]){const bytes=randomBytes(size);expect(sha256(bytes)).toBe(createHash('sha256').update(bytes).digest('hex'));}const unicode=new TextEncoder().encode('Saúde de João · R$ 10,20');expect(sha256(unicode)).toBe(createHash('sha256').update(unicode).digest('hex'));});
   it('archives bytes, verifies checksum and preserves prior versions unchanged',async()=>{const state=emptyState(),bytes=await samplePdf(),id=documentsHandler(state,'real','attachment.add',attachment(bytes))!.id!;const original=structuredClone(state.attachments[0]);documentsHandler(state,'real','attachment.add',attachment(bytes,{previousId:id,title:'Exame corrigido'}));expect(state.attachments[0]).toEqual(original);expect(state.attachments[1].version).toBe(2);expect(state.attachments[1].previousId).toBe(id);expect(()=>documentsHandler(state,'real','attachment.add',attachment(bytes,{previousId:id}))).toThrow(/nova versão/);expect(attachmentStatus(original,'2026-01-01')).toBe('Vencido');});
@@ -33,6 +44,15 @@ describe('relatórios e formatos externos',()=>{
 describe('caderneta, privacidade e imposição',()=>{
   const options={format:'A5' as const,healthIds:[] as string[],sections:['identification','origin','tutor','health','guidance','notes'] as BookletOptions['sections'],guidance:'Orientação revisada: contato do criatório.',deliveryDate:'2025-03-01',includePhoto:false};
   const fixture=():State=>{const state=emptyState(),bird=birdFixture();state.birds.push(bird);state.health.push({id:'health-private',scope:'real',birdId:bird.id,date:'2025-02-01',kind:'consulta',title:'REGISTRO_SELECIONADO',notes:'Cuidado prescrito conforme registro',weightGrams:95,professional:'Dra. Maria',author:'Criador',attachmentIds:[]});return state;};
+  it('renders visible text outlines, not only extractable text, in digital and imposed booklets',async()=>{
+    const state=fixture();
+    for(const format of ['A5','A6'] as const)for(const imposed of [false,true]){
+      const bytes=await exportBooklet(state,'real',state.birds[0].id,{...options,format},imposed,font);
+      expect(visibleHeaderPixels(bytes)).toBeGreaterThan(500);
+    }
+    const report=await exportPdf({title:'Saúde de João',columns:[{key:'name',label:'Identificação'}],rows:[{name:'João'}],notes:[],totals:{}},{organization:'Recanto das Asas',scope:'real',period:'',filters:''},font);
+    expect(visibleHeaderPixels(report)).toBeGreaterThan(500);
+  });
   it('excludes acquisition cost, internal notes and unselected health; leaves tutor fields blank',()=>{const state=fixture(),text=JSON.stringify(bookletPages(state,'real',state.birds[0].id,options));expect(text).not.toContain('998877');expect(text).not.toContain('SEGREDO_COMERCIAL');expect(text).not.toContain('REGISTRO_SELECIONADO');expect(text).toContain('Nome do tutor: __________________');expect(text).toContain('Fonte: Laboratório');const reviewed=bookletPages(state,'real',state.birds[0].id,{...options,healthIds:['health-private']});expect(JSON.stringify(reviewed)).toContain('REGISTRO_SELECIONADO');expect(reviewed.length%4).toBe(0);});
   it('computes booklet sequence and includes each logical page exactly once on correct sheet sides',()=>{expect(bookletSheets(8,'A5')).toEqual([[8,1],[2,7],[6,3],[4,5]]);expect(bookletSheets(8,'A6')).toEqual([[8,1,6,3],[2,7,4,5]]);expect(bookletSheets(16,'A6')).toEqual([[16,1,14,3],[2,15,4,13],[12,5,10,7],[6,11,8,9]]);for(const format of ['A5','A6']as const)expect(bookletSheets(16,format).flat().filter(v=>v!==null).sort((a,b)=>Number(a)-Number(b))).toEqual(Array.from({length:16},(_,i)=>i+1));expect(()=>bookletSheets(7,'A5')).toThrow(/múltiplos/);});
   it('renders digital and A4 imposed pages with exact page numbers, dimensions and external PDF reader privacy',async()=>{const state=fixture(),birdId=state.birds[0].id;for(const format of ['A5','A6']as const){const opt={...options,format},pages=bookletPages(state,'real',birdId,opt);expect(pages.length%(format==='A5'?4:8)).toBe(0);const digital=await exportBooklet(state,'real',birdId,opt,false,font),imposed=await exportBooklet(state,'real',birdId,opt,true,font),digitalPdf=await PDFDocument.load(digital),imposedPdf=await PDFDocument.load(imposed);expect(digitalPdf.getPageCount()).toBe(pages.length);expect(imposedPdf.getPageCount()).toBe(pages.length/(format==='A5'?2:4));expect(imposedPdf.getPage(0).getSize().width).toBeCloseTo(format==='A5'?841.89:595.28);const digitalText=pdfText(digital);expect(digitalText).toContain('João');expect(digitalText).not.toContain('SEGREDO_COMERCIAL');expect(digitalText).not.toContain('998877');expect(digitalText).not.toContain('REGISTRO_SELECIONADO');const physicalPages=pdfText(imposed).split('\f').filter(v=>v.trim());for(const [i,sheet]of bookletSheets(pages.length,format).entries())for(const n of sheet.filter(v=>v!==null))expect(physicalPages[i]).toMatch(new RegExp(`\\b${n} / ${pages.length}\\b`));}});

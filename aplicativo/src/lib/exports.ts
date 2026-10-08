@@ -19,7 +19,9 @@ export async function exportXlsx(report:ReportData):Promise<Uint8Array> {
 }
 let fontPromise:Promise<Uint8Array>|undefined;
 export function loadFont():Promise<Uint8Array>{fontPromise??=fetch('/fonts/NotoSans.ttf').then(async r=>{if(!r.ok)throw new Error('A fonte de impressão não pôde ser carregada.');return new Uint8Array(await r.arrayBuffer());});return fontPromise;}
-async function preparePdf(fontBytes?:Uint8Array){const {default:fontkit}=await import('@pdf-lib/fontkit');const pdf=await PDFDocument.create();pdf.registerFontkit(fontkit);const font=await pdf.embedFont(fontBytes||await loadFont(),{subset:true});pdf.setProducer('Recanto das Asas');pdf.setCreator('Recanto das Asas');return{pdf,font};}
+// Keep the original glyph IDs and outlines. Subsetting this Noto Sans font with
+// pdf-lib/fontkit produced readable text mappings but missing visible glyphs.
+async function preparePdf(fontBytes?:Uint8Array){const {default:fontkit}=await import('@pdf-lib/fontkit');const pdf=await PDFDocument.create();pdf.registerFontkit(fontkit);const font=await pdf.embedFont(fontBytes||await loadFont(),{subset:false});pdf.setProducer('Recanto das Asas');pdf.setCreator('Recanto das Asas');return{pdf,font};}
 const ink=rgb(.12,.2,.16),green=rgb(.16,.39,.26),gray=rgb(.4,.45,.42);
 function safeText(value:string,font:PDFFont):string {return [...value.replace(/[\u0000-\u0008\u000b-\u001f]/g,'')].map(c=>{try{font.encodeText(c);return c;}catch{return '?';}}).join('');}
 function wrapped(value:string,font:PDFFont,size:number,width:number):string[]{const lines:string[]=[];for(const paragraph of safeText(value,font).split(/\r?\n/)){let current='';for(const token of paragraph.split(/\s+/)){const words:string[]=[];let segment='';for(const char of token){if(font.widthOfTextAtSize(segment+char,size)>width&&segment){words.push(segment);segment='';}segment+=char;}if(segment)words.push(segment);for(const word of words){if(current&&font.widthOfTextAtSize(current+' '+word,size)>width){lines.push(current);current=word;}else current=current?current+' '+word:word;}}lines.push(current);}return lines;}
