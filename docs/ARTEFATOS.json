@@ -1,0 +1,31 @@
+{
+  "version": "0.1.0",
+  "date_utc": "2026-10-08",
+  "artifacts": [
+    {
+      "path": "aplicativo/release/android/Recanto-das-Asas-0.1.0-debug.apk",
+      "bytes": 30903991,
+      "sha256": "09ea18fed746dff53e848cb0ba6b58b93fe5c088f09834b264ba21dc8207016a",
+      "status": "avaliação privada",
+      "signature": "Android debug, v2 validada",
+      "physical_installation_tested": false
+    },
+    {
+      "path": "aplicativo/release/windows/Recanto-das-Asas-0.1.0-x64-Setup.exe",
+      "bytes": 135268097,
+      "sha256": "bc97f781621e2da5802249492e4f66836fd5092809118e073bdf4abcd50b40b6",
+      "status": "avaliação privada",
+      "signature": "sem Authenticode",
+      "physical_installation_tested": false
+    },
+    {
+      "path": "aplicativo/release/servidor-windows/Recanto-das-Asas-Servidor-Windows-0.1.0.zip",
+      "bytes": 35001705,
+      "sha256": "8e206aa903860d57dfeb7872cb7a8e64756db036892a633d3e5be8fb169e372f",
+      "status": "avaliação privada do servidor local Windows",
+      "signature": "scripts sem assinatura; runtime Node oficial conferido por SHA-256",
+      "node_version": "24.21.0",
+      "physical_installation_tested": false
+    }
+  ]
+}

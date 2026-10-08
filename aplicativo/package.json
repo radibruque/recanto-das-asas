@@ -1,0 +1,52 @@
+{
+  "name": "recanto-das-asas-app",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc --noEmit && vite build",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "preview": "vite preview --host 127.0.0.1",
+    "native:windows": "node scripts/package-windows.mjs",
+    "native:android": "node scripts/package-android.mjs",
+    "sync:windows": "node scripts/package-sync-windows.mjs",
+    "native:dev": "electron electron/main.cjs"
+  },
+  "dependencies": {
+    "@capacitor/core": "8.5.3",
+    "@pdf-lib/fontkit": "1.1.1",
+    "docx": "9.5.1",
+    "exceljs": "4.4.0",
+    "jszip": "3.10.1",
+    "lucide-react": "1.31.0",
+    "pdf-lib": "1.17.1",
+    "react": "19.2.6",
+    "react-dom": "19.2.6",
+    "zod": "3.25.76"
+  },
+  "devDependencies": {
+    "@capacitor/android": "8.5.3",
+    "@capacitor/cli": "8.5.3",
+    "@playwright/test": "1.58.2",
+    "@types/node": "22.19.19",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "@vitejs/plugin-react": "6.0.2",
+    "electron": "44.7.0",
+    "electron-builder": "26.15.3",
+    "fake-indexeddb": "6.2.4",
+    "typescript": "5.9.3",
+    "vite": "8.0.13",
+    "vitest": "4.1.0"
+  },
+  "overrides": {
+    "exceljs": {
+      "uuid": "11.1.1"
+    }
+  }
+}

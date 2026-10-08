@@ -1,0 +1,225 @@
+PROMPT COMPLETO PARA O SISTEMA RECANTO DAS ASAS
+
+Quero que você desenvolva um sistema próprio do Recanto das Asas usando como base o painel existente, para administrar meu criatório amador de psitacídeos e a operação comercial do negócio. O sistema deve ter aplicativos instaláveis para Android e Windows, interface em português do Brasil e dois painéis integrados: Criatório e Comercial. Quero uma ferramenta completa, simples de usar e preparada para receber correções e novas versões sem perder meus registros.
+
+Analise o código-fonte do painel fornecido e aproveite seus fluxos, regras de validação, modelo de dados e componentes adequados. Preserve as funções úteis e amplie a base conforme todos os requisitos deste prompt. Adapte ou substitua as partes necessárias para aplicativos Android e Windows, justificando as decisões. Trabalhe em uma cópia ou projeto separado, mantendo o site hospedado atual sem alterações. Reutilize os arquivos aprovados da identidade visual quando fornecidos. Organize o desenvolvimento em etapas verificáveis e mantenha uma matriz de requisitos implementados, testados e pendentes. Não considere o trabalho concluído apenas com telas demonstrativas ou funções simuladas.
+
+1 OBJETIVO E CONTROLE DO SISTEMA
+
+Entregue o código-fonte, o esquema do banco, as instruções de compilação e manutenção e os arquivos instaláveis que puder efetivamente gerar e validar. Quero controlar meus dados e poder continuar o projeto com outro desenvolvedor. Documente dependências, licenças e custos de serviços externos. Não crie uma assinatura obrigatória para usar meus próprios registros locais.
+
+O acesso deve ser privado, inicialmente somente meu. Não publique em lojas, exponha bancos ou arquivos, crie catálogo público ou amplie a visibilidade sem minha autorização. Permissões para colaboradores poderão ser configuradas posteriormente, separando administração, comercial, manejo e consulta.
+
+Dados fictícios devem ficar em uma demonstração identificada, separada dos registros reais, incluindo relatórios e arquivos exportados. Uma instalação nova começa com a base real vazia, salvo importação de registros reais que eu fornecer. Não preencha registros reais com informações inferidas de conversas. Preserve os dados originais se houver migração do painel.
+
+2 PLATAFORMAS E ARQUITETURA
+
+Proponha uma arquitetura adequada a Android e Windows a partir da análise do código fornecido, com armazenamento persistente e manutenção acessível. A base atual é uma aplicação web React e TypeScript, com banco Cloudflare D1 e acesso privado controlado pela hospedagem. Adapte o armazenamento, a instalação e o controle de acesso ao aplicativo próprio; não suponha que a proteção da hospedagem acompanhe o código exportado. Antes de implementar decisões que dependam delas, esclareça somente as informações essenciais: versões dos dispositivos, necessidade de trabalhar sem internet, compartilhamento entre dispositivos, colaboradores e disponibilidade de serviços externos.
+
+Avalie funcionamento local com os registros essenciais disponíveis sem internet e sincronização privada opcional. Explique custos e limites dessa proposta. Se houver sincronização, implemente identificação dos registros, fila de alterações, tentativas seguras, indicação do estado da conexão e tratamento de conflitos. Não sobrescreva silenciosamente mudanças feitas em outro aparelho nem duplique vendas ou recebimentos após reconectar. Mantenha backups versionados independentes da sincronização.
+
+Use datas, moeda e formatação brasileiras, com fuso America/Sao_Paulo e valores financeiros tratados com precisão de centavos. Evite cálculos monetários que produzam diferenças por arredondamento. Documente compatibilidade, requisitos de instalação e recursos que dependam de internet.
+
+Disponibilize migração de registros reais do painel quando eu fornecer os dados e importação de planilhas com modelo de colunas, prévia, validação, identificação de duplicidades e relatório de erros. Faça backup antes de importar, preserve os vínculos entre aves e mantenha os originais até confirmar o resultado. O pacote de código-fonte não deve ser confundido com um backup do banco em produção.
+
+3 NAVEGAÇÃO E PAINÉIS
+
+Crie uma página inicial com os dois painéis e acesso rápido a Aves, Reprodução, Clientes, Vendas, Financeiro, Estoque, Relatórios, Documentos, Identidade visual e Configurações. Uma busca deve localizar registros por nome, anilha, espécie, cliente e número de documento.
+
+No painel Criatório, apresente composição do plantel, aves por situação, casais ativos, posturas abertas, ovos em acompanhamento, filhotes, tarefas próximas e pendências documentais. Mostre indicadores reprodutivos com acesso aos registros que originaram cada número.
+
+No painel Comercial, mostre vendas do período, valores recebidos, saldo de caixa e contas, contas a pagar e receber, parcelas vencidas, fluxo previsto, reservas e alertas de estoque. Permita escolher o período e abrir o detalhamento dos indicadores.
+
+Mantenha a tela inicial enxuta. Disponibilize a profundidade em páginas de detalhes, filtros e relatórios. No celular, use navegação simples, formulários divididos por assunto, botões fáceis de tocar e listas adaptadas à largura da tela. Preserve o que foi digitado quando houver erro. Use rótulos claros, boa legibilidade e sinais de estado que não dependam apenas da cor.
+
+4 CADASTRO E HISTÓRICO DAS AVES
+
+Cada ave deve ter um identificador interno estável e ficha com nome opcional, espécie, nome científico quando informado, sexo inclusive desconhecido, método e resultado de sexagem, mutação, descrição visual, identificação ou anilha, microchip opcional, nascimento conhecido ou estimado, fotos, origem e observações.
+
+Registre criador de origem, fornecedor, data e forma de aquisição, valor, documentos relacionados, pai, mãe, descendentes, recinto e responsável atual. Separe a procedência do histórico de tutores. Permita condições como filhote, em manejo, reprodutor, disponível, reservado, vendido, doado, transferido e falecido, com data e motivo das mudanças.
+
+Disponibilize pesquisa e filtros por espécie, sexo, mutação, idade, origem, recinto e situação. Impeça identificação duplicada dentro do plantel. Preserve o histórico de aves que saíram do criatório e impeça exclusões que rompam vínculos com reprodução, documentos ou vendas.
+
+5 PARENTESCO E MUTAÇÕES
+
+Mostre pais, avós quando conhecidos, irmãos e descendentes em uma árvore simples e na ficha individual. Indique lacunas de informação e impeça ciclos impossíveis na genealogia. Apresente parentesco conhecido antes da formação de um casal, com aviso e registro da decisão do usuário.
+
+Registre mutações e portadores declarados separando informação observada, informada e confirmada, com fonte, data, observação e documento de apoio. Preserve versões anteriores quando houver correção. Não conclua genótipo, sexo ou condição de portador apenas por aparência. Cálculos genéticos ou de consanguinidade mais avançados só devem ser incluídos com método documentado, fontes adequadas e indicação das limitações dos dados.
+
+6 CASAIS POSTURAS OVOS E FILHOTES
+
+Registre casais com aves vinculadas, recinto, início, encerramento, situação e observações. Valide espécie, sexo conhecido e disponibilidade, evitando que uma ave participe simultaneamente de casais ativos incompatíveis.
+
+Cada postura deve conter casal, datas, número de ovos e observações. Cada ovo deve ter identificação na postura, data de postura, avaliação de fertilidade, início de incubação quando conhecido, previsão de eclosão, resultado e datas dos eventos. Separe fertilidade do resultado final e permita informação ainda não avaliada.
+
+Ao confirmar a eclosão, crie o filhote uma única vez e vincule ovo, postura, casal e pais automaticamente. Registre peso e evolução, alimentação conforme dados do criador, anilhamento, desmame, independência, ocorrências e destino. Previsões por espécie devem ser configuráveis e identificadas como estimativas.
+
+Mostre histórico por ave, casal, postura e período. Inclua agenda de observações, avaliações, pesagens e outras tarefas cadastradas. Não apresente prescrições ou recomendações clínicas automáticas como parte dos registros de manejo.
+
+7 SAÚDE E DOCUMENTAÇÃO INDIVIDUAL
+
+Crie uma linha do tempo da ave com pesagens, consultas, ocorrências, exames, diagnósticos informados, tratamentos prescritos, procedimentos e acompanhamento. Identifique data, autor do registro, profissional quando informado e anexos relacionados.
+
+Permita anexar PDFs, imagens e outros formatos seguros definidos no projeto, por upload, câmera ou seleção de arquivo. Organize exames, laudos, sexagem, comprovantes de aquisição, documentos de origem, documentação legal, comprovantes e contratos. Inclua título, categoria, data, emissor, referência, validade quando aplicável e observações. Permita visualizar, pesquisar, baixar e imprimir.
+
+Defina limites de tamanho, verificação de formato e política de armazenamento. Os anexos devem estar dentro do sistema e dos backups, sem depender de caminhos temporários ou links que expirem. Permita substituir um arquivo mantendo histórico de versões e controlar quais documentos podem ser entregues ao cliente.
+
+Apresente documentos como arquivados, pendentes ou vencidos conforme os dados registrados. Não ateste automaticamente a regularidade de uma ave nem gere documentos oficiais fictícios. Modelos para órgãos ou emissão fiscal exigem especificação atual e validação da integração correspondente.
+
+8 CADERNETA DO PET PARA ENTREGA AO TUTOR
+
+Crie uma ferramenta para montar, revisar e gerar a caderneta individual da ave, com a identidade do Recanto das Asas. O formato deve lembrar uma caderneta de cães e gatos na organização, adaptado às informações de aves.
+
+Preencha automaticamente os dados existentes: foto, nome, espécie, identificação, nascimento ou idade estimada, sexo e sua fonte, mutação e sua condição de confirmação, origem, criador, pais conhecidos, data de entrega e contatos do criatório. Deixe claro quando alguma informação for desconhecida.
+
+Inclua espaços generosos para o tutor preencher nome do pet, dados de contato, endereço opcional, veterinário, telefone de emergência e anotações. Reserve páginas para consultas, pesagens, exames, cuidados prescritos e acompanhamento. Registros já existentes só devem ser incluídos após seleção e revisão. Não preencha vacinas, tratamentos ou exames inexistentes e não copie protocolos de cães e gatos para aves.
+
+Permita selecionar páginas e campos, acrescentar orientações revisadas para a espécie e ocultar dados internos. Não inclua preços de aquisição, margens, documentos pessoais de fornecedores ou observações comerciais privadas na versão entregue ao tutor.
+
+Gere PDF com texto legível, identidade consistente e qualidade de impressão. Disponibilize uma versão A5 e uma opção compacta A6. Para impressão como livreto, produza folhas A4 com páginas na ordem correta, margens de segurança, páginas em múltiplos de quatro e instruções de dobra e impressão frente e verso. Ofereça também PDF em ordem normal para leitura digital.
+
+Inclua pré-visualização, download, compartilhamento manual e impressão pelo diálogo do sistema. No Android, utilize os serviços de impressão disponíveis; no Windows, as impressoras instaladas. Conexão direta a modelos específicos pode ser adicionada depois de identificar e testar os equipamentos. Se uma impressora não estiver disponível, o PDF deve continuar funcionando.
+
+Guarde a versão da caderneta emitida, com data e vínculo à ave e à venda. Reimpressões devem poder recuperar esse documento, sem modificar automaticamente o que já foi entregue. QR code opcional deve usar um identificador ou acesso autorizado e não expor a ficha privada.
+
+9 CLIENTES FORNECEDORES E RELACIONAMENTO
+
+Cadastre clientes, interessados e fornecedores com nome, contatos, endereço quando necessário, origem do contato e observações. CPF ou CNPJ devem ser opcionais quando não forem necessários à operação. Evite coleta obrigatória de dados sem finalidade.
+
+Mostre aves adquiridas, reservas, vendas, parcelas, pagamentos, documentos entregues e histórico de contato. Permita tarefas de acompanhamento, lista de interessados por espécie ou mutação e registros de suporte pós-venda. Separe anotações internas das informações destinadas ao cliente.
+
+10 VENDAS RESERVAS E ENTREGA
+
+Permita montar orçamento, reservar aves, registrar sinal, converter a reserva em venda e controlar entrega. Venda deve aceitar uma ou mais aves identificadas individualmente e produtos ou serviços cadastrados. Registre itens, valores, descontos, taxas, forma de pagamento, parcelas, vencimentos e observações.
+
+Separe situação comercial, pagamento e entrega. Uma venda parcelada não deve aparecer como totalmente recebida. Uma reserva deve bloquear a disponibilidade conforme a regra definida. Impeça vender a mesma ave em duas operações ativas, inclusive em gravações simultâneas ou após reconexão.
+
+Ao entregar, vincule cliente e ave, atualize a situação e prepare caderneta, recibo e documentos selecionados. Preserve a origem e o histórico anterior. Permita cancelamentos, devoluções, estornos e reembolsos com motivo, data e recomposição correta do estoque, das contas e da disponibilidade.
+
+11 FINANCEIRO CAIXA E COBRANÇA
+
+Inclua receitas e despesas, plano de categorias editável, centros de custo, contas financeiras, saldo inicial, abertura e fechamento de caixa, reforços e retiradas, transferências entre contas e conferência de saldo previsto e saldo contado.
+
+Controle contas a pagar e receber com cliente ou fornecedor, vínculo à venda ou compra, vencimento, recorrência, parcelas e documentos. Permita pagamentos e recebimentos parciais, descontos, acréscimos informados, estornos e comprovantes. Transferências entre minhas contas não devem virar faturamento ou despesa do negócio.
+
+Inclua conferência e conciliação manual com extratos, identificando lançamentos conferidos e diferenças. Importação de extratos CSV ou OFX pode ser acrescentada com layout validado, prévia e proteção contra importação duplicada. Separe aportes e retiradas do proprietário dos resultados operacionais.
+
+Registre dinheiro, Pix, cartão e outros meios, com taxas e previsão de liquidação quando aplicável. Confirmação manual de pagamento deve ser identificada. Pix dinâmico, boletos, confirmação automática, bancos e cartões exigem integração real com provedor, credenciais e custos apresentados separadamente. Nunca marque uma cobrança como paga com base apenas na emissão ou no envio.
+
+Disponibilize lista de vencimentos e atrasos, extrato por cliente, documentos de cobrança e mensagens editáveis para compartilhar manualmente. Envio automático por WhatsApp ou e-mail deverá depender de integração configurada e autorização específica; não envie mensagens durante testes com dados reais.
+
+Separe vendas realizadas, valores recebidos e valores ainda devidos. Mostre fluxo de caixa realizado e projetado e resultado gerencial por competência com critérios explicados. Não conte novamente como receita o recebimento de uma venda já contabilizada no relatório de vendas.
+
+12 ESTOQUE COMPRAS CUSTOS E MOVIMENTAÇÕES
+
+Mantenha o plantel individual separado do estoque de materiais e produtos. Registre entradas e saídas de aves por nascimento, compra, venda, doação, transferência, perda e óbito, com origem, destino, data, documento e motivo.
+
+Para ração, papinha, suplementos, materiais e produtos comercializados, inclua quantidade, unidade, fornecedor, lote, validade quando aplicável, custo e estoque mínimo. Registre compras, consumo interno, vendas, perdas, ajustes e transferências. Documente regras de unidades e conversões e evite saídas negativas sem autorização registrada.
+
+Vincule despesas diretamente a ave, casal, postura ou categoria quando possível. Permita rateio explícito de custos indiretos. Relatórios de margem devem mostrar a fórmula e avisar quando custos não foram registrados. Não apresente estimativa incompleta como lucro confirmado.
+
+13 CENTRAL DE RELATÓRIOS
+
+Todos os módulos devem permitir consulta e exportação dos registros. Crie uma central com filtros por período, espécie, mutação, ave, casal, recinto, situação, cliente, fornecedor e categoria, conforme o relatório. Permita ordenar, escolher colunas, agrupar, salvar modelos e repetir consultas.
+
+Disponibilize pelo menos estes conjuntos de relatórios:
+
+- Plantel atual e histórico; distribuição por espécie, sexo, mutação e situação; entradas, saídas e movimentações de recintos; fichas individuais e parentesco.
+- Casais e histórico; posturas e ovos; fertilidade; eclosões; filhotes e sobrevivência na etapa escolhida; produção por casal e espécie; evolução por período.
+- Pesagens e crescimento; ocorrências e cuidados registrados; exames e documentos; documentos pendentes ou vencidos; tarefas e agenda.
+- Clientes e fornecedores; interessados; orçamentos, reservas e vendas; itens vendidos; descontos e cancelamentos; documentos e entregas; acompanhamento pós-venda.
+- Caixa e fechamento; extrato das contas; receitas e despesas; contas a pagar e receber; parcelas vencidas; recebimentos e pagamentos; fluxo realizado e projetado; resultado gerencial; custos e margem por ave, casal, postura ou espécie quando houver base suficiente.
+- Estoque e inventário; compras; entradas e saídas; consumo interno; lotes, validades e mínimos; custos registrados.
+- Auditoria de alterações, exclusões e estornos; geração de documentos; histórico de backups; atualizações e relatos de problemas.
+
+Permita relatórios recorrentes com periodicidade configurável e arquivo gerado automaticamente quando a execução estiver disponível. Se o aplicativo estiver fechado ou o dispositivo impedir tarefas em segundo plano, gere o relatório pendente no próximo acesso e mostre esse estado. Notifique dentro do aplicativo e não publique nem envie relatórios sem configuração e autorização.
+
+Exporte relatórios em PDF e tabelas em XLSX e CSV. Use DOCX para documentos editáveis e modelos que precisem desse formato. Os arquivos devem abrir fora do aplicativo. PDF deve ter título, identificação do criatório, período, filtros, data de emissão, numeração de páginas, totais, notas necessárias e cabeçalhos repetidos em tabelas longas.
+
+Documente cada indicador com numerador, denominador e período. Fertilidade deve distinguir ovos avaliados dos ainda desconhecidos; eclosão pode apresentar proporção sobre ovos acompanhados e sobre ovos férteis, com nomes diferentes. Evite divisão por zero, contagem dupla, totais inconsistentes e conclusões baseadas em dados faltantes. Permita abrir os registros por trás dos totais.
+
+14 DOCUMENTOS E IMPRESSÃO
+
+Disponibilize modelos editáveis de ficha da ave, ficha do casal, registro de postura, documento de origem baseado nos dados disponíveis, recibo de pagamento, orçamento, contrato ou termo de entrega, extrato de cobrança, orientações revisadas e caderneta.
+
+Preencha campos a partir do cadastro, permita revisar antes de emitir e mantenha o histórico das versões geradas. Documentos próprios devem ser identificados como tais. Recibos e contratos não devem ser apresentados como notas fiscais, laudos profissionais ou autorizações oficiais.
+
+Impressão deve ter pré-visualização, seleção de tamanho, escala e páginas, respeitando margens. Assinaturas manuscritas podem ter espaço reservado; assinatura digital exige recurso real e não pode ser representada apenas por imagem de assinatura.
+
+15 IDENTIDADE VISUAL E CENTRAL DE ARTES
+
+Use a identidade visual aprovada do Recanto das Asas como base do aplicativo, ícone, telas, relatórios, documentos e cadernetas. Reutilize as cores, logo, tipografia e elementos efetivamente fornecidos, mantendo legibilidade e acessibilidade. Não redesenhe a marca nem substitua a logo por uma interpretação nova sem autorização.
+
+Inclua uma área privada de Identidade visual com pré-visualização, busca, categorias, versões e download dos arquivos aprovados: logos com e sem fundo, versões de impressão, artes, mascote, elementos, padrões, figurinhas e animações, conforme os materiais existentes. Mostre nome, formato, dimensões, tamanho e finalidade sugerida. Permita baixar um arquivo ou um pacote e acrescentar novas versões.
+
+Preserve os originais em alta qualidade; não converta uma imagem para vetor nem anuncie versão vetorial se ela não existir. Mantenha esses arquivos no armazenamento persistente e nos backups, sem depender de links de conversas. Se os materiais não estiverem acessíveis, solicite os arquivos necessários para incorporá-los. Nunca indique um pacote ausente como já instalado.
+
+16 PRIVACIDADE E SEGURANÇA
+
+Implemente controle de acesso conforme a arquitetura, permissões por área, proteção das credenciais, bloqueio de sessão quando aplicável e trilha de auditoria para mudanças importantes. Proteja anexos, relatórios, backups e canal de atualização. Registre autor, data, operação e justificativa de estornos e alterações relevantes.
+
+Permita exportar meus dados em formato documentado. Defina a política de retenção e exclusão sem romper históricos financeiros e reprodutivos. Pacotes de suporte não devem incluir dados de clientes, documentos legais, dados clínicos identificáveis ou segredos por padrão. Não coloque credenciais ou chaves privadas no código distribuído ou em arquivos públicos.
+
+17 BACKUP E RECUPERAÇÃO
+
+Crie backup manual em poucos passos e backups automáticos configuráveis, incluindo banco, anexos, templates, configurações e artes incorporadas. Uma cópia apenas da tabela de aves não é suficiente.
+
+Sugira retenção inicial configurável de sete cópias diárias, quatro semanais e seis mensais. Respeite as possibilidades do Android e Windows; registre execuções, falhas e tarefas pendentes. Mostre data e resultado do último backup verificado e lembre quando estiver atrasado.
+
+Permita escolher destino local e uma cópia externa ao aparelho, como pasta em outro dispositivo ou serviço privado configurado pelo usuário. Explique que somente o arquivo no mesmo aparelho não recupera dados após perda física do dispositivo. Ofereça proteção por senha ou criptografia e instruções para guardar a chave de recuperação.
+
+Valide integridade, versão e conteúdo antes de restaurar. Mostre prévia dos registros, preserve a base atual e exija confirmação da restauração. Aceite recuperação em instalação limpa, com procedimento simples e documentado, incluindo os anexos. Diferencie restaurar um backup de importar planilhas. Não sobrescreva dados atuais silenciosamente.
+
+18 ATUALIZAÇÕES E CORREÇÕES
+
+Inclua uma página com versão instalada, histórico de mudanças e opção Verificar atualizações. Entregue um caminho manual simples desde a primeira versão: baixar o instalador e atualizar a instalação existente, mantendo dados, anexos e configurações. Documente os passos e as confirmações exigidas pelo sistema operacional.
+
+Prepare também um canal privado de atualização online sob meu controle, se houver infraestrutura configurada. Separe o canal estável de versões de teste. Mostre novidades, tamanho, compatibilidade e necessidade de migração antes de instalar. Verifique origem, integridade e assinatura dos pacotes. A atualização pode baixar e abrir o instalador, respeitando as permissões do Android ou Windows.
+
+No Android, preserve identificador e assinatura compatíveis entre versões. No Windows, mantenha identidade de instalação, assinaturas e armazenamento de dados compatíveis com o formato escolhido. Guarde e documente a custódia das chaves necessárias para futuras versões. Nunca exija desinstalação como procedimento normal de atualização.
+
+Crie um backup verificado antes de atualizar e execute migrações versionadas. Se falhar, preserve a base anterior e os arquivos de diagnóstico. Planeje retorno à versão anterior com um banco compatível; não execute um aplicativo antigo sobre uma estrutura nova incompatível. Preserve também cópias posteriores para evitar perda silenciosa de alterações.
+
+Um arquivo gerado em uma conversa pode ser uma entrega manual, mas o projeto não deve pressupor que o ChatGPT seja um servidor permanente de atualizações. Hospedagem privada, armazenamento e serviço de distribuição precisam ser configurados e descritos quando utilizados. Não exponha o sistema para disponibilizar instaladores.
+
+19 RELATO DE PROBLEMAS PARA CORREÇÃO AQUI
+
+Adicione Reportar problema, com descrição, passos para reproduzir, resultado esperado, resultado ocorrido e imagem opcional. Capture versão do aplicativo, plataforma, horário, código do erro e registros técnicos necessários, com remoção de informações sensíveis.
+
+Permita visualizar o que será incluído e exportar um pacote de diagnóstico e um texto pronto para anexar ao ChatGPT ou ao Codex. O compartilhamento deve ser feito por mim. Não envie automaticamente documentos, banco completo ou dados de clientes.
+
+Mantenha os relatos com número, situação, prioridade e versão que corrigiu o problema. Preserve código-fonte versionado e instruções para reproduzir os builds. A correção deve usar o código e a versão correspondentes, gerar testes adequados ao defeito e resultar em um instalador atualizado ou em instruções claras para compilação quando o ambiente não permitir gerar o arquivo.
+
+Se uma integração direta com suporte ou ChatGPT for proposta, trate-a como recurso adicional, com acesso, privacidade e custos definidos. O caminho básico de exportar e anexar o problema deve funcionar sem essa integração.
+
+20 VALIDAÇÃO E CRITÉRIOS DE ACEITE
+
+Teste os fluxos completos com dados fictícios e registre o resultado de cada requisito. Valide, no mínimo:
+
+- Cadastrar e editar uma ave, anexar exame e documento de origem e recuperar tudo após fechar e abrir o aplicativo.
+- Rejeitar identificação duplicada, evitar genealogia circular e preservar os dados digitados em um erro.
+- Formar casal, registrar postura e ovos, confirmar eclosão e criar somente um filhote com pais e origem vinculados.
+- Corrigir sexo ou mutação mantendo fonte e histórico; registrar peso e mostrar sua evolução.
+- Cadastrar cliente, reservar uma ave, receber sinal, vender parcelado, receber parcialmente e concluir a entrega.
+- Bloquear venda duplicada, inclusive em tentativa concorrente quando houver uso simultâneo; cancelar ou devolver sem duplicar recebimentos ou perder histórico.
+- Conferir caixa, transferência entre contas, contas a pagar e receber, estorno e diferenças entre venda e dinheiro recebido.
+- Registrar compra, consumo e saída de produto com saldo e histórico corretos.
+- Gerar caderneta com preenchimento automático, campos em branco para tutor e nenhum dado comercial interno.
+- Abrir PDFs, planilhas e documentos em leitores externos; conferir totais, filtros, páginas e caracteres brasileiros.
+- Conferir a ordem do livreto e sua impressão. Diferencie inspeção do PDF de impressão física efetivamente testada.
+- Fazer backup completo e restaurar em instalação limpa, recuperando anexos e vínculos.
+- Atualizar da versão anterior para a nova mantendo registros; testar migração e recuperação em falha.
+- Exportar relato de problema sem dados pessoais ou segredos e identificar a versão corrigida.
+- Consultar e baixar as artes incorporadas e verificar o funcionamento no celular e no Windows.
+- Confirmar isolamento entre demonstração e produção e, se houver múltiplos usuários, entre permissões.
+- Se houver uso offline e sincronização, testar desconexão, alterações, reconexão e conflitos sem duplicação.
+
+Entregue um resumo de testes executados, ambientes usados, limitações e pendências reais. Não declare instalador, impressão, integração bancária ou atualização automática como validado sem a verificação correspondente.
+
+21 ENTREGAS E ORGANIZAÇÃO DO DESENVOLVIMENTO
+
+Entregue código-fonte organizado e versionado; documentação da arquitetura e do banco; instaladores efetivamente gerados; modelos e biblioteca de artes incorporados; manual curto de uso; instruções para backup, restauração, atualização e relato de problemas; e relatório de validação.
+
+Apresente as etapas em ordem de dependência e preserve todo este escopo como referência. Integrações externas, sincronização e impressão específica de equipamentos devem ter dependências e custos explícitos. Funções centrais de plantel, comercial, relatórios, caderneta, anexos, backup e atualização manual devem ser operacionais e verificadas. Qualquer requisito pendente precisa aparecer claramente, sem ser substituído por um botão que simula funcionamento.
+
+Durante o desenvolvimento, avance nas atividades já definidas e faça perguntas objetivas quando faltar uma decisão que realmente afete a implementação. Não publique ou amplie acesso sem minha aprovação.
