@@ -1,0 +1,9 @@
+﻿Recanto das Asas — instalação Windows e Android
+
+1. Extraia TODO o ZIP do GitHub em uma pasta curta, por exemplo C:\Recanto.
+2. Execute 01-Preparar.cmd. Ele reúne as partes, verifica SHA-256 e extrai os instaladores.
+3. Abra a pasta Recanto-das-Asas-Instalacao-0.1.0.
+4. Siga o Guia-Instalacao.pdf, também disponível nesta pasta.
+
+O pacote inclui Windows, Android, servidor local e código-fonte.
+Versão de avaliação. Instalação física ainda não testada.
