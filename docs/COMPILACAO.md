@@ -1,4 +1,4 @@
-# Compilação e manutenção — 0.1.0
+# Compilação e manutenção — 0.2.0
 
 ## Aplicação web e testes
 
@@ -34,7 +34,7 @@ XDG_CACHE_HOME=/workspace/tools/cache \
 npm run native:windows
 ```
 
-O script primeiro compila a web, empacota Electron para Windows e então usa NSIS padrão. O desinstalador é gravado durante a instalação no Windows; a compilação cruzada não precisa executar um EXE ou utilizar Wine. Saída: `release/windows/Recanto-das-Asas-0.1.0-x64-Setup.exe` e `SHA256SUMS.txt`.
+O script primeiro compila a web, empacota Electron para Windows e então usa NSIS padrão. O desinstalador é gravado durante a instalação no Windows; a compilação cruzada não precisa executar um EXE ou utilizar Wine. Saída: `release/windows/Recanto-das-Asas-0.2.0-x64-Setup.exe` e `SHA256SUMS.txt`.
 
 A instalação é por usuário em `%LOCALAPPDATA%\Programs\RecantoDasAsas`; dados ficam em `%APPDATA%\RecantoDasAsas`. A reinstalação sobre a versão existente mantém esse perfil. O desinstalador conserva os dados. Faça backup e feche o programa antes de atualizar. Não limpe o perfil como procedimento de atualização.
 
@@ -61,7 +61,7 @@ npm run native:android
 
 A truststore do sistema é usada neste ambiente para a autoridade do proxy corporativo. Não desative verificação TLS. O script traduz o endereço de HTTP(S)_PROXY para propriedades Java sem gravar credenciais. O Gradle wrapper usa versão 8.14.3 e checksum oficial. Caches/chave de avaliação estão fora do projeto, em `/workspace/tools`; o código não contém keystore ou senhas.
 
-O processo faz build web, sincronização Capacitor, `assembleDebug` e `lintDebug`. Saída: `release/android/Recanto-das-Asas-0.1.0-debug.apk` e seu `.sha256`. Confira a assinatura com `apksigner verify --verbose` e o manifesto com `aapt dump badging`. O debug usa `br.com.recantodasasas.app.debug`, separado da identidade definitiva, para que uma chave temporária não determine as atualizações dos registros reais.
+O processo faz build web, sincronização Capacitor, `assembleDebug` e `lintDebug`. Saída: `release/android/Recanto-das-Asas-0.2.0-debug.apk` e seu `.sha256`. Confira a assinatura com `apksigner verify --verbose` e o manifesto com `aapt dump badging`. O debug usa `br.com.recantodasasas.app.debug`, separado da identidade definitiva, para que uma chave temporária não determine as atualizações dos registros reais.
 
 Para APK definitivo, forneça por configuração segura `ANDROID_KEYSTORE_PATH`, `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS` e `ANDROID_KEY_PASSWORD`, então:
 
@@ -69,16 +69,18 @@ Para APK definitivo, forneça por configuração segura `ANDROID_KEYSTORE_PATH`,
 npm run native:android -- --release
 ```
 
-A identidade release é `br.com.recantodasasas.app`. Use o mesmo keystore em todas as futuras versões e aumente o versionCode. A versão 0.1.0 gera versionCode 1000; `ANDROID_VERSION_CODE` permite definir um valor maior explicitamente. Não guarde a chave no Git. A perda dela impede atualizar a instalação original. Antes de passar do debug para release, exporte e restaure um backup usando a mesma senha, pois são aplicações separadas.
+A identidade release é `br.com.recantodasasas.app`. Use o mesmo keystore em todas as futuras versões e aumente o versionCode. A versão 0.2.0 gera versionCode 2000; `ANDROID_VERSION_CODE` permite definir um valor maior explicitamente. Não guarde a chave no Git. A perda dela impede atualizar a instalação original. Antes de passar do debug para release, exporte e restaure um backup usando a mesma senha, pois são aplicações separadas.
 
 ## Atualização e retorno
 
 Antes de gerar outra versão, atualize `package.json`, a versão padrão em `src/domain/types.ts`, os textos de versão em `src/App.tsx` e o histórico da página Atualizações. A versão registrada em dados restaurados também precisa de uma migração explícita se for usada como metadado da versão instalada. A página Atualizações mostra versão, mudanças e caminho manual. Não existe serviço privado permanente de distribuição configurado. Verificar atualização web busca o service worker na mesma origem; isso não atualiza automaticamente APK/EXE.
 
-Uma atualização definitiva exige pacote assinado, checksum, identidade compatível, backup e teste de instalação sobre a versão anterior. Esta é a primeira versão do aplicativo adaptado: não foi validado um ciclo de atualização de uma versão instalada anterior. Esquema interno desconhecido é recusado. Para uma mudança futura de esquema, implemente migração versionada e teste recuperação em falha antes de publicar. Para retorno, restaure cópia de esquema compatível em instalação compatível; preserve também cópias posteriores. Não execute aplicativo antigo sobre banco novo.
+Uma atualização definitiva exige pacote assinado, checksum, identidade compatível, backup e teste de instalação sobre a versão anterior. A versão 0.2.0 migra a base do esquema 1 para o 2, conservando registros e anexos. Os aplicativos antigos recusam o esquema 2; atualize ambos antes de editar ou sincronizar. A identidade e a assinatura do APK de avaliação foram comparadas com a versão 0.1.1; a atualização em aparelho físico ainda exige confirmação. Para retorno, restaure cópia de esquema compatível em instalação compatível; preserve também cópias posteriores. Não execute aplicativo antigo sobre banco novo.
+
+Para preparar o pacote privado a partir dos instaladores já compilados e do código commitado, execute `python3 scripts/package-update.py --output /tmp/recanto-atualizacao`. A pasta deve estar vazia. O script divide o EXE em partes de até 48 MiB, gera o preparador PowerShell compatível com Windows 10, inclui os checksums, as instruções e um ZIP do código-fonte. O preparador confere o SHA-256 antes de liberar o instalador. A branch de entrega pode conter esse pacote para download pelo ZIP da release privada; a branch de desenvolvimento conserva o código revisável.
 
 ## Artefatos e limites
 
 `release/`, `dist/`, `node_modules/`, caches, arquivos `local.properties`, keystores e dados de servidor são ignorados pelo Git. Os instaladores gerados são arquivos locais desta execução; para outra máquina, recompile ou transfira os arquivos de avaliação de modo privado. Nenhuma loja ou hospedagem foi usada para distribuir a entrega.
 
-Compilação de APK/EXE, verificação de estrutura/assinatura de debug e testes de navegador não equivalem a testes de instalação, impressão ou atualização em Android/Windows físicos. Esses testes precisam ser realizados com exemplos antes de introduzir registros reais.
+Compilação de APK/EXE, verificação de estrutura/assinatura de debug e testes de navegador não equivalem a testes de instalação, impressão ou atualização em Android/Windows físicos. Confira esses passos nos aparelhos, conservando um backup anterior.

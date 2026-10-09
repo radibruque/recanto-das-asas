@@ -20,6 +20,16 @@ export function accountBalance(state:State,scope:Scope,accountId:string,throughD
 }
 export function salePaid(state:State,scope:Scope,saleId:string):number {return safeSum(state.bills.filter(b=>b.scope===scope&&b.saleId===saleId).map(b=>(b.direction==='receber'?1:-1)*billPaid(state,scope,b.id)));}
 
+/** A closing keeps this snapshot, so later backdated entries cannot rewrite its evidence. */
+export function cashClosingSummary(state:State,scope:Scope,accountId:string,throughDate:string) {
+ const account=scoped(state.accounts,scope,accountId,'Conta');
+ const payments=state.payments.filter(p=>p.scope===scope&&p.accountId===accountId&&p.date<=throughDate);
+ const incoming=(payment:Payment)=>scoped(state.bills,scope,payment.billId,'Conta a pagar/receber').direction==='receber';
+ const transfers=state.transfers.filter(t=>t.scope===scope&&t.date<=throughDate&&(t.fromAccountId===accountId||t.toAccountId===accountId));
+ const summary={openingCents:account.openingCents,incomeCents:safeSum(payments.filter(incoming).map(p=>p.amountCents)),expenseCents:safeSum(payments.filter(p=>!incoming(p)).map(p=>p.amountCents)),transferInCents:safeSum(transfers.filter(t=>t.toAccountId===accountId).map(t=>t.amountCents)),transferOutCents:safeSum(transfers.filter(t=>t.fromAccountId===accountId).map(t=>t.amountCents)),reversalCents:safeSum(payments.filter(p=>p.reversed&&(!p.reversalDate||p.reversalDate<=throughDate)).map(p=>incoming(p)?-p.amountCents:p.amountCents)),paymentIds:payments.map(p=>p.id),transferIds:transfers.map(t=>t.id)};
+ return {...summary,expectedCents:safeSum([summary.openingCents,summary.incomeCents,-summary.expenseCents,summary.transferInCents,-summary.transferOutCents,summary.reversalCents])};
+}
+
 function validateBirds(state:State,scope:Scope,sale:Sale):Bird[] {
  const birds=sale.items.filter(i=>i.kind==='ave').map(item=>scoped(state.birds,scope,item.refId!,'Ave'));
  ensure(new Set(birds.map(b=>b.id)).size===birds.length,'A mesma ave não pode aparecer duas vezes na operação.');
@@ -152,7 +162,10 @@ export const commercialHandler:Handler=(state,scope,action,data)=>{
  }
  if(action==='closing.create'){
   const input=z.object({accountId:required,date,countedCents:signedCents,notes:text}).parse(data);ensure(!state.closings.some(c=>c.scope===scope&&c.accountId===input.accountId&&c.date===input.date),'Já existe uma conferência para esta conta e data.');
-  const closing={...input,id:id(),scope,expectedCents:accountBalance(state,scope,input.accountId,input.date)};state.closings.push(closing);return {id:closing.id};
+  const {expectedCents,...snapshot}=cashClosingSummary(state,scope,input.accountId,input.date);
+  ensure(input.countedCents===expectedCents||input.notes.trim().length>0,'Explique a diferença entre o saldo previsto e o saldo contado.');
+  const previous=state.closings.filter(c=>c.scope===scope&&c.accountId===input.accountId&&c.date<input.date).slice().sort((a,b)=>b.date.localeCompare(a.date))[0];
+  const closing={...input,id:id(),scope,expectedCents,snapshot,recordedAt:new Date().toISOString(),previousClosingId:previous?.id??null};state.closings.push(closing);return {id:closing.id};
  }
  if(action==='product.save'){
   const input=z.object({id:z.string().optional(),name:required,unit:required,minimum:z.number().nonnegative().refine(v=>Number.isSafeInteger(scaled(v))&&Math.abs(v*1000-scaled(v))<0.00001,'Use até três casas decimais.'),lot:z.string().trim().max(150).default(''),expiryDate:z.union([z.literal(''),date]).default(''),supplierId:maybeId}).parse(data);

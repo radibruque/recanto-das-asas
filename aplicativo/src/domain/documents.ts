@@ -1,7 +1,8 @@
 import { z } from 'zod';
 import type { Attachment, Handler, IssuedDocument, Scope, State } from './types';
-import { date, ensure, id, required, text } from './shared';
+import { birdLabel, date, ensure, id, required, text } from './shared';
 import { itemTotal, salePaid, stockBalance } from './commercial';
+import { assertPassivePdf } from '../lib/pdf-safety';
 
 export const MAX_ATTACHMENT_BYTES = 10 * 1024 * 1024;
 export const attachmentMimes = ['application/pdf', 'image/png', 'image/jpeg', 'text/plain'] as const;
@@ -37,14 +38,15 @@ export function verifyFile(bytes: Uint8Array, mime: string, fileName: string, is
   const starts = (...values: number[]) => values.every((v, i) => bytes[i] === v);
   if (mime === 'image/png') ensure(ext === 'png' && starts(137,80,78,71,13,10,26,10) && bytes.length >= 45 && bytes.slice(-12,-8).every(v => v === 0) && new TextDecoder().decode(bytes.slice(-8,-4)) === 'IEND', 'PNG inválido: assinatura ou extensão incompatível.');
   else if (mime === 'image/jpeg') ensure(['jpg','jpeg'].includes(ext || '') && bytes.length > 4 && starts(255,216,255) && bytes.at(-2) === 255 && bytes.at(-1) === 217, 'JPEG inválido: assinatura ou extensão incompatível.');
-  else if (mime === 'application/pdf') { ensure(ext === 'pdf' && new TextDecoder().decode(bytes.slice(0,8)).startsWith('%PDF-') && new TextDecoder().decode(bytes.slice(-2048)).includes('%%EOF'), 'PDF inválido: assinatura ou extensão incompatível.'); ensure(!/\/(?:JavaScript|JS|Launch|EmbeddedFile|RichMedia)\b/.test(new TextDecoder('latin1').decode(bytes)), 'PDF contém ações ativas ou arquivos incorporados não permitidos.'); }
+  else if (mime === 'application/pdf') { ensure(ext === 'pdf' && new TextDecoder().decode(bytes.slice(0,8)).startsWith('%PDF-') && new TextDecoder().decode(bytes.slice(-2048)).includes('%%EOF'), 'PDF inválido: assinatura ou extensão incompatível.'); assertPassivePdf(bytes); }
   else if (mime === 'text/plain') { ensure(ext === 'txt', 'Use a extensão .txt.'); let value = ''; try { value = new TextDecoder('utf-8', {fatal: true}).decode(bytes); } catch { throw new Error('O texto deve estar em UTF-8.'); } ensure(!/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/.test(value) && !/^\s*(?:MZ|#!|<\?php)/.test(value), 'Texto contém dados binários ou executáveis.'); }
   else if (issued && mime === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') { const content=new TextDecoder('latin1').decode(bytes);ensure(ext === 'docx' && starts(80,75,3,4) && content.includes('[Content_Types].xml') && content.includes('word/document.xml') && !/(?:vbaProject\.bin|\.exe\b)/i.test(content), 'DOCX inválido ou com conteúdo executável.'); }
   else throw new Error('Formato não permitido. Use PDF, PNG, JPG ou texto UTF-8 (.txt).');
 }
 const nullableId = z.string().uuid().nullable().default(null);
 const payload = {fileName: required, mime: required, size: z.number().int().positive().max(MAX_ATTACHMENT_BYTES), base64: z.string().min(1).max(Math.ceil(MAX_ATTACHMENT_BYTES / 3) * 4), sha256: z.string().regex(/^[a-f0-9]{64}$/)};
-const attachmentSchema = z.object({...payload, birdId: nullableId, contactId: nullableId, saleId: nullableId, title: required, category: required, date, issuer:text, reference:text, validUntil: date.or(z.literal('')).default(''), notes:text, shareWithCustomer:z.boolean().default(false), previousId: nullableId});
+const attachmentMetadata={title:required,category:required,date,issuer:text,reference:text,validUntil:date.or(z.literal('')).default(''),notes:text,shareWithCustomer:z.boolean().default(false)};
+const attachmentSchema = z.object({...payload, birdId: nullableId, contactId: nullableId, saleId: nullableId, ...attachmentMetadata, previousId: nullableId,sourceType:z.string().trim().max(60).optional(),sourceId:nullableId.optional()});
 const issuedSchema = z.object({...payload, birdId:nullableId, saleId:nullableId, kind:required, title:required});
 function checkLinks(state: State, scope: Scope, links: {birdId?: string|null;contactId?:string|null;saleId?:string|null}) {
   for (const [key, collection] of [['birdId','birds'],['contactId','contacts'],['saleId','sales']] as const) { const recordId = links[key]; if (recordId) ensure(state[collection].some(v => v.id === recordId && v.scope === scope), 'Vínculo inexistente ou de outra base.'); }
@@ -53,6 +55,14 @@ function checkPayload(data: {base64:string;mime:string;fileName:string;size:numb
   const bytes = base64ToBytes(data.base64); verifyFile(bytes, data.mime, data.fileName, issued); ensure(bytes.length === data.size && sha256(bytes) === data.sha256, 'Falha de integridade: tamanho ou SHA-256 incorreto.');
 }
 export const documentsHandler: Handler = (state, scope, action, input) => {
+  if (action === 'attachment.updateMetadata') {
+    const data=z.object({id:z.string().uuid(),...attachmentMetadata}).parse(input);
+    const record=state.attachments.find(value=>value.id===data.id&&value.scope===scope);
+    ensure(record,'Arquivo não encontrado nesta base.');
+    const {id: _recordId,...metadata}=data;
+    Object.assign(record,metadata);
+    return {id:record.id};
+  }
   if (action === 'attachment.add') {
     const data = attachmentSchema.parse(input); checkLinks(state, scope, data); checkPayload(data);
     const previous = data.previousId ? state.attachments.find(v => v.id === data.previousId && v.scope === scope) : null;
@@ -70,6 +80,77 @@ export const documentsHandler: Handler = (state, scope, action, input) => {
   return null;
 };
 export const attachmentStatus = (a: Attachment, currentDate: string): string => a.validUntil && a.validUntil < currentDate ? 'Vencido' : 'Arquivado';
+
+export type AttachmentFilters={text?:string;category?:string;species?:string;birdStatus?:string;mime?:string;from?:string;to?:string;validity?:'all'|'expired'|'valid';versions?:'all'|'current'};
+export type AttachmentGrouping='bird'|'category'|'contact'|'sale'|'source';
+export type AttachmentGroup={key:string;title:string;subtitle:string;attachments:Attachment[]};
+const searchable=(value:string)=>value.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('pt-BR');
+const sourceLabels:Record<string,string>={bird:'Cadastro de ave',health:'Saúde e manejo',task:'Agenda',mutation:'Mutação',contact:'Cliente ou fornecedor',sale:'Venda ou reserva',bill:'Conta a pagar ou receber',payment:'Pagamento',product:'Estoque',closing:'Fechamento de caixa',booklet:'Caderneta'};
+export function attachmentSourceLabel(attachment:Attachment):string {
+  const sourceType=(attachment as Attachment&{sourceType?:string}).sourceType;
+  return sourceType ? sourceLabels[sourceType]||sourceType : 'Arquivo anterior';
+}
+/** Old files may only have a photo/history/sale link; retain those associations. */
+export function attachmentBirdIds(state:State,scope:Scope,attachment:Attachment):string[] {
+  if(attachment.scope!==scope)return[];
+  const ids=new Set<string>();
+  if(attachment.birdId)ids.add(attachment.birdId);
+  for(const bird of state.birds.filter(value=>value.scope===scope))if(bird.photoId===attachment.id||bird.sexHistory?.some(entry=>entry.attachmentId===attachment.id))ids.add(bird.id);
+  for(const event of state.health.filter(value=>value.scope===scope))if(event.attachmentIds.includes(attachment.id))ids.add(event.birdId);
+  for(const entry of state.mutations.filter(value=>value.scope===scope))if(entry.attachmentId===attachment.id)ids.add(entry.birdId);
+  if(attachment.saleId){const sale=state.sales.find(value=>value.id===attachment.saleId&&value.scope===scope);for(const item of sale?.items||[])if(item.kind==='ave'&&item.refId)ids.add(item.refId);}
+  return [...ids].filter(recordId=>state.birds.some(bird=>bird.id===recordId&&bird.scope===scope));
+}
+function attachmentContactIds(state:State,scope:Scope,attachment:Attachment):string[] {
+  const ids=new Set<string>();if(attachment.contactId)ids.add(attachment.contactId);
+  const sale=state.sales.find(value=>value.scope===scope&&value.id===attachment.saleId);if(sale)ids.add(sale.contactId);
+  return [...ids].filter(recordId=>state.contacts.some(contact=>contact.scope===scope&&contact.id===recordId));
+}
+export function filterAttachments(state:State,scope:Scope,filters:AttachmentFilters={},currentDate=new Date().toLocaleDateString('sv-SE',{timeZone:'America/Sao_Paulo'})):Attachment[] {
+  const query=searchable(filters.text?.trim()||'');
+  return state.attachments.filter(attachment=>{
+    if(attachment.scope!==scope)return false;
+    if(filters.category&&attachment.category!==filters.category)return false;
+    if(filters.mime&&attachment.mime!==filters.mime)return false;
+    if(filters.from&&attachment.date<filters.from)return false;
+    if(filters.to&&attachment.date>filters.to)return false;
+    if(filters.validity==='expired'&&attachmentStatus(attachment,currentDate)!=='Vencido')return false;
+    if(filters.validity==='valid'&&attachmentStatus(attachment,currentDate)==='Vencido')return false;
+    if(filters.versions==='current'&&state.attachments.some(value=>value.scope===scope&&value.previousId===attachment.id))return false;
+    const birds=attachmentBirdIds(state,scope,attachment).map(recordId=>state.birds.find(value=>value.id===recordId&&value.scope===scope)!);
+    if(filters.species&&!birds.some(bird=>bird.species===filters.species))return false;
+    if(filters.birdStatus&&!birds.some(bird=>bird.status===filters.birdStatus))return false;
+    if(query){const contacts=attachmentContactIds(state,scope,attachment).map(recordId=>state.contacts.find(value=>value.id===recordId&&value.scope===scope)!);
+      const sale=state.sales.find(value=>value.id===attachment.saleId&&value.scope===scope);
+      const haystack=[attachment.title,attachment.fileName,attachment.category,attachment.notes,attachment.issuer,attachment.reference,attachmentSourceLabel(attachment),sale?.number||'',...birds.flatMap(bird=>[bird.identification,bird.name,bird.species,bird.mutation]),...contacts.map(contact=>contact.name)].join(' ');
+      if(!searchable(haystack).includes(query))return false;
+    }
+    return true;
+  }).sort((a,b)=>b.date.localeCompare(a.date)||a.title.localeCompare(b.title,'pt-BR'));
+}
+export function groupAttachments(state:State,scope:Scope,attachments:Attachment[],groupBy:AttachmentGrouping='bird'):AttachmentGroup[] {
+  const groups=new Map<string,AttachmentGroup>();
+  const add=(key:string,title:string,subtitle:string,attachment:Attachment)=>{let group=groups.get(key);if(!group){group={key,title,subtitle,attachments:[]};groups.set(key,group);}group.attachments.push(attachment);};
+  for(const attachment of attachments){
+    if(attachment.scope!==scope)continue;
+    if(groupBy==='bird'){
+      const birds=attachmentBirdIds(state,scope,attachment);
+      if(!birds.length)add('unlinked','Outros registros','Arquivos sem vínculo com uma ave',attachment);
+      for(const recordId of birds){const bird=state.birds.find(value=>value.id===recordId&&value.scope===scope)!;add(recordId,birdLabel(bird),`${bird.species} · ${bird.status}`,attachment);}
+    }else if(groupBy==='contact'){
+      const contacts=attachmentContactIds(state,scope,attachment);
+      if(!contacts.length)add('unlinked','Sem cliente ou fornecedor','Arquivos de outros registros',attachment);
+      for(const recordId of contacts){const contact=state.contacts.find(value=>value.id===recordId&&value.scope===scope)!;add(recordId,contact.name,contact.kind,attachment);}
+    }else if(groupBy==='sale'){
+      const sale=state.sales.find(value=>value.id===attachment.saleId&&value.scope===scope);
+      if(sale)add(sale.id,sale.number,`${sale.status} · ${state.contacts.find(value=>value.id===sale.contactId&&value.scope===scope)?.name||''}`,attachment);
+      else add('unlinked','Sem venda ou reserva','Arquivos de outros registros',attachment);
+    }else if(groupBy==='source'){
+      const title=attachmentSourceLabel(attachment);add(title,title,'Origem do registro',attachment);
+    }else add(attachment.category,attachment.category,'Categoria de documento',attachment);
+  }
+  return [...groups.values()].sort((a,b)=>a.key==='unlinked'?1:b.key==='unlinked'?-1:a.title.localeCompare(b.title,'pt-BR'));
+}
 
 export type ReportColumn = {key:string;label:string;kind?:'cents'|'quantity'};
 export type ReportRow = Record<string,string|number|null>;

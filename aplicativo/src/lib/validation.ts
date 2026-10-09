@@ -1,3 +1,4 @@
+import { bookletDataSchema } from '../domain/booklet-data';
 import { z } from 'zod';
 import type { State } from '../domain/types';
 import { date } from '../domain/shared';
@@ -6,14 +7,14 @@ const base={id:ref,scope};
 const status=z.enum(['filhote','manejo','reprodutor','disponível','reservado','vendido','doado','transferido','falecido']);
 const b64=z.string().max(14000000);
 const schema=z.object({
- schemaVersion:z.literal(1),revision:c,
- birds:z.array(z.object({...base,identification:ref,name:s,species:ref,sex:z.enum(['macho','fêmea','indeterminado']),mutation:ref,certainty:z.enum(['observada','informada','confirmada']),carriers:s,origin:ref,notes:s,birthDate:d,fatherId:nullable,motherId:nullable,createdAt:s,status,scientificName:s,microchip:s,sexMethod:s,sexSource:s,visualDescription:s,birthEstimated:z.boolean(),breeder:s,supplierId:nullable,acquiredDate:d,acquisitionCents:c,enclosure:s,responsible:s,photoId:nullable,acquisitionMethod:s.optional(),custodyHistory:z.array(z.object({date:date,responsible:s,enclosure:s,reason:s})).optional(),sexHistory:z.array(z.object({date:s,sex:s,method:s,source:s,notes:s,attachmentId:nullable})).optional(),statusHistory:z.array(z.object({date:s,status,reason:s}))})),
+ schemaVersion:z.union([z.literal(1),z.literal(2)]),revision:c,
+ birds:z.array(z.object({...base,booklet:bookletDataSchema.optional(),identification:ref,name:s,species:ref,sex:z.enum(['macho','fêmea','indeterminado']),mutation:ref,certainty:z.enum(['observada','informada','confirmada']),carriers:s,origin:ref,notes:s,birthDate:d,fatherId:nullable,motherId:nullable,createdAt:s,status,scientificName:s,microchip:s,sexMethod:s,sexSource:s,visualDescription:s,birthEstimated:z.boolean(),breeder:s,supplierId:nullable,acquiredDate:d,acquisitionCents:c,enclosure:s,responsible:s,photoId:nullable,acquisitionMethod:s.optional(),custodyHistory:z.array(z.object({date:date,responsible:s,enclosure:s,reason:s})).optional(),sexHistory:z.array(z.object({date:s,sex:s,method:s,source:s,notes:s,attachmentId:nullable})).optional(),statusHistory:z.array(z.object({date:s,status,reason:s}))})),
  pairs:z.array(z.object({...base,name:ref,maleId:ref,femaleId:ref,startDate:date,endDate:date.nullable(),notes:s,enclosure:s,relatedAcknowledged:z.boolean()})),
  clutches:z.array(z.object({...base,pairId:ref,startDate:date,endDate:date.nullable(),notes:s})),
  eggs:z.array(z.object({...base,clutchId:ref,number:z.number().int().positive(),laidDate:date,status:z.enum(['incubando','infértil','perdido','eclodido']),hatchDate:date.nullable(),chickId:nullable,notes:s,fertility:z.enum(['desconhecida','fértil','infértil']),incubationDate:d,expectedHatchDate:d,outcomeDate:date.nullable().optional(),events:z.array(z.object({date:date,kind:s,notes:s})).optional()})),
  mutations:z.array(z.object({...base,birdId:ref,mutation:ref,certainty:s,carriers:s,recordedAt:s,source:s.optional(),notes:s.optional(),date:s.optional(),attachmentId:nullable.optional()})),
  health:z.array(z.object({...base,birdId:ref,date:date,kind:ref,title:ref,notes:s,weightGrams:n.nonnegative().nullable(),professional:s,author:s,attachmentIds:z.array(ref)})),
- tasks:z.array(z.object({...base,birdId:nullable,title:ref,dueDate:date,done:z.boolean(),notes:s})),
+ tasks:z.array(z.object({...base,birdId:nullable,title:ref,dueDate:date,done:z.boolean(),notes:s,reminderTime:z.union([z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/),z.literal('')]).optional(),reminderMinutes:z.union([z.literal(0),z.literal(5),z.literal(15),z.literal(30),z.literal(60),z.literal(1440)]).optional()})),
  contacts:z.array(z.object({...base,kind:z.enum(['cliente','fornecedor','interessado']),name:ref,phone:s,email:s,address:s,taxId:s,notes:s,interest:s})),
  sales:z.array(z.object({...base,number:ref,contactId:ref,date:date,status:z.enum(['orçamento','reservada','vendida','entregue','cancelada','devolvida']),items:z.array(z.object({id:ref,kind:z.enum(['ave','produto','serviço']),refId:nullable,description:ref,quantity:n.positive(),unitCents:c})),discountCents:c,feeCents:c,totalCents:c,notes:s,deliveryDate:d,statusHistory:z.array(z.object({date:s,status:s,reason:s}))})),
  accounts:z.array(z.object({...base,name:ref,openingCents:z.number().int().safe()})),
@@ -22,8 +23,8 @@ const schema=z.object({
  transfers:z.array(z.object({...base,fromAccountId:ref,toAccountId:ref,date:date,amountCents:c,reason:s})),
  products:z.array(z.object({...base,name:ref,unit:ref,minimum:n.nonnegative(),lot:s,expiryDate:d,supplierId:nullable,quantityPrecision:z.number().int().min(0).max(6).optional()})),
  stock:z.array(z.object({...base,productId:ref,date:date,quantity:n,unitCostCents:c,kind:z.enum(['compra','consumo','venda','perda','ajuste','devolução']),reason:s,saleId:nullable})),
- closings:z.array(z.object({...base,accountId:ref,date:date,expectedCents:z.number().int().safe(),countedCents:z.number().int().safe(),notes:s})),
- attachments:z.array(z.object({...base,birdId:nullable,contactId:nullable,saleId:nullable,title:ref,category:ref,date:date,issuer:s,reference:s,validUntil:d,notes:s,shareWithCustomer:z.boolean(),fileName:ref,mime:ref,size:c,base64:b64,version:z.number().int().positive(),previousId:nullable,sha256:z.string().regex(/^[a-f0-9]{64}$/)})),
+ closings:z.array(z.object({...base,accountId:ref,date:date,expectedCents:z.number().int().safe(),countedCents:z.number().int().safe(),notes:s,recordedAt:s.optional(),previousClosingId:nullable.optional(),snapshot:z.object({openingCents:z.number().int().safe(),incomeCents:c,expenseCents:c,transferInCents:c,transferOutCents:c,reversalCents:z.number().int().safe(),paymentIds:z.array(ref),transferIds:z.array(ref)}).optional()})),
+ attachments:z.array(z.object({...base,sourceType:z.string().max(60).optional(),sourceId:nullable.optional(),birdId:nullable,contactId:nullable,saleId:nullable,title:ref,category:ref,date:date,issuer:s,reference:s,validUntil:d,notes:s,shareWithCustomer:z.boolean(),fileName:ref,mime:ref,size:c,base64:b64,version:z.number().int().positive(),previousId:nullable,sha256:z.string().regex(/^[a-f0-9]{64}$/)})),
  documents:z.array(z.object({...base,birdId:nullable,saleId:nullable,kind:ref,title:ref,createdAt:s,fileName:ref,mime:ref,base64:b64,size:c,sha256:z.string().regex(/^[a-f0-9]{64}$/)})),
  support:z.array(z.object({id:ref,number:ref,createdAt:s,version:ref,platform:s,description:s,steps:s,expected:s,actual:s,errorCode:s,priority:z.enum(['baixa','normal','alta']),status:z.enum(['aberto','em análise','corrigido']),fixedVersion:s})),
  audit:z.array(z.object({...base,at:s,author:s,action:ref,recordId:s,reason:s})),
@@ -32,7 +33,9 @@ const schema=z.object({
 export function validateState(value:unknown):State {
  const parsed=schema.safeParse(value);
  if(!parsed.success)throw new Error('Base incompatível ou inválida: '+parsed.error.issues[0].path.join('.')+' — '+parsed.error.issues[0].message);
- const state=parsed.data as State;
+ // Upgrade only the database schema; the encrypted-envelope and backup formats stay compatible.
+ // Old apps reject schema 2 instead of silently stripping the new fields during synchronization.
+ const state={...parsed.data,schemaVersion:2} as State;
  for(const key of Object.keys(state) as (keyof State)[]){const list=state[key];if(Array.isArray(list)){const ids=new Set<string>();for(const item of list){if('id' in item){if(ids.has(item.id))throw new Error('Identificador duplicado em '+key);ids.add(item.id);}}}}
  const belongs=(list:{id:string;scope:'real'|'demo'}[],id:string|null,scope:'real'|'demo')=>!id||list.some(v=>v.id===id&&v.scope===scope);
  const check=(ok:boolean)=>{if(!ok)throw new Error('A base contém vínculos ausentes ou entre demonstração e produção.');};
@@ -50,6 +53,28 @@ export function validateState(value:unknown):State {
  for(const p of state.payments)check(belongs(state.bills,p.billId,p.scope)&&belongs(state.accounts,p.accountId,p.scope));
  for(const t of state.transfers)check(belongs(state.accounts,t.fromAccountId,t.scope)&&belongs(state.accounts,t.toAccountId,t.scope));
  for(const s of state.stock)check(belongs(state.products,s.productId,s.scope)&&belongs(state.sales,s.saleId,s.scope));
- for(const s of state.closings)check(belongs(state.accounts,s.accountId,s.scope));
+ for(const closing of state.closings){
+  check(belongs(state.accounts,closing.accountId,closing.scope));
+  if(closing.previousClosingId){
+   const previous=state.closings.find(c=>c.id===closing.previousClosingId);
+   check(!!previous&&previous.scope===closing.scope&&previous.accountId===closing.accountId&&previous.date<closing.date);
+  }
+  if(closing.snapshot){
+   const snapshot=closing.snapshot;
+   check(new Set(snapshot.paymentIds).size===snapshot.paymentIds.length&&new Set(snapshot.transferIds).size===snapshot.transferIds.length);
+   for(const paymentId of snapshot.paymentIds){
+    const payment=state.payments.find(p=>p.id===paymentId);
+    check(!!payment&&payment.scope===closing.scope&&payment.accountId===closing.accountId);
+   }
+   for(const transferId of snapshot.transferIds){
+    const transfer=state.transfers.find(t=>t.id===transferId);
+    check(!!transfer&&transfer.scope===closing.scope&&(transfer.fromAccountId===closing.accountId||transfer.toAccountId===closing.accountId));
+   }
+   // Validate the saved evidence itself, rather than recomputing past balances from
+   // today's records: legitimate backdated entries and reversals must not rewrite it.
+   const expected=BigInt(snapshot.openingCents)+BigInt(snapshot.incomeCents)-BigInt(snapshot.expenseCents)+BigInt(snapshot.transferInCents)-BigInt(snapshot.transferOutCents)+BigInt(snapshot.reversalCents);
+   if(expected!==BigInt(closing.expectedCents))throw new Error('O resumo do fechamento não corresponde ao saldo previsto registrado.');
+  }
+ }
  return state;
 }

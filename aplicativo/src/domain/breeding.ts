@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import type { Bird, BirdStatus, Handler, State, Scope } from './types';
 import { cents, date, ensure, id, related, required, text, today } from './shared';
+import { bookletDataSchema } from './booklet-data';
 
 const actualDate = date.refine(v => v <= today(), 'A data não pode estar no futuro.');
 const optionalDate = z.union([actualDate, z.literal('')]).default('');
@@ -20,6 +21,7 @@ const birdSchema = z.object({
   statusDate: actualDate.optional(), statusReason: text,
   sexDate: actualDate.optional(), sexNotes: text, sexAttachmentId: optionalId,
   mutationDate: actualDate.optional(), mutationSource: text, mutationNotes: text, mutationAttachmentId: optionalId,
+  booklet: bookletDataSchema.optional(),
 });
 
 function findBird(state:State, scope:Scope, recordId:string):Bird {
@@ -109,7 +111,7 @@ export const breedingHandler:Handler = (state,scope,action,data) => {
   if(action==='saveBird') {
     const raw=z.object({id:required.optional()}).passthrough().parse(data);
     const existing=raw.id?bird(raw.id):undefined;
-    const d=birdSchema.parse({...existing,...raw}); const recordId=existing?.id??id();
+    const d=birdSchema.parse({...existing,...raw,booklet:raw.booklet===undefined?existing?.booklet:{...existing?.booklet,...bookletDataSchema.parse(raw.booklet)}}); const recordId=existing?.id??id();
     validateBird(state,scope,d,recordId,existing);
     const {statusDate,statusReason,sexDate,sexNotes,sexAttachmentId,mutationDate,mutationSource,mutationNotes,mutationAttachmentId,custodyDate,custodyReason,...fields}=d;
     const statusHistory=existing?[...existing.statusHistory]:[];
@@ -120,6 +122,16 @@ export const breedingHandler:Handler = (state,scope,action,data) => {
     if(existing) state.birds[state.birds.indexOf(existing)]=record; else state.birds.push(record);
     if(!existing||existing.mutation!==d.mutation||existing.certainty!==d.certainty||existing.carriers!==d.carriers||mutationSource||mutationNotes||mutationAttachmentId) state.mutations.push({id:id(),scope,birdId:recordId,mutation:d.mutation,certainty:d.certainty,carriers:d.carriers,recordedAt:now,date:mutationDate??today(),source:mutationSource,notes:mutationNotes,attachmentId:mutationAttachmentId});
     return {id:recordId};
+  }
+  if(action==='bird.booklet') {
+    const d=z.object({id:required,booklet:bookletDataSchema,photoId:optionalId.optional()}).parse(data),b=bird(d.id);
+    if(d.photoId!==undefined) {
+      attachment(state,scope,d.photoId,b.id);
+      if(d.photoId)ensure(state.attachments.find(a=>a.id===d.photoId)?.mime.startsWith('image/'),'A foto deve ser um arquivo de imagem.');
+    }
+    b.booklet={...b.booklet,...d.booklet};
+    if(d.photoId!==undefined)b.photoId=d.photoId;
+    return {id:b.id};
   }
   if(action==='deleteBird') {
     const d=z.object({id:required}).parse(data), b=bird(d.id);
@@ -188,10 +200,18 @@ export const breedingHandler:Handler = (state,scope,action,data) => {
     const d=z.object({id:required.optional(),birdId:required,date:actualDate,kind:required,title:required,notes:text,weightGrams:z.number().positive().max(100000).nullable().default(null),professional:text,author:required,attachmentIds:z.array(required).max(30).default([])}).parse(data),b=bird(d.birdId);ensure(!b.birthDate||d.date>=b.birthDate,'O registro não pode anteceder o nascimento.');if(d.kind==='pesagem')ensure(d.weightGrams!==null,'Informe o peso em gramas.');for(const a of d.attachmentIds)attachment(state,scope,a,b.id);const existing=d.id?state.health.find(h=>h.id===d.id&&h.scope===scope):undefined;ensure(!d.id||existing,'Registro de saúde não encontrado neste espaço.');ensure(!existing||existing.birdId===b.id,'O registro pertence a outra ave.');const record={...d,id:existing?.id??id(),scope};if(existing)state.health[state.health.indexOf(existing)]=record;else state.health.push(record);return {id:record.id};
   }
   if(action==='saveTask') {
-    const d=z.object({id:required.optional(),birdId:optionalId,title:required,dueDate:date,done:z.boolean().default(false),notes:text}).parse(data);if(d.birdId)bird(d.birdId);const existing=d.id?state.tasks.find(t=>t.id===d.id&&t.scope===scope):undefined;ensure(!d.id||existing,'Tarefa não encontrada neste espaço.');const record={...d,id:existing?.id??id(),scope};if(existing)state.tasks[state.tasks.indexOf(existing)]=record;else state.tasks.push(record);return {id:record.id};
+    const d=z.object({id:required.optional(),birdId:optionalId,title:required,dueDate:date,done:z.boolean().default(false),notes:text,reminderTime:z.union([z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/),z.literal('')]).optional(),reminderMinutes:z.union([z.literal(0),z.literal(5),z.literal(15),z.literal(30),z.literal(60),z.literal(1440)]).optional()}).parse(data);if(d.birdId)bird(d.birdId);const existing=d.id?state.tasks.find(t=>t.id===d.id&&t.scope===scope):undefined;ensure(!d.id||existing,'Tarefa não encontrada neste espaço.');const updates=Object.fromEntries(Object.entries(d).filter(([,v])=>v!==undefined));const record={...existing,...updates,...d,id:existing?.id??id(),scope,reminderTime:d.reminderTime??existing?.reminderTime,reminderMinutes:d.reminderMinutes??existing?.reminderMinutes};if(existing)state.tasks[state.tasks.indexOf(existing)]=record;else state.tasks.push(record);return {id:record.id};
   }
   if(action==='toggleTask') {const d=z.object({id:required,done:z.boolean()}).parse(data),t=state.tasks.find(t=>t.id===d.id&&t.scope===scope);ensure(t,'Tarefa não encontrada neste espaço.');t.done=d.done;return {id:t.id};}
   return null;
 };
 
 export const birdStatusOptions:readonly BirdStatus[]=statuses;
+
+export function healthHistoryForBird(state:State,scope:Scope,birdId:string) {
+  return state.health.map((record,index)=>({record,index})).filter(({record})=>record.scope===scope&&record.birdId===birdId).sort((a,b)=>b.record.date.localeCompare(a.record.date)||b.index-a.index).map(({record})=>record);
+}
+
+export function latestBirdWeight(state:State,scope:Scope,birdId:string) {
+  return healthHistoryForBird(state,scope,birdId).find(record=>record.weightGrams!==null);
+}

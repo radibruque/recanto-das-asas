@@ -24,7 +24,13 @@ RECANTO_E2E_PREVIEW=1 npm run test:e2e
 
 Os testes de navegador requerem Chromium, instalado com `npx playwright install chromium`, ou `RECANTO_CHROMIUM_PATH` apontando para uma instalação existente. A configuração também reconhece `/usr/bin/chromium`.
 
-## Entrega 0.1.0
+## Atualização 0.2.0
+
+Anexos diretamente nos cadastros, acervo com filtros e prévias, saúde e manejo agrupados por ave, agenda com integração ao calendário, histórico comercial por contato, vendas e reservas separadas e fechamento de caixa com resumo preservado. A caderneta passa a usar somente o modelo digital vertical de quatro páginas fornecido, com foto e campos revisáveis. A exportação Android transfere o arquivo em partes e verifica tamanho e integridade antes de abrir o destino.
+
+Veja [como atualizar preservando os dados](docs/ATUALIZACAO_0.2.0.md). Atualize Android e Windows antes de voltar a editar ou sincronizar: a nova versão lê a base anterior e grava o esquema 2, que os aplicativos antigos recusam.
+
+## Entrega inicial 0.1.0
 
 Cadastro e históricos das aves, genealogia, reprodução, saúde, agenda, clientes, reservas, vendas parceladas, recebimentos parciais, devoluções, financeiro, conciliação manual, estoque, documentos e relatórios, caderneta A5/A6, artes originais, backups criptografados e sincronização com conflitos estão implementados. A matriz registra os detalhes e as funções ainda pendentes; esta versão não representa aprovação de todos os requisitos do prompt.
 

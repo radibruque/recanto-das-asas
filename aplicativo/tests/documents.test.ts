@@ -11,7 +11,7 @@ import JSZip from 'jszip';
 import { emptyState, type Bird, type State } from '../src/domain/types';
 import { attachmentStatus, bytesToBase64, documentsHandler, MAX_ATTACHMENT_BYTES, reportData, sha256, verifyFile } from '../src/domain/documents';
 import { bookletPages, bookletSheets, exportBooklet, exportCsv, exportDocx, exportPdf, exportXlsx, issuedPayload } from '../src/lib/exports';
-const font=new Uint8Array(readFileSync(new URL('../public/fonts/NotoSans.ttf',import.meta.url)));
+const font=new Uint8Array(readFileSync(new URL('../public/fonts/NotoSans-Regular-Static.ttf',import.meta.url)));
 const birdFixture=(scope:'real'|'demo'='real'):Bird=>({id:randomUUID(),scope,identification:'RDA-001',name:'João',species:'Calopsita',sex:'macho',mutation:'Arlequim',certainty:'informada',carriers:'Não informado',origin:'Nascimento no criatório',notes:'SEGREDO_COMERCIAL',birthDate:'2025-01-01',fatherId:null,motherId:null,createdAt:'2025-01-01T12:00:00Z',status:'disponível',scientificName:'Nymphicus hollandicus',microchip:'',sexMethod:'Exame',sexSource:'Laboratório',visualDescription:'',birthEstimated:false,breeder:'Recanto',supplierId:null,acquiredDate:'2025-01-01',acquisitionCents:998877,enclosure:'A1',responsible:'Administrador',photoId:null,statusHistory:[]});
 async function samplePdf(){const p=await PDFDocument.create();p.addPage();return p.save();}
 const attachment=(bytes:Uint8Array,extra:Record<string,unknown>={})=>({...issuedPayload(bytes,'exame.pdf','application/pdf'),birdId:null,contactId:null,saleId:null,title:'Exame de João',category:'Exame',date:'2025-02-01',issuer:'Clínica',reference:'',validUntil:'2025-12-31',notes:'',shareWithCustomer:false,previousId:null,...extra});
