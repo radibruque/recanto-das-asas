@@ -20,7 +20,7 @@ export default function HealthRegistrationForm({ state, scope, command, event, b
     } });
   }
   return <RecordDialog title={event ? 'Editar registro de manejo' : 'Registrar saúde ou manejo'} onClose={onClose} onSave={save} preparing={preparing}>
-    <div className="grid">
+    <div className="grid form-grid">
       <Field label="Ave *"><select name="birdId" defaultValue={event?.birdId ?? birdId ?? ''} required disabled={!!event}><option value="">Selecione</option>{birds.map(b => <option key={b.id} value={b.id}>{birdLabel(b)}</option>)}</select></Field>
       <Field label="Data *"><input type="date" name="date" defaultValue={event?.date ?? today()} required max={today()}/></Field>
       <Field label="Tipo"><select name="kind" defaultValue={event?.kind ?? 'pesagem'}>{healthKinds.map(kind => <option key={kind}>{kind}</option>)}</select></Field>
@@ -30,7 +30,7 @@ export default function HealthRegistrationForm({ state, scope, command, event, b
       <Field label="Autor do registro *"><input name="author" defaultValue={event?.author ?? 'Proprietário'} required/></Field>
       <Field label="Observações"><textarea name="notes" defaultValue={event?.notes}/></Field>
     </div>
-    <fieldset><legend>Fotos e documentos deste registro</legend>
+    <fieldset className="record-form-section"><legend>Fotos e documentos deste registro</legend>
       {linked.map(attachment => <AttachmentPreview key={attachment.id} attachment={attachment}/>)}
       <AttachmentPicker value={pending} onChange={setPending} onBusyChange={setPreparing} category="Saúde e manejo"/>
       <p className="muted">Anexe o exame, laudo ou foto diretamente aqui. Os arquivos ficam ligados a este registro e à ave, disponíveis também em Documentos.</p>

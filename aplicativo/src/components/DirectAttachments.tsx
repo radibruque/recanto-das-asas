@@ -43,7 +43,7 @@ function useAttachmentUrl(attachment:{base64:string;mime:string;sha256:string}|n
 
 export function AttachmentThumbnail({attachment,maxHeight=180}:{attachment:Pick<Attachment,'base64'|'mime'|'sha256'|'title'>;maxHeight?:number}) {
   const {url,error}=useAttachmentUrl(attachment.mime.startsWith('image/')?attachment:null);
-  return error ? <p role="alert">{error}</p> : url ? <img src={url} alt={attachment.title} loading="lazy" style={{display:'block',maxWidth:'100%',maxHeight,objectFit:'contain',borderRadius:8,margin:'8px 0'}}/> : null;
+  return error ? <p role="alert">{error}</p> : url ? <img src={url} alt={attachment.title} loading="lazy" className="attachment-image attachment-thumbnail" style={{maxHeight}}/> : null;
 }
 
 type PickerProps={
@@ -95,7 +95,7 @@ export function AttachmentPicker({value,onChange,category='Documento',allowPhoto
     }catch(error){if(mounted.current)setError(errorMessage(error));}
     finally{if(mounted.current)setBusy(false);onBusyChange?.(false);}
   }
-  return <fieldset className="direct-attachments">
+  return <fieldset className="direct-attachments record-form-section">
     <legend>Arquivos deste registro</legend>
     <p className="muted">Anexe documentos e fotos aqui. Eles serão guardados junto com o registro e aparecerão no acervo. PDF, PNG, JPG e TXT UTF-8; até 10 MB por arquivo.</p>
     <div className="toolbar">
@@ -106,12 +106,12 @@ export function AttachmentPicker({value,onChange,category='Documento',allowPhoto
     <input ref={photoInput} type="file" accept="image/png,image/jpeg" aria-label={allowPhoto?'Foto principal da ave':'Foto para anexar'} style={{display:'none'}} disabled={busy||disabled} onChange={event=>{const files=Array.from(event.target.files||[]);event.target.value='';void select(files,true);}}/>
     {busy&&<p role="status">Preparando arquivos… aguarde antes de salvar.</p>}
     {error&&<p role="alert" className="error">{error}</p>}
-    {value.map((file,index)=><article className="card" key={`${file.sha256}-${index}`} style={{margin:'12px 0',padding:16}}>
-      <div className="row"><strong>{file.fileName}</strong><span className="muted">{sizeLabel(file.size)}{file.role==='photo'?' · Foto principal':''}</span></div>
+    {value.map((file,index)=><article className="card attachment-selection" key={`${file.sha256}-${index}`}>
+      <div className="row attachment-heading"><strong>{file.fileName}</strong><span className="muted">{sizeLabel(file.size)}{file.role==='photo'?' · Foto principal':''}</span></div>
       {file.mime.startsWith('image/')&&<AttachmentThumbnail attachment={file} maxHeight={140}/>}
       <div className="form-grid"><label>Título do arquivo<input maxLength={150} required value={file.title} disabled={busy||disabled} onChange={event=>change(index,{title:event.target.value})}/></label><label>Categoria do arquivo<input maxLength={150} required value={file.category} disabled={busy||disabled} onChange={event=>change(index,{category:event.target.value})}/></label></div>
       <label>Observações do arquivo<textarea maxLength={2000} rows={2} value={file.notes} disabled={busy||disabled} onChange={event=>change(index,{notes:event.target.value})}/></label>
-      <details><summary>Data e informações do documento</summary><div className="form-grid"><label>Data do arquivo<input type="date" required value={file.date} disabled={busy||disabled} onChange={event=>change(index,{date:event.target.value})}/></label><label>Validade opcional<input type="date" value={file.validUntil} disabled={busy||disabled} onChange={event=>change(index,{validUntil:event.target.value})}/></label><label>Emissor<input maxLength={2000} value={file.issuer} disabled={busy||disabled} onChange={event=>change(index,{issuer:event.target.value})}/></label><label>Referência<input maxLength={2000} value={file.reference} disabled={busy||disabled} onChange={event=>change(index,{reference:event.target.value})}/></label></div><label className="check"><input type="checkbox" checked={file.shareWithCustomer} disabled={busy||disabled} onChange={event=>change(index,{shareWithCustomer:event.target.checked})}/>Pode ser incluído na entrega ao cliente</label></details>
+      <details className="record-form-section"><summary>Data e informações do documento</summary><div className="form-grid"><label>Data do arquivo<input type="date" required value={file.date} disabled={busy||disabled} onChange={event=>change(index,{date:event.target.value})}/></label><label>Validade opcional<input type="date" value={file.validUntil} disabled={busy||disabled} onChange={event=>change(index,{validUntil:event.target.value})}/></label><label>Emissor<input maxLength={2000} value={file.issuer} disabled={busy||disabled} onChange={event=>change(index,{issuer:event.target.value})}/></label><label>Referência<input maxLength={2000} value={file.reference} disabled={busy||disabled} onChange={event=>change(index,{reference:event.target.value})}/></label></div><label className="check"><input type="checkbox" checked={file.shareWithCustomer} disabled={busy||disabled} onChange={event=>change(index,{shareWithCustomer:event.target.checked})}/>Pode ser incluído na entrega ao cliente</label></details>
       <div className="toolbar">{allowPhoto&&file.mime.startsWith('image/')&&<button type="button" className="button secondary" disabled={busy||disabled} onClick={()=>void selectPrincipal(index)}>Usar como foto principal</button>}<button type="button" className="button secondary" disabled={busy||disabled} onClick={()=>onChange(value.filter((_,i)=>i!==index))}>Remover deste registro</button></div>
     </article>)}
     {!value.length&&<p className="muted">Nenhum arquivo selecionado.</p>}
@@ -131,11 +131,11 @@ export function AttachmentPreview({attachment}:{attachment:Attachment}) {
     } catch(error) {setError(errorMessage(error));} finally {setBusy(false);}
   }
   return <div className="attachment-preview">
-    <p><strong>{attachment.title}</strong><small>{attachment.fileName} · {sizeLabel(attachment.size)} · {dateLabel(attachment.date)}</small></p>
-    {attachment.mime.startsWith('image/')&&url&&<img src={url} alt={attachment.title} style={{display:'block',width:'100%',maxHeight:expanded?640:220,objectFit:'contain',background:'#eef4f7',borderRadius:8}}/>}
-    {attachment.mime==='text/plain'&&<pre style={{maxHeight:expanded?500:160,overflow:'auto',padding:12,background:'#eef4f7'}}>{text}</pre>}
-    {attachment.mime==='application/pdf'&&<><p className="muted">PDF · {sizeLabel(attachment.size)}. Use Visualizar para abrir o documento completo no leitor.</p>{url&&!Capacitor.isNativePlatform()&&<iframe src={url} title={`Prévia de ${attachment.title}`} style={{height:300,minHeight:220,maxHeight:300}}/>}</>}
+    <p className="attachment-caption"><strong>{attachment.title}</strong><small>{attachment.fileName} · {sizeLabel(attachment.size)} · {dateLabel(attachment.date)}</small></p>
+    {attachment.mime.startsWith('image/')&&url&&<img src={url} alt={attachment.title} className="attachment-image" style={{maxHeight:expanded?640:220}}/>}
+    {attachment.mime==='text/plain'&&<pre className="attachment-text" style={{maxHeight:expanded?500:160}}>{text}</pre>}
+    {attachment.mime==='application/pdf'&&<><p className="muted">PDF · {sizeLabel(attachment.size)}. Use Visualizar para abrir o documento completo no leitor.</p>{url&&!Capacitor.isNativePlatform()&&<iframe src={url} title={`Prévia de ${attachment.title}`} className="pdf-preview pdf-preview-compact"/>}</>}
     {(error||urlError)&&<p role="alert" className="error">{error||urlError}</p>}
-    <div className="toolbar"><button type="button" className="button secondary" disabled={busy} onClick={()=>void operate(true)}>Visualizar</button><button type="button" className="button secondary" disabled={busy} onClick={()=>void operate()}>Baixar original</button></div>
+    <div className="toolbar attachment-actions"><button type="button" className="button secondary" disabled={busy} onClick={()=>void operate(true)}>Visualizar</button><button type="button" className="button secondary" disabled={busy} onClick={()=>void operate()}>Baixar original</button></div>
   </div>;
 }

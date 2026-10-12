@@ -92,8 +92,8 @@ export default function DigitalBooklet({ state, scope, command, notify, search }
   return <>
     {error && <p role="alert" className="error">{error}</p>}
     {busy && <p role="status">Processando caderneta… aguarde.</p>}
-    <section className="card">
-      <h3>Caderneta digital da ave</h3>
+    <section className="card booklet-editor">
+      <h3 className="section-title">Caderneta digital da ave</h3>
       <p>O modelo tem quatro páginas verticais, com identificação, origem, desenvolvimento, saúde e contatos. Revise os dados destinados ao tutor antes de emitir.</p>
       <div className="form-grid">
         <label>Ave<select disabled={busy || preparing} value={birdId} onChange={event => chooseBird(event.target.value)}><option value="">Selecione uma ave</option>{birds.map(value => <option key={value.id} value={value.id}>{birdLabel(value)}</option>)}</select></label>
@@ -102,15 +102,15 @@ export default function DigitalBooklet({ state, scope, command, notify, search }
       {bird && <>
         <p>Custos de aquisição, contatos do fornecedor e observações internas da ave ficam fora deste documento. Os dados adicionais salvos aqui também ficam na ficha da ave e na sincronização.</p>
         <div className="toolbar"><button type="button" className="button secondary" disabled={busy || preparing} onClick={() => { setFields(deriveBookletFields(state, scope, bird.id, saleId, false)); setSelectedClinical([]); }}>Atualizar dados do cadastro</button></div>
-        <fieldset disabled={busy}>
+        <fieldset className="record-form-section" disabled={busy}>
           <legend>Foto e documentos da caderneta</legend>
           {currentPhoto && <><p>Foto cadastrada da ave:</p><AttachmentThumbnail attachment={currentPhoto} maxHeight={200} /></>}
           <label className="check"><input type="checkbox" checked={includePhoto} onChange={event => setIncludePhoto(event.target.checked)} />Incluir a foto no espaço do modelo</label>
           <p>A foto será encaixada por inteiro, sem distorção, dentro da moldura de identificação. Os demais anexos ficam no acervo da ave.</p>
           <AttachmentPicker value={attachments} onChange={value => { setAttachments(value); const photo = [...value].reverse().find(file => file.role === 'photo'); if (photo) setFields(current => ({ ...current, photo_date: photo.date })); }} category="Caderneta / identificação" allowPhoto disabled={busy} onBusyChange={setPreparing} />
         </fieldset>
-        {clinical.length > 0 && <details><summary>Copiar consultas ou exames registrados</summary><p>Selecione até dois registros e revise o texto nos campos de Saúde e contatos. Esta seleção não cria prescrições nem altera o histórico clínico.</p>{clinical.map(record => <label className="check" key={record.id}><input type="checkbox" disabled={busy} checked={selectedClinical.includes(record.id)} onChange={event => chooseClinical(record.id, event.target.checked)} />{dateLabel(record.date)} · {record.kind} · {record.title}</label>)}</details>}
-        {digitalBookletSections.map((section, index) => <details key={section.title} open={index === 0}>
+        {clinical.length > 0 && <details className="record-form-section"><summary>Copiar consultas ou exames registrados</summary><p>Selecione até dois registros e revise o texto nos campos de Saúde e contatos. Esta seleção não cria prescrições nem altera o histórico clínico.</p>{clinical.map(record => <label className="check" key={record.id}><input type="checkbox" disabled={busy} checked={selectedClinical.includes(record.id)} onChange={event => chooseClinical(record.id, event.target.checked)} />{dateLabel(record.date)} · {record.kind} · {record.title}</label>)}</details>}
+        {digitalBookletSections.map((section, index) => <details className="record-form-section booklet-page" key={section.title} open={index === 0}>
           <summary>Página {index + 1} — {section.title}</summary>
           <div className="form-grid">{section.fields.map(field => <label key={field.key}>{field.label}
             {field.type === 'choice' ? <select disabled={busy} value={fields[field.key] || ''} onChange={event => setFields(value => ({ ...value, [field.key]: event.target.value }))}>{field.options?.map(option => <option key={option.value} value={option.value}>{option.label}</option>)}</select>
@@ -122,8 +122,8 @@ export default function DigitalBooklet({ state, scope, command, notify, search }
         <div className="toolbar"><button className="button secondary" disabled={busy || preparing} onClick={() => void run(async () => { await saveData(); notify('Dados da caderneta e anexos salvos na ave.'); })}>Salvar dados da caderneta</button><button className="button" disabled={busy || preparing} onClick={() => void run(emit)}>Emitir caderneta digital</button></div>
       </>}
     </section>
-    <section className="card">
-      <h3>Cadernetas emitidas por ave</h3>
+    <section className="card booklet-history">
+      <h3 className="section-title">Cadernetas emitidas por ave</h3>
       {!historicBirds.length ? <p>Nenhuma ave com caderneta emitida neste filtro.</p> : <div className="table-wrap"><table><thead><tr><th>Ave</th><th>Emissões</th><th>Última emissão</th><th>Ações</th></tr></thead><tbody>{historicBirds.map(value => {
         const documents = issued.filter(document => document.birdId === value.id).sort((a, b) => b.createdAt.localeCompare(a.createdAt));
         return <tr key={value.id}><td><strong>{birdLabel(value)}</strong><small>{value.species}</small></td><td>{documents.length}</td><td>{new Date(documents[0].createdAt).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })}</td><td><div className="toolbar"><button className="button secondary" disabled={busy} onClick={() => setHistoryBirdId(value.id)}>Ver cadernetas</button></div></td></tr>;
@@ -132,7 +132,7 @@ export default function DigitalBooklet({ state, scope, command, notify, search }
     {historyBird && <RecordDetailsDialog title={`Cadernetas — ${birdLabel(historyBird)}`} onClose={() => setHistoryBirdId('')}>
       <p>Cada emissão preserva seu PDF original. Atualizar os dados da ave não modifica as versões anteriores.</p>
       {error && <p role="alert" className="error">{error}</p>}
-      {history.map(document => <article key={document.id} className="card"><h3>{document.title}</h3><p>{new Date(document.createdAt).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })} · {(document.size / 1024).toFixed(1)} KB</p><p>{document.fileName}</p><div className="toolbar"><button className="button secondary" disabled={busy} onClick={() => void run(() => recover(document, true))}>Visualizar</button><button className="button" disabled={busy} onClick={() => void run(() => recover(document, false))}>Baixar original</button></div></article>)}
+      {history.map(document => <article key={document.id} className="card document-card"><h3 className="section-title">{document.title}</h3><p>{new Date(document.createdAt).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })} · {(document.size / 1024).toFixed(1)} KB</p><p>{document.fileName}</p><div className="toolbar"><button className="button secondary" disabled={busy} onClick={() => void run(() => recover(document, true))}>Visualizar</button><button className="button" disabled={busy} onClick={() => void run(() => recover(document, false))}>Baixar original</button></div></article>)}
     </RecordDetailsDialog>}
   </>;
 }
