@@ -1,0 +1,27 @@
+{
+  "version": "0.2.3",
+  "nativeBranch": "Capacitor Android bridge simulated in isolated Chromium context",
+  "fixtures": "UI registration only; fictitious records and geometric test photo",
+  "CSS": "assets/index-CcCT0kUO.css",
+  "JS": "assets/index-Daos2F9U.js",
+  "files": [
+    "android-1280-dark-aves-rolada.png",
+    "android-1280-dark-aves.png",
+    "android-1280-dark-menus.png",
+    "android-1280-light-aves-rolada.png",
+    "android-1280-light-aves.png",
+    "android-1280-light-menus.png",
+    "android-360-dark-aves-rolada.png",
+    "android-360-dark-aves.png",
+    "android-360-dark-menus.png",
+    "android-360-light-aves-rolada.png",
+    "android-360-light-aves.png",
+    "android-360-light-menus.png",
+    "android-390-dark-aves-rolada.png",
+    "android-390-dark-aves.png",
+    "android-390-dark-menus.png",
+    "android-390-light-aves-rolada.png",
+    "android-390-light-aves.png",
+    "android-390-light-menus.png"
+  ]
+}

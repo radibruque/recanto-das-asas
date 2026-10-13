@@ -1,17 +1,20 @@
-/* Browser presentation: native Android and Windows keep their approved layouts. */
+/* Shared shortcuts for Android and the browser; the Windows installer keeps its layout. */
 .web-shortcuts { display: none; }
 
-:root[data-platform='web'] {
+:root:is([data-platform='web'], [data-platform='android']) {
   --web-shortcuts-height: 76px;
-  --bird-columns: 60px minmax(100px,1.1fr) minmax(110px,1.2fr) minmax(85px,1fr) minmax(90px,.85fr) minmax(70px,.8fr) minmax(90px,.8fr) 24px;
   scroll-padding-bottom: calc(var(--web-shortcuts-height) + env(safe-area-inset-bottom, 0px) + 16px);
 }
 
-:root[data-platform='web'] .main-content {
+:root[data-platform='web'] {
+  --bird-columns: 60px minmax(100px,1.1fr) minmax(110px,1.2fr) minmax(85px,1fr) minmax(90px,.85fr) minmax(70px,.8fr) minmax(90px,.8fr) 24px;
+}
+
+:root:is([data-platform='web'], [data-platform='android']) .main-content {
   padding-bottom: calc(var(--web-shortcuts-height) + env(safe-area-inset-bottom, 0px) + 24px);
 }
 
-:root[data-platform='web'] .web-shortcuts {
+:root:is([data-platform='web'], [data-platform='android']) .web-shortcuts {
   position: fixed;
   inset: auto 0 0;
   z-index: 75;
@@ -90,6 +93,9 @@
   .web-shortcut { flex-direction: column; gap: 5px; padding: 8px 3px; font-size: 10px; }
 }
 
+:root[data-platform='android'] .web-shortcuts-items { gap: 4px; }
+:root[data-platform='android'] .web-shortcut { flex-direction: column; gap: 5px; padding: 8px 3px; font-size: 10px; }
+
 @media (max-width: 360px) {
   :root[data-platform='web'][data-layout='android'] .bird-list-open,
   :root[data-platform='web'][data-layout='android'] .overview-birds .bird-list-open {
@@ -101,5 +107,5 @@
 @media (prefers-reduced-motion: reduce) { .web-shortcut { transition: none; } }
 @media print {
   .web-shortcuts { display: none !important; }
-  :root[data-platform='web'] .main-content { padding-bottom: 0; }
+  :root:is([data-platform='web'], [data-platform='android']) .main-content { padding-bottom: 0; }
 }
