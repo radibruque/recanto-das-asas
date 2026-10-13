@@ -1,0 +1,18 @@
+{
+  "baselineCommit": "df86ae54dcccf6d2e9dbd87a39734c0d495ac0ad",
+  "checks": "SHA-256 comparison with baseline for existing events, native config and persistence; deep comparison of all non-root lockfile entries",
+  "unchangedFiles": {
+    "aplicativo/src/App.tsx": "32414b11a7f564d8ad6089335457bab664409cd2c859e112b243765e42659770",
+    "aplicativo/src/components/WebShortcuts.tsx": "2a3cf82f191ba879963ef6a040c5a5afa358a761adbcf0b328ef524688d17e02",
+    "aplicativo/src/main.tsx": "aacd24e3ebceb5a36bad511d8780a4bdec8d10c51e801ef7f9b2fc39609dc189",
+    "aplicativo/src/lib/storage.ts": "fd8c816dcd188e3300f9fcbe6f18d5c6c7825e72c29f690cc1e3bdf08187a089",
+    "aplicativo/src/lib/synchronize.ts": "1ebeab12b18a8082df879967e69223437e9a58e5cd88be39ed2507ab2912a9e1",
+    "aplicativo/capacitor.config.ts": "eb91152054447b97f3b83b2894b55ff2c0f94a1492e0fb15be162598a9453e2e",
+    "aplicativo/native/android/app/src/main/AndroidManifest.xml": "ee6d736e8d4e41f57bdedbe2821a11714ade50d72dfbe3ec4ffc2707755e04b5",
+    "aplicativo/native/android/app/build.gradle": "b9b4d6973d9cf6eb0df1114fe543a6e99e5432539a9cb12f2bcf65ff679c0774"
+  },
+  "allDependencyEntriesIdentical": true,
+  "nativeFilesChanged": false,
+  "businessLogicChanged": false,
+  "databaseSchemaChanged": false
+}

@@ -1,0 +1,730 @@
+{
+  "apk": {
+    "path": "/workspace/recanto-das-asas/aplicativo/release/android/Recanto-das-Asas-0.2.3-debug.apk",
+    "bytes": 31709759,
+    "sha256": "87097efeede79a3f070f3547615cf3ff1ca444713fc3c2190459b6eb4b01571b",
+    "package": "br.com.recantodasasas.app.debug",
+    "versionCode": 2004,
+    "versionName": "0.2.3-debug",
+    "minSDK": 29,
+    "targetSDK": 36,
+    "certificateSHA256": "78a89de576577bb9ce97d2e7404d762e81f03005abc06c6e8ea5983e19dc0b35",
+    "priorVersionCode": 2003,
+    "sameCertificateAsPrevious": true,
+    "permissions": [
+      "android.permission.INTERNET",
+      "br.com.recantodasasas.app.debug.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+    ],
+    "samePermissionsAsPrevious": true
+  },
+  "dist": {
+    "count": 94,
+    "allMatching": true,
+    "matchesCurrentDist": true,
+    "workers": [
+      "assets/attachment-preview.worker-CtGqWCYy.js",
+      "assets/encrypted-backup-payload.worker-CJqPpOhg.js"
+    ],
+    "offlineCacheIncludesWorkers": true,
+    "js": "assets/index-Daos2F9U.js",
+    "css": "assets/index-CcCT0kUO.css"
+  },
+  "nativeConfig": {
+    "capacitorAppId": "br.com.recantodasasas.app",
+    "webDirectory": "dist",
+    "server": {
+      "hostname": "localhost",
+      "androidScheme": "https"
+    }
+  },
+  "lint": {
+    "counts": {
+      "Warning": 30,
+      "Hint": 5
+    },
+    "issues": [
+      {
+        "report": "native/android/app/build/reports/lint-results-debug.xml",
+        "id": "GradleDependency",
+        "severity": "Warning",
+        "message": "A newer version of androidx.appcompat:appcompat than 1.7.1 is available: 1.8.0"
+      },
+      {
+        "report": "native/android/app/build/reports/lint-results-debug.xml",
+        "id": "ObsoleteSdkInt",
+        "severity": "Warning",
+        "message": "This folder configuration (`v24`) is unnecessary; `minSdkVersion` is 29. Merge all the resources in this folder into `drawable`."
+      },
+      {
+        "report": "native/android/app/build/reports/lint-results-debug.xml",
+        "id": "ObsoleteSdkInt",
+        "severity": "Warning",
+        "message": "This folder configuration (`v26`) is unnecessary; `minSdkVersion` is 29. Merge all the resources in this folder into `mipmap-anydpi`."
+      },
+      {
+        "report": "native/android/app/build/reports/lint-results-debug.xml",
+        "id": "UnusedResources",
+        "severity": "Warning",
+        "message": "The resource `R.layout.activity_main` appears to be unused"
+      },
+      {
+        "report": "native/android/app/build/reports/lint-results-debug.xml",
+        "id": "UnusedResources",
+        "severity": "Warning",
+        "message": "The resource `R.xml.config` appears to be unused"
+      },
+      {
+        "report": "native/android/app/build/reports/lint-results-debug.xml",
+        "id": "UnusedResources",
+        "severity": "Warning",
+        "message": "The resource `R.drawable.ic_launcher_background` appears to be unused"
+      },
+      {
+        "report": "native/android/app/build/reports/lint-results-debug.xml",
+        "id": "UnusedResources",
+        "severity": "Warning",
+        "message": "The resource `R.drawable.ic_launcher_foreground` appears to be unused"
+      },
+      {
+        "report": "native/android/app/build/reports/lint-results-debug.xml",
+        "id": "UnusedResources",
+        "severity": "Warning",
+        "message": "The resource `R.string.package_name` appears to be unused"
+      },
+      {
+        "report": "native/android/app/build/reports/lint-results-debug.xml",
+        "id": "UnusedResources",
+        "severity": "Warning",
+        "message": "The resource `R.string.custom_url_scheme` appears to be unused"
+      },
+      {
+        "report": "native/android/app/build/reports/lint-results-debug.xml",
+        "id": "UnusedResources",
+        "severity": "Warning",
+        "message": "The resource `R.style.AppTheme_NoActionBar` appears to be unused"
+      },
+      {
+        "report": "native/android/app/build/reports/lint-results-debug.xml",
+        "id": "IconLauncherShape",
+        "severity": "Warning",
+        "message": "Launcher icons should not fill every pixel of their square region; see the design guide for details"
+      },
+      {
+        "report": "native/android/app/build/reports/lint-results-debug.xml",
+        "id": "IconLauncherShape",
+        "severity": "Warning",
+        "message": "Launcher icons should not fill every pixel of their square region; see the design guide for details"
+      },
+      {
+        "report": "native/android/app/build/reports/lint-results-debug.xml",
+        "id": "IconLauncherShape",
+        "severity": "Warning",
+        "message": "Launcher icons should not fill every pixel of their square region; see the design guide for details"
+      },
+      {
+        "report": "native/android/app/build/reports/lint-results-debug.xml",
+        "id": "IconLauncherShape",
+        "severity": "Warning",
+        "message": "Launcher icons should not fill every pixel of their square region; see the design guide for details"
+      },
+      {
+        "report": "native/android/app/build/reports/lint-results-debug.xml",
+        "id": "IconLauncherShape",
+        "severity": "Warning",
+        "message": "Launcher icons should not fill every pixel of their square region; see the design guide for details"
+      },
+      {
+        "report": "native/android/app/build/reports/lint-results-debug.xml",
+        "id": "IconLauncherShape",
+        "severity": "Warning",
+        "message": "Launcher icon used as round icon did not have a circular shape"
+      },
+      {
+        "report": "native/android/app/build/reports/lint-results-debug.xml",
+        "id": "IconLauncherShape",
+        "severity": "Warning",
+        "message": "Launcher icon used as round icon did not have a circular shape"
+      },
+      {
+        "report": "native/android/app/build/reports/lint-results-debug.xml",
+        "id": "IconLauncherShape",
+        "severity": "Warning",
+        "message": "Launcher icon used as round icon did not have a circular shape"
+      },
+      {
+        "report": "native/android/app/build/reports/lint-results-debug.xml",
+        "id": "IconLauncherShape",
+        "severity": "Warning",
+        "message": "Launcher icon used as round icon did not have a circular shape"
+      },
+      {
+        "report": "native/android/app/build/reports/lint-results-debug.xml",
+        "id": "IconLauncherShape",
+        "severity": "Warning",
+        "message": "Launcher icon used as round icon did not have a circular shape"
+      },
+      {
+        "report": "native/android/app/build/reports/lint-results-debug.xml",
+        "id": "MonochromeLauncherIcon",
+        "severity": "Warning",
+        "message": "The application adaptive icon is missing a monochrome tag"
+      },
+      {
+        "report": "native/android/app/build/reports/lint-results-debug.xml",
+        "id": "MonochromeLauncherIcon",
+        "severity": "Warning",
+        "message": "The application adaptive roundIcon is missing a monochrome tag"
+      },
+      {
+        "report": "native/android/app/build/reports/lint-results-debug.xml",
+        "id": "IconDipSize",
+        "severity": "Warning",
+        "message": "The image `splash.png` varies significantly in its density-independent (dip) size across the various density versions: drawable-land-hdpi/splash.png: 533x320 dp (800x480 px), drawable-land-mdpi/splash.png: 480x320 dp (480x320 px), drawable-land-xhdpi/splash.png: 640x360 dp (1280x720 px), drawable-land-xxhdpi/splash.png: 533x320 dp (1600x960 px), drawable-land-xxxhdpi/splash.png: 480x320 dp (1920x1280 px)"
+      },
+      {
+        "report": "native/android/app/build/reports/lint-results-debug.xml",
+        "id": "IconDuplicatesConfig",
+        "severity": "Warning",
+        "message": "The `splash.png` icon has identical contents in the following configuration folders: drawable-land-mdpi, drawable"
+      },
+      {
+        "report": "native/android/app/build/reports/lint-results-debug.xml",
+        "id": "IconLocation",
+        "severity": "Warning",
+        "message": "Found bitmap drawable `res/drawable/splash.png` in densityless folder"
+      },
+      {
+        "report": "native/android/app/build/reports/lint-results-debug.xml",
+        "id": "IconDuplicates",
+        "severity": "Warning",
+        "message": "The following unrelated icon files have identical contents: ic_launcher.png, ic_launcher_round.png"
+      },
+      {
+        "report": "native/android/app/build/reports/lint-results-debug.xml",
+        "id": "IconDuplicates",
+        "severity": "Warning",
+        "message": "The following unrelated icon files have identical contents: ic_launcher.png, ic_launcher_round.png"
+      },
+      {
+        "report": "native/android/app/build/reports/lint-results-debug.xml",
+        "id": "IconDuplicates",
+        "severity": "Warning",
+        "message": "The following unrelated icon files have identical contents: ic_launcher.png, ic_launcher_round.png"
+      },
+      {
+        "report": "native/android/app/build/reports/lint-results-debug.xml",
+        "id": "IconDuplicates",
+        "severity": "Warning",
+        "message": "The following unrelated icon files have identical contents: ic_launcher.png, ic_launcher_round.png"
+      },
+      {
+        "report": "native/android/app/build/reports/lint-results-debug.xml",
+        "id": "IconDuplicates",
+        "severity": "Warning",
+        "message": "The following unrelated icon files have identical contents: ic_launcher.png, ic_launcher_round.png"
+      },
+      {
+        "report": "node_modules/@capacitor/android/capacitor/build/reports/lint-results-debug.xml",
+        "id": "LintBaseline",
+        "severity": "Hint",
+        "message": "6 errors were filtered out because they are listed in the baseline file, lint-baseline.xml"
+      },
+      {
+        "report": "node_modules/@capacitor/android/capacitor/build/reports/lint-results-debug.xml",
+        "id": "LintBaselineFixed",
+        "severity": "Hint",
+        "message": "6 errors/warnings were listed in the baseline file (lint-baseline.xml) but not found in the project; perhaps they have been fixed? Another possible explanation is that lint recently stopped analyzing (and including results from) dependent projects by default. You can turn this back on with `android.lintOptions.checkDependencies=true`. Unmatched issue types: DefaultLocale, Overdraw, Recycle, SetJavaScriptEnabled, StaticFieldLeak (2)"
+      },
+      {
+        "report": "node_modules/@capacitor/android/capacitor/build/reports/lint-results-debug.xml",
+        "id": "ObsoleteSdkInt",
+        "severity": "Hint",
+        "message": "Unnecessary; `SDK_INT` is always >= 29"
+      },
+      {
+        "report": "node_modules/@capacitor/android/capacitor/build/reports/lint-results-debug.xml",
+        "id": "ObsoleteSdkInt",
+        "severity": "Hint",
+        "message": "Unnecessary; `SDK_INT` is always >= 29"
+      },
+      {
+        "report": "node_modules/@capacitor/android/capacitor/build/reports/lint-results-debug.xml",
+        "id": "ObsoleteSdkInt",
+        "severity": "Hint",
+        "message": "Unnecessary; `SDK_INT` is always >= 29"
+      }
+    ]
+  },
+  "checks": [
+    {
+      "path": "artes/01_Principal/Logo_Aprovada_Fundo_Branco.jpg",
+      "matches": true,
+      "bytes": 819851
+    },
+    {
+      "path": "artes/01_Principal/Logo_Aprovada_Original_1254px.png",
+      "matches": true,
+      "bytes": 1643894
+    },
+    {
+      "path": "artes/01_Principal/Logo_Colorida_Transparente_1254px.png",
+      "matches": true,
+      "bytes": 1173310
+    },
+    {
+      "path": "artes/02_Digital/Avatar_Colorido_1080px.png",
+      "matches": true,
+      "bytes": 7166
+    },
+    {
+      "path": "artes/02_Digital/Capa_Horizontal_1600px.png",
+      "matches": true,
+      "bytes": 185310
+    },
+    {
+      "path": "artes/02_Digital/Logo_Colorida_Transparente_1024px.png",
+      "matches": true,
+      "bytes": 6558
+    },
+    {
+      "path": "artes/02_Digital/Logo_Colorida_Transparente_2048px.png",
+      "matches": true,
+      "bytes": 21285
+    },
+    {
+      "path": "artes/02_Digital/Logo_Colorida_Transparente_4096px.png",
+      "matches": true,
+      "bytes": 75791
+    },
+    {
+      "path": "artes/02_Digital/Logo_Colorida_Transparente_512px.png",
+      "matches": true,
+      "bytes": 2256
+    },
+    {
+      "path": "artes/02_Digital/Monograma_RA.svg",
+      "matches": true,
+      "bytes": 864
+    },
+    {
+      "path": "artes/02_Digital/Monograma_RA_192px.png",
+      "matches": true,
+      "bytes": 5395
+    },
+    {
+      "path": "artes/02_Digital/Monograma_RA_32px.png",
+      "matches": true,
+      "bytes": 1003
+    },
+    {
+      "path": "artes/02_Digital/Monograma_RA_512px.png",
+      "matches": true,
+      "bytes": 14896
+    },
+    {
+      "path": "artes/02_Digital/Monograma_RA_64px.png",
+      "matches": true,
+      "bytes": 1948
+    },
+    {
+      "path": "artes/02_Digital/favicon.ico",
+      "matches": true,
+      "bytes": 7347
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logo_Horizontal_1_Cor_azul.pdf",
+      "matches": true,
+      "bytes": 34073
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logo_Horizontal_1_Cor_azul.png",
+      "matches": true,
+      "bytes": 222025
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logo_Horizontal_1_Cor_azul.svg",
+      "matches": true,
+      "bytes": 82214
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logo_Horizontal_1_Cor_branco.pdf",
+      "matches": true,
+      "bytes": 34057
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logo_Horizontal_1_Cor_branco.png",
+      "matches": true,
+      "bytes": 148697
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logo_Horizontal_1_Cor_branco.svg",
+      "matches": true,
+      "bytes": 82214
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logo_Horizontal_1_Cor_preto.eps",
+      "matches": true,
+      "bytes": 84192
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logo_Horizontal_1_Cor_preto.pdf",
+      "matches": true,
+      "bytes": 34056
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logo_Horizontal_1_Cor_preto.png",
+      "matches": true,
+      "bytes": 160477
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logo_Horizontal_1_Cor_preto.svg",
+      "matches": true,
+      "bytes": 82214
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logo_Vertical_1_Cor_azul.pdf",
+      "matches": true,
+      "bytes": 35032
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logo_Vertical_1_Cor_azul.png",
+      "matches": true,
+      "bytes": 469419
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logo_Vertical_1_Cor_azul.svg",
+      "matches": true,
+      "bytes": 82105
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logo_Vertical_1_Cor_branco.pdf",
+      "matches": true,
+      "bytes": 35014
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logo_Vertical_1_Cor_branco.png",
+      "matches": true,
+      "bytes": 318355
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logo_Vertical_1_Cor_branco.svg",
+      "matches": true,
+      "bytes": 82105
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logo_Vertical_1_Cor_preto.eps",
+      "matches": true,
+      "bytes": 83148
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logo_Vertical_1_Cor_preto.pdf",
+      "matches": true,
+      "bytes": 35012
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logo_Vertical_1_Cor_preto.png",
+      "matches": true,
+      "bytes": 349719
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logo_Vertical_1_Cor_preto.svg",
+      "matches": true,
+      "bytes": 82105
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logotipo_Somente_Nome_azul.pdf",
+      "matches": true,
+      "bytes": 9318
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logotipo_Somente_Nome_azul.png",
+      "matches": true,
+      "bytes": 166888
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logotipo_Somente_Nome_azul.svg",
+      "matches": true,
+      "bytes": 20258
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logotipo_Somente_Nome_branco.pdf",
+      "matches": true,
+      "bytes": 9305
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logotipo_Somente_Nome_branco.png",
+      "matches": true,
+      "bytes": 115316
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logotipo_Somente_Nome_branco.svg",
+      "matches": true,
+      "bytes": 20258
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logotipo_Somente_Nome_preto.eps",
+      "matches": true,
+      "bytes": 21527
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logotipo_Somente_Nome_preto.pdf",
+      "matches": true,
+      "bytes": 9304
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logotipo_Somente_Nome_preto.png",
+      "matches": true,
+      "bytes": 127283
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logotipo_Somente_Nome_preto.svg",
+      "matches": true,
+      "bytes": 20258
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Simbolo_Aves_azul.pdf",
+      "matches": true,
+      "bytes": 27101
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Simbolo_Aves_azul.png",
+      "matches": true,
+      "bytes": 343801
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Simbolo_Aves_azul.svg",
+      "matches": true,
+      "bytes": 62201
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Simbolo_Aves_branco.pdf",
+      "matches": true,
+      "bytes": 27088
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Simbolo_Aves_branco.png",
+      "matches": true,
+      "bytes": 233488
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Simbolo_Aves_branco.svg",
+      "matches": true,
+      "bytes": 62201
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Simbolo_Aves_preto.eps",
+      "matches": true,
+      "bytes": 63938
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Simbolo_Aves_preto.pdf",
+      "matches": true,
+      "bytes": 27087
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Simbolo_Aves_preto.png",
+      "matches": true,
+      "bytes": 254936
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Simbolo_Aves_preto.svg",
+      "matches": true,
+      "bytes": 62201
+    },
+    {
+      "path": "artes/04_Impressao/Logo_CMYK_SWOP_Referencia.tif",
+      "matches": true,
+      "bytes": 2501202
+    },
+    {
+      "path": "artes/04_Impressao/Logo_Colorida_10cm_RGB.pdf",
+      "matches": true,
+      "bytes": 989
+    },
+    {
+      "path": "artes/04_Impressao/Logo_Colorida_14cm_RGB.pdf",
+      "matches": true,
+      "bytes": 990
+    },
+    {
+      "path": "artes/04_Impressao/Logo_Colorida_8cm_RGB.pdf",
+      "matches": true,
+      "bytes": 989
+    },
+    {
+      "path": "artes/04_Impressao/Logo_Colorida_RGB_Original.tif",
+      "matches": true,
+      "bytes": 2314752
+    },
+    {
+      "path": "artes/05_Uniformes/Estampa_Colorida_10cm_Transparente.png",
+      "matches": true,
+      "bytes": 8240
+    },
+    {
+      "path": "artes/05_Uniformes/Estampa_Colorida_8cm_Transparente.png",
+      "matches": true,
+      "bytes": 5697
+    },
+    {
+      "path": "artes/05_Uniformes/Logo_1_Cor_azul_8cm_Vetor.pdf",
+      "matches": true,
+      "bytes": 31505
+    },
+    {
+      "path": "artes/05_Uniformes/Logo_1_Cor_branco_28cm_Vetor.pdf",
+      "matches": true,
+      "bytes": 34868
+    },
+    {
+      "path": "artes/05_Uniformes/Logo_1_Cor_preto_10cm_Vetor.pdf",
+      "matches": true,
+      "bytes": 32128
+    },
+    {
+      "path": "artes/05_Uniformes/Logotipo_Somente_Nome_azul_120mm.pdf",
+      "matches": true,
+      "bytes": 8942
+    },
+    {
+      "path": "artes/05_Uniformes/Simbolo_Aves_azul_60mm.pdf",
+      "matches": true,
+      "bytes": 23757
+    },
+    {
+      "path": "artes/06_Sublimacao/Caneca_Generica_21x9cm_Espelhada.pdf",
+      "matches": true,
+      "bytes": 993
+    },
+    {
+      "path": "artes/06_Sublimacao/Caneca_Generica_21x9cm_Espelhada.png",
+      "matches": true,
+      "bytes": 12862
+    },
+    {
+      "path": "artes/06_Sublimacao/Caneca_Generica_21x9cm_Normal.pdf",
+      "matches": true,
+      "bytes": 993
+    },
+    {
+      "path": "artes/06_Sublimacao/Caneca_Generica_21x9cm_Normal.png",
+      "matches": true,
+      "bytes": 12862
+    },
+    {
+      "path": "artes/07_Guia/Catalogo_de_Arquivos.csv",
+      "matches": true,
+      "bytes": 13122
+    },
+    {
+      "path": "artes/07_Guia/Guia_de_Aplicacao_Recanto_das_Asas.pdf",
+      "matches": true,
+      "bytes": 5682109
+    },
+    {
+      "path": "artes/07_Guia/Paleta_RGB.json",
+      "matches": true,
+      "bytes": 176
+    },
+    {
+      "path": "artes/07_Guia/SHA256SUMS.txt",
+      "matches": true,
+      "bytes": 8358
+    },
+    {
+      "path": "artes/07_Guia/Visao_Geral_Recanto_das_Asas.png",
+      "matches": true,
+      "bytes": 376119
+    },
+    {
+      "path": "artes/LEIA-ME.txt",
+      "matches": true,
+      "bytes": 165
+    },
+    {
+      "path": "artes/LEIA_PRIMEIRO.txt",
+      "matches": true,
+      "bytes": 1752
+    },
+    {
+      "path": "artes/catalog.json",
+      "matches": true,
+      "bytes": 22417
+    },
+    {
+      "path": "assets/attachment-preview.worker-CtGqWCYy.js",
+      "matches": true,
+      "bytes": 4339
+    },
+    {
+      "path": "assets/dist-D-aS5iBc.js",
+      "matches": true,
+      "bytes": 342223
+    },
+    {
+      "path": "assets/encrypted-backup-payload.worker-CJqPpOhg.js",
+      "matches": true,
+      "bytes": 492
+    },
+    {
+      "path": "assets/exceljs.min-B-7NY7Xe.js",
+      "matches": true,
+      "bytes": 929917
+    },
+    {
+      "path": "assets/fontkit.es-C-N-Xi8P.js",
+      "matches": true,
+      "bytes": 711128
+    },
+    {
+      "path": "assets/index-CcCT0kUO.css",
+      "matches": true,
+      "bytes": 64562
+    },
+    {
+      "path": "assets/index-Daos2F9U.js",
+      "matches": true,
+      "bytes": 1117243
+    },
+    {
+      "path": "fonts/NotoSans-Regular-Static.ttf",
+      "matches": true,
+      "bytes": 80128
+    },
+    {
+      "path": "fonts/NotoSans.ttf",
+      "matches": true,
+      "bytes": 2049096
+    },
+    {
+      "path": "fonts/OFL.txt",
+      "matches": true,
+      "bytes": 4396
+    },
+    {
+      "path": "index.html",
+      "matches": true,
+      "bytes": 609
+    },
+    {
+      "path": "manifest.webmanifest",
+      "matches": true,
+      "bytes": 356
+    },
+    {
+      "path": "sw.js",
+      "matches": true,
+      "bytes": 5347
+    },
+    {
+      "path": "templates/Caderneta_Recanto_das_Asas_Digital_Vertical.pdf",
+      "matches": true,
+      "bytes": 2187156
+    },
+    {
+      "path": "theme-init.js",
+      "matches": true,
+      "bytes": 2662
+    }
+  ]
+}

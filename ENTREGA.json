@@ -1,0 +1,12 @@
+{
+  "version": "0.2.3",
+  "implementation_commit": "72cbd1bf4f1c23a7e7448d4ed1b5e34385581b41",
+  "source_branch": "fix/atalhos-android-0.2.3",
+  "artifact_branch": "instalacao/v0.2.3-android-atalhos",
+  "tested_build_js": "assets/index-Daos2F9U.js",
+  "tested_build_css": "assets/index-CcCT0kUO.css",
+  "unit_passed": 269,
+  "e2e_passed": 66,
+  "android_version_code": 2004,
+  "platform": "android"
+}

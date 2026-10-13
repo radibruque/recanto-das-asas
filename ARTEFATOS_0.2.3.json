@@ -1,0 +1,19 @@
+{
+  "version": "0.2.3",
+  "date_utc": "2026-10-13",
+  "android_version_code": 2004,
+  "android_package": "br.com.recantodasasas.app.debug",
+  "android_certificate_sha256": "78a89de576577bb9ce97d2e7404d762e81f03005abc06c6e8ea5983e19dc0b35",
+  "dist_js": "assets/index-Daos2F9U.js",
+  "dist_css": "assets/index-CcCT0kUO.css",
+  "dist_files_verified": 94,
+  "artifacts": [
+    {
+      "platform": "android",
+      "path": "aplicativo/release/android/Recanto-das-Asas-0.2.3-debug.apk",
+      "bytes": 31709759,
+      "sha256": "87097efeede79a3f070f3547615cf3ff1ca444713fc3c2190459b6eb4b01571b",
+      "physical_installation_tested": false
+    }
+  ]
+}
