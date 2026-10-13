@@ -61,4 +61,4 @@ Os testes existentes foram mantidos; as alterações de testes ajustam a navega�
 
 Permanecem etapas síncronas anteriores, como serialização/validação integral da base e apresentação de TXT extensos. O desempenho no Android físico, no teclado/WebView do usuário e a atualização sobre suas instalações reais precisam ser confirmados. O APK mantém a identidade debug de avaliação existente e o Windows continua sem assinatura comercial. Não há garantia de ausência de todo bug; os resultados acima documentam o que foi efetivamente verificado.
 
-Veja [as capturas e a comparação de estrutura](redesign-bc/index.html). As capturas são da aplicação compilada, com registros fictícios em contextos isolados. Nenhum dado de teste foi inserido na base do usuário. O banco local, o servidor e o Tailscale não precisam ser recriados.
+Veja [as capturas e a comparação de estrutura](Interface-Implementada/index.html). As capturas são da aplicação compilada, com registros fictícios em contextos isolados. Nenhum dado de teste foi inserido na base do usuário. O banco local, o servidor e o Tailscale não precisam ser recriados.
