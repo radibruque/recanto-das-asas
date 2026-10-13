@@ -1,0 +1,10 @@
+{
+  "version": "0.2.2",
+  "implementation_commit": "df86ae54dcccf6d2e9dbd87a39734c0d495ac0ad",
+  "source_branch": "fix/menu-atalhos-web-0.2.2",
+  "artifact_branch": "instalacao/v0.2.2-menu-atalhos",
+  "tested_build_js": "assets/index-Cy6K5yPs.js",
+  "tested_build_css": "assets/index-CoxKkSw_.css",
+  "unit_passed": 269,
+  "e2e_passed": 61
+}

@@ -1,0 +1,57 @@
+{
+  "installer": {
+    "path": "/workspace/recanto-das-asas/aplicativo/release/windows/Recanto-das-Asas-0.2.2-x64-Setup.exe",
+    "bytes": 137083742,
+    "sha256": "36085a82789301b7330c5c17a926bd9d8de736cba86b7d3d861e65f606f0427f",
+    "DOSHeader": "MZ",
+    "PEHeader": "PE00",
+    "launcherMachine": "0x14c",
+    "payloadMachine": "0x8664",
+    "AuthenticodeCertificateSize": 0,
+    "commerciallySigned": false
+  },
+  "NSIS": {
+    "signatureOffset": 185860,
+    "firstHeaderOffset": 185856,
+    "flags": 0,
+    "headerBytes": 42834,
+    "followingBytes": 136897886,
+    "storedCRC": "0x8e511862",
+    "matchingCRCOffsets": [
+      "512"
+    ],
+    "sourceScript": "native/installer.nsi",
+    "minimumWindows": 10,
+    "requires64bit": true,
+    "installPath": "LOCALAPPDATA/Programs/RecantoDasAsas",
+    "appId": "br.com.recantodasasas.app",
+    "preservesAppData": true
+  },
+  "ASAR": {
+    "path": "/workspace/recanto-das-asas/aplicativo/release/windows/win-unpacked/resources/app.asar",
+    "bytes": 28457143,
+    "sha256": "c3b0484408fc551fc8eff7d98ebf13f3f59338647dd0763fba95164be341ee8e"
+  },
+  "dist": {
+    "count": 94,
+    "exactFileSet": true,
+    "allMatching": true,
+    "workers": [
+      "assets/attachment-preview.worker-CtGqWCYy.js",
+      "assets/encrypted-backup-payload.worker-CJqPpOhg.js"
+    ],
+    "offlineCacheIncludesWorkers": true,
+    "js": "assets/index-Cy6K5yPs.js",
+    "css": "assets/index-CoxKkSw_.css"
+  },
+  "main": {
+    "sameAsSource": true,
+    "sameAsBaseline": true,
+    "sha256": "156f7bb8e6a12b9bd24e765d8988f897036a65fbba0b41da5efc1f418ce52995",
+    "origin": "app://recanto",
+    "userData": "APPDATA/RecantoDasAsas",
+    "appName": "RecantoDasAsas",
+    "appId": "br.com.recantodasasas.app"
+  },
+  "matchesCurrentDist": true
+}

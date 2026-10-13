@@ -1,0 +1,508 @@
+{
+  "archive": {
+    "path": "/workspace/recanto-das-asas/aplicativo/release/windows/win-unpacked/resources/app.asar",
+    "bytes": 28457143,
+    "sha256": "c3b0484408fc551fc8eff7d98ebf13f3f59338647dd0763fba95164be341ee8e"
+  },
+  "dist": {
+    "count": 94,
+    "exactFileSet": true,
+    "allMatching": true,
+    "workers": [
+      "assets/attachment-preview.worker-CtGqWCYy.js",
+      "assets/encrypted-backup-payload.worker-CJqPpOhg.js"
+    ],
+    "offlineCacheIncludesWorkers": true,
+    "js": "assets/index-Cy6K5yPs.js",
+    "css": "assets/index-CoxKkSw_.css"
+  },
+  "main": {
+    "sameAsSource": true,
+    "sameAsBaseline": true,
+    "sha256": "156f7bb8e6a12b9bd24e765d8988f897036a65fbba0b41da5efc1f418ce52995",
+    "origin": "app://recanto",
+    "userData": "APPDATA/RecantoDasAsas",
+    "appName": "RecantoDasAsas",
+    "appId": "br.com.recantodasasas.app"
+  },
+  "packageInfo": {
+    "name": "recanto-das-asas-app",
+    "version": "0.2.2",
+    "description": "Gestão privada Recanto das Asas",
+    "author": "Recanto das Asas",
+    "main": "electron/main.cjs",
+    "private": true
+  },
+  "checks": [
+    {
+      "path": "artes/01_Principal/Logo_Aprovada_Fundo_Branco.jpg",
+      "bytes": 819851,
+      "matches": true
+    },
+    {
+      "path": "artes/01_Principal/Logo_Aprovada_Original_1254px.png",
+      "bytes": 1643894,
+      "matches": true
+    },
+    {
+      "path": "artes/01_Principal/Logo_Colorida_Transparente_1254px.png",
+      "bytes": 1173310,
+      "matches": true
+    },
+    {
+      "path": "artes/02_Digital/Avatar_Colorido_1080px.png",
+      "bytes": 7166,
+      "matches": true
+    },
+    {
+      "path": "artes/02_Digital/Capa_Horizontal_1600px.png",
+      "bytes": 185310,
+      "matches": true
+    },
+    {
+      "path": "artes/02_Digital/Logo_Colorida_Transparente_1024px.png",
+      "bytes": 6558,
+      "matches": true
+    },
+    {
+      "path": "artes/02_Digital/Logo_Colorida_Transparente_2048px.png",
+      "bytes": 21285,
+      "matches": true
+    },
+    {
+      "path": "artes/02_Digital/Logo_Colorida_Transparente_4096px.png",
+      "bytes": 75791,
+      "matches": true
+    },
+    {
+      "path": "artes/02_Digital/Logo_Colorida_Transparente_512px.png",
+      "bytes": 2256,
+      "matches": true
+    },
+    {
+      "path": "artes/02_Digital/Monograma_RA.svg",
+      "bytes": 864,
+      "matches": true
+    },
+    {
+      "path": "artes/02_Digital/Monograma_RA_192px.png",
+      "bytes": 5395,
+      "matches": true
+    },
+    {
+      "path": "artes/02_Digital/Monograma_RA_32px.png",
+      "bytes": 1003,
+      "matches": true
+    },
+    {
+      "path": "artes/02_Digital/Monograma_RA_512px.png",
+      "bytes": 14896,
+      "matches": true
+    },
+    {
+      "path": "artes/02_Digital/Monograma_RA_64px.png",
+      "bytes": 1948,
+      "matches": true
+    },
+    {
+      "path": "artes/02_Digital/favicon.ico",
+      "bytes": 7347,
+      "matches": true
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logo_Horizontal_1_Cor_azul.pdf",
+      "bytes": 34073,
+      "matches": true
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logo_Horizontal_1_Cor_azul.png",
+      "bytes": 222025,
+      "matches": true
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logo_Horizontal_1_Cor_azul.svg",
+      "bytes": 82214,
+      "matches": true
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logo_Horizontal_1_Cor_branco.pdf",
+      "bytes": 34057,
+      "matches": true
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logo_Horizontal_1_Cor_branco.png",
+      "bytes": 148697,
+      "matches": true
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logo_Horizontal_1_Cor_branco.svg",
+      "bytes": 82214,
+      "matches": true
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logo_Horizontal_1_Cor_preto.eps",
+      "bytes": 84192,
+      "matches": true
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logo_Horizontal_1_Cor_preto.pdf",
+      "bytes": 34056,
+      "matches": true
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logo_Horizontal_1_Cor_preto.png",
+      "bytes": 160477,
+      "matches": true
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logo_Horizontal_1_Cor_preto.svg",
+      "bytes": 82214,
+      "matches": true
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logo_Vertical_1_Cor_azul.pdf",
+      "bytes": 35032,
+      "matches": true
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logo_Vertical_1_Cor_azul.png",
+      "bytes": 469419,
+      "matches": true
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logo_Vertical_1_Cor_azul.svg",
+      "bytes": 82105,
+      "matches": true
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logo_Vertical_1_Cor_branco.pdf",
+      "bytes": 35014,
+      "matches": true
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logo_Vertical_1_Cor_branco.png",
+      "bytes": 318355,
+      "matches": true
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logo_Vertical_1_Cor_branco.svg",
+      "bytes": 82105,
+      "matches": true
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logo_Vertical_1_Cor_preto.eps",
+      "bytes": 83148,
+      "matches": true
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logo_Vertical_1_Cor_preto.pdf",
+      "bytes": 35012,
+      "matches": true
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logo_Vertical_1_Cor_preto.png",
+      "bytes": 349719,
+      "matches": true
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logo_Vertical_1_Cor_preto.svg",
+      "bytes": 82105,
+      "matches": true
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logotipo_Somente_Nome_azul.pdf",
+      "bytes": 9318,
+      "matches": true
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logotipo_Somente_Nome_azul.png",
+      "bytes": 166888,
+      "matches": true
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logotipo_Somente_Nome_azul.svg",
+      "bytes": 20258,
+      "matches": true
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logotipo_Somente_Nome_branco.pdf",
+      "bytes": 9305,
+      "matches": true
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logotipo_Somente_Nome_branco.png",
+      "bytes": 115316,
+      "matches": true
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logotipo_Somente_Nome_branco.svg",
+      "bytes": 20258,
+      "matches": true
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logotipo_Somente_Nome_preto.eps",
+      "bytes": 21527,
+      "matches": true
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logotipo_Somente_Nome_preto.pdf",
+      "bytes": 9304,
+      "matches": true
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logotipo_Somente_Nome_preto.png",
+      "bytes": 127283,
+      "matches": true
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Logotipo_Somente_Nome_preto.svg",
+      "bytes": 20258,
+      "matches": true
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Simbolo_Aves_azul.pdf",
+      "bytes": 27101,
+      "matches": true
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Simbolo_Aves_azul.png",
+      "bytes": 343801,
+      "matches": true
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Simbolo_Aves_azul.svg",
+      "bytes": 62201,
+      "matches": true
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Simbolo_Aves_branco.pdf",
+      "bytes": 27088,
+      "matches": true
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Simbolo_Aves_branco.png",
+      "bytes": 233488,
+      "matches": true
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Simbolo_Aves_branco.svg",
+      "bytes": 62201,
+      "matches": true
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Simbolo_Aves_preto.eps",
+      "bytes": 63938,
+      "matches": true
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Simbolo_Aves_preto.pdf",
+      "bytes": 27087,
+      "matches": true
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Simbolo_Aves_preto.png",
+      "bytes": 254936,
+      "matches": true
+    },
+    {
+      "path": "artes/03_Vetores_1_Cor/Simbolo_Aves_preto.svg",
+      "bytes": 62201,
+      "matches": true
+    },
+    {
+      "path": "artes/04_Impressao/Logo_CMYK_SWOP_Referencia.tif",
+      "bytes": 2501202,
+      "matches": true
+    },
+    {
+      "path": "artes/04_Impressao/Logo_Colorida_10cm_RGB.pdf",
+      "bytes": 989,
+      "matches": true
+    },
+    {
+      "path": "artes/04_Impressao/Logo_Colorida_14cm_RGB.pdf",
+      "bytes": 990,
+      "matches": true
+    },
+    {
+      "path": "artes/04_Impressao/Logo_Colorida_8cm_RGB.pdf",
+      "bytes": 989,
+      "matches": true
+    },
+    {
+      "path": "artes/04_Impressao/Logo_Colorida_RGB_Original.tif",
+      "bytes": 2314752,
+      "matches": true
+    },
+    {
+      "path": "artes/05_Uniformes/Estampa_Colorida_10cm_Transparente.png",
+      "bytes": 8240,
+      "matches": true
+    },
+    {
+      "path": "artes/05_Uniformes/Estampa_Colorida_8cm_Transparente.png",
+      "bytes": 5697,
+      "matches": true
+    },
+    {
+      "path": "artes/05_Uniformes/Logo_1_Cor_azul_8cm_Vetor.pdf",
+      "bytes": 31505,
+      "matches": true
+    },
+    {
+      "path": "artes/05_Uniformes/Logo_1_Cor_branco_28cm_Vetor.pdf",
+      "bytes": 34868,
+      "matches": true
+    },
+    {
+      "path": "artes/05_Uniformes/Logo_1_Cor_preto_10cm_Vetor.pdf",
+      "bytes": 32128,
+      "matches": true
+    },
+    {
+      "path": "artes/05_Uniformes/Logotipo_Somente_Nome_azul_120mm.pdf",
+      "bytes": 8942,
+      "matches": true
+    },
+    {
+      "path": "artes/05_Uniformes/Simbolo_Aves_azul_60mm.pdf",
+      "bytes": 23757,
+      "matches": true
+    },
+    {
+      "path": "artes/06_Sublimacao/Caneca_Generica_21x9cm_Espelhada.pdf",
+      "bytes": 993,
+      "matches": true
+    },
+    {
+      "path": "artes/06_Sublimacao/Caneca_Generica_21x9cm_Espelhada.png",
+      "bytes": 12862,
+      "matches": true
+    },
+    {
+      "path": "artes/06_Sublimacao/Caneca_Generica_21x9cm_Normal.pdf",
+      "bytes": 993,
+      "matches": true
+    },
+    {
+      "path": "artes/06_Sublimacao/Caneca_Generica_21x9cm_Normal.png",
+      "bytes": 12862,
+      "matches": true
+    },
+    {
+      "path": "artes/07_Guia/Catalogo_de_Arquivos.csv",
+      "bytes": 13122,
+      "matches": true
+    },
+    {
+      "path": "artes/07_Guia/Guia_de_Aplicacao_Recanto_das_Asas.pdf",
+      "bytes": 5682109,
+      "matches": true
+    },
+    {
+      "path": "artes/07_Guia/Paleta_RGB.json",
+      "bytes": 176,
+      "matches": true
+    },
+    {
+      "path": "artes/07_Guia/SHA256SUMS.txt",
+      "bytes": 8358,
+      "matches": true
+    },
+    {
+      "path": "artes/07_Guia/Visao_Geral_Recanto_das_Asas.png",
+      "bytes": 376119,
+      "matches": true
+    },
+    {
+      "path": "artes/LEIA-ME.txt",
+      "bytes": 165,
+      "matches": true
+    },
+    {
+      "path": "artes/LEIA_PRIMEIRO.txt",
+      "bytes": 1752,
+      "matches": true
+    },
+    {
+      "path": "artes/catalog.json",
+      "bytes": 22417,
+      "matches": true
+    },
+    {
+      "path": "assets/attachment-preview.worker-CtGqWCYy.js",
+      "bytes": 4339,
+      "matches": true
+    },
+    {
+      "path": "assets/dist-D-aS5iBc.js",
+      "bytes": 342223,
+      "matches": true
+    },
+    {
+      "path": "assets/encrypted-backup-payload.worker-CJqPpOhg.js",
+      "bytes": 492,
+      "matches": true
+    },
+    {
+      "path": "assets/exceljs.min-D0LHVsFx.js",
+      "bytes": 929917,
+      "matches": true
+    },
+    {
+      "path": "assets/fontkit.es-vRn2SGun.js",
+      "bytes": 711128,
+      "matches": true
+    },
+    {
+      "path": "assets/index-CoxKkSw_.css",
+      "bytes": 64259,
+      "matches": true
+    },
+    {
+      "path": "assets/index-Cy6K5yPs.js",
+      "bytes": 1117110,
+      "matches": true
+    },
+    {
+      "path": "fonts/NotoSans-Regular-Static.ttf",
+      "bytes": 80128,
+      "matches": true
+    },
+    {
+      "path": "fonts/NotoSans.ttf",
+      "bytes": 2049096,
+      "matches": true
+    },
+    {
+      "path": "fonts/OFL.txt",
+      "bytes": 4396,
+      "matches": true
+    },
+    {
+      "path": "index.html",
+      "bytes": 609,
+      "matches": true
+    },
+    {
+      "path": "manifest.webmanifest",
+      "bytes": 356,
+      "matches": true
+    },
+    {
+      "path": "sw.js",
+      "bytes": 5347,
+      "matches": true
+    },
+    {
+      "path": "templates/Caderneta_Recanto_das_Asas_Digital_Vertical.pdf",
+      "bytes": 2187156,
+      "matches": true
+    },
+    {
+      "path": "theme-init.js",
+      "bytes": 2662,
+      "matches": true
+    }
+  ]
+}
