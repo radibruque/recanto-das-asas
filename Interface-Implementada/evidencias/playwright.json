@@ -1,0 +1,2523 @@
+{
+  "config": {
+    "configFile": "/workspace/recanto-das-asas/aplicativo/playwright.config.ts",
+    "rootDir": "/workspace/recanto-das-asas/aplicativo/tests/e2e",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/workspace/recanto-das-asas/aplicativo/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/workspace/recanto-das-asas/aplicativo/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "line"
+      ],
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "runAgents": "none",
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.58.2",
+    "workers": 1,
+    "webServer": {
+      "command": "npm run preview -- --port 5175 --strictPort",
+      "url": "http://127.0.0.1:5175",
+      "reuseExistingServer": true,
+      "timeout": 30000
+    }
+  },
+  "suites": [
+    {
+      "title": "accessibility.spec.ts",
+      "file": "accessibility.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "rendered text uses AA contrast on shared surfaces and sample records in light",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3728,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-13T05:39:50.358Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ddd864604af8a6a0198f-2180d41f061e2000697c",
+          "file": "accessibility.spec.ts",
+          "line": 61,
+          "column": 3
+        },
+        {
+          "title": "keyboard focus is visible and reduced motion is respected in light",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 910,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-13T05:39:54.763Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ddd864604af8a6a0198f-d8f7222e668c17b48639",
+          "file": "accessibility.spec.ts",
+          "line": 76,
+          "column": 3
+        },
+        {
+          "title": "rendered text uses AA contrast on shared surfaces and sample records in dark",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3075,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-13T05:39:55.701Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ddd864604af8a6a0198f-627b8d93ab93c202cf48",
+          "file": "accessibility.spec.ts",
+          "line": 61,
+          "column": 3
+        },
+        {
+          "title": "keyboard focus is visible and reduced motion is respected in dark",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 768,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-13T05:39:58.797Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ddd864604af8a6a0198f-c486c0aa6d4e3c665227",
+          "file": "accessibility.spec.ts",
+          "line": 76,
+          "column": 3
+        },
+        {
+          "title": "mobile menu and form controls keep accessible names and comfortable targets",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2009,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-13T05:39:59.580Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ddd864604af8a6a0198f-eb49d010b82fac4230e8",
+          "file": "accessibility.spec.ts",
+          "line": 102,
+          "column": 1
+        },
+        {
+          "title": "closed mobile navigation stays outside keyboard focus and exposes its open state",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2554,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-13T05:40:01.607Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ddd864604af8a6a0198f-3d6563e4079b042cfaea",
+          "file": "accessibility.spec.ts",
+          "line": 124,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "attachment-preview.spec.ts",
+      "file": "attachment-preview.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "bird thumbnails prepare near the viewport, share verified work and release URLs without altering stored photos",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1946,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-13T05:40:04.318Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7c018b0fa7c4dd8fc9fc-cd1f76a8b07e41b70a83",
+          "file": "attachment-preview.spec.ts",
+          "line": 38,
+          "column": 1
+        },
+        {
+          "title": "a corrupted photo never receives a preview URL and shows the integrity error",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1614,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-13T05:40:06.285Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7c018b0fa7c4dd8fc9fc-10a33a5acdf90eebc30f",
+          "file": "attachment-preview.spec.ts",
+          "line": 66,
+          "column": 1
+        },
+        {
+          "title": "a reader that blocks preview workers still verifies and displays photos through the cooperative fallback",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1584,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-13T05:40:07.914Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7c018b0fa7c4dd8fc9fc-21301edddc7ffbc0811f",
+          "file": "attachment-preview.spec.ts",
+          "line": 72,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "attachments-photo.spec.ts",
+      "file": "attachments-photo.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "large principal photo keeps the original and uses a bounded image for the bird and PDF",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4285,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-13T05:40:09.531Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d421b3e4a8d6c121dd58-c3edfec88ba571f7a328",
+          "file": "attachments-photo.spec.ts",
+          "line": 4,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "bc-layout.spec.ts",
+      "file": "bc-layout.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "desktop light: home photos, horizontal bird rows and profile history retain real actions",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4273,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-13T05:40:13.874Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "inicio",
+                      "contentType": "image/png",
+                      "path": "/workspace/recanto-das-asas/aplicativo/test-results/bc-layout-desktop-light-ho-fd1c9-history-retain-real-actions/attachments/inicio-a12a3f138ff6e9b45d09d1fd8034b9b6ce1a40d1.png"
+                    },
+                    {
+                      "name": "aves-lista-horizontal",
+                      "contentType": "image/png",
+                      "path": "/workspace/recanto-das-asas/aplicativo/test-results/bc-layout-desktop-light-ho-fd1c9-history-retain-real-actions/attachments/aves-lista-horizontal-51fcbbb7eaf30153f835097bd2b45effb8e06e6a.png"
+                    },
+                    {
+                      "name": "ficha-com-historico",
+                      "contentType": "image/png",
+                      "path": "/workspace/recanto-das-asas/aplicativo/test-results/bc-layout-desktop-light-ho-fd1c9-history-retain-real-actions/attachments/ficha-com-historico-f9e70f854c001350c01c8c5043c3e4a986c6ecd9.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a53da8d5696258011632-14683789605c78a0a2a5",
+          "file": "bc-layout.spec.ts",
+          "line": 52,
+          "column": 3
+        },
+        {
+          "title": "desktop dark: home photos, horizontal bird rows and profile history retain real actions",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4510,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-13T05:40:18.173Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "inicio",
+                      "contentType": "image/png",
+                      "path": "/workspace/recanto-das-asas/aplicativo/test-results/bc-layout-desktop-dark-hom-65fcf-history-retain-real-actions/attachments/inicio-c8018b940728f5ed3b79191528417ad92379c6e8.png"
+                    },
+                    {
+                      "name": "aves-lista-horizontal",
+                      "contentType": "image/png",
+                      "path": "/workspace/recanto-das-asas/aplicativo/test-results/bc-layout-desktop-dark-hom-65fcf-history-retain-real-actions/attachments/aves-lista-horizontal-31eb6f471a0e86cedab8e10a3770f471a7f73ba1.png"
+                    },
+                    {
+                      "name": "ficha-com-historico",
+                      "contentType": "image/png",
+                      "path": "/workspace/recanto-das-asas/aplicativo/test-results/bc-layout-desktop-dark-hom-65fcf-history-retain-real-actions/attachments/ficha-com-historico-302e3c7fac446d0506dea70f377f3f3e2d06ce4c.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a53da8d5696258011632-bfa800a2c8b0722e9b89",
+          "file": "bc-layout.spec.ts",
+          "line": 52,
+          "column": 3
+        },
+        {
+          "title": "android light: home photos, horizontal bird rows and profile history retain real actions",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4914,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-13T05:40:22.697Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "inicio",
+                      "contentType": "image/png",
+                      "path": "/workspace/recanto-das-asas/aplicativo/test-results/bc-layout-android-light-ho-4bbf8-history-retain-real-actions/attachments/inicio-5a631b8f626c554e263bd873db32bd3c620da97c.png"
+                    },
+                    {
+                      "name": "aves-lista-horizontal",
+                      "contentType": "image/png",
+                      "path": "/workspace/recanto-das-asas/aplicativo/test-results/bc-layout-android-light-ho-4bbf8-history-retain-real-actions/attachments/aves-lista-horizontal-8676e0501df9a1fb9b97918ab904030d3ee2bbc9.png"
+                    },
+                    {
+                      "name": "ficha-com-historico",
+                      "contentType": "image/png",
+                      "path": "/workspace/recanto-das-asas/aplicativo/test-results/bc-layout-android-light-ho-4bbf8-history-retain-real-actions/attachments/ficha-com-historico-6911fc333cd135052f522be2aaf5f7815849b5c9.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a53da8d5696258011632-f530f686bc7fca9c9004",
+          "file": "bc-layout.spec.ts",
+          "line": 52,
+          "column": 3
+        },
+        {
+          "title": "android dark: home photos, horizontal bird rows and profile history retain real actions",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4024,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-13T05:40:27.629Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "inicio",
+                      "contentType": "image/png",
+                      "path": "/workspace/recanto-das-asas/aplicativo/test-results/bc-layout-android-dark-hom-84342-history-retain-real-actions/attachments/inicio-a1019f793d44195b33b23e596837c7f934c7a425.png"
+                    },
+                    {
+                      "name": "aves-lista-horizontal",
+                      "contentType": "image/png",
+                      "path": "/workspace/recanto-das-asas/aplicativo/test-results/bc-layout-android-dark-hom-84342-history-retain-real-actions/attachments/aves-lista-horizontal-28bd3b448f1f311379956f4d2ba6a9484f9fa067.png"
+                    },
+                    {
+                      "name": "ficha-com-historico",
+                      "contentType": "image/png",
+                      "path": "/workspace/recanto-das-asas/aplicativo/test-results/bc-layout-android-dark-hom-84342-history-retain-real-actions/attachments/ficha-com-historico-41957cf98548351e0e93cd4d819af81a8875d23f.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a53da8d5696258011632-57766bc1c58307c491b0",
+          "file": "bc-layout.spec.ts",
+          "line": 52,
+          "column": 3
+        },
+        {
+          "title": "native Android keeps the concept C layout even on a wide screen",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1306,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-13T05:40:31.667Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a53da8d5696258011632-de8041d1f38f389c10ce",
+          "file": "bc-layout.spec.ts",
+          "line": 129,
+          "column": 1
+        },
+        {
+          "title": "system preference changes palette while keeping the chosen layout at 390px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1052,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-13T05:40:32.987Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a53da8d5696258011632-daf8f845978ae6b9eaaf",
+          "file": "bc-layout.spec.ts",
+          "line": 142,
+          "column": 34
+        },
+        {
+          "title": "system preference changes palette while keeping the chosen layout at 1440px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1230,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-13T05:40:34.051Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a53da8d5696258011632-907c79e9a56dc9bfc86b",
+          "file": "bc-layout.spec.ts",
+          "line": 142,
+          "column": 34
+        }
+      ]
+    },
+    {
+      "title": "theme.spec.ts",
+      "file": "theme.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "theme follows the system, keeps an explicit preference, and updates browser color",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1147,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-13T05:40:35.324Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8168eb6e17e693d86faf-8fc32f8c82b7dd8255da",
+          "file": "theme.spec.ts",
+          "line": 4,
+          "column": 1
+        },
+        {
+          "title": "preference is applied before React loads and only writes its visual storage key",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 264,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-13T05:40:36.482Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8168eb6e17e693d86faf-84719c4e2ef337f73c8b",
+          "file": "theme.spec.ts",
+          "line": 26,
+          "column": 1
+        },
+        {
+          "title": "blocked visual storage keeps theme usable without preventing vault creation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 850,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-13T05:40:36.753Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8168eb6e17e693d86faf-44bcc91a644ab6e12d90",
+          "file": "theme.spec.ts",
+          "line": 36,
+          "column": 1
+        },
+        {
+          "title": "theme controls remain independent of real and demonstration vaults and lock state",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1282,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-13T05:40:37.616Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8168eb6e17e693d86faf-beb81d2da01bf1b932eb",
+          "file": "theme.spec.ts",
+          "line": 53,
+          "column": 1
+        },
+        {
+          "title": "cached production app keeps the selected theme when reopened offline",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1108,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-13T05:40:38.906Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8168eb6e17e693d86faf-19e70db86b2b57dfb873",
+          "file": "theme.spec.ts",
+          "line": 68,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "visual-redesign.spec.ts",
+      "file": "visual-redesign.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "all 20 screens remain navigable and fit 360px in light theme",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4033,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Início",
+                      "duration": 121
+                    },
+                    {
+                      "title": "Aves",
+                      "duration": 151
+                    },
+                    {
+                      "title": "Casais",
+                      "duration": 157
+                    },
+                    {
+                      "title": "Reprodução",
+                      "duration": 122
+                    },
+                    {
+                      "title": "Parentesco",
+                      "duration": 126
+                    },
+                    {
+                      "title": "Saúde e manejo",
+                      "duration": 118
+                    },
+                    {
+                      "title": "Agenda",
+                      "duration": 132
+                    },
+                    {
+                      "title": "Clientes e fornecedores",
+                      "duration": 135
+                    },
+                    {
+                      "title": "Vendas e reservas",
+                      "duration": 133
+                    },
+                    {
+                      "title": "Financeiro",
+                      "duration": 128
+                    },
+                    {
+                      "title": "Estoque",
+                      "duration": 108
+                    },
+                    {
+                      "title": "Relatórios",
+                      "duration": 137
+                    },
+                    {
+                      "title": "Documentos",
+                      "duration": 122
+                    },
+                    {
+                      "title": "Caderneta do pet",
+                      "duration": 189
+                    },
+                    {
+                      "title": "Identidade visual",
+                      "duration": 254
+                    },
+                    {
+                      "title": "Backup e recuperação",
+                      "duration": 131
+                    },
+                    {
+                      "title": "Sincronização",
+                      "duration": 117
+                    },
+                    {
+                      "title": "Configurações",
+                      "duration": 122
+                    },
+                    {
+                      "title": "Atualizações",
+                      "duration": 112
+                    },
+                    {
+                      "title": "Reportar problema",
+                      "duration": 119
+                    }
+                  ],
+                  "startTime": "2026-10-13T05:40:40.053Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a1797359d00745cb9209-891be0159abebfde3c2c",
+          "file": "visual-redesign.spec.ts",
+          "line": 6,
+          "column": 5
+        },
+        {
+          "title": "all 20 screens remain navigable and fit 768px in light theme",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4218,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Início",
+                      "duration": 132
+                    },
+                    {
+                      "title": "Aves",
+                      "duration": 128
+                    },
+                    {
+                      "title": "Casais",
+                      "duration": 134
+                    },
+                    {
+                      "title": "Reprodução",
+                      "duration": 128
+                    },
+                    {
+                      "title": "Parentesco",
+                      "duration": 136
+                    },
+                    {
+                      "title": "Saúde e manejo",
+                      "duration": 142
+                    },
+                    {
+                      "title": "Agenda",
+                      "duration": 167
+                    },
+                    {
+                      "title": "Clientes e fornecedores",
+                      "duration": 129
+                    },
+                    {
+                      "title": "Vendas e reservas",
+                      "duration": 153
+                    },
+                    {
+                      "title": "Financeiro",
+                      "duration": 116
+                    },
+                    {
+                      "title": "Estoque",
+                      "duration": 125
+                    },
+                    {
+                      "title": "Relatórios",
+                      "duration": 130
+                    },
+                    {
+                      "title": "Documentos",
+                      "duration": 127
+                    },
+                    {
+                      "title": "Caderneta do pet",
+                      "duration": 132
+                    },
+                    {
+                      "title": "Identidade visual",
+                      "duration": 174
+                    },
+                    {
+                      "title": "Backup e recuperação",
+                      "duration": 161
+                    },
+                    {
+                      "title": "Sincronização",
+                      "duration": 251
+                    },
+                    {
+                      "title": "Configurações",
+                      "duration": 146
+                    },
+                    {
+                      "title": "Atualizações",
+                      "duration": 126
+                    },
+                    {
+                      "title": "Reportar problema",
+                      "duration": 116
+                    }
+                  ],
+                  "startTime": "2026-10-13T05:40:44.096Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a1797359d00745cb9209-24d4df1ae4ab40fe6cfa",
+          "file": "visual-redesign.spec.ts",
+          "line": 6,
+          "column": 5
+        },
+        {
+          "title": "all 20 screens remain navigable and fit 1280px in light theme",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3607,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Início",
+                      "duration": 56
+                    },
+                    {
+                      "title": "Aves",
+                      "duration": 77
+                    },
+                    {
+                      "title": "Casais",
+                      "duration": 82
+                    },
+                    {
+                      "title": "Reprodução",
+                      "duration": 83
+                    },
+                    {
+                      "title": "Parentesco",
+                      "duration": 87
+                    },
+                    {
+                      "title": "Saúde e manejo",
+                      "duration": 90
+                    },
+                    {
+                      "title": "Agenda",
+                      "duration": 85
+                    },
+                    {
+                      "title": "Clientes e fornecedores",
+                      "duration": 131
+                    },
+                    {
+                      "title": "Vendas e reservas",
+                      "duration": 99
+                    },
+                    {
+                      "title": "Financeiro",
+                      "duration": 65
+                    },
+                    {
+                      "title": "Estoque",
+                      "duration": 109
+                    },
+                    {
+                      "title": "Relatórios",
+                      "duration": 135
+                    },
+                    {
+                      "title": "Documentos",
+                      "duration": 142
+                    },
+                    {
+                      "title": "Caderneta do pet",
+                      "duration": 136
+                    },
+                    {
+                      "title": "Identidade visual",
+                      "duration": 151
+                    },
+                    {
+                      "title": "Backup e recuperação",
+                      "duration": 141
+                    },
+                    {
+                      "title": "Sincronização",
+                      "duration": 111
+                    },
+                    {
+                      "title": "Configurações",
+                      "duration": 118
+                    },
+                    {
+                      "title": "Atualizações",
+                      "duration": 228
+                    },
+                    {
+                      "title": "Reportar problema",
+                      "duration": 107
+                    }
+                  ],
+                  "startTime": "2026-10-13T05:40:48.337Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a1797359d00745cb9209-c69f516ca52492cc6483",
+          "file": "visual-redesign.spec.ts",
+          "line": 6,
+          "column": 5
+        },
+        {
+          "title": "all 20 screens remain navigable and fit 1440px in light theme",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3390,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Início",
+                      "duration": 76
+                    },
+                    {
+                      "title": "Aves",
+                      "duration": 88
+                    },
+                    {
+                      "title": "Casais",
+                      "duration": 81
+                    },
+                    {
+                      "title": "Reprodução",
+                      "duration": 71
+                    },
+                    {
+                      "title": "Parentesco",
+                      "duration": 69
+                    },
+                    {
+                      "title": "Saúde e manejo",
+                      "duration": 48
+                    },
+                    {
+                      "title": "Agenda",
+                      "duration": 86
+                    },
+                    {
+                      "title": "Clientes e fornecedores",
+                      "duration": 116
+                    },
+                    {
+                      "title": "Vendas e reservas",
+                      "duration": 124
+                    },
+                    {
+                      "title": "Financeiro",
+                      "duration": 52
+                    },
+                    {
+                      "title": "Estoque",
+                      "duration": 118
+                    },
+                    {
+                      "title": "Relatórios",
+                      "duration": 117
+                    },
+                    {
+                      "title": "Documentos",
+                      "duration": 117
+                    },
+                    {
+                      "title": "Caderneta do pet",
+                      "duration": 123
+                    },
+                    {
+                      "title": "Identidade visual",
+                      "duration": 139
+                    },
+                    {
+                      "title": "Backup e recuperação",
+                      "duration": 154
+                    },
+                    {
+                      "title": "Sincronização",
+                      "duration": 133
+                    },
+                    {
+                      "title": "Configurações",
+                      "duration": 122
+                    },
+                    {
+                      "title": "Atualizações",
+                      "duration": 113
+                    },
+                    {
+                      "title": "Reportar problema",
+                      "duration": 121
+                    }
+                  ],
+                  "startTime": "2026-10-13T05:40:51.953Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a1797359d00745cb9209-7c004e7de3d8da870a47",
+          "file": "visual-redesign.spec.ts",
+          "line": 6,
+          "column": 5
+        },
+        {
+          "title": "bird forms, health history and finance dialogs fit mobile in light theme",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2574,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-13T05:40:55.358Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a1797359d00745cb9209-1ed58c5f7dc310ecf068",
+          "file": "visual-redesign.spec.ts",
+          "line": 25,
+          "column": 3
+        },
+        {
+          "title": "empty bird, health, agenda and documents states remain usable in light theme",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1922,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-13T05:40:57.944Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a1797359d00745cb9209-5cf7cc931adfb25fbc42",
+          "file": "visual-redesign.spec.ts",
+          "line": 50,
+          "column": 3
+        },
+        {
+          "title": "long records wrap and existing search still filters a populated plantel in light",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5568,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-13T05:40:59.881Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a1797359d00745cb9209-3313f39872c196f21cf0",
+          "file": "visual-redesign.spec.ts",
+          "line": 60,
+          "column": 3
+        },
+        {
+          "title": "all 20 screens remain navigable and fit 360px in dark theme",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3943,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Início",
+                      "duration": 96
+                    },
+                    {
+                      "title": "Aves",
+                      "duration": 131
+                    },
+                    {
+                      "title": "Casais",
+                      "duration": 137
+                    },
+                    {
+                      "title": "Reprodução",
+                      "duration": 118
+                    },
+                    {
+                      "title": "Parentesco",
+                      "duration": 125
+                    },
+                    {
+                      "title": "Saúde e manejo",
+                      "duration": 122
+                    },
+                    {
+                      "title": "Agenda",
+                      "duration": 122
+                    },
+                    {
+                      "title": "Clientes e fornecedores",
+                      "duration": 131
+                    },
+                    {
+                      "title": "Vendas e reservas",
+                      "duration": 138
+                    },
+                    {
+                      "title": "Financeiro",
+                      "duration": 132
+                    },
+                    {
+                      "title": "Estoque",
+                      "duration": 123
+                    },
+                    {
+                      "title": "Relatórios",
+                      "duration": 131
+                    },
+                    {
+                      "title": "Documentos",
+                      "duration": 135
+                    },
+                    {
+                      "title": "Caderneta do pet",
+                      "duration": 120
+                    },
+                    {
+                      "title": "Identidade visual",
+                      "duration": 157
+                    },
+                    {
+                      "title": "Backup e recuperação",
+                      "duration": 245
+                    },
+                    {
+                      "title": "Sincronização",
+                      "duration": 229
+                    },
+                    {
+                      "title": "Configurações",
+                      "duration": 115
+                    },
+                    {
+                      "title": "Atualizações",
+                      "duration": 123
+                    },
+                    {
+                      "title": "Reportar problema",
+                      "duration": 128
+                    }
+                  ],
+                  "startTime": "2026-10-13T05:41:05.459Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a1797359d00745cb9209-66dce265dcde9e356691",
+          "file": "visual-redesign.spec.ts",
+          "line": 6,
+          "column": 5
+        },
+        {
+          "title": "all 20 screens remain navigable and fit 768px in dark theme",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3998,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Início",
+                      "duration": 134
+                    },
+                    {
+                      "title": "Aves",
+                      "duration": 126
+                    },
+                    {
+                      "title": "Casais",
+                      "duration": 133
+                    },
+                    {
+                      "title": "Reprodução",
+                      "duration": 125
+                    },
+                    {
+                      "title": "Parentesco",
+                      "duration": 119
+                    },
+                    {
+                      "title": "Saúde e manejo",
+                      "duration": 131
+                    },
+                    {
+                      "title": "Agenda",
+                      "duration": 136
+                    },
+                    {
+                      "title": "Clientes e fornecedores",
+                      "duration": 112
+                    },
+                    {
+                      "title": "Vendas e reservas",
+                      "duration": 122
+                    },
+                    {
+                      "title": "Financeiro",
+                      "duration": 115
+                    },
+                    {
+                      "title": "Estoque",
+                      "duration": 103
+                    },
+                    {
+                      "title": "Relatórios",
+                      "duration": 133
+                    },
+                    {
+                      "title": "Documentos",
+                      "duration": 134
+                    },
+                    {
+                      "title": "Caderneta do pet",
+                      "duration": 122
+                    },
+                    {
+                      "title": "Identidade visual",
+                      "duration": 160
+                    },
+                    {
+                      "title": "Backup e recuperação",
+                      "duration": 143
+                    },
+                    {
+                      "title": "Sincronização",
+                      "duration": 281
+                    },
+                    {
+                      "title": "Configurações",
+                      "duration": 116
+                    },
+                    {
+                      "title": "Atualizações",
+                      "duration": 130
+                    },
+                    {
+                      "title": "Reportar problema",
+                      "duration": 118
+                    }
+                  ],
+                  "startTime": "2026-10-13T05:41:09.416Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a1797359d00745cb9209-a0ca6ed2a17d91191599",
+          "file": "visual-redesign.spec.ts",
+          "line": 6,
+          "column": 5
+        },
+        {
+          "title": "all 20 screens remain navigable and fit 1280px in dark theme",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3185,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Início",
+                      "duration": 68
+                    },
+                    {
+                      "title": "Aves",
+                      "duration": 79
+                    },
+                    {
+                      "title": "Casais",
+                      "duration": 102
+                    },
+                    {
+                      "title": "Reprodução",
+                      "duration": 91
+                    },
+                    {
+                      "title": "Parentesco",
+                      "duration": 79
+                    },
+                    {
+                      "title": "Saúde e manejo",
+                      "duration": 82
+                    },
+                    {
+                      "title": "Agenda",
+                      "duration": 72
+                    },
+                    {
+                      "title": "Clientes e fornecedores",
+                      "duration": 88
+                    },
+                    {
+                      "title": "Vendas e reservas",
+                      "duration": 94
+                    },
+                    {
+                      "title": "Financeiro",
+                      "duration": 72
+                    },
+                    {
+                      "title": "Estoque",
+                      "duration": 94
+                    },
+                    {
+                      "title": "Relatórios",
+                      "duration": 117
+                    },
+                    {
+                      "title": "Documentos",
+                      "duration": 114
+                    },
+                    {
+                      "title": "Caderneta do pet",
+                      "duration": 106
+                    },
+                    {
+                      "title": "Identidade visual",
+                      "duration": 122
+                    },
+                    {
+                      "title": "Backup e recuperação",
+                      "duration": 148
+                    },
+                    {
+                      "title": "Sincronização",
+                      "duration": 92
+                    },
+                    {
+                      "title": "Configurações",
+                      "duration": 103
+                    },
+                    {
+                      "title": "Atualizações",
+                      "duration": 103
+                    },
+                    {
+                      "title": "Reportar problema",
+                      "duration": 101
+                    }
+                  ],
+                  "startTime": "2026-10-13T05:41:13.429Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a1797359d00745cb9209-72285685e898a56cbf3f",
+          "file": "visual-redesign.spec.ts",
+          "line": 6,
+          "column": 5
+        },
+        {
+          "title": "all 20 screens remain navigable and fit 1440px in dark theme",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3156,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Início",
+                      "duration": 70
+                    },
+                    {
+                      "title": "Aves",
+                      "duration": 70
+                    },
+                    {
+                      "title": "Casais",
+                      "duration": 65
+                    },
+                    {
+                      "title": "Reprodução",
+                      "duration": 61
+                    },
+                    {
+                      "title": "Parentesco",
+                      "duration": 91
+                    },
+                    {
+                      "title": "Saúde e manejo",
+                      "duration": 68
+                    },
+                    {
+                      "title": "Agenda",
+                      "duration": 52
+                    },
+                    {
+                      "title": "Clientes e fornecedores",
+                      "duration": 91
+                    },
+                    {
+                      "title": "Vendas e reservas",
+                      "duration": 95
+                    },
+                    {
+                      "title": "Financeiro",
+                      "duration": 59
+                    },
+                    {
+                      "title": "Estoque",
+                      "duration": 117
+                    },
+                    {
+                      "title": "Relatórios",
+                      "duration": 139
+                    },
+                    {
+                      "title": "Documentos",
+                      "duration": 115
+                    },
+                    {
+                      "title": "Caderneta do pet",
+                      "duration": 100
+                    },
+                    {
+                      "title": "Identidade visual",
+                      "duration": 127
+                    },
+                    {
+                      "title": "Backup e recuperação",
+                      "duration": 154
+                    },
+                    {
+                      "title": "Sincronização",
+                      "duration": 98
+                    },
+                    {
+                      "title": "Configurações",
+                      "duration": 107
+                    },
+                    {
+                      "title": "Atualizações",
+                      "duration": 114
+                    },
+                    {
+                      "title": "Reportar problema",
+                      "duration": 102
+                    }
+                  ],
+                  "startTime": "2026-10-13T05:41:16.630Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a1797359d00745cb9209-ddc36f7ae353f1da2e01",
+          "file": "visual-redesign.spec.ts",
+          "line": 6,
+          "column": 5
+        },
+        {
+          "title": "bird forms, health history and finance dialogs fit mobile in dark theme",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2481,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-13T05:41:19.796Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a1797359d00745cb9209-b8ec238b3e62b2d7ebaa",
+          "file": "visual-redesign.spec.ts",
+          "line": 25,
+          "column": 3
+        },
+        {
+          "title": "empty bird, health, agenda and documents states remain usable in dark theme",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2017,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-13T05:41:22.290Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a1797359d00745cb9209-19e5bcea9ccc9efeaf8d",
+          "file": "visual-redesign.spec.ts",
+          "line": 50,
+          "column": 3
+        },
+        {
+          "title": "long records wrap and existing search still filters a populated plantel in dark",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7176,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-13T05:41:24.318Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a1797359d00745cb9209-fa9831611bca6281419b",
+          "file": "visual-redesign.spec.ts",
+          "line": 60,
+          "column": 3
+        }
+      ]
+    },
+    {
+      "title": "workflow-update.spec.ts",
+      "file": "workflow-update.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "direct bird attachments save together and cancelling a new registration creates no orphan files",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7339,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-13T05:41:31.571Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "27666551663adf47cf2b-1534592bef8cd0edc2d4",
+          "file": "workflow-update.spec.ts",
+          "line": 52,
+          "column": 1
+        },
+        {
+          "title": "health groups only birds with records, opens complete event details and preserves weight on the bird sheet",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4834,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-13T05:41:38.935Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "27666551663adf47cf2b-945a088bbfd22dfa75b9",
+          "file": "workflow-update.spec.ts",
+          "line": 103,
+          "column": 1
+        },
+        {
+          "title": "sale and reservation have separate forms; finance settlement changes actual balances and contact history",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8393,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-13T05:41:43.793Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "27666551663adf47cf2b-84b823354f4fbf5c8907",
+          "file": "workflow-update.spec.ts",
+          "line": 139,
+          "column": 1
+        },
+        {
+          "title": "new digital booklet downloads four complete pages and keeps history grouped by bird",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9895,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-13T05:41:52.223Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "27666551663adf47cf2b-3f483928174cfa8127c6",
+          "file": "workflow-update.spec.ts",
+          "line": 201,
+          "column": 1
+        },
+        {
+          "title": "agenda groups birds with tasks and exports a calendar reminder before completing the task",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4657,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-13T05:42:02.134Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "27666551663adf47cf2b-eb629e31ca8166003b34",
+          "file": "workflow-update.spec.ts",
+          "line": 237,
+          "column": 1
+        },
+        {
+          "title": "mobile bird sheet, direct attachments and health details fit without overlapping action buttons",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3483,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-13T05:42:06.826Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "27666551663adf47cf2b-c857d3fb6a6455801e62",
+          "file": "workflow-update.spec.ts",
+          "line": 274,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "workflow.spec.ts",
+      "file": "workflow.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "bird registration, duplicate errors preserve input, persistence, demo separation and locked storage",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3534,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-13T05:42:10.387Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c601ceb5ecfc8efa4a14-ed7469c8a73077b3913d",
+          "file": "workflow.spec.ts",
+          "line": 9,
+          "column": 1
+        },
+        {
+          "title": "art originals and real pet booklet PDF download work and preserve emitted versions",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2927,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-13T05:42:13.933Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c601ceb5ecfc8efa4a14-d8dbce69b32b46b815df",
+          "file": "workflow.spec.ts",
+          "line": 14,
+          "column": 1
+        },
+        {
+          "title": "mobile navigation and bird form fit a 390px viewport",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2271,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-13T05:42:16.884Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c601ceb5ecfc8efa4a14-5d6bbe1b2598db4b7082",
+          "file": "workflow.spec.ts",
+          "line": 18,
+          "column": 1
+        },
+        {
+          "title": "reserve, partial receipt, installment sale, delivery and refund preserve history",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7026,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-13T05:42:19.168Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c601ceb5ecfc8efa4a14-d489b2c254d442c5fece",
+          "file": "workflow.spec.ts",
+          "line": 22,
+          "column": 1
+        },
+        {
+          "title": "complete encrypted backup restores a linked attachment into a clean browser installation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 24842,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-13T05:42:26.212Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c601ceb5ecfc8efa4a14-03b0f9bc21a78284e6e7",
+          "file": "workflow.spec.ts",
+          "line": 36,
+          "column": 1
+        },
+        {
+          "title": "production app reloads offline with records and original arts",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2593,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-13T05:42:51.069Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c601ceb5ecfc8efa4a14-0ddacf1ec2bc61303f97",
+          "file": "workflow.spec.ts",
+          "line": 42,
+          "column": 1
+        },
+        {
+          "title": "support export removes secret and personal identifiers without exporting the database",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5901,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-13T05:42:53.686Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c601ceb5ecfc8efa4a14-640143ce82e9419df3ec",
+          "file": "workflow.spec.ts",
+          "line": 46,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-13T05:39:47.574Z",
+    "duration": 192195.88999999998,
+    "expected": 49,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

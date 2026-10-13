@@ -1,0 +1,90 @@
+{
+  "version": "0.2.1",
+  "source": "aplicativo compilado em modo produção",
+  "fixtures": "registros fictícios em contextos de navegador isolados, sem alterar bases do usuário",
+  "photo": "imagem ilustrativa anexada pelos formulários reais somente nessas bases de teste",
+  "viewports": {
+    "desktop": {
+      "width": 1440,
+      "height": 1000
+    },
+    "android": {
+      "width": 390,
+      "height": 1000
+    }
+  },
+  "files": [
+    {
+      "platform": "desktop",
+      "theme": "light",
+      "screen": "inicio",
+      "path": "implementado/desktop-light-inicio.png"
+    },
+    {
+      "platform": "desktop",
+      "theme": "light",
+      "screen": "aves",
+      "path": "implementado/desktop-light-aves.png"
+    },
+    {
+      "platform": "desktop",
+      "theme": "light",
+      "screen": "ficha",
+      "path": "implementado/desktop-light-ficha.png"
+    },
+    {
+      "platform": "desktop",
+      "theme": "dark",
+      "screen": "inicio",
+      "path": "implementado/desktop-dark-inicio.png"
+    },
+    {
+      "platform": "desktop",
+      "theme": "dark",
+      "screen": "aves",
+      "path": "implementado/desktop-dark-aves.png"
+    },
+    {
+      "platform": "desktop",
+      "theme": "dark",
+      "screen": "ficha",
+      "path": "implementado/desktop-dark-ficha.png"
+    },
+    {
+      "platform": "android",
+      "theme": "light",
+      "screen": "inicio",
+      "path": "implementado/android-light-inicio.png"
+    },
+    {
+      "platform": "android",
+      "theme": "light",
+      "screen": "aves",
+      "path": "implementado/android-light-aves.png"
+    },
+    {
+      "platform": "android",
+      "theme": "light",
+      "screen": "ficha",
+      "path": "implementado/android-light-ficha.png"
+    },
+    {
+      "platform": "android",
+      "theme": "dark",
+      "screen": "inicio",
+      "path": "implementado/android-dark-inicio.png"
+    },
+    {
+      "platform": "android",
+      "theme": "dark",
+      "screen": "aves",
+      "path": "implementado/android-dark-aves.png"
+    },
+    {
+      "platform": "android",
+      "theme": "dark",
+      "screen": "ficha",
+      "path": "implementado/android-dark-ficha.png"
+    }
+  ]
+}

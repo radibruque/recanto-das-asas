@@ -1,0 +1,10 @@
+{
+  "version": "0.2.1",
+  "implementation_commit": "c08438d26a0468b45c079f313107e1cd506bf244",
+  "source_branch": "design/b-desktop-c-android",
+  "artifact_branch": "instalacao/v0.2.1-bc",
+  "tested_build_js": "assets/index-DVTDGazZ.js",
+  "tested_build_css": "assets/index-B14Em0et.css",
+  "unit_passed": 269,
+  "e2e_passed": 49
+}
