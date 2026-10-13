@@ -1,0 +1,126 @@
+[
+  {
+    "birdCount": 30,
+    "healthCount": 300,
+    "typingElapsed": 1495.9991259999997,
+    "longTasks": [
+      {
+        "start": 2394.899999976158,
+        "duration": 83
+      },
+      {
+        "start": 2571.7999999523163,
+        "duration": 76
+      },
+      {
+        "start": 2726.899999976158,
+        "duration": 50
+      },
+      {
+        "start": 2863.199999988079,
+        "duration": 56
+      },
+      {
+        "start": 3133.599999964237,
+        "duration": 57
+      },
+      {
+        "start": 3283.099999964237,
+        "duration": 71
+      },
+      {
+        "start": 3439.2999999523163,
+        "duration": 53
+      }
+    ],
+    "memory": 15119407
+  },
+  {
+    "birdCount": 100,
+    "healthCount": 2000,
+    "typingElapsed": 2779.244548999999,
+    "longTasks": [
+      {
+        "start": 2732.5,
+        "duration": 207
+      },
+      {
+        "start": 2963.800000011921,
+        "duration": 217
+      },
+      {
+        "start": 3186.699999988079,
+        "duration": 143
+      },
+      {
+        "start": 3415.199999988079,
+        "duration": 187
+      },
+      {
+        "start": 3691.5,
+        "duration": 274
+      },
+      {
+        "start": 4128.199999988079,
+        "duration": 172
+      },
+      {
+        "start": 4315.100000023842,
+        "duration": 156
+      },
+      {
+        "start": 4558,
+        "duration": 276
+      },
+      {
+        "start": 4929.300000011921,
+        "duration": 174
+      }
+    ],
+    "memory": 26770468
+  },
+  {
+    "birdCount": 300,
+    "healthCount": 6000,
+    "typingElapsed": 8173.812452000002,
+    "longTasks": [
+      {
+        "start": 6361.5,
+        "duration": 818
+      },
+      {
+        "start": 7216,
+        "duration": 925
+      },
+      {
+        "start": 8145.699999988079,
+        "duration": 969
+      },
+      {
+        "start": 9167.899999976158,
+        "duration": 763
+      },
+      {
+        "start": 10014.600000023842,
+        "duration": 705
+      },
+      {
+        "start": 10907.199999988079,
+        "duration": 742
+      },
+      {
+        "start": 11674.899999976158,
+        "duration": 729
+      },
+      {
+        "start": 12493.699999988079,
+        "duration": 723
+      },
+      {
+        "start": 13300,
+        "duration": 816
+      }
+    ],
+    "memory": 67591463
+  }
+]

@@ -1,0 +1,1528 @@
+{
+  "revision": 2,
+  "cases": 100,
+  "failures": [],
+  "interactions": {
+    "desktopMenus": 20,
+    "androidMenus": 20,
+    "desktopScope": true,
+    "desktopLock": true,
+    "androidScope": true,
+    "androidLock": true,
+    "desktopTheme": true,
+    "androidTheme": true,
+    "birdsNavigation": true,
+    "mobilePhotos": 8,
+    "systemTheme": true,
+    "systemMaintained": true,
+    "galleryImages": 20
+  },
+  "results": [
+    {
+      "platform": "desktop",
+      "theme": "light",
+      "width": 360,
+      "screen": "home",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Visão geral"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "light",
+      "width": 360,
+      "screen": "birds",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Aves"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "light",
+      "width": 360,
+      "screen": "profile",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Roxa"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "light",
+      "width": 360,
+      "screen": "form",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Cadastrar ave"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "light",
+      "width": 360,
+      "screen": "health",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Roxa"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "light",
+      "width": 390,
+      "screen": "home",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Visão geral"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "light",
+      "width": 390,
+      "screen": "birds",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Aves"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "light",
+      "width": 390,
+      "screen": "profile",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Roxa"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "light",
+      "width": 390,
+      "screen": "form",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Cadastrar ave"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "light",
+      "width": 390,
+      "screen": "health",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Roxa"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "light",
+      "width": 768,
+      "screen": "home",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Visão geral"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "light",
+      "width": 768,
+      "screen": "birds",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Aves"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "light",
+      "width": 768,
+      "screen": "profile",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Roxa"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "light",
+      "width": 768,
+      "screen": "form",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Cadastrar ave"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "light",
+      "width": 768,
+      "screen": "health",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Roxa"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "light",
+      "width": 1280,
+      "screen": "home",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Visão geral"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "light",
+      "width": 1280,
+      "screen": "birds",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Aves"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "light",
+      "width": 1280,
+      "screen": "profile",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Roxa"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "light",
+      "width": 1280,
+      "screen": "form",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Cadastrar ave"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "light",
+      "width": 1280,
+      "screen": "health",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Roxa"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "light",
+      "width": 1440,
+      "screen": "home",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Visão geral"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "light",
+      "width": 1440,
+      "screen": "birds",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Aves"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "light",
+      "width": 1440,
+      "screen": "profile",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Roxa"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "light",
+      "width": 1440,
+      "screen": "form",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Cadastrar ave"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "light",
+      "width": 1440,
+      "screen": "health",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Roxa"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "dark",
+      "width": 360,
+      "screen": "home",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Visão geral"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "dark",
+      "width": 360,
+      "screen": "birds",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Aves"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "dark",
+      "width": 360,
+      "screen": "profile",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Roxa"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "dark",
+      "width": 360,
+      "screen": "form",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Cadastrar ave"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "dark",
+      "width": 360,
+      "screen": "health",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Roxa"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "dark",
+      "width": 390,
+      "screen": "home",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Visão geral"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "dark",
+      "width": 390,
+      "screen": "birds",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Aves"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "dark",
+      "width": 390,
+      "screen": "profile",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Roxa"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "dark",
+      "width": 390,
+      "screen": "form",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Cadastrar ave"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "dark",
+      "width": 390,
+      "screen": "health",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Roxa"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "dark",
+      "width": 768,
+      "screen": "home",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Visão geral"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "dark",
+      "width": 768,
+      "screen": "birds",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Aves"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "dark",
+      "width": 768,
+      "screen": "profile",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Roxa"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "dark",
+      "width": 768,
+      "screen": "form",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Cadastrar ave"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "dark",
+      "width": 768,
+      "screen": "health",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Roxa"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "dark",
+      "width": 1280,
+      "screen": "home",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Visão geral"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "dark",
+      "width": 1280,
+      "screen": "birds",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Aves"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "dark",
+      "width": 1280,
+      "screen": "profile",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Roxa"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "dark",
+      "width": 1280,
+      "screen": "form",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Cadastrar ave"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "dark",
+      "width": 1280,
+      "screen": "health",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Roxa"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "dark",
+      "width": 1440,
+      "screen": "home",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Visão geral"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "dark",
+      "width": 1440,
+      "screen": "birds",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Aves"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "dark",
+      "width": 1440,
+      "screen": "profile",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Roxa"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "dark",
+      "width": 1440,
+      "screen": "form",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Cadastrar ave"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "desktop",
+      "theme": "dark",
+      "width": 1440,
+      "screen": "health",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Roxa"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "light",
+      "width": 360,
+      "screen": "home",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Hoje no recanto"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "light",
+      "width": 360,
+      "screen": "birds",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Aves"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "light",
+      "width": 360,
+      "screen": "profile",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Roxa"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "light",
+      "width": 360,
+      "screen": "form",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Cadastrar ave"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "light",
+      "width": 360,
+      "screen": "health",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Roxa"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "light",
+      "width": 390,
+      "screen": "home",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Hoje no recanto"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "light",
+      "width": 390,
+      "screen": "birds",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Aves"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "light",
+      "width": 390,
+      "screen": "profile",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Roxa"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "light",
+      "width": 390,
+      "screen": "form",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Cadastrar ave"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "light",
+      "width": 390,
+      "screen": "health",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Roxa"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "light",
+      "width": 768,
+      "screen": "home",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Hoje no recanto"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "light",
+      "width": 768,
+      "screen": "birds",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Aves"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "light",
+      "width": 768,
+      "screen": "profile",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Roxa"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "light",
+      "width": 768,
+      "screen": "form",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Cadastrar ave"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "light",
+      "width": 768,
+      "screen": "health",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Roxa"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "light",
+      "width": 1280,
+      "screen": "home",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Hoje no recanto"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "light",
+      "width": 1280,
+      "screen": "birds",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Aves"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "light",
+      "width": 1280,
+      "screen": "profile",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Roxa"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "light",
+      "width": 1280,
+      "screen": "form",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Cadastrar ave"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "light",
+      "width": 1280,
+      "screen": "health",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Roxa"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "light",
+      "width": 1440,
+      "screen": "home",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Hoje no recanto"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "light",
+      "width": 1440,
+      "screen": "birds",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Aves"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "light",
+      "width": 1440,
+      "screen": "profile",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Roxa"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "light",
+      "width": 1440,
+      "screen": "form",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Cadastrar ave"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "light",
+      "width": 1440,
+      "screen": "health",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Roxa"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "dark",
+      "width": 360,
+      "screen": "home",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Hoje no recanto"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "dark",
+      "width": 360,
+      "screen": "birds",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Aves"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "dark",
+      "width": 360,
+      "screen": "profile",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Roxa"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "dark",
+      "width": 360,
+      "screen": "form",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Cadastrar ave"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "dark",
+      "width": 360,
+      "screen": "health",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Roxa"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "dark",
+      "width": 390,
+      "screen": "home",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Hoje no recanto"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "dark",
+      "width": 390,
+      "screen": "birds",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Aves"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "dark",
+      "width": 390,
+      "screen": "profile",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Roxa"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "dark",
+      "width": 390,
+      "screen": "form",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Cadastrar ave"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "dark",
+      "width": 390,
+      "screen": "health",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Roxa"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "dark",
+      "width": 768,
+      "screen": "home",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Hoje no recanto"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "dark",
+      "width": 768,
+      "screen": "birds",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Aves"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "dark",
+      "width": 768,
+      "screen": "profile",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Roxa"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "dark",
+      "width": 768,
+      "screen": "form",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Cadastrar ave"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "dark",
+      "width": 768,
+      "screen": "health",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Roxa"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "dark",
+      "width": 1280,
+      "screen": "home",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Hoje no recanto"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "dark",
+      "width": 1280,
+      "screen": "birds",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Aves"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "dark",
+      "width": 1280,
+      "screen": "profile",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Roxa"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "dark",
+      "width": 1280,
+      "screen": "form",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Cadastrar ave"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "dark",
+      "width": 1280,
+      "screen": "health",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Roxa"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "dark",
+      "width": 1440,
+      "screen": "home",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Hoje no recanto"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "dark",
+      "width": 1440,
+      "screen": "birds",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Aves"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "dark",
+      "width": 1440,
+      "screen": "profile",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Roxa"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "dark",
+      "width": 1440,
+      "screen": "form",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Cadastrar ave"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    },
+    {
+      "platform": "android",
+      "theme": "dark",
+      "width": 1440,
+      "screen": "health",
+      "status": 200,
+      "errors": [],
+      "overflow": false,
+      "overlaps": [],
+      "headings": [
+        "Roxa"
+      ],
+      "failedImages": [],
+      "fontWeight": "800"
+    }
+  ],
+  "finalInteractionReview": {
+    "clear": true,
+    "desktopBirds": true,
+    "allFilters": 8,
+    "mobile": true
+  }
+}

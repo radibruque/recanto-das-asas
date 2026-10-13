@@ -1,0 +1,234 @@
+{
+  "setup": true,
+  "regex": [
+    {
+      "mib": 1,
+      "result": 1048575,
+      "ms": 778.9000000357628
+    },
+    {
+      "mib": 2,
+      "result": 2097150,
+      "ms": 1341.0999999642372
+    },
+    {
+      "mib": 5,
+      "error": "RangeError: Maximum call stack size exceeded",
+      "ms": 132.69999998807907
+    },
+    {
+      "mib": 10,
+      "error": "RangeError: Maximum call stack size exceeded",
+      "ms": 113.10000002384186
+    }
+  ],
+  "backup": {
+    "elapsed": 38129.89999997616,
+    "result": {
+      "at": "2026-10-13T04:24:35.209Z",
+      "sha256": "ba562c1a6fe5e32831d38245ca734a5be7d5c13f1db9113e6ecbc88fff7c80dd",
+      "size": 22936386
+    },
+    "longTasks": [
+      {
+        "start": 4130.599999964237,
+        "duration": 55
+      },
+      {
+        "start": 4273.399999976158,
+        "duration": 51
+      },
+      {
+        "start": 4441.399999976158,
+        "duration": 71
+      },
+      {
+        "start": 4516,
+        "duration": 64
+      },
+      {
+        "start": 4585,
+        "duration": 106
+      },
+      {
+        "start": 14841,
+        "duration": 462
+      },
+      {
+        "start": 17735.399999976158,
+        "duration": 50
+      },
+      {
+        "start": 19473,
+        "duration": 65
+      },
+      {
+        "start": 19646.30000001192,
+        "duration": 11846
+      },
+      {
+        "start": 31537.30000001192,
+        "duration": 9154
+      },
+      {
+        "start": 40694.59999996424,
+        "duration": 262
+      }
+    ],
+    "memory": 193332564
+  },
+  "getall": {
+    "count": 9,
+    "envelopeBytes": 206425908,
+    "elapsed": 1614,
+    "longTasks": [
+      {
+        "start": 43006.30000001192,
+        "duration": 55
+      },
+      {
+        "start": 43181.5,
+        "duration": 50
+      },
+      {
+        "start": 43531,
+        "duration": 1025
+      }
+    ],
+    "memory": 244918018
+  },
+  "render": [
+    {
+      "birdCount": 30,
+      "healthCount": 300,
+      "typingElapsed": 3595.540681999999,
+      "longTasks": [
+        {
+          "start": 3364.5,
+          "duration": 318
+        },
+        {
+          "start": 3711.2000000476837,
+          "duration": 190
+        },
+        {
+          "start": 3906.5,
+          "duration": 301
+        },
+        {
+          "start": 4295.200000047684,
+          "duration": 285
+        },
+        {
+          "start": 4665.600000023842,
+          "duration": 288
+        },
+        {
+          "start": 5120.700000047684,
+          "duration": 342
+        },
+        {
+          "start": 5478.900000035763,
+          "duration": 340
+        },
+        {
+          "start": 5903.700000047684,
+          "duration": 291
+        },
+        {
+          "start": 6281.100000023842,
+          "duration": 287
+        }
+      ],
+      "memory": 30616456
+    },
+    {
+      "birdCount": 100,
+      "healthCount": 2000,
+      "typingElapsed": 7817.600240000007,
+      "longTasks": [
+        {
+          "start": 4121.5,
+          "duration": 802
+        },
+        {
+          "start": 4951.5,
+          "duration": 629
+        },
+        {
+          "start": 5583.299999952316,
+          "duration": 778
+        },
+        {
+          "start": 6450.5,
+          "duration": 801
+        },
+        {
+          "start": 7336.099999964237,
+          "duration": 794
+        },
+        {
+          "start": 8297.5,
+          "duration": 753
+        },
+        {
+          "start": 9051,
+          "duration": 798
+        },
+        {
+          "start": 9916,
+          "duration": 729
+        },
+        {
+          "start": 10729.899999976158,
+          "duration": 746
+        }
+      ],
+      "memory": 36575297
+    },
+    {
+      "birdCount": 300,
+      "healthCount": 6000,
+      "typingElapsed": 22817.203016,
+      "longTasks": [
+        {
+          "start": 7579.799999952316,
+          "duration": 2492
+        },
+        {
+          "start": 10134.599999964237,
+          "duration": 2245
+        },
+        {
+          "start": 12399.199999988079,
+          "duration": 2607
+        },
+        {
+          "start": 15093.5,
+          "duration": 2557
+        },
+        {
+          "start": 17784.099999964237,
+          "duration": 2364
+        },
+        {
+          "start": 20317.299999952316,
+          "duration": 2436
+        },
+        {
+          "start": 22775.599999964237,
+          "duration": 2381
+        },
+        {
+          "start": 25240.599999964237,
+          "duration": 2363
+        },
+        {
+          "start": 27687.19999998808,
+          "duration": 2297
+        }
+      ],
+      "memory": 29488100
+    }
+  ]
+}

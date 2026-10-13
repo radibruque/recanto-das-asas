@@ -1,34 +1,49 @@
-# Recanto das Asas — desktop B e Android C
+# Recanto das Asas — revisão 2 do desktop B e Android C
 
-**Prévias para aprovação.** Esta entrega apresenta a reformulação da interface com a paleta oficial da marca. O aplicativo e seus dados ainda não foram alterados por estes modelos.
+**Prévias revisadas para seguir a estrutura dos conceitos originais.** Aplicativo, dados e instaladores ainda não foram alterados.
 
-Abra com sua conta do GitHub conectada. Clique nas imagens para ampliar.
+- **Desktop B:** uma barra superior com logo e ícones; tabela de aves com miniaturas na coluna principal; tarefas e financeiro na lateral.
+- **Android C:** cabeçalho compacto; foto; identificação e peso lado a lado; histórico vertical e documentos na ficha.
+- **Início e Aves nas duas plataformas:** a mesma lista com fotos, adaptada a tabela no desktop e cartões no Android.
+- **Claro e escuro:** paleta oficial e BOLD real da Noto Sans existente.
 
-| Plataforma | Tema claro | Tema escuro |
+| Plataforma | Claro | Escuro |
 | --- | --- | --- |
 | **Desktop — conceito B** | [Ver desktop claro](DESKTOP-CLARO.md) | [Ver desktop escuro](DESKTOP-ESCURO.md) |
 | **Android — conceito C** | [Ver Android claro](ANDROID-CLARO.md) | [Ver Android escuro](ANDROID-ESCURO.md) |
 
-[**Ler o plano e a auditoria**](PLANO-E-AUDITORIA.md) · [**Baixar protótipo e imagens em ZIP**](Previas-Desktop-B-Android-C.zip)
+[**Plano revisado e propostas de correção dos travamentos**](REVISAO-2-E-APROVACAO.md) · [**Baixar as prévias em ZIP**](Previas-Desktop-B-Android-C.zip)
 
-As quatro páginas incluem início, ficha da ave, cadastro com anexo direto e saúde/peso. Os logotipos são oficiais; os dados e a foto são ilustrativos, somente nesta prévia.
+[Referência original B](referencias/Conceito-B.png) · [Referência original C](referencias/Conceito-C.png)
 
 ## Desktop B — claro
 
-![Desktop B — início claro](capturas/desktop-light-home.png)
+![Desktop B — estrutura revisada clara](capturas/desktop-light-home.png)
 
 ## Desktop B — escuro
 
-![Desktop B — início escuro](capturas/desktop-dark-home.png)
+![Desktop B — estrutura revisada escura](capturas/desktop-dark-home.png)
 
-## Android C — claro e escuro
+## Android C — ficha clara e escura
 
 | Claro | Escuro |
 | --- | --- |
-| ![Android C — ficha clara](capturas/android-light-profile.png) | ![Android C — ficha escura](capturas/android-dark-profile.png) |
+| ![Android C — ficha clara revisada](capturas/android-light-profile.png) | ![Android C — ficha escura revisada](capturas/android-dark-profile.png) |
 
-## Explorar o protótipo no seu computador
+## Android — menu Aves com fotos
 
-Baixe o ZIP, extraia a pasta e abra **galeria.html** no navegador. A galeria oferece links para explorar as telas de amostra, alternar claro/escuro/sistema e abrir o menu. A pasta de recursos precisa permanecer junto dos arquivos HTML. A validação na nuvem utilizou HTTP; a abertura direta de HTML local não foi verificada, conforme a limitação documentada no plano. As imagens desta página podem ser vistas diretamente no GitHub.
+![Android C — lista de aves](capturas/android-light-birds.png)
 
-Este protótipo não salva registros nem se conecta ao servidor privado. As ações de cadastro, upload e bloqueio são demonstrativas. Os módulos reais e suas operações serão preservados na implementação após a aprovação do plano e das prévias, conforme o item 9 do prompt.
+## Travamentos investigados
+
+Foram reproduzidos bloqueios no processamento de backup, preparo de miniaturas e busca em saúde, além de um bug no validador Base64 para arquivos grandes. As medições em navegador com CPU reduzida não confirmam a causa específica no telefone físico. Os relatórios detalham trechos, propostas e riscos; nenhuma correção funcional foi aplicada sem autorização.
+
+[Diagnóstico de travamentos](diagnostico/DIAGNOSTICO-TRAVAMENTOS.md) · [Diagnóstico de miniaturas](diagnostico/DIAGNOSTICO-MINIATURAS.md) · [Patch proposto](diagnostico/base64-proposto.patch)
+
+## Explorar a proposta
+
+Para ver as imagens, basta abrir esta galeria com sua conta do GitHub conectada. Os dados e a foto são ilustrativos, somente para esta prévia. Os arquivos sem foto mostram um estado de ausência.
+
+O ZIP contém a galeria HTML, telas de amostra, imagens, recursos oficiais e relatórios. Extraia mantendo as pastas e abra **galeria.html**. A validação na nuvem utilizou HTTP; a abertura direta de HTML local não foi verificada porque o navegador do ambiente a bloqueia. As imagens podem ser vistas diretamente nesta página.
+
+O protótipo não salva registros nem se conecta ao servidor privado. Os botões de operações são demonstrativos; na implementação, os eventos e operações reais serão preservados. O plano revisado prevalece sobre a composição anterior.

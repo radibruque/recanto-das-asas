@@ -3,7 +3,7 @@ const params = new URLSearchParams(location.search);
 const platform = params.get('platform') === 'android' ? 'android' : 'desktop';
 const requestedTheme = ['dark','system'].includes(params.get('theme')) ? params.get('theme') : 'light';
 const theme = requestedTheme === 'system' ? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : requestedTheme;
-const screen = ['profile', 'form', 'health'].includes(params.get('screen')) ? params.get('screen') : 'home';
+const screen = ['birds', 'profile', 'form', 'health'].includes(params.get('screen')) ? params.get('screen') : 'home';
 document.documentElement.dataset.platform = platform;
 document.documentElement.dataset.theme = theme;
 const icons = window.previewIcons;
@@ -12,12 +12,12 @@ const url = (nextScreen = screen, nextTheme = requestedTheme, nextPlatform = pla
 const link = (label, target = 'home', extra = '') => `<a class="text-link" href="${url(target)}">${label}${extra}</a>`;
 const action = (label, name, secondary = false) => `<button type="button" disabled class="${secondary ? 'secondary' : ''}" title="Ação ilustrativa: esta prévia não altera registros">${name ? icon(name) : ''}${label}</button>`;
 const allMenus = [
-  ['Início','Home','home'], ['Aves','Bird','profile'], ['Casais','Heart','home'], ['Reprodução','Egg','home'], ['Parentesco','Network','home'], ['Saúde e manejo','Activity','health'], ['Agenda','CalendarDays','home'],
+  ['Início','Home','home'], ['Aves','Bird','birds'], ['Casais','Heart','home'], ['Reprodução','Egg','home'], ['Parentesco','Network','home'], ['Saúde e manejo','Activity','health'], ['Agenda','CalendarDays','home'],
   ['Clientes e fornecedores','Users','home'], ['Vendas e reservas','ShoppingBag','home'], ['Financeiro','Wallet','home'], ['Estoque','Package','home'],
   ['Relatórios','BarChart3','home'], ['Documentos','Files','profile'], ['Caderneta do pet','BookOpen','home'], ['Identidade visual','Palette','home'],
   ['Backup e recuperação','Download','home'], ['Sincronização','RefreshCw','home'], ['Configurações','Settings','home'], ['Atualizações','RefreshCw','home'], ['Reportar problema','Bug','home'],
 ];
-const menuItem = ([label, name, target]) => `<a href="${url(target)}"${label === 'Início' && screen === 'home' || label === 'Aves' && screen === 'profile' ? ' class="active"' : ''}>${icon(name)}${label}</a>`;
+const menuItem = ([label, name, target]) => `<a href="${url(target)}"${label === 'Início' && screen === 'home' || label === 'Aves' && ['birds','profile'].includes(screen) ? ' class="active"' : ''}>${icon(name)}${label}</a>`;
 const dropdown = (name, items) => `<details><summary>${name}${icon('ChevronDown')}</summary><div class="nav-popover">${items.map(menuItem).join('')}</div></details>`;
 const themeChoices = [['light','Claro','Sun'],['dark','Escuro','Moon'],['system','Sistema','Monitor']];
 const themes = `<div class="theme-picker" aria-label="Escolher tema da prévia">${themeChoices.map(([value,label,name])=>`<a href="${url(screen,value)}" class="${requestedTheme === value ? 'active' : ''}" aria-label="Tema ${label.toLowerCase()}">${icon(name)}</a>`).join('')}</div>`;

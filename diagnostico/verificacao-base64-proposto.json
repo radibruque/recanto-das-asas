@@ -1,0 +1,26 @@
+{
+  "comparisons": 14190,
+  "large": [
+    {
+      "size": 4194304,
+      "decoded": 4194304,
+      "ms": 434.4201489999999,
+      "sha256": "565a2aa0445d69bc3423bf193aa6c0d266d08d512d11266dc9058bf1b25976db",
+      "original": {
+        "ok": false,
+        "error": "Maximum call stack size exceeded"
+      }
+    },
+    {
+      "size": 10485760,
+      "decoded": 10485760,
+      "ms": 913.528515,
+      "sha256": "7f89d499983422a0f35ba5729055b6e5c568062d728a0806e942ea2ff22093b1",
+      "original": {
+        "ok": false,
+        "error": "Maximum call stack size exceeded"
+      }
+    }
+  ],
+  "limitEnforced": true
+}

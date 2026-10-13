@@ -1,18 +1,24 @@
-# Desktop B — escuro
+# Desktop B — escuro — revisão 2
 
-[Voltar à galeria](README.md) · [Plano e auditoria](PLANO-E-AUDITORIA.md)
+[Voltar à galeria](README.md) · [Plano revisado](REVISAO-2-E-APROVACAO.md)
 
-Simulação visual com dados ilustrativos; aplicativo e base pessoal preservados. Clique nas imagens para ampliar.
+Dados e foto ilustrativos; aplicativo e base pessoal preservados. Clique nas imagens para ampliar.
 
-## Início
+## Início — lista de aves com fotos
 
-![Desktop B — escuro — Início](capturas/desktop-dark-home.png)
+![Desktop B — escuro — Início — lista de aves com fotos](capturas/desktop-dark-home.png)
 
 [Ver conteúdo completo](capturas/desktop-dark-home-completo.png)
 
-## Ficha da ave
+## Menu Aves — mesma apresentação com fotos
 
-![Desktop B — escuro — Ficha da ave](capturas/desktop-dark-profile.png)
+![Desktop B — escuro — Menu Aves — mesma apresentação com fotos](capturas/desktop-dark-birds.png)
+
+[Ver conteúdo completo](capturas/desktop-dark-birds-completo.png)
+
+## Ficha da ave — histórico e documentos
+
+![Desktop B — escuro — Ficha da ave — histórico e documentos](capturas/desktop-dark-profile.png)
 
 [Ver conteúdo completo](capturas/desktop-dark-profile-completo.png)
 
@@ -22,10 +28,10 @@ Simulação visual com dados ilustrativos; aplicativo e base pessoal preservados
 
 [Ver conteúdo completo](capturas/desktop-dark-form-completo.png)
 
-## Saúde e peso — histórico da ave
+## Saúde e peso
 
-![Desktop B — escuro — Saúde e peso — histórico da ave](capturas/desktop-dark-health.png)
+![Desktop B — escuro — Saúde e peso](capturas/desktop-dark-health.png)
 
 [Ver conteúdo completo](capturas/desktop-dark-health-completo.png)
 
-As capturas de telefone mostram a área inicial da tela; o conteúdo completo permanece acessível por rolagem e pelos links acima. Os formulários completos incluem os campos existentes. Nenhuma informação será removida para tornar a interface mais compacta.
+O conteúdo completo permanece acessível por rolagem e pelos links. Informações e operações do aplicativo serão preservadas.

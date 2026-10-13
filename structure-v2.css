@@ -1,0 +1,225 @@
+/* The revision follows B/C composition. Assets are official and untouched. */
+@font-face{font-family:RecantoSans;src:url('assets/NotoSans.ttf') format('truetype');font-weight:100 900;font-style:normal;font-display:swap}
+:root{--radius:12px;--gap:16px}
+body{font-weight:550;font-size:14px;line-height:1.5}
+h1,h2,h3{font-family:RecantoSans,system-ui,sans-serif!important;font-weight:800;letter-spacing:-.6px}
+button,summary,.text-link,.badge,.tabs a{font-weight:700}
+label{font-weight:650}
+small,.muted{font-weight:550}
+svg{stroke-width:2}
+.preview-note{padding:6px 20px;font-size:10px}
+.desktop-concept-header .navigation{justify-content:space-between;gap:4px;padding:7px 20px;min-height:80px}
+.desktop-concept-header .navigation>a:not(.concept-logo),.concept-nav-group>summary{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;min-height:64px;padding:9px 9px;font-size:10px;line-height:1.2;white-space:nowrap;font-weight:700}
+.desktop-concept-header .navigation svg{width:20px;height:20px}
+.concept-nav-group>summary{list-style:none;color:var(--on-nav);border-radius:7px}
+.concept-nav-group>summary::-webkit-details-marker{display:none}
+.desktop-concept-header .navigation .concept-logo{display:flex;align-items:center;justify-content:center;min-width:82px;padding:4px 7px;margin-right:4px}
+.concept-logo img{width:72px;height:62px;object-fit:contain;background:#f4f8fa;border-radius:7px;padding:4px}
+.concept-header-tools{display:flex;align-items:center;gap:6px;margin-left:8px;padding-left:10px;border-left:1px solid #ffffff40}
+.concept-header-tools .theme-picker{background:var(--nav-active);border-color:transparent;padding:2px}
+.concept-header-tools .theme-picker a{color:var(--on-nav);width:34px;height:44px}
+.concept-header-tools .theme-picker .active{background:var(--on-nav);color:var(--nav)}
+.concept-header-tools .icon-button{color:var(--on-nav);min-width:44px;padding:8px}
+.concept-session{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;padding:10px;border-bottom:1px solid var(--line);margin-bottom:8px}
+.concept-session button{font-size:11px;padding:8px 12px}
+.scope-control-preview{display:flex;gap:3px;padding:4px;background:var(--secondary);border:1px solid var(--line);border-radius:8px;font-size:10px;white-space:nowrap}
+.scope-control-preview span{padding:9px 7px;border-radius:5px;color:var(--muted)}
+.scope-control-preview .selected{background:var(--surface);color:var(--primary);font-weight:750}
+.concept-content{padding:24px 20px;max-width:1520px}
+.concept-page-heading{align-items:center;gap:20px;margin-bottom:20px}
+.concept-page-heading h1{font-size:28px;letter-spacing:-.8px}
+.concept-page-heading p{font-size:12px;margin-top:5px}
+.concept-page-actions{display:flex;align-items:center;gap:12px}
+.concept-page-actions .search{width:360px}
+.concept-page-actions button{white-space:nowrap}
+.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.concept-metrics{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:8px;margin-bottom:18px}
+.concept-metrics .metric{gap:9px;padding:14px 10px;border-radius:8px;min-height:90px;box-shadow:none}
+.concept-metrics .metric-icon{width:32px;height:32px;border-radius:50%;background:var(--secondary)}
+.concept-metrics .metric-icon svg{width:19px;height:19px}
+.concept-metrics .metric strong{font-size:19px;font-weight:800;letter-spacing:-.6px;white-space:nowrap}
+.concept-metrics .metric span{font-size:10px;font-weight:700;line-height:1.35;display:block;margin-top:4px}
+.concept-metrics .metric small{font-size:9px;margin-top:3px;line-height:1.4}
+.concept-home-grid{display:grid;grid-template-columns:minmax(0,2.45fr) minmax(0,1fr);gap:18px;align-items:start}
+.concept-home-grid>*{min-width:0;max-width:100%}
+.concept-side-column{display:flex;flex-direction:column;gap:16px;min-width:0}
+.concept-home-grid .card{padding:18px;border-radius:10px;box-shadow:none}
+.concept-home-grid h2{font-size:16px;letter-spacing:-.4px}
+.concept-plantel .card-head{margin-bottom:12px}
+.plantel-tools{display:flex;align-items:flex-end;justify-content:flex-end;gap:12px;margin-top:-50px;margin-bottom:16px;padding-left:240px}
+.plantel-tools label{font-size:10px;min-width:130px}
+.plantel-tools select{font-size:10px;padding:9px;min-height:38px}
+.plantel-tools .search{width:250px}
+.plantel-tools .search input{font-size:11px;min-height:38px}
+.plantel-tools .search svg{top:10px;width:17px;height:17px}
+.plantel-table-wrap{width:100%;overflow:auto;border-radius:7px}
+.bird-table{font-size:11px;font-weight:600}
+.bird-table th{text-transform:none;font-size:11px;letter-spacing:0;font-weight:750;white-space:nowrap;padding:11px 8px}
+.bird-table td{padding:10px 8px;vertical-align:middle;font-size:12px;line-height:1.35}
+.bird-table td:nth-child(3),.bird-table td:nth-child(8){white-space:nowrap}
+.bird-table td:last-child,.bird-table th:last-child{text-align:center}
+.bird-name{font-weight:800;color:var(--text)}
+.bird-miniature{width:37px;height:42px;object-fit:cover;object-position:center 25%;border-radius:6px;min-width:37px}
+.bird-miniature.no-photo{display:flex;align-items:center;justify-content:center;background:var(--secondary);color:var(--primary)}
+.bird-miniature.no-photo svg{width:23px;height:23px}
+.table-status{display:flex;align-items:center;gap:6px;white-space:nowrap;font-size:10px}
+.table-status .status-dot{width:6px;height:6px}
+.row-details{display:flex;align-items:center;justify-content:center;width:36px;height:44px;border-radius:7px;background:var(--secondary);color:var(--primary);letter-spacing:1px;font-weight:800}
+.concept-plantel .table-footer{font-size:10px;margin-top:12px;padding-top:14px}
+.concept-plantel .table-footer .text-link{font-size:11px}
+.concept-tasks .card-head{margin-bottom:5px}
+.concept-tasks .text-link,.concept-finance .text-link{font-size:10px}
+.concept-tasks .task{padding:13px 0;gap:11px;align-items:center}
+.concept-tasks .task strong{font-size:11px;font-weight:750;line-height:1.4}
+.concept-tasks .task small{font-size:10px;line-height:1.4}
+.task-check{width:17px;height:17px;border:1.5px solid var(--input);border-radius:4px;flex-shrink:0}
+.concept-tasks .task-icon{width:27px;height:27px;background:transparent;margin-left:auto;border-radius:6px}
+.concept-tasks .task-icon svg{width:17px;height:17px}
+.concept-finance .card-head{margin-bottom:6px}
+.finance-period{font-size:9px;color:var(--muted);margin-bottom:12px}
+.finance-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 0;border-top:1px solid var(--line);font-size:11px}
+.finance-row span{display:flex;align-items:center;gap:7px}
+.finance-row svg{width:16px;height:16px;color:var(--primary)}
+.finance-row strong,.finance-total strong{font-size:13px;font-weight:800;white-space:nowrap}
+.finance-total{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--secondary);color:var(--primary);padding:12px;margin-top:8px;border-radius:7px;font-size:11px;font-weight:800}
+.finance-note{font-size:10px;color:var(--muted);margin-top:12px}
+.concept-overview-more{margin-top:18px;padding:12px 18px;position:relative;overflow:hidden}
+.concept-overview-more:after{content:'';position:absolute;right:0;bottom:-10px;width:230px;height:120px;background:url('assets/simbolo-azul.svg') center/contain no-repeat;opacity:.025;pointer-events:none}
+[data-theme=dark] .concept-overview-more:after{background-image:url('assets/simbolo-branco.svg')}
+.concept-overview-more summary{min-height:44px;padding:11px 0;font-size:12px;font-weight:750}
+.concept-secondary-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;padding:18px 0;position:relative;z-index:1}
+.concept-secondary-grid p{font-size:12px;color:var(--muted);margin:8px 0}
+.concept-secondary-grid select{max-width:210px;margin-bottom:14px}
+.concept-bird-hero{display:grid;grid-template-columns:350px 1fr;background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.concept-bird-hero .bird-photo{height:270px;border:0;border-radius:0;object-position:center 25%}
+.concept-bird-summary{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:28px}
+.concept-bird-identity h2{font-size:34px;font-weight:800;letter-spacing:-1px}
+.concept-bird-identity .identification{color:var(--primary);font-size:14px;font-weight:700;margin-top:2px;margin-bottom:12px}
+.concept-current-weight{display:flex;flex-direction:column;border-left:1px solid var(--line);padding-left:20px;min-width:110px;flex-shrink:0}
+.concept-current-weight small{font-size:11px}
+.concept-current-weight strong{font-size:30px;font-weight:800;line-height:1.25;letter-spacing:-.6px}
+.concept-current-weight span{font-size:10px;color:var(--muted);margin-top:6px;line-height:1.5}
+.concept-bird-records{display:grid;grid-template-columns:1.4fr 1fr;gap:24px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px}
+.concept-recent-history .card-head,.concept-recent-documents .card-head{margin-bottom:15px}
+.concept-recent-history h2,.concept-recent-documents h2{font-size:17px}
+.concept-recent-history .text-link,.concept-recent-documents .text-link{font-size:11px}
+.concept-timeline{list-style:none;padding:0 0 0 8px;margin:0}
+.concept-timeline li{position:relative;display:flex;align-items:flex-start;gap:12px;padding:0 0 18px 19px;min-height:73px}
+.concept-timeline li:last-child{padding-bottom:0}
+.concept-timeline li:before{content:'';position:absolute;left:0;top:12px;bottom:-2px;width:1px;background:var(--line)}
+.concept-timeline li:last-child:before{bottom:calc(100% - 16px)}
+.timeline-point{position:absolute;left:-5px;top:8px;width:11px;height:11px;border-radius:50%;background:var(--accent);border:2px solid var(--surface)}
+.timeline-observation .timeline-point{background:#29aaea}
+.timeline-exam .timeline-point{background:#fbc732}
+.timeline-care .timeline-point{background:#67994b}
+.concept-timeline .timeline-icon{width:38px;height:38px;background:var(--secondary);border:0;color:var(--primary);margin-top:0}
+.concept-timeline .timeline-icon svg{width:20px;height:20px}
+.concept-timeline small{font-size:10px;font-weight:550}
+.timeline-title{display:block;font-size:12px;font-weight:800;color:var(--text);line-height:1.5}
+.concept-timeline p{font-size:11px;color:var(--muted);line-height:1.5;margin-top:2px}
+.concept-timeline .badge{margin-left:auto;align-self:flex-start;white-space:nowrap;flex-shrink:0;font-size:10px}
+.document-icon{display:flex;align-items:center;justify-content:center;width:38px;height:43px;border-radius:9px;background:var(--secondary);color:var(--primary);flex-shrink:0}
+.concept-recent-documents .file-list{padding:8px 0;font-size:11px;gap:12px}
+.concept-recent-documents .file-list>div{flex:1;min-width:0}
+.concept-recent-documents .file-list button{font-size:10px;padding:9px 10px}
+.concept-recent-documents .file-list small{font-size:10px}
+.concept-full-details{margin-top:24px}
+.bird-filters-preview{padding:12px 18px;margin-bottom:18px}
+.bird-filters-preview summary{min-height:44px;padding:11px 0;font-size:12px;font-weight:750}
+.bird-filters-preview .form-grid{margin:16px 0 8px}
+.android-concept-header{display:none}
+/* C is a compact bird-first layout on Android, in both themes. */
+[data-platform=android] body{font-weight:550;font-size:14px}
+[data-platform=android] .preview-note{padding:5px 12px;font-size:8px;justify-content:center}
+[data-platform=android] .preview-note span{display:none}
+[data-platform=android] .android-concept-header{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:7px 8px;min-height:65px;position:relative;background:var(--bg)}
+[data-platform=android] .android-context{text-align:center;min-width:0;display:flex;flex-direction:column;gap:1px}
+[data-platform=android] .android-context strong{font-size:17px;font-weight:800;letter-spacing:-.4px}
+[data-platform=android] .android-context h1{font-size:17px;font-weight:800;letter-spacing:-.4px;line-height:1.5}
+[data-platform=android] .android-context small{font-size:10px}
+[data-platform=android] .android-concept-header .mobile-menu{display:block;border:0;padding:0;background:transparent;position:static}
+[data-platform=android] .android-concept-header .mobile-menu>summary{display:flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;padding:10px;color:var(--text)}
+[data-platform=android] .android-menu-panel{position:absolute;right:10px;left:10px;top:calc(100% + 3px);z-index:100;padding:14px;border:1px solid var(--line);border-radius:14px;background:var(--surface);box-shadow:0 14px 40px #12374435;max-height:75vh;overflow-y:auto}
+[data-platform=android] .android-menu-panel .drawer-logo{width:90px;height:78px;object-fit:contain;margin:0 auto 5px}
+[data-platform=android] .android-menu-panel .scope-control-preview span{font-size:11px}
+[data-platform=android] .android-menu-panel .concept-session{padding:10px 0}
+[data-platform=android] .android-menu-panel .theme-picker{width:fit-content;margin:8px 0 12px}
+[data-platform=android] .android-menu-panel .nav-popover{max-height:none;padding:4px;background:var(--secondary)}
+[data-platform=android] .android-menu-panel .nav-popover a{font-size:12px;font-weight:700}
+[data-platform=android] .android-menu-panel .sync{margin:12px 0 4px}
+[data-platform=android] .concept-content{padding:0 12px 20px;max-width:900px}
+[data-platform=android] .concept-page-heading{padding-top:16px;margin-bottom:18px}
+[data-platform=android] .concept-page-heading h1{font-family:RecantoSans,system-ui,sans-serif;font-size:28px;font-weight:800;letter-spacing:-.8px}
+[data-platform=android] .concept-page-heading p{font-size:12px;font-weight:550}
+[data-platform=android] .concept-page-actions{display:flex;align-items:stretch;flex-direction:column;gap:10px;margin-top:14px}
+[data-platform=android] .concept-page-actions .search{width:100%;margin-top:0}
+[data-platform=android] .concept-page-actions button{font-size:12px;font-weight:750}
+[data-platform=android] .concept-metrics{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:16px}
+[data-platform=android] .concept-metrics .metric{flex-direction:row;align-items:center;padding:13px;gap:10px;min-height:105px;border-radius:13px}
+[data-platform=android] .concept-metrics .metric strong{font-family:RecantoSans,system-ui,sans-serif;font-size:21px;font-weight:800}
+[data-platform=android] .concept-metrics .metric small{font-size:9px}
+[data-platform=android] .concept-metrics .metric-icon{width:31px;height:31px}
+[data-platform=android] .concept-metrics .metric:nth-child(n+5){display:none}
+[data-platform=android] .concept-home-grid{grid-template-columns:1fr;gap:16px}
+[data-platform=android] .concept-home-grid .card{padding:15px;border-radius:15px}
+[data-platform=android] .concept-home-grid h2{font-family:RecantoSans,system-ui,sans-serif;font-size:16px;font-weight:800}
+[data-platform=android] .plantel-tools{margin-top:0;padding-left:0;flex-wrap:wrap;gap:10px}
+[data-platform=android] .plantel-tools label{min-width:100%;font-size:10px}
+[data-platform=android] .plantel-tools .search{width:100%}
+[data-platform=android] .bird-table{min-width:660px}
+[data-platform=android] .concept-secondary-grid{grid-template-columns:1fr;gap:16px}
+[data-platform=android] .concept-overview-more{padding:10px 15px;border-radius:15px}
+[data-platform=android] .concept-overview-more summary{font-size:11px}
+[data-platform=android] .concept-bird-hero{display:flex;flex-direction:column;gap:0;border:0;border-radius:0;background:transparent;overflow:visible}
+[data-platform=android] .concept-bird-hero .bird-photo{height:230px;border-radius:14px;object-position:center 33%;border:1px solid var(--line)}
+[data-platform=android] .concept-bird-summary{padding:12px 4px 0;align-items:flex-start;gap:12px}
+[data-platform=android] .concept-bird-identity{min-width:0;flex:1}
+[data-platform=android] .concept-bird-identity h2{font-size:28px;font-weight:800;line-height:1.2;letter-spacing:-.8px}
+[data-platform=android] .concept-bird-identity .identification{font-size:12px;font-weight:700;margin-bottom:9px}
+[data-platform=android] .concept-bird-identity .chips{gap:5px}
+[data-platform=android] .concept-bird-identity .badge{font-size:10px;font-weight:650;padding:4px 8px}
+[data-platform=android] .concept-current-weight{min-width:99px;max-width:105px;padding-left:13px;padding-top:2px}
+[data-platform=android] .concept-current-weight small{font-size:9px;font-weight:550}
+[data-platform=android] .concept-current-weight strong{font-size:25px;font-weight:800;letter-spacing:-.6px}
+[data-platform=android] .concept-current-weight span{font-size:9px;margin-top:5px;line-height:1.45}
+[data-platform=android] .profile-actions{margin-top:14px;gap:9px}
+[data-platform=android] .profile-actions button{font-size:12px;font-weight:750;min-height:44px;padding:10px 8px}
+[data-platform=android] .tabs{margin-top:13px;margin-bottom:14px;gap:1px}
+[data-platform=android] .tabs a{font-size:10px;font-weight:700;padding:11px 6px;min-height:44px}
+[data-platform=android] .concept-bird-records{display:flex;flex-direction:column;gap:20px;padding:0 4px;border:0;border-radius:0;background:transparent}
+[data-platform=android] .concept-recent-history h2,[data-platform=android] .concept-recent-documents h2{font-size:15px;font-weight:800;letter-spacing:-.25px}
+[data-platform=android] .concept-recent-history .card-head,[data-platform=android] .concept-recent-documents .card-head{margin-bottom:12px}
+[data-platform=android] .concept-recent-history .text-link,[data-platform=android] .concept-recent-documents .text-link{font-size:10px;font-weight:700}
+[data-platform=android] .concept-timeline{padding-left:7px}
+[data-platform=android] .concept-timeline li{padding:0 0 16px 17px;min-height:69px;gap:11px}
+[data-platform=android] .concept-timeline .timeline-icon{width:36px;height:36px}
+[data-platform=android] .concept-timeline .timeline-icon svg{width:18px;height:18px}
+[data-platform=android] .concept-timeline small{font-size:10px}
+[data-platform=android] .timeline-title{font-size:12px;font-weight:800}
+[data-platform=android] .concept-timeline p{font-size:11px;font-weight:550;margin-top:1px;line-height:1.4}
+[data-platform=android] .concept-timeline .badge{font-size:10px;padding:5px 9px;background:var(--secondary);border-color:transparent}
+[data-platform=android] .concept-recent-documents .file-list{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px;font-size:11px}
+[data-platform=android] .concept-recent-documents .file-list button{padding:9px 8px;font-size:9px}
+[data-platform=android] .concept-recent-documents .file-list small{font-size:9px}
+[data-platform=android] .concept-full-details{margin-top:22px}
+[data-platform=android] .card h2,[data-platform=android] .section-heading h2,[data-platform=android] .form-section legend,[data-platform=android] .form-title h1{font-family:RecantoSans,system-ui,sans-serif!important;font-weight:800}
+[data-platform=android] .form-frame{padding-top:14px}
+[data-platform=android] .form-title h1{font-size:27px;letter-spacing:-.8px}
+[data-platform=android] .form-section legend{font-size:18px;letter-spacing:-.35px}
+[data-platform=android] .form-fields label{font-weight:650;font-size:12px}
+[data-platform=android] input,[data-platform=android] select,[data-platform=android] textarea{font-weight:550;font-size:14px}
+[data-platform=android] .form-hint{font-size:11px;font-weight:550}
+[data-platform=android] .footer{font-size:9px;font-weight:550}
+[data-platform=android] .android-bird-list{display:grid;grid-template-columns:1fr;gap:12px}
+[data-platform=android] .android-bird-item{padding:13px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+[data-platform=android] .android-bird-item-heading{display:flex;align-items:center;gap:11px;flex:1;min-width:0}
+[data-platform=android] .android-bird-item-heading>div{min-width:0}
+[data-platform=android] .android-bird-item-heading .bird-name{font-size:14px;font-weight:800}
+[data-platform=android] .android-bird-item-heading small{display:block;font-size:9px;color:var(--muted);margin-top:3px;overflow-wrap:anywhere}
+[data-platform=android] .android-bird-item dl{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:13px 0 0;padding-top:12px;border-top:1px solid var(--line)}
+[data-platform=android] .android-bird-item dt{font-size:9px;color:var(--muted)}
+[data-platform=android] .android-bird-item dd{font-size:11px;font-weight:700;margin:3px 0 0}
+@media(max-width:1250px){[data-platform=desktop] .desktop-concept-header .navigation{justify-content:flex-start;flex-wrap:wrap}.concept-header-tools{margin-left:auto}.concept-metrics{grid-template-columns:repeat(4,minmax(0,1fr))}.concept-home-grid{grid-template-columns:minmax(0,2fr) minmax(0,1fr)}.plantel-tools{margin-top:0;padding-left:0}.bird-table{min-width:700px}}
+@media(max-width:900px){[data-platform=desktop] .concept-page-heading{flex-wrap:wrap}.concept-home-grid{grid-template-columns:minmax(0,1fr)}.concept-side-column{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.concept-page-actions{width:100%}.concept-page-actions .search{width:auto;flex:1}.plantel-tools{flex-wrap:wrap}.plantel-tools .search{max-width:100%}.concept-bird-hero{grid-template-columns:270px 1fr}.concept-bird-summary{padding:20px;gap:12px}.concept-bird-records{grid-template-columns:1fr}}
+@media(max-width:600px){.concept-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.concept-side-column{display:flex}.concept-secondary-grid{grid-template-columns:1fr}.concept-bird-hero{display:flex;flex-direction:column}.concept-page-actions{flex-wrap:wrap}.concept-page-actions .search{min-width:100%}[data-platform=desktop] .concept-header-tools{margin-left:0}.concept-header-tools .theme-picker a{width:44px}.concept-bird-summary{padding:18px}.concept-timeline .badge{font-size:10px}}
+@media(min-width:700px){[data-platform=android] .concept-metrics{grid-template-columns:repeat(4,minmax(0,1fr))}[data-platform=android] .concept-bird-hero .bird-photo{height:340px}[data-platform=android] .concept-bird-records{display:grid;grid-template-columns:1.3fr 1fr}}

@@ -1,0 +1,23 @@
+[
+  {
+    "mib": 1,
+    "byteLength": 1048575,
+    "currentMs": 549.3999999761581,
+    "prototypeMs": 34.90000003576279,
+    "equal": true
+  },
+  {
+    "mib": 4,
+    "byteLength": 4194303,
+    "currentMs": 2230.199999988079,
+    "prototypeMs": 170.5,
+    "equal": true
+  },
+  {
+    "mib": 17,
+    "byteLength": 17825790,
+    "currentMs": 8618,
+    "prototypeMs": 515,
+    "equal": true
+  }
+]
