@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
-import type { Bird, HealthEvent, ModuleProps } from '../domain/types';
+import { useEffect, useMemo, useState } from 'react';
+import { Activity, ClipboardList, Scale, Sprout, Stethoscope } from 'lucide-react';
+import type { HealthEvent, ModuleProps } from '../domain/types';
 import { birdLabel, dateLabel } from '../domain/shared';
-import { healthHistoryForBird, latestBirdWeight } from '../domain/breeding';
+import { healthHistoriesForBirds, healthHistoryForBird } from '../domain/breeding';
 import { AttachmentPreview } from './DirectAttachments';
 import { healthKinds } from './HealthRegistrationForm';
 import { RecordDetailsDialog, RecordField as Field } from './RecordDialog';
@@ -26,11 +27,18 @@ export function HealthEventDetails({ event, state, scope, onClose, onEdit }: Mod
 
 export function HealthTimeline({ records, onOpen }: { records: HealthEvent[]; onOpen: (event: HealthEvent) => void }) {
   if (!records.length) return <p className="empty muted">Nenhum registro de saúde ou manejo.</p>;
-  return <div className="table-wrap record-table-wrap"><table><thead><tr><th>Data</th><th>Registro</th><th>Informações</th><th>Detalhes</th></tr></thead><tbody>{records.map(event => <tr key={event.id}>
-    <td>{dateLabel(event.date)}</td><td><strong>{event.title}</strong><small>{event.kind}</small></td>
-    <td>{event.weightGrams !== null && <span>{event.weightGrams.toLocaleString('pt-BR')} g · </span>}{event.professional || event.author}<small>{event.attachmentIds.length} {event.attachmentIds.length === 1 ? 'arquivo' : 'arquivos'}</small></td>
-    <td><button className="button secondary" onClick={() => onOpen(event)} aria-label={`Ver registro: ${event.title}`}>Ver detalhes</button></td>
-  </tr>)}</tbody></table></div>;
+  return <ol className="health-timeline" aria-label="Registros de saúde e manejo">{records.map(event => {
+    const Icon = event.kind === 'pesagem' ? Scale : ['alimentação', 'desmame', 'independência'].includes(event.kind) ? Sprout : ['consulta', 'exame', 'diagnóstico informado'].includes(event.kind) ? Stethoscope : ['tratamento prescrito', 'procedimento', 'ocorrência'].includes(event.kind) ? Activity : ClipboardList;
+    return <li key={event.id} className="health-timeline-entry">
+      <span className="health-timeline-marker" aria-hidden="true"><Icon size={19}/></span>
+      <div className="health-timeline-content">
+        <div className="health-timeline-heading"><strong>{event.title}</strong><time className="health-timeline-date" dateTime={event.date}>{dateLabel(event.date)}</time></div>
+        <span className="health-timeline-kind">{event.kind}</span>
+        <div className="health-timeline-meta">{event.weightGrams !== null && <strong className="health-timeline-weight">{event.weightGrams.toLocaleString('pt-BR')} g</strong>}<span>{event.professional || event.author}</span><span>{event.attachmentIds.length} {event.attachmentIds.length === 1 ? 'arquivo' : 'arquivos'}</span></div>
+        <button className="button secondary health-timeline-action" onClick={() => onOpen(event)} aria-label={`Ver registro: ${event.title}`}>Ver detalhes</button>
+      </div>
+    </li>;
+  })}</ol>;
 }
 
 export default function HealthPanel(props: ModuleProps & { onNew: (birdId?: string) => void; onEdit: (event: HealthEvent) => void }) {
@@ -38,10 +46,10 @@ export default function HealthPanel(props: ModuleProps & { onNew: (birdId?: stri
   const [birdId, setBirdId] = useState<string | null>(null), [eventId, setEventId] = useState<string | null>(null);
   const [kind, setKind] = useState(''), [from, setFrom] = useState(''), [to, setTo] = useState('');
   useEffect(() => { setBirdId(null); setEventId(null); }, [scope]);
-  const birds = state.birds.filter(b => b.scope === scope), selected = birds.find(b => b.id === birdId);
-  const recordsFor = (bird: Bird) => healthHistoryForBird(state, scope, bird.id).filter(event => (!kind || event.kind === kind) && (!from || event.date >= from) && (!to || event.date <= to) && (includes(search, birdLabel(bird), bird.species) || includes(search, event.title, event.kind, event.notes, event.author, event.professional)));
-  const rows = birds.map(bird => ({ bird, records: recordsFor(bird) })).filter(row => row.records.length).sort((a, b) => b.records[0].date.localeCompare(a.records[0].date) || birdLabel(a.bird).localeCompare(birdLabel(b.bird), 'pt-BR'));
-  const selectedRecords = selected ? recordsFor(selected) : [];
+  const birds = useMemo(() => state.birds.filter(b => b.scope === scope), [state.birds, scope]), selected = birds.find(b => b.id === birdId);
+  const histories = useMemo(() => healthHistoriesForBirds(state.health, scope), [state.health, scope]);
+  const rows = useMemo(() => birds.map(bird => ({ bird, records: (histories.get(bird.id) ?? []).filter(event => (!kind || event.kind === kind) && (!from || event.date >= from) && (!to || event.date <= to) && (includes(search, birdLabel(bird), bird.species) || includes(search, event.title, event.kind, event.notes, event.author, event.professional))) })).filter(row => row.records.length).sort((a, b) => b.records[0].date.localeCompare(a.records[0].date) || birdLabel(a.bird).localeCompare(birdLabel(b.bird), 'pt-BR')), [birds, histories, kind, from, to, search]);
+  const selectedRecords = selected ? rows.find(row => row.bird.id === selected.id)?.records ?? [] : [];
   const event = state.health.find(h => h.scope === scope && h.id === eventId);
   return <>
     <section className="card"><div className="grid filters">
@@ -57,11 +65,26 @@ export default function HealthPanel(props: ModuleProps & { onNew: (birdId?: stri
 export function BirdHealthHistory(props: ModuleProps & { birdId: string; onEdit: (event: HealthEvent) => void }) {
   const { state, scope, birdId, onEdit } = props;
   const [eventId, setEventId] = useState<string | null>(null);
-  const records = healthHistoryForBird(state, scope, birdId), weights = records.filter(h => h.weightGrams !== null).slice().reverse(), last = latestBirdWeight(state, scope, birdId);
+  const records = useMemo(() => healthHistoryForBird(state, scope, birdId), [state.health, scope, birdId]);
+  const weights = useMemo(() => records.filter(h => h.weightGrams !== null).slice().reverse(), [records]), last = records.find(h => h.weightGrams !== null);
   const event = records.find(h => h.id === eventId);
   return <>
     {weights.length > 0 && <section className="card"><h3 className="section-title">Evolução do peso</h3><p>Peso mais recente: <strong>{last?.weightGrams?.toLocaleString('pt-BR')} g</strong> · {dateLabel(last?.date)}</p><ol className="record-history">{weights.map(h => <li key={h.id}>{dateLabel(h.date)}: <strong>{h.weightGrams?.toLocaleString('pt-BR')} g</strong> · {h.title}</li>)}</ol></section>}
     <section className="card"><h3 className="section-title">Histórico de saúde e manejo</h3><HealthTimeline records={records} onOpen={h => setEventId(h.id)}/></section>
+    {event && <HealthEventDetails {...props} event={event} onClose={() => setEventId(null)} onEdit={onEdit}/>}
+  </>;
+}
+
+export function BirdRecentHealthHistory(props: ModuleProps & { birdId: string; onEdit: (event: HealthEvent) => void; onViewAll: () => void; limit?: number }) {
+  const { state, scope, birdId, onEdit, onViewAll, limit = 4 } = props;
+  const [eventId, setEventId] = useState<string | null>(null);
+  const records = useMemo(() => healthHistoryForBird(state, scope, birdId), [state.health, scope, birdId]);
+  const event = records.find(record => record.id === eventId);
+  return <>
+    <section className="card bird-recent-health">
+      <div className="row record-header"><h3 className="section-title">Histórico recente</h3><button className="button secondary" onClick={onViewAll}>Ver todo o histórico</button></div>
+      <HealthTimeline records={records.slice(0, limit)} onOpen={record => setEventId(record.id)}/>
+    </section>
     {event && <HealthEventDetails {...props} event={event} onClose={() => setEventId(null)} onEdit={onEdit}/>}
   </>;
 }

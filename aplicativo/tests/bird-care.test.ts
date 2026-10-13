@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { breedingHandler, healthHistoryForBird, latestBirdWeight } from '../src/domain/breeding';
-import { emptyState, type Scope, type State } from '../src/domain/types';
+import { breedingHandler, healthHistoriesForBirds, healthHistoryForBird, latestBirdWeight } from '../src/domain/breeding';
+import { emptyState, type HealthEvent, type Scope, type State } from '../src/domain/types';
 
 function command(state: State, action: string, data: unknown, scope: Scope = 'real') {
   const next = structuredClone(state), result = breedingHandler(next, scope, action, data);
@@ -34,6 +34,30 @@ describe('bird health summaries', () => {
     expect(latestBirdWeight(state, 'real', birdId)?.id).toBe(latestId);
     expect(healthHistoryForBird(state, 'demo', birdId)).toEqual([]);
     expect(latestBirdWeight(state, 'real', demoId)).toBeUndefined();
+  });
+  it('groups histories with exactly the existing order, object references and scope isolation without mutating records', () => {
+    const state = emptyState();
+    for (let index = 0; index < 800; index++) state.health.push({ id: `health-${index}`, scope: index % 7 === 0 ? 'demo' : 'real', birdId: `bird-${index % 13}`, date: `2024-06-${String(1 + ((index * 7) % 28)).padStart(2, '0')}`, kind: index % 3 === 0 ? 'exame' : 'pesagem', title: `Registro ${index}`, notes: '', weightGrams: index % 3 === 0 ? null : 97, professional: '', author: 'Criador', attachmentIds: [] });
+    const original = structuredClone(state.health);
+    for (const scope of ['real', 'demo'] as const) {
+      const grouped = healthHistoriesForBirds(state.health, scope);
+      for (let index = 0; index < 13; index++) {
+        const existing = healthHistoryForBird(state, scope, `bird-${index}`), records = grouped.get(`bird-${index}`)!;
+        expect(records.map(record => record.id)).toEqual(existing.map(record => record.id));
+        records.forEach((record, position) => expect(record).toBe(existing[position]));
+      }
+      expect(grouped.has('bird-without-records')).toBe(false);
+    }
+    expect(state.health).toEqual(original);
+  });
+  it('scans a large shared history once instead of rescanning every bird', () => {
+    let scopeReads = 0;
+    const records = Array.from({ length: 4000 }, (_, index): HealthEvent => ({ id: `record-${index}`, get scope() { scopeReads++; return 'real' as const; }, birdId: `bird-${index % 200}`, date: '2024-06-10', kind: 'pesagem', title: 'Pesagem', notes: '', weightGrams: 97, professional: '', author: 'Criador', attachmentIds: [] }));
+    const grouped = healthHistoriesForBirds(records, 'real');
+    expect(scopeReads).toBe(records.length);
+    expect(grouped.size).toBe(200);
+    expect(grouped.get('bird-0')?.map(record => record.id)).toEqual(Array.from({ length: 20 }, (_, index) => `record-${3800 - index * 200}`));
+    expect(healthHistoriesForBirds([], 'real').size).toBe(0);
   });
 });
 

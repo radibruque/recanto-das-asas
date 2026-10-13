@@ -74,7 +74,7 @@ describe('Preferência visual isolada', () => {
     expect(app.store.getSnapshot()).toEqual({ preference: 'system', theme: 'dark' });
     expect(app.root.dataset).toEqual({ theme: 'dark', themePreference: 'system' });
     expect(app.root.style.colorScheme).toBe('dark');
-    expect(app.meta.content).toBe('#273B40');
+    expect(app.meta.content).toBe('#233B46');
     expect(app.storage.getItem).toHaveBeenCalledExactlyOnceWith('recanto.ui.theme');
     expect(app.storage.setItem).not.toHaveBeenCalled();
   });
@@ -82,7 +82,7 @@ describe('Preferência visual isolada', () => {
   it('dá prioridade à escolha manual salva sem alterá-la quando o sistema muda', () => {
     const app = browser({ saved: 'light', dark: true });
     expect(app.store.getSnapshot()).toEqual({ preference: 'light', theme: 'light' });
-    expect(app.meta.content).toBe('#F5F8F6');
+    expect(app.meta.content).toBe('#F4F8FA');
     const listener = vi.fn();
     app.store.subscribe(listener);
     app.systemChange(false); app.systemChange(true);

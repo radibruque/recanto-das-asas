@@ -37,7 +37,7 @@
     root.dataset.themePreference = preference;
     root.style.colorScheme = theme;
     var meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.setAttribute('content', theme === 'dark' ? '#273B40' : '#F5F8F6');
+    if (meta) meta.setAttribute('content', theme === 'dark' ? '#233B46' : '#F4F8FA');
     if (snapshot && snapshot.preference === preference && snapshot.theme === theme) return;
     snapshot = Object.freeze({ preference: preference, theme: theme });
     listeners.forEach(function (listener) { listener(); });

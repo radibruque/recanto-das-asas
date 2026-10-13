@@ -2,6 +2,7 @@ import { test, expect, type Page } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
 import { PDFDocument } from 'pdf-lib';
 import type { State } from '../../src/domain/types';
+import { navigateVisual } from './visual-helpers';
 
 const password = 'senha-ficticia-da-atualizacao';
 const documentBytes = Buffer.from('Exame fictício — documento de teste, sem dados reais.');
@@ -15,9 +16,7 @@ async function create(page:Page) {
   await expect(page.getByRole('heading', {name:'Painel Criatório', exact:true})).toBeVisible();
 }
 async function nav(page:Page, name:string) {
-  const menu = page.getByRole('button', {name:'Abrir menu', exact:true});
-  if (await menu.isVisible()) await menu.click();
-  await page.getByRole('navigation', {name:'Navegação principal'}).getByRole('button', {name, exact:true}).click();
+  await navigateVisual(page, name);
 }
 async function birdForm(page:Page, id:string, name=id) {
   await nav(page, 'Aves');

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import type { Bird, BirdStatus, Handler, State, Scope } from './types';
+import type { Bird, BirdStatus, Handler, HealthEvent, State, Scope } from './types';
 import { cents, date, ensure, id, related, required, text, today } from './shared';
 import { bookletDataSchema } from './booklet-data';
 
@@ -210,6 +210,17 @@ export const birdStatusOptions:readonly BirdStatus[]=statuses;
 
 export function healthHistoryForBird(state:State,scope:Scope,birdId:string) {
   return state.health.map((record,index)=>({record,index})).filter(({record})=>record.scope===scope&&record.birdId===birdId).sort((a,b)=>b.record.date.localeCompare(a.record.date)||b.index-a.index).map(({record})=>record);
+}
+
+/** Build all bird histories in one pass, retaining the same-day insertion order used by healthHistoryForBird. */
+export function healthHistoriesForBirds(health:HealthEvent[],scope:Scope):Map<string,HealthEvent[]> {
+  const grouped=new Map<string,{record:HealthEvent;index:number}[]>();
+  health.forEach((record,index)=>{
+    if(record.scope!==scope)return;
+    const records=grouped.get(record.birdId);
+    if(records)records.push({record,index});else grouped.set(record.birdId,[{record,index}]);
+  });
+  return new Map(Array.from(grouped,([birdId,records])=>[birdId,records.sort((a,b)=>b.record.date.localeCompare(a.record.date)||b.index-a.index).map(({record})=>record)]));
 }
 
 export function latestBirdWeight(state:State,scope:Scope,birdId:string) {

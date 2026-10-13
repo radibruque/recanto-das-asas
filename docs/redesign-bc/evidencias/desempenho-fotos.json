@@ -1,0 +1,146 @@
+[
+  {
+    "name": "medium",
+    "count": 12,
+    "bytes": 1053841,
+    "initial": {
+      "images": 4,
+      "workers": 1,
+      "elapsed": 1563.4000000357628
+    },
+    "seen": 12,
+    "images": 4,
+    "workers": 1,
+    "alerts": [],
+    "tasks": [
+      {
+        "start": 620.1000000238419,
+        "duration": 61
+      }
+    ],
+    "errors": [],
+    "created": 18,
+    "revoked": 14,
+    "cleanup": {
+      "created": 18,
+      "revoked": 18
+    }
+  },
+  {
+    "name": "medium",
+    "count": 30,
+    "bytes": 1053841,
+    "initial": {
+      "images": 4,
+      "workers": 1,
+      "elapsed": 1964.0999999642372
+    },
+    "seen": 30,
+    "images": 4,
+    "workers": 1,
+    "alerts": [],
+    "tasks": [
+      {
+        "start": 452.30000001192093,
+        "duration": 77
+      },
+      {
+        "start": 729.1999999880791,
+        "duration": 60
+      },
+      {
+        "start": 831.4000000357628,
+        "duration": 64
+      },
+      {
+        "start": 993,
+        "duration": 66
+      },
+      {
+        "start": 1098.9000000357628,
+        "duration": 143
+      },
+      {
+        "start": 1286.1000000238419,
+        "duration": 52
+      },
+      {
+        "start": 1376.6000000238419,
+        "duration": 50
+      },
+      {
+        "start": 1449.5,
+        "duration": 62
+      },
+      {
+        "start": 1606.300000011921,
+        "duration": 53
+      }
+    ],
+    "errors": [],
+    "created": 46,
+    "revoked": 42,
+    "cleanup": {
+      "created": 46,
+      "revoked": 46
+    }
+  },
+  {
+    "name": "large",
+    "count": 12,
+    "bytes": 2252880,
+    "initial": {
+      "images": 10,
+      "workers": 1,
+      "elapsed": 1728.699999988079
+    },
+    "seen": 12,
+    "images": 4,
+    "workers": 1,
+    "alerts": [],
+    "tasks": [
+      {
+        "start": 400,
+        "duration": 51
+      },
+      {
+        "start": 923.5,
+        "duration": 77
+      }
+    ],
+    "errors": [],
+    "created": 18,
+    "revoked": 14,
+    "cleanup": {
+      "created": 18,
+      "revoked": 18
+    }
+  },
+  {
+    "name": "huge",
+    "count": 1,
+    "bytes": 5875089,
+    "initial": {
+      "images": 1,
+      "workers": 1,
+      "elapsed": 1424.800000011921
+    },
+    "seen": 1,
+    "images": 1,
+    "workers": 1,
+    "alerts": [],
+    "tasks": [
+      {
+        "start": 1122.8999999761581,
+        "duration": 162
+      }
+    ],
+    "errors": [],
+    "created": 1,
+    "revoked": 0,
+    "cleanup": {
+      "created": 1,
+      "revoked": 1
+    }
+  }
+]

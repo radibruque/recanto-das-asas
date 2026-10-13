@@ -1,5 +1,5 @@
 import { test, expect, type Page } from '@playwright/test';
-import { createVisualVault, navigateVisual } from './visual-helpers';
+import { createVisualVault, navigateVisual, revealVisualContextControl } from './visual-helpers';
 
 /** Inspect rendered text against solid ancestor backgrounds, not image artwork. */
 async function textContrastFailures(page: Page) {
@@ -127,7 +127,7 @@ test('closed mobile navigation stays outside keyboard focus and exposes its open
   await createVisualVault(page, 'light');
   const menu = page.getByRole('button', { name: 'Abrir menu', exact: true });
   await expect(menu).toHaveAttribute('aria-expanded', 'false');
-  await expect(page.getByRole('button', { name: 'Bloquear', exact: true })).toBeVisible();
+  await expect(page.locator('.session-menu').getByRole('button', { name: 'Bloquear', exact: true, includeHidden: true })).toHaveCount(1);
   await page.keyboard.press('Tab');
   const closedFocus = await page.evaluate(() => {
     const active = document.activeElement as HTMLElement, rect = active.getBoundingClientRect();
@@ -137,7 +137,8 @@ test('closed mobile navigation stays outside keyboard focus and exposes its open
   await menu.click();
   await expect(menu).toHaveAttribute('aria-expanded', 'true');
   await expect(page.getByRole('navigation', { name: 'Navegação principal' })).toBeVisible();
-  await expect(page.getByRole('navigation', { name: 'Navegação principal' }).getByRole('button')).toHaveCount(20);
+  await expect(page.getByRole('navigation', { name: 'Navegação principal' }).locator('.nav-item')).toHaveCount(20);
+  await expect(await revealVisualContextControl(page, 'Bloquear')).toBeVisible();
   await page.getByRole('button', { name: 'Fechar menu', exact: true }).click({ position: { x: 380, y: 100 } });
   await expect(menu).toHaveAttribute('aria-expanded', 'false');
   await expect(page.getByRole('navigation', { name: 'Navegação principal' })).toHaveCount(0);

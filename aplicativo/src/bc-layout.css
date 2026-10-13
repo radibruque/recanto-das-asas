@@ -1,0 +1,266 @@
+/* Approved B/C presentation; all controls bind to the existing application. */
+:root { --nav-text: #ffffff; --bird-columns: 48px minmax(100px,1.1fr) minmax(110px,1.2fr) minmax(85px,1fr) minmax(90px,.85fr) minmax(70px,.8fr) minmax(90px,.8fr) 24px; }
+:root[data-theme='dark'] { --nav-text: #edf5f8; }
+.app-layout { display: block; }
+.workspace { width: 100%; min-width: 0; }
+.main-content { width: 100%; max-width: 1520px; margin: auto; padding: 24px 20px; }
+.page-title { align-items: center; gap: 20px; margin-bottom: 18px; }
+.page-title .eyebrow { display: none; }
+.page-title h1 { font-size: 28px; font-weight: 800; }
+.page-title p { margin-top: 5px; font-size: 12px; }
+.search-field { width: 360px; font-size: 12px; }
+.card { border-radius: 12px; padding: 20px; box-shadow: none; }
+.button, button { font-weight: 750; }
+.button { border-radius: 8px; }
+.sidebar { position: sticky; top: 0; left: auto; display: flex; flex-direction: row; align-items: center; gap: 12px; width: 100%; height: auto; min-height: 84px; padding: 7px 20px; background: var(--sidebar); border: 0; color: var(--nav-text); visibility: visible; z-index: 80; }
+.brand { flex: 0 0 auto; padding: 0; margin: 0; gap: 12px; color: var(--nav-text); }
+.brand img { width: 74px; height: 64px; object-fit: contain; padding: 5px; border-radius: 8px; background: #f4f8fa; }
+.brand > span { display: none; }
+.sidebar nav { display: flex; align-items: stretch; justify-content: space-between; gap: 3px; padding: 0; overflow: visible; flex: 1; min-width: 0; }
+.nav-item, .nav-menu > summary { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; min-height: 64px; margin: 0; padding: 8px 9px; border: 0; border-radius: 7px; background: transparent; color: var(--nav-text); font-size: 10px; font-weight: 700; line-height: 1.35; white-space: nowrap; text-align: center; }
+.nav-item svg, .nav-menu > summary svg { width: 20px; height: 20px; }
+.nav-item:hover:not(:disabled), .nav-menu > summary:hover { background: var(--sidebar-active); color: var(--nav-text); }
+.nav-item.active, .nav-menu.active-group > summary { color: var(--nav-text); background: var(--sidebar-active); box-shadow: inset 0 -2px var(--focus); }
+.sidebar nav > .nav-item { width: auto; flex: 1 0 auto; }
+.nav-menu { position: relative; min-width: 0; flex: 1 0 auto; }
+.nav-menu > summary { list-style: none; cursor: pointer; }
+.nav-menu > summary::-webkit-details-marker { display: none; }
+.nav-popover { position: absolute; right: 0; top: calc(100% + 6px); min-width: 240px; max-width: min(320px,95vw); padding: 8px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--text); box-shadow: var(--shadow-modal); }
+.nav-popover .nav-item { width: 100%; flex-direction: row; justify-content: flex-start; min-height: 44px; padding: 10px 12px; color: var(--text); font-size: 12px; text-align: left; white-space: normal; }
+.nav-popover .nav-item:hover:not(:disabled), .nav-popover .nav-item.active { background: var(--surface-secondary); color: var(--primary); box-shadow: none; }
+.sidebar-footer { display: flex; flex-direction: row; align-items: center; gap: 10px; margin: 0; padding: 0 0 0 12px; border: 0; border-left: 1px solid #ffffff40; flex-shrink: 0; }
+.sidebar-footer .theme-control-label { display: none; }
+.sidebar-footer .theme-options { padding: 2px; border-color: transparent; background: var(--sidebar-active); }
+.sidebar-footer .theme-options button { min-width: 36px; min-height: 44px; padding: 8px; color: var(--nav-text); }
+.sidebar-footer .theme-options button span { display: none; }
+.sidebar-footer .theme-options button[aria-pressed='true'] { background: var(--nav-text); color: var(--sidebar); border-color: transparent; }
+.session-menu { position: relative; }
+.session-menu > summary { display: flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; padding: 8px; border-radius: 8px; list-style: none; cursor: pointer; }
+.session-menu > summary::-webkit-details-marker { display: none; }
+.session-menu > summary span { display: none; }
+.session-panel { position: absolute; top: calc(100% + 13px); right: 0; display: flex; flex-direction: column; gap: 14px; width: 300px; max-width: calc(100vw - 24px); padding: 18px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--text); box-shadow: var(--shadow-modal); }
+.session-panel .scope-control { width: 100%; max-width: 100%; display: flex; }
+.session-panel .scope-control button { font-size: 12px; min-width: 0; padding: 8px; flex: 1; }
+.session-panel .sync-label { display: flex; gap: 8px; min-height: 44px; margin: 0; padding: 8px 0; color: var(--muted); background: transparent; font-size: 12px; }
+.session-panel .lock { width: 100%; }
+.session-panel .lock span { display: inline; }
+.topbar { display: none; }
+.dashboard-heading { margin-top: -8px; margin-bottom: -2px; }
+.dashboard-heading h2 { font-size: 14px; color: var(--muted); }
+.dashboard-stats { display: grid; grid-template-columns: repeat(8,minmax(0,1fr)); gap: 8px; }
+.dashboard-stats .stat-card { display: flex; flex-direction: row; align-items: center; gap: 9px; min-width: 0; padding: 14px 10px; border-radius: 8px; background: var(--surface); color: var(--text); text-align: left; box-shadow: none; }
+.dashboard-stats .stat-card:hover:not(:disabled) { background: var(--surface-secondary); }
+.stat-icon { display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 32px; height: 32px; border-radius: 50%; color: var(--primary); background: var(--surface-secondary); }
+.stat-icon svg { width: 19px; height: 19px; padding: 0; background: transparent; }
+.stat-content { min-width: 0; }
+.dashboard-stats strong { font-size: 19px; font-weight: 800; line-height: 1.25; letter-spacing: -.5px; white-space: normal; }
+.stat-content > span { display: block; font-size: 10px; font-weight: 750; line-height: 1.4; margin-top: 4px; }
+.stat-content small { display: block; font-size: 9px; font-weight: 550; line-height: 1.5; margin-top: 3px; color: var(--muted); }
+.dashboard-columns { display: grid; grid-template-columns: minmax(0,2.45fr) minmax(0,1fr); gap: 18px; align-items: start; }
+.dashboard-columns > * { min-width: 0; }
+.dashboard-columns .card { padding: 18px; border-radius: 10px; }
+.dashboard-columns h3 { font-size: 16px; letter-spacing: -.3px; }
+.dashboard-side { display: flex; flex-direction: column; gap: 16px; }
+.dashboard-side .card + .card { margin: 0; }
+.overview-birds > .row { margin-bottom: 12px; }
+.overview-birds > .row .link, .dashboard-side > .card > .row .link { min-height: 44px; font-size: 11px; padding: 4px 0; }
+.dashboard-side .task-preview { display: flex; flex-direction: row; justify-content: flex-start; align-items: center; gap: 12px; padding: 14px 0; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; color: var(--text); background: transparent; }
+.dashboard-side .task-preview svg { color: var(--primary); }
+.dashboard-side .task-preview strong { font-size: 12px; color: var(--text); }
+.dashboard-side .task-preview small { display: block; font-size: 10px; color: var(--muted); margin-top: 4px; }
+.dashboard-finance > .field { margin: 8px 0 14px; font-size: 11px; }
+.dashboard-finance select { min-height: 38px; font-size: 12px; }
+.finance-preview { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 13px 0; border-top: 1px solid var(--line); font-size: 12px; }
+.finance-preview strong { font-size: 13px; font-weight: 800; white-space: nowrap; }
+.finance-preview small { display: block; font-size: 10px; color: var(--muted); margin-top: 4px; }
+.finance-balance { background: var(--surface-secondary); color: var(--primary); padding: 12px; border-radius: 7px; }
+.dashboard-more { position: relative; overflow: hidden; padding: 12px 18px; }
+.dashboard-more > summary { font-size: 12px; font-weight: 750; }
+.dashboard-more::after { content: ''; position: absolute; right: -5px; bottom: -20px; width: 230px; height: 130px; background: url('/artes/03_Vetores_1_Cor/Simbolo_Aves_azul.svg') center/contain no-repeat; opacity: .025; pointer-events: none; }
+:root[data-theme='dark'] .dashboard-more::after { background-image: url('/artes/03_Vetores_1_Cor/Simbolo_Aves_branco.svg'); }
+.dashboard-more .home-columns { padding-top: 18px; position: relative; z-index: 1; }
+.dashboard-list-footer { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); }
+.dashboard-list-footer small { font-size: 10px; }
+.bird-list { min-width: 0; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); overflow: hidden; }
+.bird-list-heading { display: grid; grid-template-columns: var(--bird-columns); align-items: center; gap: 12px; padding: 12px; background: var(--surface-secondary); color: var(--muted); font-size: 11px; font-weight: 750; }
+.bird-list-items { list-style: none; margin: 0; padding: 0; min-width: 0; }
+.bird-list-row { margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.bird-list-row:first-child { border-top: 0; }
+.bird-list-open { display: grid; grid-template-columns: var(--bird-columns); align-items: center; gap: 12px; width: 100%; min-width: 0; min-height: 72px; padding: 11px 12px; border: 0; border-radius: 0; color: var(--text); background: var(--surface); text-align: left; font-size: 12px; font-weight: 600; }
+.bird-list-open:hover:not(:disabled) { background: var(--surface-secondary); }
+.bird-list-open > span { min-width: 0; overflow-wrap: anywhere; }
+.bird-list-photo { width: 44px; height: 48px; display: flex; align-items: center; justify-content: center; color: var(--primary); background: var(--surface-secondary); border-radius: 7px; overflow: hidden; }
+.bird-list-photo .attachment-thumbnail-frame { display: block; width: 100%; height: 100%; }
+.bird-list-photo img { width: 100%; height: 100%; min-height: 0; max-height: 100% !important; object-fit: cover; padding: 0; margin: 0; border: 0; border-radius: 0; }
+.bird-list-name { display: block; font-size: 13px; font-weight: 800; }
+.bird-list-identification { display: block; margin-top: 3px; font-size: 11px; color: var(--muted); }
+.bird-list-traits > span, .bird-list-traits small, .bird-list-birth small { display: block; }
+.bird-list-traits small, .bird-list-birth small { margin-top: 3px; font-size: 10px; color: var(--muted); }
+.bird-list-status .status-badge { font-size: 10px; font-weight: 650; white-space: normal; }
+.bird-list-action { color: var(--primary); }
+.bird-list-empty { padding: 24px; display: flex; flex-direction: column; gap: 12px; align-items: center; text-align: center; }
+.bird-list-empty > svg { color: var(--primary); }
+.overview-birds .bird-list { border: 0; border-radius: 7px; }
+.overview-birds .bird-list-heading, .overview-birds .bird-list-open { gap: 8px; padding: 10px 8px; grid-template-columns: 42px minmax(80px,1fr) minmax(90px,1.1fr) minmax(80px,.9fr) minmax(80px,.8fr) minmax(65px,.7fr) minmax(75px,.8fr) 20px; }
+.overview-birds .bird-list-heading { font-size: 10px; }
+.overview-birds .bird-list-open { font-size: 11px; }
+.overview-birds .bird-list-name { font-size: 12px; }
+.overview-birds .bird-list-photo { width: 36px; height: 42px; }
+.bird-detail-page > .module-heading { display: none; }
+.bird-detail-heading { margin-bottom: 4px; }
+.bird-detail-heading h2 { font-size: 22px; }
+.bird-profile-hero { display: grid; grid-template-columns: 350px minmax(0,1fr); gap: 0; padding: 0; overflow: hidden; }
+.bird-profile-photo { width: 100%; height: 270px; min-width: 0; background: var(--surface-secondary); }
+.bird-profile-photo .attachment-thumbnail-frame { display: block; width: 100%; height: 100%; }
+.bird-profile-photo img { width: 100%; height: 100%; max-height: 100% !important; padding: 0; margin: 0; border: 0; border-radius: 0; object-fit: cover; }
+.bird-profile-no-photo { display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 12px; height: 100%; color: var(--muted); font-size: 12px; }
+.bird-profile-overview { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 28px; min-width: 0; }
+.bird-profile-identity { flex: 1; min-width: 0; }
+.bird-profile-name { margin: 0; font-size: 34px; font-weight: 800; letter-spacing: -.8px; }
+.bird-profile-identification { font-size: 14px; font-weight: 700; color: var(--primary); margin: 3px 0 12px; }
+.bird-profile-chips { display: flex; gap: 7px; flex-wrap: wrap; }
+.bird-profile-chips .status-badge { font-size: 11px; font-weight: 650; }
+.bird-profile-weight { display: block; flex-shrink: 0; max-width: 170px; min-width: 110px; margin: 0; padding-left: 20px; border-left: 1px solid var(--line); }
+.bird-profile-weight dt, .bird-profile-weight dt small { font-size: 11px; font-weight: 550; }
+.bird-profile-weight dd { display: flex; flex-direction: column; gap: 5px; white-space: normal; }
+.bird-profile-weight dd strong { font-size: 30px; font-weight: 800; line-height: 1.3; }
+.bird-profile-weight dd strong:only-child { font-size: 18px; }
+.bird-profile-weight .weight-missing { font-size: 14px; font-weight: 650; }
+.bird-profile-weight dd span { font-size: 10px; color: var(--muted); }
+.bird-profile-actions { margin: 0; justify-content: flex-end; gap: 10px; }
+.bird-profile-tabs { margin: 0; gap: 4px; padding: 0; }
+.bird-profile-tabs button { min-height: 44px; padding: 12px 14px; border: 0; border-radius: 0; background: transparent; color: var(--muted); font-size: 12px; }
+.bird-profile-tabs button[aria-selected='true'] { background: transparent; color: var(--primary); box-shadow: inset 0 -3px var(--primary); }
+.bird-profile-tabs button:hover:not(:disabled) { background: var(--surface-secondary); }
+.bird-profile-records { display: grid; grid-template-columns: minmax(0,1.4fr) minmax(0,1fr); gap: 20px; }
+.bird-profile-records .card + .card { margin: 0; }
+.health-timeline { list-style: none; padding: 0 0 0 8px; margin: 0; }
+.health-timeline-entry { position: relative; display: flex; align-items: flex-start; gap: 12px; min-width: 0; padding: 0 0 20px 18px; }
+.health-timeline-entry:last-child { padding-bottom: 0; }
+.health-timeline-entry::before { content: ''; position: absolute; left: 0; top: 12px; bottom: 0; width: 1px; background: var(--line); }
+.health-timeline-entry::after { content: ''; position: absolute; left: -5px; top: 8px; width: 11px; height: 11px; border: 2px solid var(--surface); border-radius: 50%; background: var(--primary); }
+.health-timeline-entry:last-child::before { height: 6px; }
+.health-timeline-marker { display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 50%; flex-shrink: 0; color: var(--primary); background: var(--surface-secondary); }
+.health-timeline-marker svg { width: 20px; height: 20px; }
+.health-timeline-content { flex: 1; min-width: 0; }
+.health-timeline-heading { display: flex; align-items: flex-start; gap: 10px; flex-wrap: wrap; }
+.health-timeline-heading strong { font-size: 13px; font-weight: 800; }
+.health-timeline-date { display: block; font-size: 10px; color: var(--muted); margin-bottom: 3px; }
+.health-timeline-kind, .health-timeline-meta { font-size: 11px; color: var(--muted); }
+.health-timeline-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin: 5px 0 8px; }
+.health-timeline-weight { font-size: 11px; padding: 4px 9px; background: var(--surface-secondary); color: var(--text); border-radius: 999px; white-space: nowrap; }
+.health-timeline-action { font-size: 11px; padding: 8px 10px; min-height: 44px; flex-shrink: 0; }
+.bird-recent-health .record-header { gap: 8px; }
+.bird-recent-health .record-header h3 { font-size: 17px; margin: 0; }
+.bird-recent-health .record-header .link { min-height: 44px; padding: 4px 0; font-size: 11px; }
+.bird-profile-file { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-top: 1px solid var(--line); min-width: 0; }
+.bird-profile-file-icon { display: flex; align-items: center; justify-content: center; width: 38px; height: 43px; border-radius: 8px; flex-shrink: 0; background: var(--surface-secondary); color: var(--primary); }
+.bird-profile-file-info { flex: 1; min-width: 0; }
+.bird-profile-file-info strong { display: block; font-size: 12px; overflow-wrap: anywhere; }
+.bird-profile-file-info small { display: block; font-size: 10px; color: var(--muted); overflow-wrap: anywhere; margin-top: 4px; }
+.bird-profile-file .button { font-size: 11px; padding: 8px 10px; flex-shrink: 0; }
+.record-form-section > legend { font-weight: 750; }
+.footer { font-size: 10px; }
+@media(max-width:1250px) { :root { --bird-columns: 44px minmax(90px,1fr) minmax(100px,1fr) minmax(70px,.8fr) minmax(75px,.7fr) minmax(60px,.7fr) minmax(80px,.8fr) 20px; } .sidebar { flex-wrap: wrap; gap: 8px; } .sidebar nav { justify-content: flex-start; flex-wrap: wrap; } .sidebar-footer { margin-left: auto; } .dashboard-stats { grid-template-columns: repeat(4,minmax(0,1fr)); } .dashboard-columns { grid-template-columns: minmax(0,2fr) minmax(0,1fr); } .overview-birds .bird-list-birth,.overview-birds .bird-list-heading span:nth-child(7) { display: none; } .overview-birds .bird-list-heading,.overview-birds .bird-list-open { grid-template-columns: 40px minmax(80px,1fr) minmax(90px,1fr) minmax(65px,.8fr) minmax(70px,.8fr) minmax(60px,.7fr) 18px; } }
+@media(max-width:1100px) { .dashboard-columns { grid-template-columns: minmax(0,1fr); } .dashboard-side { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); } .bird-profile-hero { grid-template-columns: 280px minmax(0,1fr); } .bird-profile-overview { padding: 20px; } }
+@media(max-width:800px) { .bird-list-heading { display: none; } .bird-list-open { grid-template-columns: 48px minmax(0,1fr) minmax(75px,.6fr) 20px; gap: 8px 12px; } .bird-list-photo { grid-row: 1 / 3; grid-column: 1; } .bird-list-identity { grid-row: 1; grid-column: 2; } .bird-list-species { grid-row: 2; grid-column: 2; } .bird-list-status { grid-row: 1 / 3; grid-column: 3; } .bird-list-action { grid-row: 1 / 3; grid-column: 4; } .bird-list-traits,.bird-list-enclosure,.bird-list-birth { display: none; } .overview-birds .bird-list-open { grid-template-columns: 42px minmax(0,1fr) minmax(70px,.6fr) 18px; } .dashboard-side { display: flex; } .dashboard-stats { grid-template-columns: repeat(2,minmax(0,1fr)); } .bird-profile-records { grid-template-columns: minmax(0,1fr); } }
+/* C remains Android on large devices; the browser chooses it at compact widths. */
+:root[data-layout='android'] .sidebar { position: fixed; left: -350px; top: 0; width: 320px; max-width: calc(100vw - 36px); height: 100dvh; padding: 20px 16px; display: flex; flex-direction: column; align-items: stretch; gap: 16px; overflow-y: auto; visibility: hidden; background: var(--surface); color: var(--text); z-index: 110; border-right: 1px solid var(--line); }
+:root[data-layout='android'] .sidebar.open { left: 0; visibility: visible; }
+:root[data-layout='android'] .brand { justify-content: flex-start; color: var(--text); }
+:root[data-layout='android'] .brand > span { display: block; }
+:root[data-layout='android'] .brand small { color: var(--muted); font-size: 11px; }
+:root[data-layout='android'] .sidebar nav { display: flex; flex-direction: column; justify-content: flex-start; gap: 4px; width: 100%; overflow: visible; flex: 0 0 auto; }
+:root[data-layout='android'] .sidebar nav > .nav-item,:root[data-layout='android'] .nav-menu { width: 100%; flex: none; }
+:root[data-layout='android'] .nav-item,:root[data-layout='android'] .nav-menu > summary { flex-direction: row; justify-content: flex-start; gap: 10px; min-height: 44px; padding: 11px 12px; color: var(--text); font-size: 12px; white-space: normal; text-align: left; }
+:root[data-layout='android'] .nav-item.active,:root[data-layout='android'] .nav-menu.active-group > summary { color: var(--primary); background: var(--surface-secondary); box-shadow: none; }
+:root[data-layout='android'] .nav-popover { position: static; min-width: 0; max-width: 100%; padding: 0 0 0 14px; border: 0; border-radius: 0; box-shadow: none; background: transparent; }
+:root[data-layout='android'] .nav-menu > summary:hover,:root[data-layout='android'] .nav-item:hover:not(:disabled) { color: var(--primary); background: var(--surface-secondary); }
+:root[data-layout='android'] .sidebar-footer { flex-direction: column; align-items: stretch; gap: 14px; margin: auto 0 0; padding: 16px 0 0; border: 0; border-top: 1px solid var(--line); width: 100%; }
+:root[data-layout='android'] .sidebar-footer .theme-control-label { display: block; color: var(--muted); }
+:root[data-layout='android'] .sidebar-footer .theme-options { background: var(--surface-secondary); border-color: var(--line); }
+:root[data-layout='android'] .sidebar-footer .theme-options button { color: var(--muted); flex-direction: column; flex: 1; min-height: 56px; }
+:root[data-layout='android'] .sidebar-footer .theme-options button span { display: block; font-size: 10px; }
+:root[data-layout='android'] .sidebar-footer .theme-options button[aria-pressed='true'] { background: var(--surface); color: var(--primary); border-color: var(--input-border); }
+:root[data-layout='android'] .session-menu > summary { justify-content: flex-start; gap: 10px; }
+:root[data-layout='android'] .session-menu > summary span { display: inline; font-size: 12px; }
+:root[data-layout='android'] .session-panel { position: static; width: 100%; padding: 12px 0; max-width: 100%; border: 0; box-shadow: none; background: transparent; }
+:root[data-layout='android'] .drawer-backdrop { position: fixed; inset: 0; z-index: 100; display: block; border: 0; border-radius: 0; background: var(--backdrop); }
+:root[data-layout='android'] .topbar { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 14px; min-height: 66px; padding: 10px 12px; background: var(--background); border: 0; }
+:root[data-layout='android'] .topbar .mobile-menu { display: flex; min-width: 44px; margin: 0; grid-column: auto; grid-row: auto; }
+.mobile-brand { font-size: 17px; font-weight: 800; line-height: 1.3; }
+.mobile-brand small { display: block; font-size: 10px; color: var(--muted); font-weight: 550; margin-top: 3px; }
+:root[data-layout='android'] .main-content { padding: 12px 12px 20px; max-width: 940px; }
+:root[data-layout='android'] .page-title h1 { font-size: 27px; font-weight: 800; }
+:root[data-layout='android'] .page-title .search-field { width: 100%; }
+:root[data-layout='android'] .page-title p { font-size: 12px; }
+:root[data-layout='android'] .dashboard-heading { margin: -4px 0 0; }
+:root[data-layout='android'] .dashboard-heading h2 { font-size: 12px; }
+:root[data-layout='android'] .dashboard-heading .button { font-size: 12px; }
+:root[data-layout='android'] .dashboard-stats { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; }
+:root[data-layout='android'] .dashboard-stats .stat-card { padding: 13px; min-height: 104px; border-radius: 13px; gap: 10px; }
+:root[data-layout='android'] .dashboard-stats .stat-card:nth-child(n+5) { display: none; }
+:root[data-layout='android'] .dashboard-stats strong { font-size: 23px; }
+:root[data-layout='android'] .stat-content > span { font-size: 11px; }
+:root[data-layout='android'] .dashboard-columns { grid-template-columns: minmax(0,1fr); gap: 16px; }
+:root[data-layout='android'] .dashboard-columns .card { padding: 15px; border-radius: 14px; }
+:root[data-layout='android'] .dashboard-side { display: flex; }
+:root[data-layout='android'] .overview-birds .bird-list-row:nth-child(n+5) { display: none; }
+:root[data-layout='android'] .bird-list-heading { display: none; }
+:root[data-layout='android'] .bird-list { border-radius: 10px; }
+:root[data-layout='android'] .bird-list-open,:root[data-layout='android'] .overview-birds .bird-list-open { grid-template-columns: 46px minmax(0,1fr) minmax(70px,.45fr) 20px; gap: 5px 10px; min-height: 76px; padding: 12px 10px; }
+:root[data-layout='android'] .bird-list-photo { grid-column: 1; grid-row: 1 / 3; width: 42px; height: 48px; }
+:root[data-layout='android'] .bird-list-identity { grid-column: 2; grid-row: 1; }
+:root[data-layout='android'] .bird-list-species { grid-column: 2; grid-row: 2; font-size: 11px; color: var(--muted); }
+:root[data-layout='android'] .bird-list-status { grid-column: 3; grid-row: 1 / 3; }
+:root[data-layout='android'] .bird-list-action { grid-column: 4; grid-row: 1 / 3; }
+:root[data-layout='android'] .bird-list-traits,:root[data-layout='android'] .bird-list-enclosure,:root[data-layout='android'] .bird-list-birth { display: none; }
+:root[data-layout='android'] .bird-list-name { font-size: 13px; }
+:root[data-layout='android'] .bird-list-identification { font-size: 10px; }
+:root[data-layout='android'] .bird-list-status .status-badge { font-size: 9px; padding: 4px 7px; }
+:root[data-layout='android'] .bird-list-page .module-heading h1 { display: none; }
+:root[data-layout='android'] .bird-list-page .module-heading .button { width: 100%; font-size: 12px; }
+:root[data-layout='android'] .app-layout:has(.bird-detail-page) .page-title { display: none; }
+:root[data-layout='android'] .app-layout:has(.bird-detail-page) .main-content { padding-top: 0; }
+:root[data-layout='android'] .app-layout:has(.bird-detail-page) .topbar { min-height: 0; height: 0; padding: 0; overflow: visible; display: block; }
+:root[data-layout='android'] .app-layout:has(.bird-detail-page) .topbar .mobile-brand { display: none; }
+:root[data-layout='android'] .app-layout:has(.bird-detail-page) .topbar .mobile-menu { position: absolute; top: 7px; right: 12px; z-index: 85; }
+:root[data-layout='android'] .bird-detail-page { gap: 14px; }
+:root[data-layout='android'] .bird-detail-heading { display: grid; grid-template-columns: 44px minmax(0,1fr) 44px; gap: 10px; min-height: 58px; padding: 4px 0; margin: 0; }
+:root[data-layout='android'] .bird-detail-heading .bird-detail-back { grid-column: 1; grid-row: 1; padding: 10px; min-width: 44px; width: 44px; height: 44px; overflow: hidden; font-size: 0; border: 0; background: transparent; color: var(--text); }
+:root[data-layout='android'] .bird-detail-heading .bird-detail-back svg { flex-shrink: 0; width: 20px; height: 20px; }
+:root[data-layout='android'] .bird-detail-heading h2 { grid-column: 2; grid-row: 1; order: 0; width: auto; font-size: 16px; font-weight: 800; text-align: center; }
+:root[data-layout='android'] .bird-profile-hero { display: flex; flex-direction: column; gap: 0; padding: 0; border: 0; border-radius: 0; overflow: visible; background: transparent; }
+:root[data-layout='android'] .bird-profile-photo { height: 230px; border-radius: 14px; overflow: hidden; border: 1px solid var(--line); }
+:root[data-layout='android'] .bird-profile-overview { padding: 13px 4px 0; align-items: flex-start; gap: 12px; }
+:root[data-layout='android'] .bird-profile-name { font-size: 28px; font-weight: 800; line-height: 1.2; letter-spacing: -.8px; }
+:root[data-layout='android'] .bird-profile-identification { font-size: 12px; margin: 3px 0 10px; }
+:root[data-layout='android'] .bird-profile-chips { gap: 5px; }
+:root[data-layout='android'] .bird-profile-chips .status-badge { font-size: 10px; padding: 4px 8px; }
+:root[data-layout='android'] .bird-profile-weight { min-width: 95px; max-width: 110px; padding-left: 12px; }
+:root[data-layout='android'] .bird-profile-weight dt,:root[data-layout='android'] .bird-profile-weight dt small { font-size: 9px; }
+:root[data-layout='android'] .bird-profile-weight dd strong { font-size: 25px; font-weight: 800; }
+:root[data-layout='android'] .bird-profile-weight .weight-missing { font-size: 12px; font-weight: 650; }
+:root[data-layout='android'] .bird-profile-weight dd span { font-size: 9px; }
+:root[data-layout='android'] .bird-profile-actions { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 9px; }
+:root[data-layout='android'] .bird-profile-actions .button { width: 100%; min-width: 0; padding: 11px 8px; font-size: 12px; }
+:root[data-layout='android'] .bird-profile-tabs { gap: 0; }
+:root[data-layout='android'] .bird-profile-tabs button { min-height: 44px; padding: 11px 6px; font-size: 11px; font-weight: 700; }
+:root[data-layout='android'] .bird-profile-records { display: flex; flex-direction: column; gap: 18px; }
+:root[data-layout='android'] .bird-profile-records .card { padding: 0 4px; border: 0; background: transparent; border-radius: 0; }
+:root[data-layout='android'] .bird-profile-records h3 { font-size: 15px; font-weight: 800; margin: 0; }
+:root[data-layout='android'] .health-timeline-entry { gap: 10px; padding: 0 0 17px 16px; }
+:root[data-layout='android'] .health-timeline-marker { width: 34px; height: 34px; }
+:root[data-layout='android'] .health-timeline-heading strong { font-size: 12px; }
+:root[data-layout='android'] .health-timeline-meta,:root[data-layout='android'] .health-timeline-kind { font-size: 10px; }
+:root[data-layout='android'] .health-timeline-action { font-size: 10px; padding: 8px; }
+:root[data-layout='android'] .bird-recent-health .health-timeline-action { align-self: flex-start; }
+:root[data-layout='android'] .bird-recent-health .record-header .link { font-size: 10px; }
+:root[data-layout='android'] .bird-profile-file { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px; }
+:root[data-layout='android'] .bird-profile-file + .bird-profile-file { margin-top: 10px; }
+:root[data-layout='android'] .bird-profile-file .button { font-size: 10px; padding: 8px; }
+:root[data-layout='android'] .bird-profile-content { margin-top: 4px; }
+@media(min-width:700px) { :root[data-layout='android'] .dashboard-stats { grid-template-columns: repeat(4,minmax(0,1fr)); } :root[data-layout='android'] .bird-profile-photo { height: 340px; } :root[data-layout='android'] .bird-profile-records { display: grid; grid-template-columns: minmax(0,1.3fr) minmax(0,1fr); } }
+@media(max-width:600px) { :root[data-layout='desktop'] .bird-profile-hero { display: flex; flex-direction: column; } :root[data-layout='desktop'] .bird-profile-overview { padding: 16px; gap: 12px; } :root[data-layout='desktop'] .bird-profile-weight { padding-left: 12px; min-width: 95px; max-width: 110px; } :root[data-layout='desktop'] .bird-profile-name { font-size: 27px; } }
+@media(prefers-reduced-motion:reduce) { *,*::before,*::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; } }
+@media print { .sidebar,.topbar { display: none !important; } .main-content { padding: 0; } .bird-list { border: 0; } .bird-list-open { color: #183a4d; background: white; } }

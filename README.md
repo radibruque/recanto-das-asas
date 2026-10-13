@@ -24,6 +24,12 @@ RECANTO_E2E_PREVIEW=1 npm run test:e2e
 
 Os testes de navegador requerem Chromium, instalado com `npx playwright install chromium`, ou `RECANTO_CHROMIUM_PATH` apontando para uma instalação existente. A configuração também reconhece `/usr/bin/chromium`.
 
+## Atualização 0.2.1 — conceitos B/C
+
+Navegação superior e dashboard B no Windows; ficha e histórico C no Android. Início e Aves usam listas horizontais com miniaturas, e os temas seguem a identidade visual oficial. As correções de processamento reduzem pausas em fotos, históricos e backups, preservando formatos, validações, dados e sincronização.
+
+Veja [como instalar a atualização](docs/INSTALACAO_BC_0.2.1.md), o [relatório de implementação e validação](docs/REDESIGN_BC_0.2.1.md) e a [entrega privada com instaladores](https://github.com/radibruque/recanto-das-asas/releases/tag/v0.2.1-bc-avaliacao). Faça backup em ambos os aparelhos e atualize sobre a instalação existente, mantendo o servidor local e o Tailscale atuais.
+
 ## Atualização 0.2.0
 
 Anexos diretamente nos cadastros, acervo com filtros e prévias, saúde e manejo agrupados por ave, agenda com integração ao calendário, histórico comercial por contato, vendas e reservas separadas e fechamento de caixa com resumo preservado. A caderneta passa a usar somente o modelo digital vertical de quatro páginas fornecido, com foto e campos revisáveis. A exportação Android transfere o arquivo em partes e verifica tamanho e integridade antes de abrir o destino.

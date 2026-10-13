@@ -1,0 +1,14 @@
+[
+  {
+    "file": "tests/e2e/workflow.spec.ts",
+    "assertionsBefore": 51,
+    "assertionsAfter": 51,
+    "unchangedExceptApprovedVersion": true
+  },
+  {
+    "file": "tests/e2e/workflow-update.spec.ts",
+    "assertionsBefore": 89,
+    "assertionsAfter": 89,
+    "unchangedExceptApprovedVersion": true
+  }
+]

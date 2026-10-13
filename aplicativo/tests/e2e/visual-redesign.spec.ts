@@ -10,7 +10,7 @@ for (const theme of ['light', 'dark'] as const) {
       await page.setViewportSize(viewport);
       await page.emulateMedia({ reducedMotion: 'reduce' });
       await createVisualVault(page, theme);
-      await expect(page.getByRole('navigation', { name: 'Navegação principal', includeHidden: true }).getByRole('button', { includeHidden: true })).toHaveCount(20);
+      await expect(page.getByRole('navigation', { name: 'Navegação principal', includeHidden: true }).locator('.nav-item')).toHaveCount(20);
       for (const name of visualMenus) {
         await test.step(name, async () => {
           await navigateVisual(page, name);

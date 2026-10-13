@@ -3,17 +3,16 @@ import type { Attachment, Handler, IssuedDocument, Scope, State } from './types'
 import { birdLabel, date, ensure, id, required, text } from './shared';
 import { itemTotal, salePaid, stockBalance } from './commercial';
 import { assertPassivePdf } from '../lib/pdf-safety';
+import { decodeAttachmentBase64, MAX_ATTACHMENT_BYTES } from '../lib/attachment-base64';
 
-export const MAX_ATTACHMENT_BYTES = 10 * 1024 * 1024;
+export { MAX_ATTACHMENT_BYTES } from '../lib/attachment-base64';
 export const attachmentMimes = ['application/pdf', 'image/png', 'image/jpeg', 'text/plain'] as const;
 export function bytesToBase64(bytes: Uint8Array): string {
   let result = ''; for (let i = 0; i < bytes.length; i += 32768) result += String.fromCharCode(...bytes.subarray(i, i + 32768));
   return btoa(result);
 }
 export function base64ToBytes(value: string): Uint8Array {
-  ensure(value.length <= Math.ceil(MAX_ATTACHMENT_BYTES / 3) * 4, 'O arquivo excede 10 MB.');
-  ensure(value.length > 0 && value.length % 4 === 0 && /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/.test(value), 'Conteúdo do arquivo inválido.');
-  return Uint8Array.from(atob(value), c => c.charCodeAt(0));
+  return decodeAttachmentBase64(value);
 }
 // SHA-256 works synchronously in the command reducer, so payload integrity is verified before writing.
 export function sha256(bytes: Uint8Array): string {

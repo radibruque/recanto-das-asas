@@ -6,9 +6,35 @@ export type SyncConfig = {url:string;workspaceId:string;token:string;remoteRevis
 export type QueueItem = {operationId:string;envelope:Envelope;expectedRevision?:number};
 type Metadata = {sync:SyncConfig|null;queue:QueueItem[]};
 type RecordValue = {key:'vault';revision:number;envelope:Envelope;metadata:Envelope};
+export type BackupSummary = {at:string;hash:string;size:number;pinned?:boolean};
+export type BackupRecord = BackupSummary&{envelope:Envelope};
 const iterations = 310000;
 export function toBase64(bytes:Uint8Array):string {let s='';for(let i=0;i<bytes.length;i+=8192)s+=String.fromCharCode(...bytes.subarray(i,i+8192));return btoa(s);}
-export function fromBase64(value:string):Uint8Array {if(value.length%4!==0||/[^A-Za-z0-9+/=]/.test(value))throw new Error('Arquivo codificado inválido.');const padding=value.endsWith('==')?2:value.endsWith('=')?1:0;if(value.slice(0,value.length-padding).includes('='))throw new Error('Arquivo codificado inválido.');try{return Uint8Array.from(atob(value),v=>v.charCodeAt(0));}catch{throw new Error('Arquivo codificado inválido.');}}
+export function fromBase64(value:string):Uint8Array {if(value.length%4!==0||/[^A-Za-z0-9+/=]/.test(value))throw new Error('Arquivo codificado inválido.');const padding=value.endsWith('==')?2:value.endsWith('=')?1:0;if(value.slice(0,value.length-padding).includes('='))throw new Error('Arquivo codificado inválido.');try{const binary=atob(value),bytes=new Uint8Array(binary.length);for(let i=0;i<binary.length;i++)bytes[i]=binary.charCodeAt(i);return bytes;}catch{throw new Error('Arquivo codificado inválido.');}}
+// Large backups are converted in aligned blocks so scroll, keyboard and paint can run
+// between them. The synchronous helpers remain available to existing validators.
+const codecBlock=192*1024;
+const yieldToInterface=()=>new Promise<void>(resolve=>setTimeout(resolve,0));
+async function encodeBase64(bytes:Uint8Array):Promise<string>{
+ if(bytes.length<=codecBlock)return toBase64(bytes);
+ const parts:string[]=[];
+ for(let i=0;i<bytes.length;i+=codecBlock){await yieldToInterface();parts.push(toBase64(bytes.subarray(i,i+codecBlock)));}
+ return parts.join('');
+}
+async function decodeBase64(value:string):Promise<Uint8Array>{
+ const encodedBlock=codecBlock/3*4;
+ if(value.length<=encodedBlock)return fromBase64(value);
+ if(value.length%4!==0)throw new Error('Arquivo codificado inválido.');
+ const padding=value.endsWith('==')?2:value.endsWith('=')?1:0;
+ const bytes=new Uint8Array(value.length/4*3-padding);
+ let offset=0;
+ for(let i=0;i<value.length;i+=encodedBlock){
+  await yieldToInterface();const part=value.slice(i,i+encodedBlock);
+  if(i+encodedBlock<value.length&&part.includes('='))throw new Error('Arquivo codificado inválido.');
+  const decoded=fromBase64(part);bytes.set(decoded,offset);offset+=decoded.length;
+ }
+ return bytes;
+}
 function buffer(bytes:Uint8Array):ArrayBuffer{return bytes.slice().buffer as ArrayBuffer;}
 async function key(password:string,salt:Uint8Array,count:number){
  const base=await crypto.subtle.importKey('raw',new TextEncoder().encode(password),'PBKDF2',false,['deriveKey']);
@@ -17,23 +43,30 @@ async function key(password:string,salt:Uint8Array,count:number){
 export async function encryptBytes(bytes:Uint8Array,password:string):Promise<Envelope>{
  const salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12));
  const encrypted=await crypto.subtle.encrypt({name:'AES-GCM',iv:buffer(iv)},await key(password,salt,iterations),buffer(bytes));
- return {schemaVersion:1,salt:toBase64(salt),iv:toBase64(iv),ciphertext:toBase64(new Uint8Array(encrypted)),iterations};
+ return {schemaVersion:1,salt:toBase64(salt),iv:toBase64(iv),ciphertext:await encodeBase64(new Uint8Array(encrypted)),iterations};
 }
-export function validateEnvelope(value:unknown):Envelope {
+function envelopeHeader(value:unknown):Envelope {
  if(!value||typeof value!=='object')throw new Error('Arquivo criptografado inválido.');
  const e=value as Envelope;
  if(e.schemaVersion!==1||!Number.isInteger(e.iterations)||e.iterations<100000||e.iterations>2000000||typeof e.salt!=='string'||typeof e.iv!=='string'||typeof e.ciphertext!=='string'||e.ciphertext.length>180000000)throw new Error('Versão ou tamanho do arquivo incompatível.');
+ return e;
+}
+export function validateEnvelope(value:unknown):Envelope {
+ const e=envelopeHeader(value);
  if(fromBase64(e.salt).length!==16||fromBase64(e.iv).length!==12||fromBase64(e.ciphertext).length<16)throw new Error('Arquivo criptografado inválido.');
  return e;
 }
 export async function decryptBytes(value:unknown,password:string):Promise<Uint8Array>{
- const e=validateEnvelope(value);
- try {return new Uint8Array(await crypto.subtle.decrypt({name:'AES-GCM',iv:buffer(fromBase64(e.iv))},await key(password,fromBase64(e.salt),e.iterations),buffer(fromBase64(e.ciphertext))));}
+ const e=envelopeHeader(value),salt=fromBase64(e.salt);
+ if(salt.length!==16)throw new Error('Arquivo criptografado inválido.');
+ const iv=fromBase64(e.iv);if(iv.length!==12)throw new Error('Arquivo criptografado inválido.');
+ const ciphertext=await decodeBase64(e.ciphertext);if(ciphertext.length<16)throw new Error('Arquivo criptografado inválido.');
+ try {return new Uint8Array(await crypto.subtle.decrypt({name:'AES-GCM',iv:buffer(iv)},await key(password,salt,e.iterations),ciphertext.buffer as ArrayBuffer));}
  catch {throw new Error('Senha incorreta ou arquivo danificado.');}
 }
 export const encryptObject=(value:unknown,password:string)=>encryptBytes(new TextEncoder().encode(JSON.stringify(value)),password);
 export async function decryptObject(e:unknown,password:string):Promise<unknown>{try{return JSON.parse(new TextDecoder().decode(await decryptBytes(e,password)));}catch(error){if(error instanceof SyntaxError)throw new Error('Conteúdo do arquivo inválido.');throw error;}}
-export async function sha256(bytes:Uint8Array):Promise<string>{return Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',buffer(bytes))),x=>x.toString(16).padStart(2,'0')).join('');}
+export async function sha256(bytes:Uint8Array):Promise<string>{const digest=await crypto.subtle.digest('SHA-256',buffer(bytes));if(bytes.length>codecBlock)await yieldToInterface();return Array.from(new Uint8Array(digest),x=>x.toString(16).padStart(2,'0')).join('');}
 function request<T>(req:IDBRequest<T>):Promise<T>{return new Promise((resolve,reject)=>{req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);});}
 function done(tx:IDBTransaction):Promise<void>{return new Promise((resolve,reject)=>{tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error??new Error('Alteração não gravada.'));});}
 async function database():Promise<IDBDatabase>{const req=indexedDB.open('recanto-das-asas-private',2);req.onupgradeneeded=()=>{if(!req.result.objectStoreNames.contains('vault'))req.result.createObjectStore('vault',{keyPath:'key'});if(!req.result.objectStoreNames.contains('backups'))req.result.createObjectStore('backups',{keyPath:'at'});};return request(req);}
@@ -74,6 +107,16 @@ export class Vault {
  async encryptBackup(bytes:Uint8Array){this.check();return encryptBytes(bytes,this.password);}
  async decryptBackup(envelope:unknown){this.check();return decryptBytes(envelope,this.password);}
  async restore(state:State,expectedLocalRevision?:number){validateState(state);return this.mutate(current=>{const revision=current.revision;Object.assign(current,state,{revision});return undefined;},expectedLocalRevision);}
- async retainBackup(envelope:Envelope,hash:string,size:number,pinned=false){this.check();this.db??=await database();const all=await request(this.db.transaction('backups','readonly').objectStore('backups').getAll()) as {at:string;envelope:Envelope;hash:string;size:number;pinned?:boolean}[];const at=new Date().toISOString()+'-'+crypto.randomUUID().slice(0,8);all.push({at,envelope,hash,size,pinned});all.sort((a,b)=>b.at.localeCompare(a.at));const keep=new Set<string>();const days=new Set<string>(),weeks=new Set<string>(),months=new Set<string>();for(const b of all){if(b.pinned){keep.add(b.at);continue;}const date=new Date(b.at.slice(0,24));const day=b.at.slice(0,10),week=Math.floor(date.valueOf()/(7*86400000)).toString(),month=b.at.slice(0,7);if(!days.has(day)&&days.size<7){keep.add(b.at);days.add(day);}if(!weeks.has(week)&&weeks.size<4){keep.add(b.at);weeks.add(week);}if(!months.has(month)&&months.size<6){keep.add(b.at);months.add(month);}}const tx=this.db.transaction('backups','readwrite');const complete=done(tx);const store=tx.objectStore('backups');store.put({at,envelope,hash,size,pinned});for(const b of all)if(!keep.has(b.at))store.delete(b.at);await complete;}
+ async retainBackup(envelope:Envelope,hash:string,size:number,pinned=false){this.check();this.db??=await database();const all=await this.backupSummaries();const at=new Date().toISOString()+'-'+crypto.randomUUID().slice(0,8);all.push({at,hash,size,pinned});all.sort((a,b)=>b.at.localeCompare(a.at));const keep=new Set<string>();const days=new Set<string>(),weeks=new Set<string>(),months=new Set<string>();for(const b of all){if(b.pinned){keep.add(b.at);continue;}const date=new Date(b.at.slice(0,24));const day=b.at.slice(0,10),week=Math.floor(date.valueOf()/(7*86400000)).toString(),month=b.at.slice(0,7);if(!days.has(day)&&days.size<7){keep.add(b.at);days.add(day);}if(!weeks.has(week)&&weeks.size<4){keep.add(b.at);weeks.add(week);}if(!months.has(month)&&months.size<6){keep.add(b.at);months.add(month);}}const tx=this.db.transaction('backups','readwrite');const complete=done(tx);const store=tx.objectStore('backups');store.put({at,envelope,hash,size,pinned});for(const b of all)if(!keep.has(b.at))store.delete(b.at);await complete;}
+ async backupSummaries():Promise<BackupSummary[]>{
+  this.check();this.db??=await database();
+  return new Promise((resolve,reject)=>{
+   const tx=this.db!.transaction('backups','readonly'),rows:BackupSummary[]=[];
+   const req=tx.objectStore('backups').openCursor();
+   req.onsuccess=()=>{const cursor=req.result;if(!cursor)return;const value=cursor.value as BackupRecord;rows.push({at:value.at,hash:value.hash,size:value.size,pinned:value.pinned});cursor.continue();};
+   req.onerror=()=>reject(req.error);tx.onabort=()=>reject(tx.error??new Error('Não foi possível ler as cópias locais.'));tx.onerror=()=>reject(tx.error);tx.oncomplete=()=>resolve(rows);
+  });
+ }
+ async readBackup(at:string):Promise<BackupRecord|undefined>{this.check();this.db??=await database();return request(this.db.transaction('backups','readonly').objectStore('backups').get(at));}
  async backups(){this.check();this.db??=await database();return await request(this.db.transaction('backups','readonly').objectStore('backups').getAll()) as {at:string;envelope:Envelope;hash:string;size:number}[];}
 }

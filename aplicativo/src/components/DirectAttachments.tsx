@@ -1,49 +1,42 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { Capacitor } from '@capacitor/core';
 import type { Attachment } from '../domain/types';
 import { base64ToBytes, sha256 } from '../domain/documents';
 import { dateLabel } from '../domain/shared';
 import { downloadBytes } from '../lib/exports';
-import { imageDimensions, MAX_PENDING_ATTACHMENTS, MAX_PENDING_BYTES, omitPhotoRole, prepareAttachmentSelection, preparePrincipalPhoto, type PendingAttachment } from '../lib/attachment-input';
+import { MAX_PENDING_ATTACHMENTS, MAX_PENDING_BYTES, omitPhotoRole, prepareAttachmentSelection, preparePrincipalPhoto, type PendingAttachment } from '../lib/attachment-input';
+import { acquireAttachmentPreview } from '../lib/attachment-preview';
 
 export type { PendingAttachment } from '../lib/attachment-input';
 const errorMessage=(error:unknown)=>error instanceof Error ? error.message : 'Não foi possível abrir o arquivo.';
 const sizeLabel=(size:number)=>size>=1024*1024 ? `${(size/1024/1024).toFixed(1)} MB` : `${(size/1024).toFixed(1)} KB`;
 
-function useAttachmentUrl(attachment:{base64:string;mime:string;sha256:string}|null) {
+function useAttachmentUrl(attachment:{base64:string;mime:string;sha256:string}|null,enabled=true) {
   const [url,setUrl]=useState(''),[error,setError]=useState('');
   useEffect(()=>{
     setUrl('');setError('');
-    if (!attachment) return;
+    if (!attachment||!enabled) return;
     let objectUrl='',active=true;
-    void(async()=>{
-      try {
-        const bytes=base64ToBytes(attachment.base64);
-        if (sha256(bytes)!==attachment.sha256) throw new Error('O arquivo não passou na verificação de integridade.');
-        let blob=new Blob([new Uint8Array(bytes)],{type:attachment.mime});
-        if(attachment.mime.startsWith('image/')){
-          const dimensions=imageDimensions(bytes,attachment.mime);
-          if(!dimensions||!dimensions.width||!dimensions.height)throw new Error('Não foi possível criar a prévia desta foto. Use Baixar original para recuperar o arquivo.');
-          if(dimensions.width*dimensions.height>64_000_000||dimensions.width>20000||dimensions.height>20000)throw new Error('Esta foto é grande demais para a prévia. Use Baixar original para recuperar o arquivo.');
-          if(Math.max(dimensions.width,dimensions.height)>1200){
-            if(typeof createImageBitmap!=='function')throw new Error('Use Visualizar para abrir esta foto no leitor do aparelho.');
-            const factor=1200/Math.max(dimensions.width,dimensions.height),width=Math.max(1,Math.round(dimensions.width*factor)),height=Math.max(1,Math.round(dimensions.height*factor));
-            const bitmap=await createImageBitmap(blob,{resizeWidth:width,resizeHeight:height,resizeQuality:'high'});
-            try{const canvas=document.createElement('canvas');canvas.width=width;canvas.height=height;const context=canvas.getContext('2d');if(!context)throw new Error('Não foi possível preparar a prévia.');context.fillStyle='#fff';context.fillRect(0,0,width,height);context.drawImage(bitmap,0,0,width,height);blob=await new Promise<Blob>((resolve,reject)=>canvas.toBlob(value=>value?resolve(value):reject(new Error('Não foi possível preparar a prévia.')),'image/jpeg',0.8));canvas.width=1;canvas.height=1;}finally{bitmap.close();}
-          }
-        }
-        if(!active)return;
-        objectUrl=URL.createObjectURL(blob);setUrl(objectUrl);
-      }catch(error){if(active)setError(errorMessage(error));}
-    })();
-    return ()=>{active=false;if(objectUrl)URL.revokeObjectURL(objectUrl);};
-  },[attachment?.base64,attachment?.mime,attachment?.sha256]);
+    const lease=acquireAttachmentPreview(attachment);
+    void lease.blob.then(blob=>{if(active){objectUrl=URL.createObjectURL(blob);setUrl(objectUrl);}}).catch(error=>{if(active)setError(errorMessage(error));});
+    return ()=>{active=false;lease.release();if(objectUrl)URL.revokeObjectURL(objectUrl);};
+  },[attachment?.base64,attachment?.mime,attachment?.sha256,enabled]);
   return {url,error};
 }
 
-export function AttachmentThumbnail({attachment,maxHeight=180}:{attachment:Pick<Attachment,'base64'|'mime'|'sha256'|'title'>;maxHeight?:number}) {
-  const {url,error}=useAttachmentUrl(attachment.mime.startsWith('image/')?attachment:null);
-  return error ? <p role="alert">{error}</p> : url ? <img src={url} alt={attachment.title} loading="lazy" className="attachment-image attachment-thumbnail" style={{maxHeight}}/> : null;
+export function AttachmentThumbnail({attachment,maxHeight=180,className='',style}:{attachment:Pick<Attachment,'base64'|'mime'|'sha256'|'title'>;maxHeight?:number;className?:string;style?:CSSProperties}) {
+  const frame=useRef<HTMLSpanElement>(null),[nearby,setNearby]=useState(false),[reservedHeight,setReservedHeight]=useState(1);
+  useEffect(()=>{
+    const element=frame.current;if(!element)return;
+    if(typeof IntersectionObserver!=='function'){setNearby(true);return;}
+    const observer=new IntersectionObserver(([entry])=>setNearby(entry.isIntersecting),{rootMargin:'200px'});
+    observer.observe(element);return()=>observer.disconnect();
+  },[attachment.mime.startsWith('image/')]);
+  const {url,error}=useAttachmentUrl(attachment.mime.startsWith('image/')?attachment:null,nearby);
+  if(!attachment.mime.startsWith('image/'))return null;
+  return <span ref={frame} className={`attachment-thumbnail-frame ${className}`.trim()} style={{display:'block',minHeight:reservedHeight,...style}} aria-busy={nearby&&!url&&!error}>
+    {error?<span role="alert" className="error">{error}</span>:url?<img src={url} alt={attachment.title} loading="lazy" decoding="async" className="attachment-image attachment-thumbnail" style={{maxHeight}} onLoad={()=>{const height=frame.current?.getBoundingClientRect().height;if(height)setReservedHeight(Math.ceil(height));}}/>:<span className="attachment-thumbnail-placeholder" aria-hidden="true"/>}
+  </span>;
 }
 
 type PickerProps={

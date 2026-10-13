@@ -1,0 +1,10 @@
+{
+  "workers": [
+    "http://127.0.0.1:5198/src/lib/encrypted-backup-payload.worker.ts?worker_file&type=module"
+  ],
+  "result": {
+    "size": 1048722,
+    "bytesEqual": true,
+    "hashEqual": true
+  }
+}

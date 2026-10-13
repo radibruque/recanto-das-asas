@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { createVisualVault } from './visual-helpers';
+import { clickVisualContextControl, createVisualVault, revealVisualContextControl } from './visual-helpers';
 
 test('theme follows the system, keeps an explicit preference, and updates browser color', async ({ page }) => {
   await page.emulateMedia({ colorScheme: 'dark' });
@@ -10,7 +10,7 @@ test('theme follows the system, keeps an explicit preference, and updates browse
   await expect(chooser.getByRole('button', { name: 'Sistema', exact: true })).toHaveAttribute('aria-pressed', 'true');
   await chooser.getByRole('button', { name: 'Claro', exact: true }).click();
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
-  await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute('content', '#F5F8F6');
+  await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute('content', '#F4F8FA');
   expect(await page.evaluate(() => localStorage.getItem('recanto.ui.theme'))).toBe('light');
   await page.reload();
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
@@ -19,7 +19,7 @@ test('theme follows the system, keeps an explicit preference, and updates browse
   await page.emulateMedia({ colorScheme: 'light' });
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
   await chooser.getByRole('button', { name: 'Escuro', exact: true }).click();
-  await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute('content', '#273B40');
+  await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute('content', '#233B46');
   expect(await page.evaluate(() => getComputedStyle(document.documentElement).colorScheme)).toBe('dark');
 });
 
@@ -30,7 +30,7 @@ test('preference is applied before React loads and only writes its visual storag
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
   await expect(page.locator('html')).toHaveAttribute('data-theme-preference', 'dark');
   expect(await page.evaluate(() => Object.keys(localStorage))).toEqual(['recanto.ui.theme']);
-  expect(await page.locator('meta[name="theme-color"]').getAttribute('content')).toBe('#273B40');
+  expect(await page.locator('meta[name="theme-color"]').getAttribute('content')).toBe('#233B46');
 });
 
 test('blocked visual storage keeps theme usable without preventing vault creation', async ({ page }) => {
@@ -52,13 +52,14 @@ test('blocked visual storage keeps theme usable without preventing vault creatio
 
 test('theme controls remain independent of real and demonstration vaults and lock state', async ({ page }) => {
   await createVisualVault(page, 'light', false);
+  await revealVisualContextControl(page, 'Escuro');
   const chooser = page.getByRole('group', { name: 'Tema da interface' });
   await chooser.getByRole('button', { name: 'Escuro', exact: true }).click();
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
-  await page.getByRole('button', { name: 'Demonstração', exact: true }).click();
+  await clickVisualContextControl(page, 'Demonstração');
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
-  await page.getByRole('button', { name: 'Meu criatório', exact: true }).click();
-  await page.getByRole('button', { name: 'Bloquear', exact: true }).click();
+  await clickVisualContextControl(page, 'Meu criatório');
+  await clickVisualContextControl(page, 'Bloquear');
   await expect(page.getByRole('heading', { name: 'Abra seus registros', exact: true })).toBeVisible();
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
   await expect(page.getByRole('group', { name: 'Tema da interface' }).getByRole('button', { name: 'Escuro', exact: true })).toHaveAttribute('aria-pressed', 'true');

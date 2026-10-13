@@ -17,18 +17,39 @@ export async function createVisualVault(page: Page, theme: 'light' | 'dark' = 'l
   await page.getByRole('button', { name: 'Criar base privada', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Painel Criatório', exact: true })).toBeVisible();
   if (demo) {
-    await page.getByRole('button', { name: 'Demonstração', exact: true }).click();
+    await clickVisualContextControl(page, 'Demonstração');
     await page.getByRole('button', { name: 'Criar exemplos fictícios', exact: true }).click();
     await expect(page.getByRole('button', { name: 'Criar exemplos fictícios', exact: true })).toHaveCount(0);
   }
   await expect(page.locator('html')).toHaveAttribute('data-theme', theme);
 }
 
-export async function navigateVisual(page: Page, name: typeof visualMenus[number]) {
+/** Reveal the existing context/theme control using its actual drawer/disclosure. */
+export async function revealVisualContextControl(page: Page, name: string) {
+  const control = page.getByRole('button', { name, exact: true, includeHidden: true });
+  if (await control.isVisible()) return control;
   const menu = page.getByRole('button', { name: 'Abrir menu', exact: true });
-  if (await menu.isVisible()) await menu.click();
+  if (await menu.isVisible() && await menu.getAttribute('aria-expanded') !== 'true') await menu.click();
+  const disclosure = control.locator('xpath=ancestor::details[not(@open)][1]');
+  if (await disclosure.count()) await disclosure.locator(':scope > summary').click();
+  await expect(control).toBeVisible();
+  return control;
+}
+
+export async function clickVisualContextControl(page: Page, name: string) {
+  await (await revealVisualContextControl(page, name)).click();
+}
+
+export async function navigateVisual(page: Page, name: string) {
+  const menu = page.getByRole('button', { name: 'Abrir menu', exact: true });
+  if (await menu.isVisible() && await menu.getAttribute('aria-expanded') !== 'true') await menu.click();
   const navigation = page.getByRole('navigation', { name: 'Navegação principal', includeHidden: true });
-  await navigation.getByRole('button', { name, exact: true }).click();
+  const destination = navigation.getByRole('button', { name, exact: true, includeHidden: true }).and(navigation.locator('button.nav-item'));
+  // Desktop navigation may group existing destinations inside disclosure menus.
+  // Open their real controls rather than changing visibility through page scripts.
+  const disclosure = destination.locator('xpath=ancestor::details[not(@open)][1]');
+  if (await disclosure.count()) await disclosure.locator(':scope > summary').click();
+  await destination.click();
   await expect(navigation.locator('button[aria-current="page"]')).toHaveText(name);
   await expect(page.locator('.page-title h1')).toHaveText(name);
 }
