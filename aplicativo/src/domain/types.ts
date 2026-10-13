@@ -1,4 +1,4 @@
-export const APP_VERSION = '0.2.1';
+export const APP_VERSION = '0.2.2';
 import type { BirdBookletData } from './booklet-data';
 export type { BirdBookletData } from './booklet-data';
 import type { Bird as BaseBird, Pair as BasePair, Clutch as BaseClutch, Egg as BaseEgg, MutationEntry, Scope } from './base-model';

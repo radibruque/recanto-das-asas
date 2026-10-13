@@ -24,6 +24,12 @@ RECANTO_E2E_PREVIEW=1 npm run test:e2e
 
 Os testes de navegador requerem Chromium, instalado com `npx playwright install chromium`, ou `RECANTO_CHROMIUM_PATH` apontando para uma instalação existente. A configuração também reconhece `/usr/bin/chromium`.
 
+## Atualização 0.2.2 — correção do menu e atalhos web
+
+Correção do menu Android que se dividia em colunas e cortava os itens durante a rolagem. No navegador, miniaturas maiores e uma barra fixa inferior para cadastrar ave, Aves, Casais, Financeiro e todos os menus. Os dados e módulos existentes permanecem os mesmos.
+
+Veja [a análise e como atualizar](docs/ATUALIZACAO_0.2.2.md) e a [entrega privada 0.2.2](https://github.com/radibruque/recanto-das-asas/releases/tag/v0.2.2-menu-atalhos-avaliacao).
+
 ## Atualização 0.2.1 — conceitos B/C
 
 Navegação superior e dashboard B no Windows; ficha e histórico C no Android. Início e Aves usam listas horizontais com miniaturas, e os temas seguem a identidade visual oficial. As correções de processamento reduzem pausas em fotos, históricos e backups, preservando formatos, validações, dados e sincronização.

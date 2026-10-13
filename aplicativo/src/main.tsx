@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import App from './App';
 import './style.css';
 import './bc-layout.css';
+import './web-shortcuts.css';
 import { Capacitor } from '@capacitor/core';
 
 // Platform is a presentation choice only; it never enters the private vault.
