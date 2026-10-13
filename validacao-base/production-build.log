@@ -1,0 +1,23 @@
+
+> recanto-das-asas-app@0.2.0 build
+> tsc --noEmit && vite build
+
+vite v8.0.13 building client environment for production...
+[2Ktransforming...✓ 2021 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                          0.60 kB │ gzip:   0.36 kB
+dist/assets/index-uY6ttsE-.css          32.68 kB │ gzip:   6.72 kB
+dist/assets/dist-D-aS5iBc.js           342.22 kB │ gzip:  98.00 kB
+dist/assets/fontkit.es-BHQ0S6Dp.js     711.12 kB │ gzip: 329.68 kB
+dist/assets/exceljs.min-C1xvSyua.js    929.91 kB │ gzip: 256.43 kB
+dist/assets/index-BhKQfPEO.js        1,095.46 kB │ gzip: 369.36 kB
+
+[33m[INEFFECTIVE_DYNAMIC_IMPORT] [0msrc/lib/exports.ts is dynamically imported by src/components/DirectAttachments.tsx, src/lib/calendar.ts, src/modules/DigitalBooklet.tsx but also statically imported by src/components/DirectAttachments.tsx, src/lib/booklet.ts, src/modules/DigitalBooklet.tsx, src/modules/Documents.tsx, src/modules/Settings.tsx, dynamic import will not move module into another chunk.
+
+✓ built in 1.35s
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

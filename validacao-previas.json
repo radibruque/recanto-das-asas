@@ -1,0 +1,226 @@
+[
+  {
+    "platform": "desktop",
+    "theme": "light",
+    "width": 1440,
+    "screen": "home",
+    "status": 200,
+    "overflow": false,
+    "overlaps": [],
+    "visibleHeadings": [
+      "Visão geral"
+    ],
+    "failedImages": [],
+    "errors": []
+  },
+  {
+    "platform": "desktop",
+    "theme": "light",
+    "width": 1440,
+    "screen": "profile",
+    "status": 200,
+    "overflow": false,
+    "overlaps": [],
+    "visibleHeadings": [
+      "Roxa"
+    ],
+    "failedImages": [],
+    "errors": []
+  },
+  {
+    "platform": "desktop",
+    "theme": "light",
+    "width": 1440,
+    "screen": "form",
+    "status": 200,
+    "overflow": false,
+    "overlaps": [],
+    "visibleHeadings": [
+      "Cadastrar ave"
+    ],
+    "failedImages": [],
+    "errors": []
+  },
+  {
+    "platform": "desktop",
+    "theme": "light",
+    "width": 1440,
+    "screen": "health",
+    "status": 200,
+    "overflow": false,
+    "overlaps": [],
+    "visibleHeadings": [
+      "Roxa"
+    ],
+    "failedImages": [],
+    "errors": []
+  },
+  {
+    "platform": "desktop",
+    "theme": "dark",
+    "width": 1440,
+    "screen": "home",
+    "status": 200,
+    "overflow": false,
+    "overlaps": [],
+    "visibleHeadings": [
+      "Visão geral"
+    ],
+    "failedImages": [],
+    "errors": []
+  },
+  {
+    "platform": "desktop",
+    "theme": "dark",
+    "width": 1440,
+    "screen": "profile",
+    "status": 200,
+    "overflow": false,
+    "overlaps": [],
+    "visibleHeadings": [
+      "Roxa"
+    ],
+    "failedImages": [],
+    "errors": []
+  },
+  {
+    "platform": "desktop",
+    "theme": "dark",
+    "width": 1440,
+    "screen": "form",
+    "status": 200,
+    "overflow": false,
+    "overlaps": [],
+    "visibleHeadings": [
+      "Cadastrar ave"
+    ],
+    "failedImages": [],
+    "errors": []
+  },
+  {
+    "platform": "desktop",
+    "theme": "dark",
+    "width": 1440,
+    "screen": "health",
+    "status": 200,
+    "overflow": false,
+    "overlaps": [],
+    "visibleHeadings": [
+      "Roxa"
+    ],
+    "failedImages": [],
+    "errors": []
+  },
+  {
+    "platform": "android",
+    "theme": "light",
+    "width": 390,
+    "screen": "home",
+    "status": 200,
+    "overflow": false,
+    "overlaps": [],
+    "visibleHeadings": [
+      "Hoje no recanto"
+    ],
+    "failedImages": [],
+    "errors": []
+  },
+  {
+    "platform": "android",
+    "theme": "light",
+    "width": 390,
+    "screen": "profile",
+    "status": 200,
+    "overflow": false,
+    "overlaps": [],
+    "visibleHeadings": [
+      "Roxa"
+    ],
+    "failedImages": [],
+    "errors": []
+  },
+  {
+    "platform": "android",
+    "theme": "light",
+    "width": 390,
+    "screen": "form",
+    "status": 200,
+    "overflow": false,
+    "overlaps": [],
+    "visibleHeadings": [
+      "Cadastrar ave"
+    ],
+    "failedImages": [],
+    "errors": []
+  },
+  {
+    "platform": "android",
+    "theme": "light",
+    "width": 390,
+    "screen": "health",
+    "status": 200,
+    "overflow": false,
+    "overlaps": [],
+    "visibleHeadings": [
+      "Roxa"
+    ],
+    "failedImages": [],
+    "errors": []
+  },
+  {
+    "platform": "android",
+    "theme": "dark",
+    "width": 390,
+    "screen": "home",
+    "status": 200,
+    "overflow": false,
+    "overlaps": [],
+    "visibleHeadings": [
+      "Hoje no recanto"
+    ],
+    "failedImages": [],
+    "errors": []
+  },
+  {
+    "platform": "android",
+    "theme": "dark",
+    "width": 390,
+    "screen": "profile",
+    "status": 200,
+    "overflow": false,
+    "overlaps": [],
+    "visibleHeadings": [
+      "Roxa"
+    ],
+    "failedImages": [],
+    "errors": []
+  },
+  {
+    "platform": "android",
+    "theme": "dark",
+    "width": 390,
+    "screen": "form",
+    "status": 200,
+    "overflow": false,
+    "overlaps": [],
+    "visibleHeadings": [
+      "Cadastrar ave"
+    ],
+    "failedImages": [],
+    "errors": []
+  },
+  {
+    "platform": "android",
+    "theme": "dark",
+    "width": 390,
+    "screen": "health",
+    "status": 200,
+    "overflow": false,
+    "overlaps": [],
+    "visibleHeadings": [
+      "Roxa"
+    ],
+    "failedImages": [],
+    "errors": []
+  }
+]
