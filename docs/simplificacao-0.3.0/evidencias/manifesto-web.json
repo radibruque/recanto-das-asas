@@ -1,0 +1,378 @@
+{
+  "artes/01_Principal/Logo_Aprovada_Fundo_Branco.jpg": {
+    "bytes": 819851,
+    "sha256": "e794388854534afdffcac838a2b713bca46d92eba0306e7ffe51a228a17ba1eb"
+  },
+  "artes/01_Principal/Logo_Aprovada_Original_1254px.png": {
+    "bytes": 1643894,
+    "sha256": "1c1b0b57d8d967ba9445583156e01ceb5b377e3b5ce8fd0fb1c09ae1f1b77555"
+  },
+  "artes/01_Principal/Logo_Colorida_Transparente_1254px.png": {
+    "bytes": 1173310,
+    "sha256": "a78cee0cdd0053a6199cfb6eaba5e2936727a044af9697e65606685fe984ade5"
+  },
+  "artes/02_Digital/Avatar_Colorido_1080px.png": {
+    "bytes": 7166,
+    "sha256": "38d62cd10e00be2cef53cedb7953a1a27c0100ec715627daeb8be60994290d2b"
+  },
+  "artes/02_Digital/Capa_Horizontal_1600px.png": {
+    "bytes": 185310,
+    "sha256": "f6c021d0f30be5dd901d1a6fa165cbccae5741916248c6b775a1fa4e2fbcf75d"
+  },
+  "artes/02_Digital/Logo_Colorida_Transparente_1024px.png": {
+    "bytes": 6558,
+    "sha256": "203d7ea9cee6471119f6cc8e32b64387f3cf9e78d1653d68966a9459f947b585"
+  },
+  "artes/02_Digital/Logo_Colorida_Transparente_2048px.png": {
+    "bytes": 21285,
+    "sha256": "ce17446729515947a497d22b07439fc6ce66bd1fd8b0d85eb47a35d37efcccc0"
+  },
+  "artes/02_Digital/Logo_Colorida_Transparente_4096px.png": {
+    "bytes": 75791,
+    "sha256": "2e1c6650b5750b5cb8bba877309d6ca01088bfda7c6fe41eef80a2952ac05f08"
+  },
+  "artes/02_Digital/Logo_Colorida_Transparente_512px.png": {
+    "bytes": 2256,
+    "sha256": "05307da64280bbdb737aedfc2d2dbdba8a8b13eb0840d507eb713e904f3a30fe"
+  },
+  "artes/02_Digital/Monograma_RA.svg": {
+    "bytes": 864,
+    "sha256": "19ce323cf4700228840ec717f0ede33a39dbb2afe1e0ed2a67225eb4ea43b6f7"
+  },
+  "artes/02_Digital/Monograma_RA_192px.png": {
+    "bytes": 5395,
+    "sha256": "51fab5eef9092c53b9eb87c2d1dc7341dbbb5b113e2293973db0f53ef54c1e6e"
+  },
+  "artes/02_Digital/Monograma_RA_32px.png": {
+    "bytes": 1003,
+    "sha256": "0a20d3e6920efd5e65bc5fe826f07ed648c2e0864f5cffac8fb91fdd11d60f87"
+  },
+  "artes/02_Digital/Monograma_RA_512px.png": {
+    "bytes": 14896,
+    "sha256": "35aff1f2468de70ace4a4c29f465a8d65ae2a4afcdae1baea34bae61c7ef69c4"
+  },
+  "artes/02_Digital/Monograma_RA_64px.png": {
+    "bytes": 1948,
+    "sha256": "9019df5228f7607e9e1ac270bb26dc682b7b1fbb3234b4a38937a972831a93a4"
+  },
+  "artes/02_Digital/favicon.ico": {
+    "bytes": 7347,
+    "sha256": "93f1fe70527809aa63cd026596cdbcc5c4f7e31d0721f547e33576e609a1159a"
+  },
+  "artes/03_Vetores_1_Cor/Logo_Horizontal_1_Cor_azul.pdf": {
+    "bytes": 34073,
+    "sha256": "73c0c7d2f2abedbbe08e1a1c783435968dc102b38c420fb5db996ddf88581f4e"
+  },
+  "artes/03_Vetores_1_Cor/Logo_Horizontal_1_Cor_azul.png": {
+    "bytes": 222025,
+    "sha256": "13c267cfd1a39cd35284e04c27fc3572b83978cbb483b22995ffa7887ffcf256"
+  },
+  "artes/03_Vetores_1_Cor/Logo_Horizontal_1_Cor_azul.svg": {
+    "bytes": 82214,
+    "sha256": "6d3937680a591abb9801fe35bba442e86280c7b12a1f280de4c146382fe9a9fc"
+  },
+  "artes/03_Vetores_1_Cor/Logo_Horizontal_1_Cor_branco.pdf": {
+    "bytes": 34057,
+    "sha256": "2da6e757550746445556c80ec59477888dbffbf3d70f1f5c2f589545449e44c7"
+  },
+  "artes/03_Vetores_1_Cor/Logo_Horizontal_1_Cor_branco.png": {
+    "bytes": 148697,
+    "sha256": "fd93200d2e32d629524e0243c617b14eb94a82ddfde29acfb3d3b1945c2b48e7"
+  },
+  "artes/03_Vetores_1_Cor/Logo_Horizontal_1_Cor_branco.svg": {
+    "bytes": 82214,
+    "sha256": "0dff4dd7531910c481efe7629da1d0de5938c7664db10147144d093d994540dd"
+  },
+  "artes/03_Vetores_1_Cor/Logo_Horizontal_1_Cor_preto.eps": {
+    "bytes": 84192,
+    "sha256": "4f71e5e15524d58aec5b133c64ad9f08ff888f76d0c26dda7b70c9271f70b9bb"
+  },
+  "artes/03_Vetores_1_Cor/Logo_Horizontal_1_Cor_preto.pdf": {
+    "bytes": 34056,
+    "sha256": "3a5965498dc6ddb5a041fc16175eb304589ea0642b9234ba93db9346005718a7"
+  },
+  "artes/03_Vetores_1_Cor/Logo_Horizontal_1_Cor_preto.png": {
+    "bytes": 160477,
+    "sha256": "fe53a9dd36fcb8304871b9abd84712e3c59d12636ede08f3eef620ffc77e206d"
+  },
+  "artes/03_Vetores_1_Cor/Logo_Horizontal_1_Cor_preto.svg": {
+    "bytes": 82214,
+    "sha256": "bba884a4fb256faf2820140ec61de2fc5bebec7bc7c31ebb2df9bbd8d0c88e52"
+  },
+  "artes/03_Vetores_1_Cor/Logo_Vertical_1_Cor_azul.pdf": {
+    "bytes": 35032,
+    "sha256": "920ba67612c1941d635631261b652aabe0486d2e44d8d38c92bad3cf62a4bb0a"
+  },
+  "artes/03_Vetores_1_Cor/Logo_Vertical_1_Cor_azul.png": {
+    "bytes": 469419,
+    "sha256": "085d47cb5b7f21b17dfd03c7f5da7fb177e94adc71fdccf4c87f1dc668cff73d"
+  },
+  "artes/03_Vetores_1_Cor/Logo_Vertical_1_Cor_azul.svg": {
+    "bytes": 82105,
+    "sha256": "48926d2616172e45fbd323b264cc18ca5518f6af9ec1df962df907d5baea932e"
+  },
+  "artes/03_Vetores_1_Cor/Logo_Vertical_1_Cor_branco.pdf": {
+    "bytes": 35014,
+    "sha256": "002753eb17d8a61a40624802f5c6ca66ffdfeef50ac0e76d1a05152dfcf05bbb"
+  },
+  "artes/03_Vetores_1_Cor/Logo_Vertical_1_Cor_branco.png": {
+    "bytes": 318355,
+    "sha256": "5f3e46ba21ad91658e6b602cf70051f73e18d60031437df5f3aeb210f9b7f57f"
+  },
+  "artes/03_Vetores_1_Cor/Logo_Vertical_1_Cor_branco.svg": {
+    "bytes": 82105,
+    "sha256": "8932f1041d90f099829409c8d4d5fcec8fdc74191f51be860696c6a9a271f320"
+  },
+  "artes/03_Vetores_1_Cor/Logo_Vertical_1_Cor_preto.eps": {
+    "bytes": 83148,
+    "sha256": "a10b306e9a177b072955fc22bff5c359ddb0fbda695d58aacc57d6462b67249f"
+  },
+  "artes/03_Vetores_1_Cor/Logo_Vertical_1_Cor_preto.pdf": {
+    "bytes": 35012,
+    "sha256": "10330ccd61a9aa80bd7935cba0d1972d861d0147eb080b975f1f60cff7e3f10e"
+  },
+  "artes/03_Vetores_1_Cor/Logo_Vertical_1_Cor_preto.png": {
+    "bytes": 349719,
+    "sha256": "31063c9ec7ff535d8bcde0103ce81fd1a1225a203b79ce9f12a6d6eb652a9d1e"
+  },
+  "artes/03_Vetores_1_Cor/Logo_Vertical_1_Cor_preto.svg": {
+    "bytes": 82105,
+    "sha256": "e3a5566264a535897516c1de86e8559955d62b6af00aac51ea2374a591d35dbc"
+  },
+  "artes/03_Vetores_1_Cor/Logotipo_Somente_Nome_azul.pdf": {
+    "bytes": 9318,
+    "sha256": "8a41d4077fabba41385e3d1f2653c591a09681986b20653f89c1f2be7fd2232a"
+  },
+  "artes/03_Vetores_1_Cor/Logotipo_Somente_Nome_azul.png": {
+    "bytes": 166888,
+    "sha256": "bb4b5aa64d8f70d3186d8fa81e6608fd4c4af23390591ee1ebb975b74b485125"
+  },
+  "artes/03_Vetores_1_Cor/Logotipo_Somente_Nome_azul.svg": {
+    "bytes": 20258,
+    "sha256": "1fc95c9dc620a7b93cce8c470274c170586f52bd179ad44703d6ac40d8bf8ebc"
+  },
+  "artes/03_Vetores_1_Cor/Logotipo_Somente_Nome_branco.pdf": {
+    "bytes": 9305,
+    "sha256": "997e54d92d223c1f8c25ee55e40103a4468437724ec96e11d47286d79d714f63"
+  },
+  "artes/03_Vetores_1_Cor/Logotipo_Somente_Nome_branco.png": {
+    "bytes": 115316,
+    "sha256": "b1fe7b55ef68230a4bc1c95ae1c0fd4db9a619d6aeae11e7b47e3a517aac01f8"
+  },
+  "artes/03_Vetores_1_Cor/Logotipo_Somente_Nome_branco.svg": {
+    "bytes": 20258,
+    "sha256": "f8974687b8e1d0506adf62b36abc1a3e1ae646197d47c2d4488a7b29ee0ebe5c"
+  },
+  "artes/03_Vetores_1_Cor/Logotipo_Somente_Nome_preto.eps": {
+    "bytes": 21527,
+    "sha256": "6147638a11cd2b5f8fdbc16870e8d9b430941dfe63e43472d93eae23dbb9245a"
+  },
+  "artes/03_Vetores_1_Cor/Logotipo_Somente_Nome_preto.pdf": {
+    "bytes": 9304,
+    "sha256": "93a70acaaa8af07271a9923e4cce962152f7a84a9bda0f1e311bf68c951495b9"
+  },
+  "artes/03_Vetores_1_Cor/Logotipo_Somente_Nome_preto.png": {
+    "bytes": 127283,
+    "sha256": "a6131382de3281104391d3f92ae35b2c456891ec787d0b7708bb2314e67d584a"
+  },
+  "artes/03_Vetores_1_Cor/Logotipo_Somente_Nome_preto.svg": {
+    "bytes": 20258,
+    "sha256": "daeda2d2adb9de88da5834ee4388b77cf2bebe896ee60261221c9799f8328e71"
+  },
+  "artes/03_Vetores_1_Cor/Simbolo_Aves_azul.pdf": {
+    "bytes": 27101,
+    "sha256": "143a229e480b61530e5e74b610e674f62266ce76f85d26bf6d412c8d00b04341"
+  },
+  "artes/03_Vetores_1_Cor/Simbolo_Aves_azul.png": {
+    "bytes": 343801,
+    "sha256": "f4ffcbf2522aa1f4b59e4a1bdde71ace289cf63b35e433b077ad7e27a4abe511"
+  },
+  "artes/03_Vetores_1_Cor/Simbolo_Aves_azul.svg": {
+    "bytes": 62201,
+    "sha256": "2089f9d1fc5aa18a5fddb4daeedb9eb0c22c44dff480195dac299b4e1e63931a"
+  },
+  "artes/03_Vetores_1_Cor/Simbolo_Aves_branco.pdf": {
+    "bytes": 27088,
+    "sha256": "857cc3b291da16e566f4b7e7ccd9c17b930c47d76e2662e97029a557b9d31024"
+  },
+  "artes/03_Vetores_1_Cor/Simbolo_Aves_branco.png": {
+    "bytes": 233488,
+    "sha256": "fe5fce8a1a1816094e837acc38b6c7149f52934db703f5a9dcbec6ca0824e224"
+  },
+  "artes/03_Vetores_1_Cor/Simbolo_Aves_branco.svg": {
+    "bytes": 62201,
+    "sha256": "c480a07931c061f679c60976742724eba86461d0ba19c910905d9e61ccbe5b93"
+  },
+  "artes/03_Vetores_1_Cor/Simbolo_Aves_preto.eps": {
+    "bytes": 63938,
+    "sha256": "235b5de0efca189c08fa80241d02c7779cc36b57a0f83edaa8b34c0f86dbc6b2"
+  },
+  "artes/03_Vetores_1_Cor/Simbolo_Aves_preto.pdf": {
+    "bytes": 27087,
+    "sha256": "38736048aac8432a28ab1d97285cac92706d88c190e6c537a5ab820b9ca0ad4b"
+  },
+  "artes/03_Vetores_1_Cor/Simbolo_Aves_preto.png": {
+    "bytes": 254936,
+    "sha256": "d9fa4f4995dfb60b53ae407c1b847cbac0577632c0eebf0dde0ba363d1c7b61d"
+  },
+  "artes/03_Vetores_1_Cor/Simbolo_Aves_preto.svg": {
+    "bytes": 62201,
+    "sha256": "d0cb75f4aa81e0e0ada0a3c27c973dfa906e7a8fe53da5fabfc4c310722dc61d"
+  },
+  "artes/04_Impressao/Logo_CMYK_SWOP_Referencia.tif": {
+    "bytes": 2501202,
+    "sha256": "49d7bc9d328dc24b0015ede85850cc7027634f47e3c42e329a3a4ffc3d2135d1"
+  },
+  "artes/04_Impressao/Logo_Colorida_10cm_RGB.pdf": {
+    "bytes": 989,
+    "sha256": "d4884a10e09d1b1c73d7d42d615ec4a8ef4fa5f78eeaa9d72b805469b61e8b28"
+  },
+  "artes/04_Impressao/Logo_Colorida_14cm_RGB.pdf": {
+    "bytes": 990,
+    "sha256": "897c29312562af37552fc63d37ddcf12a2c9bb2873019ad224832af2e12b604d"
+  },
+  "artes/04_Impressao/Logo_Colorida_8cm_RGB.pdf": {
+    "bytes": 989,
+    "sha256": "30a43100c2e1fa2dbcca248dd29f59845ebbbca5efaaa3b2b229c0a5ca090b63"
+  },
+  "artes/04_Impressao/Logo_Colorida_RGB_Original.tif": {
+    "bytes": 2314752,
+    "sha256": "c1416a2f810cd07c7c95c17ea5a315367032b2d5b5ac69849c9c95b4d3ca3c27"
+  },
+  "artes/05_Uniformes/Estampa_Colorida_10cm_Transparente.png": {
+    "bytes": 8240,
+    "sha256": "17d4d76b6fac85442f834a4a456a64f69bdaff0914c8d8a7ccb73a756c2711e2"
+  },
+  "artes/05_Uniformes/Estampa_Colorida_8cm_Transparente.png": {
+    "bytes": 5697,
+    "sha256": "8c0cfb02377cd39e4bf751330e4a8ed3a618b0722b297bce9417bb4302989fef"
+  },
+  "artes/05_Uniformes/Logo_1_Cor_azul_8cm_Vetor.pdf": {
+    "bytes": 31505,
+    "sha256": "993cf9fb7a02e1b98c47264deb031cbaf3d803125ec8c50c353b05199089825d"
+  },
+  "artes/05_Uniformes/Logo_1_Cor_branco_28cm_Vetor.pdf": {
+    "bytes": 34868,
+    "sha256": "04e8786d76145c7e816a47c6009deb620792be0b4c55ab9b0676d99fa3965d47"
+  },
+  "artes/05_Uniformes/Logo_1_Cor_preto_10cm_Vetor.pdf": {
+    "bytes": 32128,
+    "sha256": "46b2de218fa9ad4ed20275a970c64a846f9a2e50e5aa3d8b577ec41ade6daf58"
+  },
+  "artes/05_Uniformes/Logotipo_Somente_Nome_azul_120mm.pdf": {
+    "bytes": 8942,
+    "sha256": "04f67b1dc5c1e445193f6134990c34bd042ad2ea6da57417b2765446153ef501"
+  },
+  "artes/05_Uniformes/Simbolo_Aves_azul_60mm.pdf": {
+    "bytes": 23757,
+    "sha256": "19558611adeb7285aad17443064db9f2524a5209e1d90d7cb52a1d5e354b3462"
+  },
+  "artes/06_Sublimacao/Caneca_Generica_21x9cm_Espelhada.pdf": {
+    "bytes": 993,
+    "sha256": "9cb1958646f88768d0359454c8fc0a0a78ce04470df990565612d26859fa519c"
+  },
+  "artes/06_Sublimacao/Caneca_Generica_21x9cm_Espelhada.png": {
+    "bytes": 12862,
+    "sha256": "f09611fa1eb3ec83e313627f2e4a7846ca5d7635f92b41494a6eb307301a27ce"
+  },
+  "artes/06_Sublimacao/Caneca_Generica_21x9cm_Normal.pdf": {
+    "bytes": 993,
+    "sha256": "9cb1958646f88768d0359454c8fc0a0a78ce04470df990565612d26859fa519c"
+  },
+  "artes/06_Sublimacao/Caneca_Generica_21x9cm_Normal.png": {
+    "bytes": 12862,
+    "sha256": "f09611fa1eb3ec83e313627f2e4a7846ca5d7635f92b41494a6eb307301a27ce"
+  },
+  "artes/07_Guia/Catalogo_de_Arquivos.csv": {
+    "bytes": 13122,
+    "sha256": "50c73665d17ce21f418145270d0501dc739e6f5b23a11c9a3db1cb5042b9a5b3"
+  },
+  "artes/07_Guia/Guia_de_Aplicacao_Recanto_das_Asas.pdf": {
+    "bytes": 5682109,
+    "sha256": "29eb415f37e7051add5bad1ec598d57762c59c5e1ee3c2b28ff6b98a5037fa48"
+  },
+  "artes/07_Guia/Paleta_RGB.json": {
+    "bytes": 176,
+    "sha256": "157905c8b0d2aed3aa08a06a095bf9aaaf6225c0e396f25b916a2f873d532ec0"
+  },
+  "artes/07_Guia/SHA256SUMS.txt": {
+    "bytes": 8358,
+    "sha256": "c9755736858dc5f3020d6804b89dbd742e9b3a5645c2aee840862ee8e4cd061f"
+  },
+  "artes/07_Guia/Visao_Geral_Recanto_das_Asas.png": {
+    "bytes": 376119,
+    "sha256": "676e2846ef186b722e0a64c4dd7c49ad22fa798d1e003439e920375a6ca32d17"
+  },
+  "artes/LEIA-ME.txt": {
+    "bytes": 165,
+    "sha256": "79d0062f8cee4dc745e90b4ea847149e0ed64d4ffbf75b81ee8e16b2c04193be"
+  },
+  "artes/LEIA_PRIMEIRO.txt": {
+    "bytes": 1752,
+    "sha256": "30abf2cda9e25acacfa0cf86c2175bef243aaa88f39d9c1617a5558246b71bd9"
+  },
+  "artes/catalog.json": {
+    "bytes": 22417,
+    "sha256": "999386e957f794071174ccdbf8503437384ccacc755ba5c91dbf5f5f82c6f649"
+  },
+  "assets/attachment-preview.worker-CtGqWCYy.js": {
+    "bytes": 4339,
+    "sha256": "68933edc02f990d49df364022e4eedaf607487a824397300404fe6cf7f5c9637"
+  },
+  "assets/dist-D-aS5iBc.js": {
+    "bytes": 342223,
+    "sha256": "fa2f23a0030b2d9280725cac6ef8290c536658160826c900ea3c31c4d07c0cd9"
+  },
+  "assets/encrypted-backup-payload.worker-CJqPpOhg.js": {
+    "bytes": 492,
+    "sha256": "bd35f8fe435af1a317ab8cff505ea7662313264bde4467d1c124d6131a0833a8"
+  },
+  "assets/exceljs.min-CzZpw0uH.js": {
+    "bytes": 929917,
+    "sha256": "46d3522cfed567384adf133c7b1c092cfddc511298c5b1548e323a8bf62a69b5"
+  },
+  "assets/fontkit.es-Di3mj7rL.js": {
+    "bytes": 711128,
+    "sha256": "916e8e9f513322c5089027c36efb78dca0fe6c0efbd5b96f6b86e524a448c6b9"
+  },
+  "assets/index-CmGD_SQM.js": {
+    "bytes": 1236320,
+    "sha256": "275220a3922cef258527f9ee573ee9f309809463bf15666b2a619bf74bfc4f4a"
+  },
+  "assets/index-Cv0drBPW.css": {
+    "bytes": 82915,
+    "sha256": "efb30d53b92b8806c9f199ab351270918cb94d198c69be3a9d2a613325e45d25"
+  },
+  "fonts/NotoSans-Regular-Static.ttf": {
+    "bytes": 80128,
+    "sha256": "3f97ed458c430c1299ae05e0cb4c35a5abba23717f0d09dd718ad36fe23c4f3c"
+  },
+  "fonts/NotoSans.ttf": {
+    "bytes": 2049096,
+    "sha256": "bfb7bb691513f12e734dc346c03a03f784912432d7e3fa8e56efcf906fe86b3d"
+  },
+  "fonts/OFL.txt": {
+    "bytes": 4396,
+    "sha256": "cee9892f9f0cc8fe882c9e9537ee6a89621d86ee7ceaf70b02e2b2b1c25c061a"
+  },
+  "index.html": {
+    "bytes": 609,
+    "sha256": "a275848e48619eb73071a8cec53eb049b67debc8499709d07abb470cf198b2e5"
+  },
+  "manifest.webmanifest": {
+    "bytes": 356,
+    "sha256": "f17c73e6fc8a3815627a27d077761b41261b6f497dec8cd60bafdfc2323405c1"
+  },
+  "sw.js": {
+    "bytes": 5338,
+    "sha256": "b8aebc5536ac47212ec78c765f5329ad1ac2a5cde5dd093114ac607db0687db3"
+  },
+  "templates/Caderneta_Recanto_das_Asas_Digital_Vertical.pdf": {
+    "bytes": 2187156,
+    "sha256": "f33af6ad5fef66c872afcf0887de6b73f0e73ce4b31de34978cf01830d55a041"
+  },
+  "theme-init.js": {
+    "bytes": 2662,
+    "sha256": "897986689317b227267208c2cc15647c786189905f219cd2d53a11088583864e"
+  }
+}

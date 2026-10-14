@@ -84,8 +84,8 @@ function Test-RecantoLocal {
     $config = Get-RecantoConfig
     $token = Get-RecantoToken
     try {
-        $response = Invoke-WebRequest -UseBasicParsing -Uri ('http://127.0.0.1:8788/v1/workspace/' + $config.workspaceId) -Headers @{ Authorization = ('Bearer ' + $token) } -TimeoutSec 3
-        return ($response.StatusCode -eq 200)
+        $response = Invoke-WebRequest -UseBasicParsing -Method Head -Uri ('http://127.0.0.1:8788/v1/workspace/' + $config.workspaceId) -Headers @{ Authorization = ('Bearer ' + $token); 'X-Recanto-Schema-Version' = '3' } -TimeoutSec 3
+        return ($response.StatusCode -eq 200 -and $response.Headers['X-Recanto-Schema-Gate'] -eq '1')
     } catch { return $false }
     finally { $token = $null }
 }

@@ -70,6 +70,7 @@
 :root[data-layout='android'] .simplified-layout .dashboard-heading h2 { font-size: 16px; }
 :root[data-layout='android'] .simplified-layout .home-task { align-items: stretch; }
 :root[data-layout='android'] .simplified-layout .web-shortcuts { display: block; }
+:root[data-platform='desktop'] .simplified-layout .web-shortcuts { display: none; }
 :root[data-layout='android'] .simplified-layout .web-shortcut { flex-direction: column; gap: 5px; padding: 8px 2px; font-size: 10px; min-height: 60px; }
 :root[data-layout='android'] .simplified-layout .main-content { padding-bottom: calc(var(--web-shortcuts-height,76px) + env(safe-area-inset-bottom,0px) + 24px); }
 @media (max-width: 1250px) { :root[data-layout='desktop'] .simplified-layout { grid-template-columns: 232px minmax(0,1fr); } :root[data-layout='desktop'] .simplified-layout > .sidebar { width: 232px; } .simplified-layout .dashboard-columns { grid-template-columns: minmax(0,1fr); } }

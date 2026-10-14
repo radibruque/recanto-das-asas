@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { revealFormField } from './visual-helpers';
 import type { State } from '../../src/domain/types';
 
 test('large principal photo keeps the original and uses a bounded image for the bird and PDF',async({page})=>{
@@ -21,7 +22,7 @@ test('large principal photo keeps the original and uses a bounded image for the 
   await form.getByLabel('Identificação ou anilha *',{exact:true}).fill('FOTO-GRANDE');
   await form.getByLabel('Nome',{exact:true}).fill('Foto de teste');
   await form.getByLabel('Espécie *',{exact:true}).fill('Calopsita');
-  await form.getByLabel('Foto principal da ave',{exact:true}).setInputFiles({name:'foto-original.jpg',mimeType:'image/jpeg',buffer:Buffer.from(photoBase64,'base64')});
+  await (await revealFormField(form, 'Foto principal da ave')).setInputFiles({name:'foto-original.jpg',mimeType:'image/jpeg',buffer:Buffer.from(photoBase64,'base64')});
   await expect(form.getByText('foto-original_foto.jpg',{exact:true})).toBeVisible();
   await expect(form.getByText('foto-original.jpg',{exact:true})).toBeVisible();
   await expect(form.getByRole('button',{name:'Salvar',exact:true})).toBeEnabled();

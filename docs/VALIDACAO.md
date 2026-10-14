@@ -1,5 +1,7 @@
 # Relatório de validação — 0.1.0
 
+Este relatório conserva a validação da entrega inicial. Os resultados e limites da atualização 0.3.0 estão na [matriz de entrega atual](ENTREGA_SIMPLIFICACAO_0.3.0.md) e nas [evidências e capturas](simplificacao-0.3.0/COMPARATIVO.md).
+
 Executado no ambiente Linux em 8 de outubro de 2026 UTC. Dados exclusivamente fictícios. A base D1 e a hospedagem de produção não foram acessadas. Esta validação cobre o código e os artefatos descritos, com pendências de aceite registradas separadamente.
 
 ## Resultado executado

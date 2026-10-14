@@ -85,14 +85,19 @@ export function deriveBookletFields(state: State, scope: Scope, birdId: string, 
     food_independence_date: extra.foodIndependenceDate || '', rearing_information: extra.rearingType || 'desconhecida',
     current_diet: extra.currentDiet || '', management_history: extra.managementHistory || '', medical_observations: extra.medicalObservations || '',
     delivery_date: sale?.deliveryDate || '', delivery_weight: extra.deliveryWeightGrams == null ? '' : String(extra.deliveryWeightGrams),
-    tutor_name: extra.tutorName || tutor?.name || '', tutor_phone: extra.tutorPhone || tutor?.phone || '',
-    breeder_name: extra.breederName || bird.responsible || state.settings.name, breeder_phone: extra.breederPhone || state.settings.phone,
+    tutor_name: sale ? tutor?.name || '' : extra.tutorName || '', tutor_phone: sale ? tutor?.phone || '' : extra.tutorPhone || '',
+    breeder_name: extra.breederName || state.settings.name, breeder_phone: extra.breederPhone || state.settings.phone,
     vet_identity: extra.vetIdentity || '', vet_emergency_phone: extra.vetEmergencyPhone || '',
   });
   const weights = state.health.filter(value => value.scope === scope && value.birdId === bird.id && value.weightGrams !== null).sort((a, b) => a.date.localeCompare(b.date)).slice(-3);
   weights.forEach((value, index) => Object.assign(fields, { [`weight_${index + 1}_date`]: value.date, [`weight_${index + 1}_weight`]: String(value.weightGrams), [`weight_${index + 1}_notes`]: value.title }));
   // Consultations are added only by an explicit selection/review in the form.
-  if (useSaved) for (const [key, value] of Object.entries(extra.fieldOverrides || {})) if (fieldSpecs.has(key) && typeof value === 'string') fields[key] = value;
+  if (useSaved) for (const [key, value] of Object.entries(extra.fieldOverrides || {})) {
+    // A new linked operation supplies its own tutor and delivery date. Saved
+    // customer details may belong to a previous sale of this same bird.
+    if (sale && ['tutor_name', 'tutor_phone', 'delivery_date'].includes(key)) continue;
+    if (fieldSpecs.has(key) && typeof value === 'string') fields[key] = value;
+  }
   return fields;
 }
 

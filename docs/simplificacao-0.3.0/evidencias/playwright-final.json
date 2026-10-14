@@ -1,0 +1,4101 @@
+{
+  "config": {
+    "configFile": "/workspace/recanto-das-asas/aplicativo/playwright.config.ts",
+    "rootDir": "/workspace/recanto-das-asas/aplicativo/tests/e2e",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/workspace/recanto-das-asas/aplicativo/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/workspace/recanto-das-asas/aplicativo/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list"
+      ],
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "runAgents": "none",
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.58.2",
+    "workers": 1,
+    "webServer": {
+      "command": "npm run preview -- --port 5175 --strictPort",
+      "url": "http://127.0.0.1:5175",
+      "reuseExistingServer": true,
+      "timeout": 30000
+    }
+  },
+  "suites": [
+    {
+      "title": "accessibility.spec.ts",
+      "file": "accessibility.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "rendered text uses AA contrast on shared surfaces and sample records in light",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2664,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:00:29.411Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ddd864604af8a6a0198f-2180d41f061e2000697c",
+          "file": "accessibility.spec.ts",
+          "line": 61,
+          "column": 3
+        },
+        {
+          "title": "keyboard focus is visible and reduced motion is respected in light",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 491,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:00:32.572Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ddd864604af8a6a0198f-d8f7222e668c17b48639",
+          "file": "accessibility.spec.ts",
+          "line": 76,
+          "column": 3
+        },
+        {
+          "title": "rendered text uses AA contrast on shared surfaces and sample records in dark",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2678,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:00:33.082Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ddd864604af8a6a0198f-627b8d93ab93c202cf48",
+          "file": "accessibility.spec.ts",
+          "line": 61,
+          "column": 3
+        },
+        {
+          "title": "keyboard focus is visible and reduced motion is respected in dark",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 512,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:00:35.779Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ddd864604af8a6a0198f-c486c0aa6d4e3c665227",
+          "file": "accessibility.spec.ts",
+          "line": 76,
+          "column": 3
+        },
+        {
+          "title": "mobile menu and form controls keep accessible names and comfortable targets",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1941,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:00:36.309Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ddd864604af8a6a0198f-eb49d010b82fac4230e8",
+          "file": "accessibility.spec.ts",
+          "line": 102,
+          "column": 1
+        },
+        {
+          "title": "closed mobile navigation stays outside keyboard focus and exposes its open state",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1347,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:00:38.260Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ddd864604af8a6a0198f-3d6563e4079b042cfaea",
+          "file": "accessibility.spec.ts",
+          "line": 124,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "attachment-preview.spec.ts",
+      "file": "attachment-preview.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "bird thumbnails prepare near the viewport, share verified work and release URLs without altering stored photos",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1490,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:00:39.752Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7c018b0fa7c4dd8fc9fc-cd1f76a8b07e41b70a83",
+          "file": "attachment-preview.spec.ts",
+          "line": 38,
+          "column": 1
+        },
+        {
+          "title": "a corrupted photo never receives a preview URL and shows the integrity error",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1303,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:00:41.253Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7c018b0fa7c4dd8fc9fc-10a33a5acdf90eebc30f",
+          "file": "attachment-preview.spec.ts",
+          "line": 66,
+          "column": 1
+        },
+        {
+          "title": "a reader that blocks preview workers still verifies and displays photos through the cooperative fallback",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1167,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:00:42.570Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7c018b0fa7c4dd8fc9fc-21301edddc7ffbc0811f",
+          "file": "attachment-preview.spec.ts",
+          "line": 72,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "attachments-photo.spec.ts",
+      "file": "attachments-photo.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "large principal photo keeps the original and uses a bounded image for the bird and PDF",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3649,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:00:43.762Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d421b3e4a8d6c121dd58-c3edfec88ba571f7a328",
+          "file": "attachments-photo.spec.ts",
+          "line": 5,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "bc-layout.spec.ts",
+      "file": "bc-layout.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "desktop light: home photos, horizontal bird rows and profile history retain real actions",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3947,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:00:47.442Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "inicio",
+                      "contentType": "image/png",
+                      "path": "/workspace/recanto-das-asas/aplicativo/test-results/bc-layout-desktop-light-ho-fd1c9-history-retain-real-actions/attachments/inicio-a12a3f138ff6e9b45d09d1fd8034b9b6ce1a40d1.png"
+                    },
+                    {
+                      "name": "aves-lista-horizontal",
+                      "contentType": "image/png",
+                      "path": "/workspace/recanto-das-asas/aplicativo/test-results/bc-layout-desktop-light-ho-fd1c9-history-retain-real-actions/attachments/aves-lista-horizontal-51fcbbb7eaf30153f835097bd2b45effb8e06e6a.png"
+                    },
+                    {
+                      "name": "ficha-com-historico",
+                      "contentType": "image/png",
+                      "path": "/workspace/recanto-das-asas/aplicativo/test-results/bc-layout-desktop-light-ho-fd1c9-history-retain-real-actions/attachments/ficha-com-historico-f9e70f854c001350c01c8c5043c3e4a986c6ecd9.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a53da8d5696258011632-14683789605c78a0a2a5",
+          "file": "bc-layout.spec.ts",
+          "line": 52,
+          "column": 3
+        },
+        {
+          "title": "desktop dark: home photos, horizontal bird rows and profile history retain real actions",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4377,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:00:51.405Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "inicio",
+                      "contentType": "image/png",
+                      "path": "/workspace/recanto-das-asas/aplicativo/test-results/bc-layout-desktop-dark-hom-65fcf-history-retain-real-actions/attachments/inicio-c8018b940728f5ed3b79191528417ad92379c6e8.png"
+                    },
+                    {
+                      "name": "aves-lista-horizontal",
+                      "contentType": "image/png",
+                      "path": "/workspace/recanto-das-asas/aplicativo/test-results/bc-layout-desktop-dark-hom-65fcf-history-retain-real-actions/attachments/aves-lista-horizontal-31eb6f471a0e86cedab8e10a3770f471a7f73ba1.png"
+                    },
+                    {
+                      "name": "ficha-com-historico",
+                      "contentType": "image/png",
+                      "path": "/workspace/recanto-das-asas/aplicativo/test-results/bc-layout-desktop-dark-hom-65fcf-history-retain-real-actions/attachments/ficha-com-historico-302e3c7fac446d0506dea70f377f3f3e2d06ce4c.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a53da8d5696258011632-bfa800a2c8b0722e9b89",
+          "file": "bc-layout.spec.ts",
+          "line": 52,
+          "column": 3
+        },
+        {
+          "title": "android light: home photos, horizontal bird rows and profile history retain real actions",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4576,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:00:55.794Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "inicio",
+                      "contentType": "image/png",
+                      "path": "/workspace/recanto-das-asas/aplicativo/test-results/bc-layout-android-light-ho-4bbf8-history-retain-real-actions/attachments/inicio-5a631b8f626c554e263bd873db32bd3c620da97c.png"
+                    },
+                    {
+                      "name": "aves-lista-horizontal",
+                      "contentType": "image/png",
+                      "path": "/workspace/recanto-das-asas/aplicativo/test-results/bc-layout-android-light-ho-4bbf8-history-retain-real-actions/attachments/aves-lista-horizontal-8676e0501df9a1fb9b97918ab904030d3ee2bbc9.png"
+                    },
+                    {
+                      "name": "ficha-com-historico",
+                      "contentType": "image/png",
+                      "path": "/workspace/recanto-das-asas/aplicativo/test-results/bc-layout-android-light-ho-4bbf8-history-retain-real-actions/attachments/ficha-com-historico-6911fc333cd135052f522be2aaf5f7815849b5c9.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a53da8d5696258011632-f530f686bc7fca9c9004",
+          "file": "bc-layout.spec.ts",
+          "line": 52,
+          "column": 3
+        },
+        {
+          "title": "android dark: home photos, horizontal bird rows and profile history retain real actions",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4481,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:01:00.384Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "inicio",
+                      "contentType": "image/png",
+                      "path": "/workspace/recanto-das-asas/aplicativo/test-results/bc-layout-android-dark-hom-84342-history-retain-real-actions/attachments/inicio-a1019f793d44195b33b23e596837c7f934c7a425.png"
+                    },
+                    {
+                      "name": "aves-lista-horizontal",
+                      "contentType": "image/png",
+                      "path": "/workspace/recanto-das-asas/aplicativo/test-results/bc-layout-android-dark-hom-84342-history-retain-real-actions/attachments/aves-lista-horizontal-28bd3b448f1f311379956f4d2ba6a9484f9fa067.png"
+                    },
+                    {
+                      "name": "ficha-com-historico",
+                      "contentType": "image/png",
+                      "path": "/workspace/recanto-das-asas/aplicativo/test-results/bc-layout-android-dark-hom-84342-history-retain-real-actions/attachments/ficha-com-historico-41957cf98548351e0e93cd4d819af81a8875d23f.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a53da8d5696258011632-57766bc1c58307c491b0",
+          "file": "bc-layout.spec.ts",
+          "line": 52,
+          "column": 3
+        },
+        {
+          "title": "native Android keeps the concept C layout even on a wide screen",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1100,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:01:04.875Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a53da8d5696258011632-de8041d1f38f389c10ce",
+          "file": "bc-layout.spec.ts",
+          "line": 129,
+          "column": 1
+        },
+        {
+          "title": "system preference changes palette while keeping the chosen layout at 390px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1190,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:01:05.988Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a53da8d5696258011632-daf8f845978ae6b9eaaf",
+          "file": "bc-layout.spec.ts",
+          "line": 142,
+          "column": 34
+        },
+        {
+          "title": "system preference changes palette while keeping the chosen layout at 1440px",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1601,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:01:07.203Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a53da8d5696258011632-907c79e9a56dc9bfc86b",
+          "file": "bc-layout.spec.ts",
+          "line": 142,
+          "column": 34
+        }
+      ]
+    },
+    {
+      "title": "commercial-evolution.spec.ts",
+      "file": "commercial-evolution.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "compra paga e a prazo integram estoque e financeiro; erros, correção, cancelamento e restituição preservam os registros",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7076,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:01:08.903Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "dfbbb93e967f0cc568f7-7c9ca49dafbfff32bfca",
+          "file": "commercial-evolution.spec.ts",
+          "line": 23,
+          "column": 1
+        },
+        {
+          "title": "revisão de entrega reúne pagamento, originais e caderneta; ZIP e versão entregue mantêm somente a seleção do tutor",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 10601,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:01:15.989Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "dfbbb93e967f0cc568f7-b5733f6ddae400e704f3",
+          "file": "commercial-evolution.spec.ts",
+          "line": 116,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "derived-agenda.spec.ts",
+      "file": "derived-agenda.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "derived agenda requires configured parameters, updates the same task, preserves completion and resolves future work on closure",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 150000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9976,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:01:26.619Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "22617561ef0a2a031967-da2a8de91a8081451125",
+          "file": "derived-agenda.spec.ts",
+          "line": 27,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "desktop-compact.spec.ts",
+      "file": "desktop-compact.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "desktop presentation at a narrow width uses the compact drawer and keeps mobile shortcuts hidden (CSS simulation)",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1186,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:01:36.618Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d502aa1c48d8c88d60b8-46d277f4bd198907c0f2",
+          "file": "desktop-compact.spec.ts",
+          "line": 4,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "document-context.spec.ts",
+      "file": "document-context.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "new document links replace unrelated bird/sale filters and Back restores the previous acervo",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3196,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:01:37.850Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a5d45d7e72279d04f1e0-7f24b5586cc7a7fb05ff",
+          "file": "document-context.spec.ts",
+          "line": 62,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "drawer-regression.spec.ts",
+      "file": "drawer-regression.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "android 390px light: drawer stays in one column while scrolling and reopening",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1134,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:01:41.072Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "Menu com rodapé acessível",
+                      "contentType": "image/png",
+                      "path": "/workspace/recanto-das-asas/aplicativo/test-results/drawer-regression-android--7bc84-ile-scrolling-and-reopening/attachments/Menu-com-rodapé-acessível-171eece63adbaef8c3802dff36d131d437c471a5.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0b30f9f070d4e0af70ce-624fd614442cd58475a8",
+          "file": "drawer-regression.spec.ts",
+          "line": 31,
+          "column": 3
+        },
+        {
+          "title": "android 390px dark: drawer stays in one column while scrolling and reopening",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1220,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:01:42.222Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "Menu com rodapé acessível",
+                      "contentType": "image/png",
+                      "path": "/workspace/recanto-das-asas/aplicativo/test-results/drawer-regression-android--de035-ile-scrolling-and-reopening/attachments/Menu-com-rodapé-acessível-4552aa2104c6966ad49219dd6211df75a9413dae.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0b30f9f070d4e0af70ce-2ec8574e4c72e42b5c6f",
+          "file": "drawer-regression.spec.ts",
+          "line": 31,
+          "column": 3
+        },
+        {
+          "title": "android 360px light: drawer stays in one column while scrolling and reopening",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1161,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:01:43.451Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "Menu com rodapé acessível",
+                      "contentType": "image/png",
+                      "path": "/workspace/recanto-das-asas/aplicativo/test-results/drawer-regression-android--c2f69-ile-scrolling-and-reopening/attachments/Menu-com-rodapé-acessível-b9fe48bb6794813d9e78e03f6733a0035b4b0b96.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0b30f9f070d4e0af70ce-6e032c1b5c66624ba74b",
+          "file": "drawer-regression.spec.ts",
+          "line": 31,
+          "column": 3
+        },
+        {
+          "title": "android 360px dark: drawer stays in one column while scrolling and reopening",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1103,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:01:44.624Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "Menu com rodapé acessível",
+                      "contentType": "image/png",
+                      "path": "/workspace/recanto-das-asas/aplicativo/test-results/drawer-regression-android--dd60f-ile-scrolling-and-reopening/attachments/Menu-com-rodapé-acessível-57721da621f8d26b387b087f0c776fba7064c2b1.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0b30f9f070d4e0af70ce-82986c07006cba42ecec",
+          "file": "drawer-regression.spec.ts",
+          "line": 31,
+          "column": 3
+        },
+        {
+          "title": "web 390px light: drawer stays in one column while scrolling and reopening",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1183,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:01:45.739Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "Menu com rodapé acessível",
+                      "contentType": "image/png",
+                      "path": "/workspace/recanto-das-asas/aplicativo/test-results/drawer-regression-web-390p-622ec-ile-scrolling-and-reopening/attachments/Menu-com-rodapé-acessível-40b9406a465fb3750bd7e3ced513f05cb3699a30.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0b30f9f070d4e0af70ce-ec57cc5658b6c4ec4884",
+          "file": "drawer-regression.spec.ts",
+          "line": 31,
+          "column": 3
+        },
+        {
+          "title": "web 390px dark: drawer stays in one column while scrolling and reopening",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2053,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:01:46.932Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "Menu com rodapé acessível",
+                      "contentType": "image/png",
+                      "path": "/workspace/recanto-das-asas/aplicativo/test-results/drawer-regression-web-390p-df8f8-ile-scrolling-and-reopening/attachments/Menu-com-rodapé-acessível-c1e8829858b22df8f00266b7cbc1b418aefa414b.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0b30f9f070d4e0af70ce-b55bf0281fd44fc437c0",
+          "file": "drawer-regression.spec.ts",
+          "line": 31,
+          "column": 3
+        }
+      ]
+    },
+    {
+      "title": "navigation-context.spec.ts",
+      "file": "navigation-context.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "lightweight context browser Back restores a bird list after another module commits data",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3212,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:01:49.017Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1e5f791e5d3500581406-9ecda5f05a91c166d1b1",
+          "file": "navigation-context.spec.ts",
+          "line": 6,
+          "column": 37
+        },
+        {
+          "title": "lightweight context Android back restores a bird list after another module commits data",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3538,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:01:52.249Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1e5f791e5d3500581406-ba16b2a6a2a398a2bdb7",
+          "file": "navigation-context.spec.ts",
+          "line": 6,
+          "column": 37
+        },
+        {
+          "title": "a bird detail keeps its selected tab across modules and reads the current shared health records",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3240,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:01:55.800Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "1e5f791e5d3500581406-32d57ff1bc9cf10ef975",
+          "file": "navigation-context.spec.ts",
+          "line": 43,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "session-background.spec.ts",
+      "file": "session-background.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "web light: simulated background keeps the active session; explicit lock and reopening require authentication",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2412,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:01:59.068Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e6357a666733c0aa76f0-c3ec30c85cf0ae1a4373",
+          "file": "session-background.spec.ts",
+          "line": 5,
+          "column": 3
+        },
+        {
+          "title": "web dark: simulated background keeps the active session; explicit lock and reopening require authentication",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2607,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:02:01.502Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e6357a666733c0aa76f0-6c9ece156c8fe421b270",
+          "file": "session-background.spec.ts",
+          "line": 5,
+          "column": 3
+        },
+        {
+          "title": "android light: simulated background keeps the active session; explicit lock and reopening require authentication",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3344,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:02:04.120Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e6357a666733c0aa76f0-8814bb586d98c0ab6884",
+          "file": "session-background.spec.ts",
+          "line": 5,
+          "column": 3
+        },
+        {
+          "title": "android dark: simulated background keeps the active session; explicit lock and reopening require authentication",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3580,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:02:07.478Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e6357a666733c0aa76f0-5a6292ffda9277b3f651",
+          "file": "session-background.spec.ts",
+          "line": 5,
+          "column": 3
+        }
+      ]
+    },
+    {
+      "title": "simplification-stage1.spec.ts",
+      "file": "simplification-stage1.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "stage 1 390px light: integrated sectors retain all destinations and contextual creation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5470,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:02:11.093Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e67b8e645da21ec255cf-61119015a96b4faa53bd",
+          "file": "simplification-stage1.spec.ts",
+          "line": 60,
+          "column": 3
+        },
+        {
+          "title": "stage 1 390px dark: integrated sectors retain all destinations and contextual creation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5089,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:02:16.572Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e67b8e645da21ec255cf-3d58748080e389fd2547",
+          "file": "simplification-stage1.spec.ts",
+          "line": 60,
+          "column": 3
+        },
+        {
+          "title": "stage 1 1440px light: integrated sectors retain all destinations and contextual creation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4478,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:02:21.678Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e67b8e645da21ec255cf-db8567a9a5f8e172ab46",
+          "file": "simplification-stage1.spec.ts",
+          "line": 60,
+          "column": 3
+        },
+        {
+          "title": "stage 1 1440px dark: integrated sectors retain all destinations and contextual creation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5304,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:02:26.176Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e67b8e645da21ec255cf-1fa0df9bafd519a7cf84",
+          "file": "simplification-stage1.spec.ts",
+          "line": 60,
+          "column": 3
+        },
+        {
+          "title": "stage 1 global local search groups metadata, opens real records and excludes attachment contents",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5828,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:02:31.493Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e67b8e645da21ec255cf-bba34c03f5bfa9d5b786",
+          "file": "simplification-stage1.spec.ts",
+          "line": 87,
+          "column": 1
+        },
+        {
+          "title": "stage 1 two-bird sale and each payment appear once and commercial totals keep their separate meanings",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7561,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:02:37.346Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e67b8e645da21ec255cf-e59a3e9e90cb8f9f7bb5",
+          "file": "simplification-stage1.spec.ts",
+          "line": 110,
+          "column": 1
+        },
+        {
+          "title": "stage 1 visible Back restores advanced filters, query and bird-list position",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9195,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:02:44.917Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e67b8e645da21ec255cf-1d37d87794558b2e0f30",
+          "file": "simplification-stage1.spec.ts",
+          "line": 129,
+          "column": 37
+        },
+        {
+          "title": "stage 1 Android back event restores advanced filters, query and bird-list position",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8613,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:02:54.126Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e67b8e645da21ec255cf-45b4f8c2d5e68fe789f2",
+          "file": "simplification-stage1.spec.ts",
+          "line": 129,
+          "column": 37
+        },
+        {
+          "title": "stage 1 overdue indicator opens exactly overdue payables and receivables, independent of stale list filters",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2911,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:03:02.755Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e67b8e645da21ec255cf-bb951e5992110d9e9e43",
+          "file": "simplification-stage1.spec.ts",
+          "line": 143,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "simplification-stage2.spec.ts",
+      "file": "simplification-stage2.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "stage 2 390px light: one-click weights share health records, graph real dates and direct attachments persist",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5604,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:03:05.709Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4042a617bcbefff91cc5-e6af3da8b33f1001f5a2",
+          "file": "simplification-stage2.spec.ts",
+          "line": 23,
+          "column": 3
+        },
+        {
+          "title": "stage 2 390px dark: one-click weights share health records, graph real dates and direct attachments persist",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5314,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:03:11.325Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4042a617bcbefff91cc5-0c64bc8e5afd60186c45",
+          "file": "simplification-stage2.spec.ts",
+          "line": 23,
+          "column": 3
+        },
+        {
+          "title": "stage 2 1440px light: one-click weights share health records, graph real dates and direct attachments persist",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5105,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:03:16.653Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4042a617bcbefff91cc5-81b40f37702a1baf3952",
+          "file": "simplification-stage2.spec.ts",
+          "line": 23,
+          "column": 3
+        },
+        {
+          "title": "stage 2 1440px dark: one-click weights share health records, graph real dates and direct attachments persist",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5315,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:03:21.768Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4042a617bcbefff91cc5-de92513d3ade3f2b1b3b",
+          "file": "simplification-stage2.spec.ts",
+          "line": 23,
+          "column": 3
+        },
+        {
+          "title": "stage 2 pair, clutch, each egg and one unique hatchling retain parental links and history after reopening",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6331,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:03:27.107Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "4042a617bcbefff91cc5-1c33fadf9bb0b1053942",
+          "file": "simplification-stage2.spec.ts",
+          "line": 63,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "theme.spec.ts",
+      "file": "theme.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "theme follows the system, keeps an explicit preference, and updates browser color",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 840,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:03:33.461Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8168eb6e17e693d86faf-8fc32f8c82b7dd8255da",
+          "file": "theme.spec.ts",
+          "line": 4,
+          "column": 1
+        },
+        {
+          "title": "preference is applied before React loads and only writes its visual storage key",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 221,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:03:34.313Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8168eb6e17e693d86faf-84719c4e2ef337f73c8b",
+          "file": "theme.spec.ts",
+          "line": 26,
+          "column": 1
+        },
+        {
+          "title": "blocked visual storage keeps theme usable without preventing vault creation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 732,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:03:34.544Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8168eb6e17e693d86faf-44bcc91a644ab6e12d90",
+          "file": "theme.spec.ts",
+          "line": 36,
+          "column": 1
+        },
+        {
+          "title": "theme controls remain independent of real and demonstration vaults and lock state",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1212,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:03:35.284Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8168eb6e17e693d86faf-beb81d2da01bf1b932eb",
+          "file": "theme.spec.ts",
+          "line": 53,
+          "column": 1
+        },
+        {
+          "title": "cached production app keeps the selected theme when reopened offline",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1189,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:03:36.509Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8168eb6e17e693d86faf-19e70db86b2b57dfb873",
+          "file": "theme.spec.ts",
+          "line": 68,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "visual-redesign.spec.ts",
+      "file": "visual-redesign.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "all 20 screens remain navigable and fit 360px in light theme",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4363,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Hoje",
+                      "duration": 240
+                    },
+                    {
+                      "title": "Aves",
+                      "duration": 146
+                    },
+                    {
+                      "title": "Casais",
+                      "duration": 141
+                    },
+                    {
+                      "title": "Reprodução",
+                      "duration": 136
+                    },
+                    {
+                      "title": "Parentesco",
+                      "duration": 139
+                    },
+                    {
+                      "title": "Saúde e manejo",
+                      "duration": 151
+                    },
+                    {
+                      "title": "Agenda",
+                      "duration": 125
+                    },
+                    {
+                      "title": "Pessoas",
+                      "duration": 135
+                    },
+                    {
+                      "title": "Vendas e reservas",
+                      "duration": 132
+                    },
+                    {
+                      "title": "Financeiro",
+                      "duration": 135
+                    },
+                    {
+                      "title": "Materiais",
+                      "duration": 126
+                    },
+                    {
+                      "title": "Relatórios",
+                      "duration": 153
+                    },
+                    {
+                      "title": "Documentos",
+                      "duration": 119
+                    },
+                    {
+                      "title": "Caderneta do pet",
+                      "duration": 152
+                    },
+                    {
+                      "title": "Identidade visual",
+                      "duration": 318
+                    },
+                    {
+                      "title": "Backup e recuperação",
+                      "duration": 186
+                    },
+                    {
+                      "title": "Sincronização",
+                      "duration": 117
+                    },
+                    {
+                      "title": "Configurações",
+                      "duration": 140
+                    },
+                    {
+                      "title": "Atualizações",
+                      "duration": 130
+                    },
+                    {
+                      "title": "Reportar problema",
+                      "duration": 125
+                    }
+                  ],
+                  "startTime": "2026-10-14T16:03:37.724Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a1797359d00745cb9209-891be0159abebfde3c2c",
+          "file": "visual-redesign.spec.ts",
+          "line": 6,
+          "column": 5
+        },
+        {
+          "title": "all 20 screens remain navigable and fit 768px in light theme",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4573,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Hoje",
+                      "duration": 266
+                    },
+                    {
+                      "title": "Aves",
+                      "duration": 151
+                    },
+                    {
+                      "title": "Casais",
+                      "duration": 124
+                    },
+                    {
+                      "title": "Reprodução",
+                      "duration": 119
+                    },
+                    {
+                      "title": "Parentesco",
+                      "duration": 143
+                    },
+                    {
+                      "title": "Saúde e manejo",
+                      "duration": 149
+                    },
+                    {
+                      "title": "Agenda",
+                      "duration": 135
+                    },
+                    {
+                      "title": "Pessoas",
+                      "duration": 139
+                    },
+                    {
+                      "title": "Vendas e reservas",
+                      "duration": 119
+                    },
+                    {
+                      "title": "Financeiro",
+                      "duration": 133
+                    },
+                    {
+                      "title": "Materiais",
+                      "duration": 132
+                    },
+                    {
+                      "title": "Relatórios",
+                      "duration": 184
+                    },
+                    {
+                      "title": "Documentos",
+                      "duration": 129
+                    },
+                    {
+                      "title": "Caderneta do pet",
+                      "duration": 290
+                    },
+                    {
+                      "title": "Identidade visual",
+                      "duration": 162
+                    },
+                    {
+                      "title": "Backup e recuperação",
+                      "duration": 119
+                    },
+                    {
+                      "title": "Sincronização",
+                      "duration": 126
+                    },
+                    {
+                      "title": "Configurações",
+                      "duration": 127
+                    },
+                    {
+                      "title": "Atualizações",
+                      "duration": 122
+                    },
+                    {
+                      "title": "Reportar problema",
+                      "duration": 210
+                    }
+                  ],
+                  "startTime": "2026-10-14T16:03:42.101Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a1797359d00745cb9209-24d4df1ae4ab40fe6cfa",
+          "file": "visual-redesign.spec.ts",
+          "line": 6,
+          "column": 5
+        },
+        {
+          "title": "all 20 screens remain navigable and fit 1280px in light theme",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3839,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Hoje",
+                      "duration": 139
+                    },
+                    {
+                      "title": "Aves",
+                      "duration": 93
+                    },
+                    {
+                      "title": "Casais",
+                      "duration": 144
+                    },
+                    {
+                      "title": "Reprodução",
+                      "duration": 75
+                    },
+                    {
+                      "title": "Parentesco",
+                      "duration": 137
+                    },
+                    {
+                      "title": "Saúde e manejo",
+                      "duration": 76
+                    },
+                    {
+                      "title": "Agenda",
+                      "duration": 82
+                    },
+                    {
+                      "title": "Pessoas",
+                      "duration": 120
+                    },
+                    {
+                      "title": "Vendas e reservas",
+                      "duration": 87
+                    },
+                    {
+                      "title": "Financeiro",
+                      "duration": 64
+                    },
+                    {
+                      "title": "Materiais",
+                      "duration": 91
+                    },
+                    {
+                      "title": "Relatórios",
+                      "duration": 143
+                    },
+                    {
+                      "title": "Documentos",
+                      "duration": 118
+                    },
+                    {
+                      "title": "Caderneta do pet",
+                      "duration": 124
+                    },
+                    {
+                      "title": "Identidade visual",
+                      "duration": 175
+                    },
+                    {
+                      "title": "Backup e recuperação",
+                      "duration": 177
+                    },
+                    {
+                      "title": "Sincronização",
+                      "duration": 138
+                    },
+                    {
+                      "title": "Configurações",
+                      "duration": 263
+                    },
+                    {
+                      "title": "Atualizações",
+                      "duration": 144
+                    },
+                    {
+                      "title": "Reportar problema",
+                      "duration": 127
+                    }
+                  ],
+                  "startTime": "2026-10-14T16:03:46.693Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a1797359d00745cb9209-c69f516ca52492cc6483",
+          "file": "visual-redesign.spec.ts",
+          "line": 6,
+          "column": 5
+        },
+        {
+          "title": "all 20 screens remain navigable and fit 1440px in light theme",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4083,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Hoje",
+                      "duration": 137
+                    },
+                    {
+                      "title": "Aves",
+                      "duration": 90
+                    },
+                    {
+                      "title": "Casais",
+                      "duration": 141
+                    },
+                    {
+                      "title": "Reprodução",
+                      "duration": 122
+                    },
+                    {
+                      "title": "Parentesco",
+                      "duration": 148
+                    },
+                    {
+                      "title": "Saúde e manejo",
+                      "duration": 106
+                    },
+                    {
+                      "title": "Agenda",
+                      "duration": 77
+                    },
+                    {
+                      "title": "Pessoas",
+                      "duration": 149
+                    },
+                    {
+                      "title": "Vendas e reservas",
+                      "duration": 78
+                    },
+                    {
+                      "title": "Financeiro",
+                      "duration": 104
+                    },
+                    {
+                      "title": "Materiais",
+                      "duration": 82
+                    },
+                    {
+                      "title": "Relatórios",
+                      "duration": 136
+                    },
+                    {
+                      "title": "Documentos",
+                      "duration": 126
+                    },
+                    {
+                      "title": "Caderneta do pet",
+                      "duration": 123
+                    },
+                    {
+                      "title": "Identidade visual",
+                      "duration": 164
+                    },
+                    {
+                      "title": "Backup e recuperação",
+                      "duration": 166
+                    },
+                    {
+                      "title": "Sincronização",
+                      "duration": 108
+                    },
+                    {
+                      "title": "Configurações",
+                      "duration": 267
+                    },
+                    {
+                      "title": "Atualizações",
+                      "duration": 208
+                    },
+                    {
+                      "title": "Reportar problema",
+                      "duration": 104
+                    }
+                  ],
+                  "startTime": "2026-10-14T16:03:50.542Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a1797359d00745cb9209-7c004e7de3d8da870a47",
+          "file": "visual-redesign.spec.ts",
+          "line": 6,
+          "column": 5
+        },
+        {
+          "title": "bird forms, health history and finance dialogs fit mobile in light theme",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2975,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:03:54.635Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a1797359d00745cb9209-1ed58c5f7dc310ecf068",
+          "file": "visual-redesign.spec.ts",
+          "line": 25,
+          "column": 3
+        },
+        {
+          "title": "empty bird, health, agenda and documents states remain usable in light theme",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1996,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:03:57.620Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a1797359d00745cb9209-5cf7cc931adfb25fbc42",
+          "file": "visual-redesign.spec.ts",
+          "line": 50,
+          "column": 3
+        },
+        {
+          "title": "long records wrap and existing search still filters a populated plantel in light",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5612,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:03:59.626Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a1797359d00745cb9209-3313f39872c196f21cf0",
+          "file": "visual-redesign.spec.ts",
+          "line": 60,
+          "column": 3
+        },
+        {
+          "title": "all 20 screens remain navigable and fit 360px in dark theme",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4413,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Hoje",
+                      "duration": 250
+                    },
+                    {
+                      "title": "Aves",
+                      "duration": 141
+                    },
+                    {
+                      "title": "Casais",
+                      "duration": 141
+                    },
+                    {
+                      "title": "Reprodução",
+                      "duration": 134
+                    },
+                    {
+                      "title": "Parentesco",
+                      "duration": 132
+                    },
+                    {
+                      "title": "Saúde e manejo",
+                      "duration": 144
+                    },
+                    {
+                      "title": "Agenda",
+                      "duration": 139
+                    },
+                    {
+                      "title": "Pessoas",
+                      "duration": 132
+                    },
+                    {
+                      "title": "Vendas e reservas",
+                      "duration": 127
+                    },
+                    {
+                      "title": "Financeiro",
+                      "duration": 130
+                    },
+                    {
+                      "title": "Materiais",
+                      "duration": 138
+                    },
+                    {
+                      "title": "Relatórios",
+                      "duration": 158
+                    },
+                    {
+                      "title": "Documentos",
+                      "duration": 128
+                    },
+                    {
+                      "title": "Caderneta do pet",
+                      "duration": 138
+                    },
+                    {
+                      "title": "Identidade visual",
+                      "duration": 362
+                    },
+                    {
+                      "title": "Backup e recuperação",
+                      "duration": 158
+                    },
+                    {
+                      "title": "Sincronização",
+                      "duration": 151
+                    },
+                    {
+                      "title": "Configurações",
+                      "duration": 118
+                    },
+                    {
+                      "title": "Atualizações",
+                      "duration": 120
+                    },
+                    {
+                      "title": "Reportar problema",
+                      "duration": 173
+                    }
+                  ],
+                  "startTime": "2026-10-14T16:04:05.254Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a1797359d00745cb9209-66dce265dcde9e356691",
+          "file": "visual-redesign.spec.ts",
+          "line": 6,
+          "column": 5
+        },
+        {
+          "title": "all 20 screens remain navigable and fit 768px in dark theme",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4398,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Hoje",
+                      "duration": 263
+                    },
+                    {
+                      "title": "Aves",
+                      "duration": 132
+                    },
+                    {
+                      "title": "Casais",
+                      "duration": 141
+                    },
+                    {
+                      "title": "Reprodução",
+                      "duration": 129
+                    },
+                    {
+                      "title": "Parentesco",
+                      "duration": 136
+                    },
+                    {
+                      "title": "Saúde e manejo",
+                      "duration": 154
+                    },
+                    {
+                      "title": "Agenda",
+                      "duration": 132
+                    },
+                    {
+                      "title": "Pessoas",
+                      "duration": 132
+                    },
+                    {
+                      "title": "Vendas e reservas",
+                      "duration": 119
+                    },
+                    {
+                      "title": "Financeiro",
+                      "duration": 153
+                    },
+                    {
+                      "title": "Materiais",
+                      "duration": 134
+                    },
+                    {
+                      "title": "Relatórios",
+                      "duration": 139
+                    },
+                    {
+                      "title": "Documentos",
+                      "duration": 135
+                    },
+                    {
+                      "title": "Caderneta do pet",
+                      "duration": 141
+                    },
+                    {
+                      "title": "Identidade visual",
+                      "duration": 322
+                    },
+                    {
+                      "title": "Backup e recuperação",
+                      "duration": 175
+                    },
+                    {
+                      "title": "Sincronização",
+                      "duration": 116
+                    },
+                    {
+                      "title": "Configurações",
+                      "duration": 140
+                    },
+                    {
+                      "title": "Atualizações",
+                      "duration": 125
+                    },
+                    {
+                      "title": "Reportar problema",
+                      "duration": 148
+                    }
+                  ],
+                  "startTime": "2026-10-14T16:04:09.681Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a1797359d00745cb9209-a0ca6ed2a17d91191599",
+          "file": "visual-redesign.spec.ts",
+          "line": 6,
+          "column": 5
+        },
+        {
+          "title": "all 20 screens remain navigable and fit 1280px in dark theme",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3748,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Hoje",
+                      "duration": 144
+                    },
+                    {
+                      "title": "Aves",
+                      "duration": 100
+                    },
+                    {
+                      "title": "Casais",
+                      "duration": 131
+                    },
+                    {
+                      "title": "Reprodução",
+                      "duration": 81
+                    },
+                    {
+                      "title": "Parentesco",
+                      "duration": 134
+                    },
+                    {
+                      "title": "Saúde e manejo",
+                      "duration": 73
+                    },
+                    {
+                      "title": "Agenda",
+                      "duration": 92
+                    },
+                    {
+                      "title": "Pessoas",
+                      "duration": 112
+                    },
+                    {
+                      "title": "Vendas e reservas",
+                      "duration": 87
+                    },
+                    {
+                      "title": "Financeiro",
+                      "duration": 66
+                    },
+                    {
+                      "title": "Materiais",
+                      "duration": 61
+                    },
+                    {
+                      "title": "Relatórios",
+                      "duration": 141
+                    },
+                    {
+                      "title": "Documentos",
+                      "duration": 158
+                    },
+                    {
+                      "title": "Caderneta do pet",
+                      "duration": 116
+                    },
+                    {
+                      "title": "Identidade visual",
+                      "duration": 187
+                    },
+                    {
+                      "title": "Backup e recuperação",
+                      "duration": 145
+                    },
+                    {
+                      "title": "Sincronização",
+                      "duration": 112
+                    },
+                    {
+                      "title": "Configurações",
+                      "duration": 252
+                    },
+                    {
+                      "title": "Atualizações",
+                      "duration": 111
+                    },
+                    {
+                      "title": "Reportar problema",
+                      "duration": 117
+                    }
+                  ],
+                  "startTime": "2026-10-14T16:04:14.100Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a1797359d00745cb9209-72285685e898a56cbf3f",
+          "file": "visual-redesign.spec.ts",
+          "line": 6,
+          "column": 5
+        },
+        {
+          "title": "all 20 screens remain navigable and fit 1440px in dark theme",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3610,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Hoje",
+                      "duration": 137
+                    },
+                    {
+                      "title": "Aves",
+                      "duration": 90
+                    },
+                    {
+                      "title": "Casais",
+                      "duration": 145
+                    },
+                    {
+                      "title": "Reprodução",
+                      "duration": 76
+                    },
+                    {
+                      "title": "Parentesco",
+                      "duration": 114
+                    },
+                    {
+                      "title": "Saúde e manejo",
+                      "duration": 84
+                    },
+                    {
+                      "title": "Agenda",
+                      "duration": 85
+                    },
+                    {
+                      "title": "Pessoas",
+                      "duration": 102
+                    },
+                    {
+                      "title": "Vendas e reservas",
+                      "duration": 77
+                    },
+                    {
+                      "title": "Financeiro",
+                      "duration": 64
+                    },
+                    {
+                      "title": "Materiais",
+                      "duration": 63
+                    },
+                    {
+                      "title": "Relatórios",
+                      "duration": 136
+                    },
+                    {
+                      "title": "Documentos",
+                      "duration": 115
+                    },
+                    {
+                      "title": "Caderneta do pet",
+                      "duration": 102
+                    },
+                    {
+                      "title": "Identidade visual",
+                      "duration": 178
+                    },
+                    {
+                      "title": "Backup e recuperação",
+                      "duration": 161
+                    },
+                    {
+                      "title": "Sincronização",
+                      "duration": 122
+                    },
+                    {
+                      "title": "Configurações",
+                      "duration": 129
+                    },
+                    {
+                      "title": "Atualizações",
+                      "duration": 247
+                    },
+                    {
+                      "title": "Reportar problema",
+                      "duration": 138
+                    }
+                  ],
+                  "startTime": "2026-10-14T16:04:17.862Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a1797359d00745cb9209-ddc36f7ae353f1da2e01",
+          "file": "visual-redesign.spec.ts",
+          "line": 6,
+          "column": 5
+        },
+        {
+          "title": "bird forms, health history and finance dialogs fit mobile in dark theme",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2649,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:04:21.482Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a1797359d00745cb9209-b8ec238b3e62b2d7ebaa",
+          "file": "visual-redesign.spec.ts",
+          "line": 25,
+          "column": 3
+        },
+        {
+          "title": "empty bird, health, agenda and documents states remain usable in dark theme",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2073,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:04:24.140Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a1797359d00745cb9209-19e5bcea9ccc9efeaf8d",
+          "file": "visual-redesign.spec.ts",
+          "line": 50,
+          "column": 3
+        },
+        {
+          "title": "long records wrap and existing search still filters a populated plantel in dark",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5851,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:04:26.225Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a1797359d00745cb9209-fa9831611bca6281419b",
+          "file": "visual-redesign.spec.ts",
+          "line": 60,
+          "column": 3
+        }
+      ]
+    },
+    {
+      "title": "web-shortcuts.spec.ts",
+      "file": "web-shortcuts.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "web 360px light: contextual creation and five mobile destinations preserve data and viewport",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7214,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:04:32.115Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "881ca980aaf9b07f6e0b-baf4d108aa1c5c312d7e",
+          "file": "web-shortcuts.spec.ts",
+          "line": 33,
+          "column": 3
+        },
+        {
+          "title": "web 360px dark: contextual creation and five mobile destinations preserve data and viewport",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7408,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:04:39.341Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "881ca980aaf9b07f6e0b-d9db8100218a1a7fa7ed",
+          "file": "web-shortcuts.spec.ts",
+          "line": 33,
+          "column": 3
+        },
+        {
+          "title": "web 1440px light: contextual creation and five mobile destinations preserve data and viewport",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6754,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:04:46.759Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "881ca980aaf9b07f6e0b-6d9a6bc9f9c121a261bf",
+          "file": "web-shortcuts.spec.ts",
+          "line": 33,
+          "column": 3
+        },
+        {
+          "title": "web 1440px dark: contextual creation and five mobile destinations preserve data and viewport",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7246,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:04:53.528Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "881ca980aaf9b07f6e0b-b4ec014cc7507b71eafd",
+          "file": "web-shortcuts.spec.ts",
+          "line": 33,
+          "column": 3
+        },
+        {
+          "title": "android 360px light: contextual creation and five mobile destinations preserve data and viewport",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8059,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:05:00.797Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "881ca980aaf9b07f6e0b-a83e7e49337d6f610d79",
+          "file": "web-shortcuts.spec.ts",
+          "line": 33,
+          "column": 3
+        },
+        {
+          "title": "android 360px dark: contextual creation and five mobile destinations preserve data and viewport",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7853,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:05:08.873Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "881ca980aaf9b07f6e0b-87f394efa48a8c7224eb",
+          "file": "web-shortcuts.spec.ts",
+          "line": 33,
+          "column": 3
+        },
+        {
+          "title": "android 390px light: contextual creation and five mobile destinations preserve data and viewport",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7639,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:05:16.740Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "881ca980aaf9b07f6e0b-c063c1f8a5e09f9d01ac",
+          "file": "web-shortcuts.spec.ts",
+          "line": 33,
+          "column": 3
+        },
+        {
+          "title": "android 390px dark: contextual creation and five mobile destinations preserve data and viewport",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7247,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:05:24.388Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "881ca980aaf9b07f6e0b-0ec3d04a4b93443c0357",
+          "file": "web-shortcuts.spec.ts",
+          "line": 33,
+          "column": 3
+        },
+        {
+          "title": "android 1280px light: contextual creation and five mobile destinations preserve data and viewport",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7745,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:05:31.650Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "881ca980aaf9b07f6e0b-d61a6a170c3d11a2a83e",
+          "file": "web-shortcuts.spec.ts",
+          "line": 33,
+          "column": 3
+        },
+        {
+          "title": "android 1280px dark: contextual creation and five mobile destinations preserve data and viewport",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7945,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:05:39.411Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "881ca980aaf9b07f6e0b-f6bfc20644e3568a3567",
+          "file": "web-shortcuts.spec.ts",
+          "line": 33,
+          "column": 3
+        },
+        {
+          "title": "Windows keeps the desktop sidebar and hides mobile bottom navigation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 998,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:05:47.370Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "881ca980aaf9b07f6e0b-604bb00d44f2dea01275",
+          "file": "web-shortcuts.spec.ts",
+          "line": 122,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "workflow-update.spec.ts",
+      "file": "workflow-update.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "direct bird attachments save together and cancelling a new registration creates no orphan files",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3769,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:05:48.403Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "27666551663adf47cf2b-1534592bef8cd0edc2d4",
+          "file": "workflow-update.spec.ts",
+          "line": 52,
+          "column": 1
+        },
+        {
+          "title": "health groups only birds with records, opens complete event details and preserves weight on the bird sheet",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3607,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:05:52.186Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "27666551663adf47cf2b-945a088bbfd22dfa75b9",
+          "file": "workflow-update.spec.ts",
+          "line": 103,
+          "column": 1
+        },
+        {
+          "title": "sale and reservation have separate forms; finance settlement changes actual balances and contact history",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4989,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:05:55.802Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "27666551663adf47cf2b-84b823354f4fbf5c8907",
+          "file": "workflow-update.spec.ts",
+          "line": 139,
+          "column": 1
+        },
+        {
+          "title": "new digital booklet downloads four complete pages and keeps history grouped by bird",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6021,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:06:00.803Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "27666551663adf47cf2b-3f483928174cfa8127c6",
+          "file": "workflow-update.spec.ts",
+          "line": 201,
+          "column": 1
+        },
+        {
+          "title": "agenda groups birds with tasks and exports a calendar reminder before completing the task",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3706,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:06:06.836Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "27666551663adf47cf2b-eb629e31ca8166003b34",
+          "file": "workflow-update.spec.ts",
+          "line": 237,
+          "column": 1
+        },
+        {
+          "title": "mobile bird sheet, direct attachments and health details fit without overlapping action buttons",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3906,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:06:10.573Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "27666551663adf47cf2b-c857d3fb6a6455801e62",
+          "file": "workflow-update.spec.ts",
+          "line": 274,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "workflow.spec.ts",
+      "file": "workflow.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "bird registration, duplicate errors preserve input, persistence, demo separation and locked storage",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3023,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:06:14.508Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c601ceb5ecfc8efa4a14-ed7469c8a73077b3913d",
+          "file": "workflow.spec.ts",
+          "line": 9,
+          "column": 1
+        },
+        {
+          "title": "art originals and real pet booklet PDF download work and preserve emitted versions",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2935,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:06:17.543Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c601ceb5ecfc8efa4a14-d8dbce69b32b46b815df",
+          "file": "workflow.spec.ts",
+          "line": 14,
+          "column": 1
+        },
+        {
+          "title": "mobile navigation and bird form fit a 390px viewport",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1851,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:06:20.490Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c601ceb5ecfc8efa4a14-5d6bbe1b2598db4b7082",
+          "file": "workflow.spec.ts",
+          "line": 18,
+          "column": 1
+        },
+        {
+          "title": "reserve, partial receipt, installment sale, delivery and refund preserve history",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6466,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:06:22.355Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c601ceb5ecfc8efa4a14-d489b2c254d442c5fece",
+          "file": "workflow.spec.ts",
+          "line": 22,
+          "column": 1
+        },
+        {
+          "title": "complete encrypted backup restores a linked attachment into a clean browser installation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 22035,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:06:28.840Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c601ceb5ecfc8efa4a14-03b0f9bc21a78284e6e7",
+          "file": "workflow.spec.ts",
+          "line": 36,
+          "column": 1
+        },
+        {
+          "title": "production app reloads offline with records and original arts",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2173,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:06:50.887Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c601ceb5ecfc8efa4a14-0ddacf1ec2bc61303f97",
+          "file": "workflow.spec.ts",
+          "line": 42,
+          "column": 1
+        },
+        {
+          "title": "support export removes secret and personal identifiers without exporting the database",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5706,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-14T16:06:53.086Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c601ceb5ecfc8efa4a14-640143ce82e9419df3ec",
+          "file": "workflow.spec.ts",
+          "line": 46,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-14T16:00:27.288Z",
+    "duration": 391653.38899999997,
+    "expected": 92,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

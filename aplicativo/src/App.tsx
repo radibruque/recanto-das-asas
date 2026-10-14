@@ -1,5 +1,5 @@
 import { APP_VERSION } from './domain/types';
-import { memo, useCallback, useEffect, useRef, useState, type FormEvent } from 'react';
+import { useCallback, useEffect, useRef, useState, type FormEvent } from 'react';
 import { Bird, Heart, Egg, Network, CalendarDays, Users, ShoppingBag, Wallet, Package, Files, BarChart3, Palette, Settings as SettingsIcon, LockKeyhole, RefreshCw, Download, Bug, Home, Menu, BookOpen, Activity, Clock, Plus, ArrowLeft } from 'lucide-react';
 import Breeding from './modules/Breeding';
 import Commercial from './modules/Commercial';
@@ -7,6 +7,7 @@ import Documents from './modules/Documents';
 import Settings, { backupVault } from './modules/Settings';
 import { Vault } from './lib/storage';
 import { synchronizeVault } from './lib/synchronize';
+import { syncFailureLabel } from './lib/sync';
 import { maintainVault } from './lib/maintenance';
 import { applyCommand } from './domain/engine';
 import { money, today, dateLabel } from './domain/shared';
@@ -47,20 +48,21 @@ const hints:Partial<Record<View,string>>={home:'Criatório e comercial, com seus
 
 export default function App(){
  const [vault]=useState(()=>new Vault()),[exists,setExists]=useState<boolean|null>(null),[state,setState]=useState<State|null>(null),[scope,setScope]=useState<Scope>('real'),[view,setView]=useState<View>('home'),[search,setSearch]=useState(''),[message,setMessage]=useState(''),[busy,setBusy]=useState(false),[drawer,setDrawer]=useState(false),[syncText,setSyncText]=useState('Local · offline disponível');
- const [target,setTarget]=useState<NavigationTarget>({view:'home'}),[sector,setSector]=useState<Sector>('breeding'),[history,setHistory]=useState<NavigationEntry[]>([]),[visited,setVisited]=useState<string[]>([]);
+ const [target,setTarget]=useState<NavigationTarget>({view:'home'}),[sector,setSector]=useState<Sector>('breeding'),[history,setHistory]=useState<NavigationEntry[]>([]);
  const targets=useRef(new Map<string,NavigationTarget>()),searches=useRef(new Map<string,string>()),positions=useRef(new Map<string,number>()),request=useRef(0);
- const cached=useRef(new Map<string,RoutedProps>()),backHandler=useRef<()=>void>(()=>{});
+ // Preserve lightweight list context while unmounting inactive modules and their old file-bearing state.
+ const uiContexts=useRef(new Map<string,Map<string,unknown>>()),backHandler=useRef<()=>void>(()=>{});
  const sessionVersion=useRef(0),sidebarRef=useRef<HTMLElement|null>(null);
  const backupRunning=useRef(false),stateRef=useRef(state);stateRef.current=state;
  const notify=useCallback((text:string)=>setMessage(text),[]);
  useEffect(()=>{if(!drawer)return;const closeOnEscape=(event:KeyboardEvent)=>{if(event.key==='Escape')setDrawer(false);};window.addEventListener('keydown',closeOnEscape);return()=>window.removeEventListener('keydown',closeOnEscape);},[drawer]);
  useEffect(()=>{vault.exists().then(setExists).catch(e=>notify(e.message));},[vault,notify]);
- const lock=useCallback(()=>{sessionVersion.current++;stateRef.current=null;vault.lock();setState(null);setSearch('');setMessage('');setDrawer(false);setTarget({view:'home'});setView('home');setSector('breeding');setHistory([]);setVisited([]);cached.current.clear();targets.current.clear();searches.current.clear();positions.current.clear();},[vault]);
+ const lock=useCallback(()=>{sessionVersion.current++;stateRef.current=null;vault.lock();setState(null);setSearch('');setMessage('');setDrawer(false);setTarget({view:'home'});setView('home');setSector('breeding');setHistory([]);uiContexts.current.clear();targets.current.clear();searches.current.clear();positions.current.clear();},[vault]);
  useEffect(()=>{const back=()=>backHandler.current();window.addEventListener('recanto:native-back',back);return()=>window.removeEventListener('recanto:native-back',back);},[]);
  const command=useCallback(async(action:string,data:unknown)=>{const generation=sessionVersion.current;const result=await vault.mutate(s=>applyCommand(s,scope,action,data));if(generation===sessionVersion.current&&stateRef.current)setState(current=>current&&current.revision>result.state.revision?current:result.state);return result.id;},[scope,vault]);
  useEffect(()=>{
   if(!state)return;let cancelled=false;
-  const update=async()=>{const generation=sessionVersion.current;try{const result=await maintainVault(vault,async()=>{const meta=await vault.metadata();return meta.sync?await synchronizeVault(vault):null;});if(!result){setSyncText('Local · offline disponível');return;}if(cancelled||generation!==sessionVersion.current)return;if(result.status==='conflict'){setSyncText('Conflito pendente');return;}if(result.state)setState(result.state);setSyncText(result.pending?'Alterações aguardando conexão':'Sincronização em dia');}catch{if(!cancelled)setSyncText('Sem conexão · fila preservada');}};
+  const update=async()=>{const generation=sessionVersion.current;try{const result=await maintainVault(vault,async()=>{const meta=await vault.metadata();return meta.sync?await synchronizeVault(vault):null;});if(!result){setSyncText('Local · offline disponível');return;}if(cancelled||generation!==sessionVersion.current)return;if(result.status==='conflict'){setSyncText('Conflito pendente');return;}if(result.state)setState(result.state);setSyncText(result.pending?'Alterações aguardando conexão':'Sincronização em dia');}catch(error){if(!cancelled&&generation===sessionVersion.current)setSyncText(syncFailureLabel(error));}};
   const timer=setInterval(update,30000);window.addEventListener('online',update);update();return()=>{cancelled=true;clearInterval(timer);window.removeEventListener('online',update);};
  },[!!state,vault]);
  useEffect(()=>{if(!state||backupRunning.current)return;const due=!state.settings.lastBackupAt||Date.now()-new Date(state.settings.lastBackupAt).valueOf()>state.settings.backupDays*86400000;if(!due)return;backupRunning.current=true;const generation=sessionVersion.current;(async()=>{try{const saved=await maintainVault(vault,async()=>{const current=await vault.load();if(current.settings.lastBackupAt&&Date.now()-new Date(current.settings.lastBackupAt).valueOf()<=current.settings.backupDays*86400000)return {state:current};const result=await backupVault(vault,current);return vault.mutate(s=>applyCommand(s,scope,'backup.record',result));});if(generation===sessionVersion.current&&stateRef.current)setState(current=>current&&current.revision>saved.state.revision?current:saved.state);}catch(error){if(stateRef.current)notify('Backup automático pendente: '+(error instanceof Error?error.message:'verifique o armazenamento.'));}finally{backupRunning.current=false;}})();},[state?.settings.lastBackupAt,vault,scope,notify]);
@@ -82,7 +84,6 @@ export default function App(){
   if(changes)setHistory(old=>pushNavigation(old,{target,sector,scope,scroll:window.scrollY,search}));
   const resolved={...destination,request:++request.current};targets.current.set(key,resolved);
   setTarget(resolved);setView(next);setSector(nextSector);setSearch(destination.filter||destination.birdId||destination.saleId||destination.contactId||destination.attachmentId||destination.issuedDocumentId?'':searches.current.get(key)??'');setDrawer(false);closeNavigationPanels();
-  setVisited(old=>old.includes(key)?old:[...old,key]);
   restoreScroll(destination.birdId||destination.saleId||destination.contactId||destination.createAction?0:positions.current.get(key)??0);
  };
  const select=(next:View)=>navigate({view:next});
@@ -105,9 +106,10 @@ export default function App(){
  backHandler.current=goBack;
  const changeScope=(next:Scope)=>{if(next===scope)return;closeNavigationPanels();searches.current.set(viewKey(view),search);positions.current.set(viewKey(view),window.scrollY);setScope(next);setSearch(searches.current.get(viewKey(view,next))??'');setTarget(targets.current.get(viewKey(view,next))??{view});setDrawer(false);setHistory([]);restoreScroll(positions.current.get(viewKey(view,next))??0);};
  const generation=sessionVersion.current;const commitState=(next:State)=>{if(generation===sessionVersion.current&&stateRef.current)setState(next);};
- const props:RoutedProps={state,scope,command,notify,search,target,navigate,back:goBack};
- const activeKey=viewKey(view);cached.current.set(activeKey,props);
- const rendered=[...new Set([...visited,activeKey])];
+ const activeKey=viewKey(view);
+ let uiContext=uiContexts.current.get(activeKey);
+ if(!uiContext){uiContext=new Map<string,unknown>();uiContexts.current.set(activeKey,uiContext);}
+ const props:RoutedProps={state,scope,command,notify,search,target,navigate,back:goBack,uiContext};
  const current=nav.find(n=>n.id===view)!;
  const homeLabel=sector==='commercial'?'Resumo':'Hoje';
  const currentLabel=view==='home'?homeLabel:current.label;
@@ -127,19 +129,19 @@ export default function App(){
  {searchLabel&&<label className="search-field area-search">{searchLabel}<input value={search} onChange={event=>{setSearch(event.target.value);searches.current.set(activeKey,event.target.value);}} placeholder={view==='birds'||view==='home'&&sector==='breeding'?'Nome, anilha ou espécie':view==='sales'?'Número, pessoa ou ave':'Digite para filtrar esta área'} type="search"/></label>}
  {scope==='demo'&&<div className="demo-banner"><strong>Demonstração · dados fictícios</strong><span>Os exemplos ficam separados dos registros do seu criatório.</span>{!state.birds.some(b=>b.scope==='demo')&&<button className="button secondary" onClick={()=>command('initializeDemo',{}).catch(e=>notify(e.message))}>Criar exemplos fictícios</button>}</div>}
  {message&&<div className="message" role="status"><span>{message}</span><button className="icon-button" aria-label="Dispensar mensagem" onClick={()=>setMessage('')}>×</button></div>}
- {rendered.map(key=>{const saved=cached.current.get(key);if(!saved)return null;return <div key={key} className="cached-view" hidden={key!==activeKey} data-view={saved.target?.view??'home'}><CachedModule active={key===activeKey} props={saved} vault={vault} commitState={commitState} sector={key===activeKey?sector:sectorForTarget(saved.target??{view:'home'},'breeding')}/></div>;})}
+ <div key={activeKey} className="cached-view" data-view={view}><RoutedModule props={props} vault={vault} commitState={commitState} sector={sector}/></div>
  <footer className="footer"><span>Recanto das Asas · {APP_VERSION}</span><span>{scope==='demo'?'Exemplos fictícios':'Seu criatório'} · Fuso America/Sao_Paulo</span></footer></main></div><WebShortcuts currentView={view} sector={sector} onNavigate={next=>navigate({view:next,...next==='home'?{filter:'breeding'}:{}})} onCommercial={()=>switchSector('commercial')} onOpenMenus={openMenus} menusExpanded={drawer}/></div>;
 }
 
 type RoutedProps=ModuleProps&{target?:NavigationTarget;navigate:(target:NavigationTarget)=>void;back:()=>void};
-const CachedModule=memo(function CachedModule({props,vault,commitState,sector}:{active:boolean;props:RoutedProps;vault:Vault;commitState:(state:State)=>void;sector:Sector}){
+function RoutedModule({props,vault,commitState,sector}:{props:RoutedProps;vault:Vault;commitState:(state:State)=>void;sector:Sector}){
  const view=props.target?.view??'home';
  if(view==='home')return <Overview {...props} sector={sector}/>;
  if(['birds','pairs','breeding','family','health','tasks'].includes(view))return <Breeding {...props} view={view as 'birds'} initialBirdId={props.target?.birdId??null} initialCreate={props.target?.createAction==='bird'}/>;
  if(['contacts','sales','finance','stock'].includes(view))return <Commercial {...props} view={view as 'contacts'}/>;
  if(['reports','documents','booklet','arts'].includes(view))return <Documents {...props} view={view as 'reports'}/>;
  return <Settings {...props} vault={vault} setState={commitState} view={view as 'settings'}/>;
-},(previous,next)=>!previous.active&&!next.active);
+}
 
 function Overview({state,scope,search,sector,navigate}:RoutedProps&{sector:Sector}){
  const birds=state.birds.filter(b=>b.scope===scope),present=birds.filter(b=>!historyStatuses.has(b.status)),historical=birds.filter(b=>historyStatuses.has(b.status));

@@ -13,7 +13,7 @@ const platform = Capacitor.getPlatform() === 'android' ? 'android' : location.pr
 const compactViewport = matchMedia('(max-width: 900px)');
 const applyLayout = () => {
   document.documentElement.dataset.platform = platform;
-  document.documentElement.dataset.layout = platform === 'android' || platform === 'web' && compactViewport.matches ? 'android' : 'desktop';
+  document.documentElement.dataset.layout = platform === 'android' || compactViewport.matches ? 'android' : 'desktop';
 };
 applyLayout();
 compactViewport.addEventListener('change', applyLayout);

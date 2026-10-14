@@ -2,7 +2,7 @@ import { test, expect, type Page } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
 import { PDFDocument } from 'pdf-lib';
 import type { State } from '../../src/domain/types';
-import { navigateVisual } from './visual-helpers';
+import { revealFormField, navigateVisual } from './visual-helpers';
 
 const password = 'senha-ficticia-da-atualizacao';
 const documentBytes = Buffer.from('Exame fictício — documento de teste, sem dados reais.');
@@ -55,7 +55,7 @@ test('direct bird attachments save together and cancelling a new registration cr
   await expect(form.getByLabel('Documento de apoio',{exact:true})).toHaveCount(0);
   await expect(form.getByLabel('Data da movimentação',{exact:true})).toHaveCount(0);
   await expect(form.getByLabel('Motivo da movimentação de recinto ou responsável',{exact:true})).toHaveCount(0);
-  await form.getByLabel('Arquivos para anexar',{exact:true}).setInputFiles({name:'cadastro-cancelado.txt',mimeType:'text/plain',buffer:documentBytes});
+  await (await revealFormField(form, 'Arquivos para anexar')).setInputFiles({name:'cadastro-cancelado.txt',mimeType:'text/plain',buffer:documentBytes});
   await expect(form.getByText('cadastro-cancelado.txt',{exact:true})).toBeVisible();
   await form.getByRole('button',{name:'Cancelar',exact:true}).click();
   let state=await storedState(page);
@@ -63,9 +63,9 @@ test('direct bird attachments save together and cancelling a new registration cr
   expect(state.birds).toHaveLength(0);
 
   form=await birdForm(page,'ANEXO-001','Roxa');
-  await form.getByLabel('Arquivos para anexar',{exact:true}).setInputFiles({name:'laudo-inicial.txt',mimeType:'text/plain',buffer:documentBytes});
+  await (await revealFormField(form, 'Arquivos para anexar')).setInputFiles({name:'laudo-inicial.txt',mimeType:'text/plain',buffer:documentBytes});
   await expect(form.getByText('laudo-inicial.txt',{exact:true})).toBeVisible();
-  await form.getByLabel('Foto principal da ave',{exact:true}).setInputFiles(photo);
+  await (await revealFormField(form, 'Foto principal da ave')).setInputFiles(photo);
   await expect(form.getByText('foto-ave.png',{exact:true})).toBeVisible();
   await form.getByRole('button',{name:'Salvar',exact:true}).click();
   await expect(form).not.toBeVisible();
@@ -78,7 +78,7 @@ test('direct bird attachments save together and cancelling a new registration cr
   await addBird(page,'SEM-ARQUIVOS','Sem arquivo');
   await nav(page,'Documentos');
   await expect(page.getByRole('heading',{name:'Acervo de documentos e fotos',exact:true})).toBeVisible();
-  await expect(page.getByText('Sem arquivo · SEM-ARQUIVOS',{exact:true})).toHaveCount(0);
+  await expect(page.locator('.documents-library').getByText('Sem arquivo · SEM-ARQUIVOS',{exact:true})).toHaveCount(0);
   const group=page.locator('article').filter({hasText:'Roxa · ANEXO-001'}).first();
   await group.getByRole('button',{name:'Ver arquivos',exact:true}).click();
   const row=page.locator('article').filter({hasText:'laudo-inicial'}).last();
@@ -111,7 +111,7 @@ test('health groups only birds with records, opens complete event details and pr
   await form.getByLabel('Peso (gramas)',{exact:true}).fill('97.5');
   await form.getByLabel('Profissional',{exact:true}).fill('Profissional fictício');
   await form.getByLabel('Observações',{exact:true}).fill('Observação completa para o histórico');
-  await form.getByLabel('Arquivos para anexar',{exact:true}).setInputFiles({name:'exame-ave.txt',mimeType:'text/plain',buffer:documentBytes});
+  await (await revealFormField(form, 'Arquivos para anexar')).setInputFiles({name:'exame-ave.txt',mimeType:'text/plain',buffer:documentBytes});
   await expect(form.getByText('exame-ave.txt',{exact:true})).toBeVisible();
   await form.getByRole('button',{name:'Salvar',exact:true}).click();
   await expect(form).not.toBeVisible();
@@ -131,7 +131,7 @@ test('health groups only birds with records, opens complete event details and pr
   await details.getByRole('button',{name:'Voltar ao histórico',exact:true}).click();
   await nav(page,'Aves');
   await page.getByRole('button',{name:'Roxa · SAUDE-001',exact:true}).click();
-  await expect(page.locator('.record-details').filter({hasText:'Peso atualizado'})).toContainText('97,5 g');
+  await expect(page.locator('.bird-profile-weight')).toContainText('97,5 g');
   await page.getByRole('tab',{name:'Saúde e peso',exact:true}).click();
   await expect(page.getByRole('heading',{name:'Evolução do peso',exact:true})).toBeVisible();
 });
@@ -201,7 +201,7 @@ test('sale and reservation have separate forms; finance settlement changes actua
 test('new digital booklet downloads four complete pages and keeps history grouped by bird', async ({page}) => {
   const errors:string[]=[]; page.on('pageerror',error=>errors.push(error.message));
   await create(page); const form=await birdForm(page,'PDF-001','Roxa');
-  await form.getByLabel('Foto principal da ave',{exact:true}).setInputFiles(photo);
+  await (await revealFormField(form, 'Foto principal da ave')).setInputFiles(photo);
   await expect(form.getByText('foto-ave.png',{exact:true})).toBeVisible();
   await form.getByRole('button',{name:'Salvar',exact:true}).click();
   await expect(form).not.toBeVisible();
@@ -275,7 +275,7 @@ test('mobile bird sheet, direct attachments and health details fit without overl
   await page.setViewportSize({width:390,height:844});
   await create(page);
   const form=await birdForm(page,'MOBILE-ATUALIZACAO','Ave com nome comprido para conferir o layout');
-  await form.getByLabel('Arquivos para anexar',{exact:true}).setInputFiles({name:'documento-longo-para-conferir-o-cadastro.txt',mimeType:'text/plain',buffer:documentBytes});
+  await (await revealFormField(form, 'Arquivos para anexar')).setInputFiles({name:'documento-longo-para-conferir-o-cadastro.txt',mimeType:'text/plain',buffer:documentBytes});
   await expect(form.getByText('documento-longo-para-conferir-o-cadastro.txt',{exact:true})).toBeVisible();
   await form.getByRole('button',{name:'Salvar',exact:true}).click();
   await expect(form).not.toBeVisible();

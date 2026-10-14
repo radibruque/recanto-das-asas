@@ -8,6 +8,9 @@ import { createInterface } from 'node:readline';
 
 const MAX_BYTES = 64 * 1024 * 1024;
 const workspacePattern = /^[A-Za-z0-9][A-Za-z0-9_-]{2,63}$/;
+const LEGACY_SCHEMA_VERSION = 2;
+const schemaPattern = /^[1-9]\d{0,5}$/;
+const isSchemaVersion = value => Number.isSafeInteger(value) && value >= LEGACY_SCHEMA_VERSION && value <= 999_999;
 const operationPattern = /^[A-Za-z0-9][A-Za-z0-9_-]{15,127}$/;
 const isRecord = value => !!value && typeof value === 'object' && !Array.isArray(value);
 const isRevision = value => Number.isSafeInteger(value) && value >= 0;
@@ -65,9 +68,10 @@ async function serialized(workspaceId, action) {
   try { return await running; }
   finally { if (queues.get(workspaceId) === running) queues.delete(workspaceId); }
 }
-const emptyRecord = () => ({ schemaVersion: 1, revision: 0, updatedAt: null, envelope: null, operations: {} });
+const emptyRecord = () => ({ schemaVersion: 1, requiredClientSchemaVersion: LEGACY_SCHEMA_VERSION, revision: 0, updatedAt: null, envelope: null, operations: {} });
 function validRecord(record) {
   return isRecord(record) && record.schemaVersion === 1 && isRevision(record.revision)
+    && (record.requiredClientSchemaVersion === undefined || isSchemaVersion(record.requiredClientSchemaVersion))
     && (record.updatedAt === null || (typeof record.updatedAt === 'string' && !Number.isNaN(Date.parse(record.updatedAt))))
     && (record.envelope === null ? record.revision === 0 : record.revision > 0 && validEnvelope(record.envelope))
     && isRecord(record.operations) && Object.entries(record.operations).every(([id, operation]) => operationPattern.test(id)
@@ -80,6 +84,8 @@ async function loadRecord(workspaceId) {
     if (!validRecord(record)) throw new Error('Invalid persisted record');
     // JSON may contain __proto__ as an operation key; use an own-property map.
     record.operations = Object.assign(Object.create(null), record.operations);
+    // Old record files remain valid; reading does not rewrite or promote them.
+    record.requiredClientSchemaVersion ??= LEGACY_SCHEMA_VERSION;
     return record;
   } catch (error) {
     if (error.code === 'ENOENT') return emptyRecord();
@@ -123,7 +129,7 @@ async function readBody(request) {
   try { return JSON.parse(Buffer.concat(chunks).toString('utf8')); }
   catch { throw jsonError(400, 'INVALID_JSON'); }
 }
-function respond(response, status, body, origin) {
+function respond(response, status, body, origin, requiredClientSchemaVersion) {
   const data = body === undefined ? '' : JSON.stringify(body);
   response.writeHead(status, {
     'Content-Type': 'application/json; charset=utf-8',
@@ -132,7 +138,10 @@ function respond(response, status, body, origin) {
     'X-Content-Type-Options': 'nosniff',
     'Content-Security-Policy': "default-src 'none'; frame-ancestors 'none'",
     Vary: 'Origin',
-    ...(origin ? { 'Access-Control-Allow-Origin': origin, 'Access-Control-Allow-Methods': 'GET, PUT, OPTIONS', 'Access-Control-Allow-Headers': 'Authorization, Content-Type', 'Access-Control-Max-Age': '600' } : {}),
+    'X-Recanto-Schema-Gate': '1',
+    ...(requiredClientSchemaVersion === undefined ? {} : { 'X-Recanto-Required-Schema': String(requiredClientSchemaVersion) }),
+    ...(body?.error ? { 'X-Recanto-Error': body.error } : {}),
+    ...(origin ? { 'Access-Control-Allow-Origin': origin, 'Access-Control-Allow-Methods': 'GET, PUT, HEAD, OPTIONS', 'Access-Control-Allow-Headers': 'Authorization, Content-Type, X-Recanto-Schema-Version', 'Access-Control-Expose-Headers': 'X-Recanto-Schema-Gate, X-Recanto-Required-Schema, X-Recanto-Error', 'Access-Control-Max-Age': '600' } : {}),
   });
   response.end(data);
 }
@@ -150,43 +159,61 @@ const server = createServer({ maxHeaderSize: 8192, requestTimeout: 60_000, heade
     const workspaceId = match[1];
     if (request.method === 'OPTIONS') {
       // Browser preflight carries no bearer token; it reveals no data and needs an exact approved origin.
-      if (!origin || !['GET', 'PUT'].includes(request.headers['access-control-request-method'])
-        || (request.headers['access-control-request-headers'] || '').split(',').some(h => h.trim() && !['authorization', 'content-type'].includes(h.trim().toLowerCase()))) {
+      if (!origin || !['GET', 'PUT', 'HEAD'].includes(request.headers['access-control-request-method'])
+        || (request.headers['access-control-request-headers'] || '').split(',').some(h => h.trim() && !['authorization', 'content-type', 'x-recanto-schema-version'].includes(h.trim().toLowerCase()))) {
         throw jsonError(403, 'PREFLIGHT_FORBIDDEN');
       }
       return respond(response, 204, undefined, origin);
     }
     const suppliedTokenHash = createHash('sha256').update(request.headers.authorization || '').digest();
     if (!timingSafeEqual(expectedTokenHash, suppliedTokenHash)) throw jsonError(401, 'UNAUTHORIZED');
-    if (!['GET', 'PUT'].includes(request.method)) throw jsonError(405, 'METHOD_NOT_ALLOWED');
-    if (request.method === 'GET') {
-      return await serialized(workspaceId, async () => respond(response, 200, snapshot(workspaceId, await loadRecord(workspaceId)), origin));
+    if (!['GET', 'PUT', 'HEAD'].includes(request.method)) throw jsonError(405, 'METHOD_NOT_ALLOWED');
+    const declaredSchema = request.headers['x-recanto-schema-version'];
+    if (declaredSchema !== undefined && (typeof declaredSchema !== 'string' || !schemaPattern.test(declaredSchema) || !isSchemaVersion(Number(declaredSchema)))) throw jsonError(400, 'INVALID_CLIENT_SCHEMA');
+    const clientSchemaVersion = declaredSchema === undefined ? LEGACY_SCHEMA_VERSION : Number(declaredSchema);
+    const requireCompatible = record => {
+      if (clientSchemaVersion < record.requiredClientSchemaVersion) {
+        throw Object.assign(jsonError(426, 'CLIENT_UPDATE_REQUIRED'), { requiredClientSchemaVersion: record.requiredClientSchemaVersion });
+      }
+    };
+    if (request.method === 'GET' || request.method === 'HEAD') {
+      return await serialized(workspaceId, async () => {
+        const record = await loadRecord(workspaceId);
+        requireCompatible(record);
+        return respond(response, 200, request.method === 'HEAD' ? undefined : snapshot(workspaceId, record), origin, record.requiredClientSchemaVersion);
+      });
     }
     if (!/^application\/json(?:\s*;\s*charset=utf-8)?$/i.test(request.headers['content-type'] || '')) throw jsonError(415, 'JSON_REQUIRED');
     const operation = await readBody(request);
-    if (!isRecord(operation) || Object.keys(operation).sort().join(',') !== 'envelope,expectedRevision,operationId'
+    if (!isRecord(operation) || !['envelope,expectedRevision,operationId', 'envelope,expectedRevision,operationId,requiredClientSchemaVersion'].includes(Object.keys(operation).sort().join(','))
       || !isRevision(operation.expectedRevision) || !operationPattern.test(operation.operationId) || !validEnvelope(operation.envelope)) throw jsonError(400, 'INVALID_OPERATION');
+    const requiredSchema = Object.hasOwn(operation, 'requiredClientSchemaVersion') ? operation.requiredClientSchemaVersion : LEGACY_SCHEMA_VERSION;
+    if (!isSchemaVersion(requiredSchema) || requiredSchema > clientSchemaVersion) throw jsonError(400, 'INVALID_SCHEMA_DECLARATION');
     const fingerprint = hash(`${operation.expectedRevision}\n${canonicalEnvelope(operation.envelope)}`);
     await serialized(workspaceId, async () => {
       const record = await loadRecord(workspaceId);
+      requireCompatible(record);
+      if (requiredSchema < record.requiredClientSchemaVersion) throw Object.assign(jsonError(426, 'SCHEMA_DOWNGRADE_FORBIDDEN'), { requiredClientSchemaVersion: record.requiredClientSchemaVersion });
       const previous = Object.hasOwn(record.operations, operation.operationId) ? record.operations[operation.operationId] : undefined;
       if (previous) {
         if (previous.fingerprint !== fingerprint) throw jsonError(409, 'OPERATION_ID_REUSED');
-        return respond(response, 200, { workspaceId, revision: previous.revision, currentRevision: record.revision, updatedAt: previous.updatedAt, duplicate: true }, origin);
+        return respond(response, 200, { workspaceId, revision: previous.revision, currentRevision: record.revision, updatedAt: previous.updatedAt, duplicate: true }, origin, record.requiredClientSchemaVersion);
       }
-      if (operation.expectedRevision !== record.revision) return respond(response, 409, { error: 'REVISION_CONFLICT', snapshot: snapshot(workspaceId, record) }, origin);
+      if (operation.expectedRevision !== record.revision) return respond(response, 409, { error: 'REVISION_CONFLICT', snapshot: snapshot(workspaceId, record) }, origin, record.requiredClientSchemaVersion);
       if (record.revision >= Number.MAX_SAFE_INTEGER) throw jsonError(507, 'REVISION_EXHAUSTED');
       const next = record.revision + 1;
       const updatedAt = new Date().toISOString();
       record.revision = next;
       record.updatedAt = updatedAt;
       record.envelope = operation.envelope;
+      // Promote together with the accepted snapshot and receipt; conflicts/retries do not promote.
+      record.requiredClientSchemaVersion = Math.max(record.requiredClientSchemaVersion, requiredSchema);
       record.operations[operation.operationId] = { fingerprint, revision: next, updatedAt };
       await saveRecord(workspaceId, record);
-      respond(response, 200, { workspaceId, revision: next, currentRevision: next, updatedAt, duplicate: false }, origin);
+      respond(response, 200, { workspaceId, revision: next, currentRevision: next, updatedAt, duplicate: false }, origin, record.requiredClientSchemaVersion);
     });
   } catch (error) {
-    if (!response.headersSent && !response.destroyed) respond(response, error.status || 500, { error: error.code || 'INTERNAL_ERROR' }, origin);
+    if (!response.headersSent && !response.destroyed) respond(response, error.status || 500, { error: error.code || 'INTERNAL_ERROR' }, origin, error.requiredClientSchemaVersion);
     else if (!response.writableEnded) response.destroy();
   }
 });

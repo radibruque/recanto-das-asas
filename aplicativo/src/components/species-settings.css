@@ -1,0 +1,10 @@
+.species-list { display: grid; gap: 0; }
+.species-row { display: grid; grid-template-columns: minmax(160px,1.5fr) repeat(3,minmax(95px,1fr)) auto; gap: 12px; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--line); }
+.species-row:last-child { border-bottom: 0; }
+.species-row small { display: block; color: var(--muted); margin-top: 4px; }
+.species-row strong, .species-row span { overflow-wrap: anywhere; }
+@media (max-width: 700px) {
+  .species-row { grid-template-columns: repeat(3,minmax(0,1fr)); gap: 10px; }
+  .species-row > div:first-child { grid-column: 1 / -1; }
+  .species-row > button { grid-column: 1 / -1; min-height: 44px; }
+}

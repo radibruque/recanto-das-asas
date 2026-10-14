@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import type { Account, Bill, Bird, Contact, Handler, Payment, Product, Sale, SaleItem, Scope, State, StockMovement } from './types';
+import type { Account, Bill, Bird, Contact, DeliveryFileSnapshot, Handler, Payment, Product, Sale, SaleItem, Scope, State, StockMovement } from './types';
 import { cents, date, ensure, id, required, text } from './shared';
 
 const signedCents = z.number().int().min(-Number.MAX_SAFE_INTEGER).max(Number.MAX_SAFE_INTEGER);
@@ -19,6 +19,48 @@ export function accountBalance(state:State,scope:Scope,accountId:string,throughD
   return safeSum([account.openingCents,...state.payments.filter(p=>p.scope===scope&&p.accountId===accountId&&p.date<=throughDate&&(!p.reversed || ('reversalDate' in p && typeof p.reversalDate==='string' && p.reversalDate>throughDate))).map(p=>{const bill=scoped(state.bills,scope,p.billId,'Conta a pagar/receber');return bill.direction==='receber'?p.amountCents:-p.amountCents;}),...state.transfers.filter(t=>t.scope===scope&&t.date<=throughDate&&(t.fromAccountId===accountId||t.toAccountId===accountId)).map(t=>t.toAccountId===accountId?t.amountCents:-t.amountCents)]);
 }
 export function salePaid(state:State,scope:Scope,saleId:string):number {return safeSum(state.bills.filter(b=>b.scope===scope&&b.saleId===saleId).map(b=>(b.direction==='receber'?1:-1)*billPaid(state,scope,b.id)));}
+
+export type DeliveryCandidate = DeliveryFileSnapshot & {title:string;size:number};
+const customerDocumentKinds=new Set(['Caderneta digital','Recibo de pagamento','Termo de entrega']);
+/** Metadata only: opening the delivery review never decodes or loads file bodies. */
+export function deliveryCandidates(state:State,scope:Scope,saleId:string):DeliveryCandidate[] {
+ const sale=scoped(state.sales,scope,saleId,'Operação');
+ const birds=new Set(sale.items.filter(item=>item.kind==='ave'&&item.refId).map(item=>item.refId!));
+ const bills=new Map(state.bills.filter(bill=>bill.scope===scope).map(bill=>[bill.id,bill]));
+ const payments=new Map(state.payments.filter(payment=>payment.scope===scope).map(payment=>[payment.id,payment]));
+ const candidates:DeliveryCandidate[]=[];
+ for(const file of state.attachments){
+  if(file.scope!==scope||!file.shareWithCustomer)continue;
+  // A contact may historically be both supplier and client. Sharing a file
+  // does not make internal purchases, expense evidence or cash checks a tutor document.
+  if(file.sourceType==='purchase'||file.sourceType==='closing')continue;
+  if(file.sourceType==='bill'||file.sourceType==='payment'){
+   const billId=file.sourceType==='bill'?file.sourceId:file.sourceId?payments.get(file.sourceId)?.billId:undefined;
+   const bill=billId?bills.get(billId):undefined;
+   if(!bill||bill.direction==='pagar'||bill.purchaseId)continue;
+  }
+  if(file.saleId&&file.saleId!==sale.id)continue;
+  if(file.contactId&&file.contactId!==sale.contactId)continue;
+  if(file.saleId===sale.id||(file.birdId&&birds.has(file.birdId))||file.contactId===sale.contactId)candidates.push({type:'attachment',id:file.id,title:file.title,fileName:file.fileName,sha256:file.sha256,size:file.size});
+ }
+ for(const file of state.documents){
+  if(file.scope!==scope||!customerDocumentKinds.has(file.kind))continue;
+  if(file.saleId&&file.saleId!==sale.id)continue;
+  if(file.saleId===sale.id||(file.birdId&&birds.has(file.birdId)))candidates.push({type:'document',id:file.id,title:file.title,fileName:file.fileName,sha256:file.sha256,size:file.size});
+ }
+ return candidates;
+}
+function deliveryManifest(state:State,scope:Scope,saleId:string,selected:{type:'attachment'|'document';id:string}[]):DeliveryFileSnapshot[] {
+ const candidates=new Map(deliveryCandidates(state,scope,saleId).map(file=>[file.type+':'+file.id,file]));
+ const seen=new Set<string>();let size=0;
+ return selected.map(reference=>{
+  const key=reference.type+':'+reference.id;
+  ensure(!seen.has(key),'O mesmo arquivo não pode aparecer duas vezes na entrega.');seen.add(key);
+  const file=candidates.get(key);ensure(file,'O arquivo selecionado não pertence à operação ou não está autorizado para o tutor.');
+  size+=file.size;ensure(Number.isSafeInteger(size)&&size<=40*1024*1024,'Selecione até 40 MB de arquivos por entrega. Os originais continuam disponíveis individualmente.');
+  const {type,id,sha256,fileName}=file;return {type,id,sha256,fileName};
+ });
+}
 
 /** A closing keeps this snapshot, so later backdated entries cannot rewrite its evidence. */
 export function cashClosingSummary(state:State,scope:Scope,accountId:string,throughDate:string) {
@@ -90,7 +132,7 @@ export const commercialHandler:Handler=(state,scope,action,data)=>{
   return {id:sale.id};
  }
  if(action==='sale.transition'){
-  const input=z.object({id:required,status:z.enum(['reservada','vendida','entregue','cancelada','devolvida']),date,reason:required,refundAccountId:z.string().optional(),installments:z.array(installmentInput).max(120).default([])}).parse(data);
+  const input=z.object({id:required,status:z.enum(['reservada','vendida','entregue','cancelada','devolvida']),date,reason:required,refundAccountId:z.string().optional(),installments:z.array(installmentInput).max(120).default([]),deliveryFiles:z.array(z.object({type:z.enum(['attachment','document']),id:required})).max(20).optional()}).parse(data);
   const sale=scoped(state.sales,scope,input.id,'Operação');
   if(sale.status===input.status)return {id:sale.id};
   ensure(!['cancelada','devolvida'].includes(sale.status),'Esta operação já foi encerrada.');
@@ -104,8 +146,10 @@ export const commercialHandler:Handler=(state,scope,action,data)=>{
    sale.date=input.date;
   }else if(input.status==='entregue'){
    ensure(sale.status==='vendida','Converta em venda antes de registrar a entrega.');
+   const files=input.deliveryFiles===undefined?undefined:deliveryManifest(state,scope,sale.id,input.deliveryFiles);
    validateBirds(state,scope,sale);sale.deliveryDate=input.date;
    for(const item of sale.items.filter(i=>i.kind==='ave')){const bird=scoped(state.birds,scope,item.refId!,'Ave');changeCustody(bird,scoped(state.contacts,scope,sale.contactId,'Cliente').name,input.date,`Entrega ${sale.number}`);changeBird(bird,'vendido',input.date,`Entrega ${sale.number}`);bird.statusHistory.push({date:input.date,status:'vendido',reason:`Entregue a ${bird.responsible} · ${sale.number}`});}
+   if(files!==undefined){sale.deliveryManifest=files;sale.deliveryManifestDate=input.date;}
   }else{
    ensure(input.status!=='devolvida'||sale.status==='entregue','A devolução exige uma entrega anterior.');
    ensure(input.status!=='cancelada'||sale.status!=='entregue','Use devolução para uma operação já entregue.');
@@ -132,7 +176,7 @@ export const commercialHandler:Handler=(state,scope,action,data)=>{
   const input=z.object({id:z.string().optional(),direction:z.enum(['pagar','receber']),contactId:maybeId,category:required,costCenter:text,description:required,dueDate:date,amountCents:cents.refine(v=>v>0,'Informe um valor positivo.')}).parse(data);
   if(input.contactId)scoped(state.contacts,scope,input.contactId,'Contato');
   const bill:Bill={...input,id:input.id??id(),scope,contactId:input.contactId??null,saleId:null,cancelled:false};
-  if(input.id){const previous=scoped(state.bills,scope,input.id,'Conta a pagar/receber');ensure(!previous.saleId&&!previous.cancelled,'Use o histórico da venda para alterar uma parcela vinculada.');ensure(!state.payments.some(p=>p.scope===scope&&p.billId===input.id),'Contas com pagamentos registrados não podem ser editadas.');Object.assign(previous,bill);}else state.bills.push(bill);
+  if(input.id){const previous=scoped(state.bills,scope,input.id,'Conta a pagar/receber');ensure(!previous.saleId&&!previous.cancelled,'Use o histórico da venda para alterar uma parcela vinculada.');ensure(!previous.purchaseId,'Use a compra em Materiais para corrigir esta obrigação vinculada.');ensure(!state.payments.some(p=>p.scope===scope&&p.billId===input.id),'Contas com pagamentos registrados não podem ser editadas.');Object.assign(previous,bill);}else state.bills.push(bill);
   return {id:bill.id};
  }
  if(action==='payment.record'){
@@ -142,7 +186,7 @@ export const commercialHandler:Handler=(state,scope,action,data)=>{
   ensure(!input.idempotencyKey.startsWith('refund:'),'A chave de reembolso é reservada para o histórico de cancelamento.');
   const bill=scoped(state.bills,scope,input.billId,'Conta a pagar/receber');scoped(state.accounts,scope,input.accountId,'Conta');
   ensure(!bill.cancelled,'Esta conta foi cancelada.');ensure(input.amountCents<=billOutstanding(state,scope,bill),'O pagamento excede o saldo em aberto.');
-  if(bill.saleId){const sale=scoped(state.sales,scope,bill.saleId,'Operação');ensure(input.date>=(sale.statusHistory[0]?.date??sale.date),'O recebimento não pode anteceder a criação da operação.');}
+  if(bill.saleId){const sale=scoped(state.sales,scope,bill.saleId,'Operação');ensure(input.date>=(sale.statusHistory[0]?.date??sale.date),'O recebimento não pode anteceder a criação da operação.');}if(bill.purchaseId){const purchase=scoped(state.purchases,scope,bill.purchaseId,'Compra');ensure(bill.id===purchase.billId||bill.id===purchase.refundBillId,'A conta não pertence à compra vinculada.');ensure(input.date>=(bill.id===purchase.refundBillId?purchase.cancelledDate??purchase.date:purchase.date),'O pagamento ou a restituição não pode anteceder o registro vinculado.');}
   safeSum([accountBalance(state,scope,input.accountId),bill.direction==='receber'?input.amountCents:-input.amountCents]);
   const payment:Payment={...input,id:id(),scope,reversed:false,reversalReason:'',manual:true};state.payments.push(payment);return {id:payment.id};
  }

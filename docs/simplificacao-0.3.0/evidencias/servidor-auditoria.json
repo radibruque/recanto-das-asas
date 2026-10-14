@@ -1,0 +1,171 @@
+{
+  "scope": "Read-only local audit of Windows synchronization server 0.3.0; no publication, upload, services or repository changes",
+  "artifact": {
+    "path": "/workspace/recanto-das-asas/aplicativo/release/servidor-windows/Recanto-das-Asas-Servidor-Windows-0.3.0.zip",
+    "bytes": 35002789,
+    "sha256": "c1f24137cf3145276bbf642e47c423285c193e791c7002020fa511beb7ffab2d"
+  },
+  "integrity": {
+    "zipAndManifestVerified": true,
+    "manifestFiles": 18,
+    "totalFileEntries": 19,
+    "noDuplicateEntries": true,
+    "noTraversalOrSymlinkEntries": true,
+    "officialRuntimeSha256": "158f7685b44de51f6c0df1d153526cbcd3e1bc739a8dfc607721cef75de9e541",
+    "runtimeMatchesCachedOfficialSHASUMS256": true,
+    "nodePEMachine": "AMD64 / 0x8664",
+    "nodeVersionResourceContains": "24.21.0",
+    "nodeAndLicenseMatchOfficialArchive": true
+  },
+  "source": {
+    "exactServerMatches": true,
+    "serverSha256": "3f7f4cbcc9859c4a00d069cdb148187f79ff3fe371eb0736d3cff6b48d49fee4",
+    "allLauncherSourcesMatchAfterEncodingNormalization": true,
+    "encodingChecks": [
+      {
+        "path": "01-Instalar.cmd",
+        "encoding": "ASCII",
+        "lineEndings": "CRLF",
+        "normalizedSourceMatches": true,
+        "sourceSha256": "fa7395849883f9da5470b2e583905cb917139174604eb03326388d4cfc9a2d69",
+        "packedSha256": "fe473573068b0d74e7afdd949c5236091d06846421cfb40ce43cb57af3d1dfdd"
+      },
+      {
+        "path": "02-Iniciar.cmd",
+        "encoding": "ASCII",
+        "lineEndings": "CRLF",
+        "normalizedSourceMatches": true,
+        "sourceSha256": "8b1782863a374ff42089256fb609e8f747d345ddd2df6a15deec84e31a728129",
+        "packedSha256": "12c4130aad7a91207042ad547c2ec79ae4888bce0b4dfddb6ae07f27ba37ecd2"
+      },
+      {
+        "path": "03-Conectar-Tailscale.cmd",
+        "encoding": "ASCII",
+        "lineEndings": "CRLF",
+        "normalizedSourceMatches": true,
+        "sourceSha256": "8b2c52f26c90432fcfc2ada457014aa9f00777a2c65af48b12d70aaaaaf379f8",
+        "packedSha256": "678093de5e69f771b502be7d6461af850d7fb711834db64b7440daad137f3083"
+      },
+      {
+        "path": "04-Mostrar-Conexao.cmd",
+        "encoding": "ASCII",
+        "lineEndings": "CRLF",
+        "normalizedSourceMatches": true,
+        "sourceSha256": "4336ef4fa9d481ba451516f331d880268dd90eda8cdb08f403c1c378e0b057b7",
+        "packedSha256": "7853e23919450cd736675b52032f250738d26565dc5c293de742f0d68c921e6f"
+      },
+      {
+        "path": "05-Parar.cmd",
+        "encoding": "ASCII",
+        "lineEndings": "CRLF",
+        "normalizedSourceMatches": true,
+        "sourceSha256": "b8819eda41612f9fbcb2bc8693353c815839329d604a5afb65d7c52782e1554c",
+        "packedSha256": "09e045139eca5f745492702bef2dba4c495fc56ff3df5fa3e5fba13d3c32b61b"
+      },
+      {
+        "path": "06-Desativar-Inicio-Automatico.cmd",
+        "encoding": "ASCII",
+        "lineEndings": "CRLF",
+        "normalizedSourceMatches": true,
+        "sourceSha256": "61e5b7654e40a9e3d6b5e389821122ac44049218f41147d854232f9729337b9d",
+        "packedSha256": "80e86c2a2772dcff185b993807aafa3b5a5e0cce14ddfdf3d043e7a0a2e03f87"
+      },
+      {
+        "path": "windows/Common.ps1",
+        "encoding": "UTF-8 BOM",
+        "lineEndings": "CRLF",
+        "normalizedSourceMatches": true,
+        "sourceSha256": "8c10a73a46ca73143819f742826cf70c8d871a968d4b9eeebb761e76ac307d6d",
+        "packedSha256": "7f85d8b4f2d0aa042c9c8d0caccdfb95fb7c30ad426eeecb018a25e5c5077ac7"
+      },
+      {
+        "path": "windows/Connect-Tailscale.ps1",
+        "encoding": "UTF-8 BOM",
+        "lineEndings": "CRLF",
+        "normalizedSourceMatches": true,
+        "sourceSha256": "dc3eeb337321fae7ed3a0780ffa41935e075dd309581b5aec09b34f93238312d",
+        "packedSha256": "535a76d14b9a928db773c5db3d933d37425e29fcd8a67388581b691ec74c3f47"
+      },
+      {
+        "path": "windows/Disable-Autostart.ps1",
+        "encoding": "UTF-8 BOM",
+        "lineEndings": "CRLF",
+        "normalizedSourceMatches": true,
+        "sourceSha256": "6886ee7af03aed8ee044f997fa8f1f70cab6dd1bf81639a1d2058d9c755700bb",
+        "packedSha256": "5c5ff89f39bc60f270c21770067798ad9de3aaed2e62ece3b008d982be808001"
+      },
+      {
+        "path": "windows/Install.ps1",
+        "encoding": "UTF-8 BOM",
+        "lineEndings": "CRLF",
+        "normalizedSourceMatches": true,
+        "sourceSha256": "e611cfde79344ae7398b5ec8c08b1f0e001bd5517b12dd757843c0c128b61b69",
+        "packedSha256": "0963541543f301992eaa0fe23578745f3bc173b63ce9a4452667ccd260f5ac18"
+      },
+      {
+        "path": "windows/Show-Connection.ps1",
+        "encoding": "UTF-8 BOM",
+        "lineEndings": "CRLF",
+        "normalizedSourceMatches": true,
+        "sourceSha256": "4f26565dae00bbe5f2c065ab65cc2c502a7bd0de4de5541e7a695e600dcfb832",
+        "packedSha256": "0bdf0abfa64c172b487e4fd13dcfdf31872ae66f81df1b1c7b5889928d7eb1d3"
+      },
+      {
+        "path": "windows/Start.ps1",
+        "encoding": "UTF-8 BOM",
+        "lineEndings": "CRLF",
+        "normalizedSourceMatches": true,
+        "sourceSha256": "c8a0beefabb1bc9630c6d5bedfbe77f2cb42d950bae9ad0e0e0bc31eef9acb68",
+        "packedSha256": "8021e87719e6e09d3d4e7283fb629bc2ee8beeca400ec6c97e9fd55027f3670e"
+      },
+      {
+        "path": "windows/Stop.ps1",
+        "encoding": "UTF-8 BOM",
+        "lineEndings": "CRLF",
+        "normalizedSourceMatches": true,
+        "sourceSha256": "aa19c273fc2e6f7f23cc21fa577c8bacd4ef1649b3c2c6edd977fc09a428890e",
+        "packedSha256": "ef8ebf7c69a217cdc761f2efca7f111640c93f17d5fc04a1d966d3cc1a13973b"
+      },
+      {
+        "path": "windows/Supervisor.ps1",
+        "encoding": "UTF-8 BOM",
+        "lineEndings": "CRLF",
+        "normalizedSourceMatches": true,
+        "sourceSha256": "e01a30ec22191eaa6ccddbf1c017db2423a8eb20eea1dadc3d0de041f7ab4710",
+        "packedSha256": "930b1c7c2d0be4920a282ce6baa000f664e75d653c2310819e9f654b6758f061"
+      }
+    ]
+  },
+  "privateData": {
+    "packagedConfig": false,
+    "packagedTokenDpapi": false,
+    "packagedDataDirectory": false,
+    "packagedPrivateKeys": false,
+    "basis": "Exact allowlist of 19 assets; source and runtime identity; no private-key signature in text assets"
+  },
+  "updatePreservationReview": {
+    "method": "Static source review; native Windows installation not executed",
+    "programOnlyCopy": "Install.ps1:28-39 copies only manifest files under program and the manifest",
+    "existingTokenNotReplaced": "Install.ps1:40-54 creates token only when absent; existing config or JSON data with missing token prevents rekey",
+    "existingConfigNotReplaced": "Install.ps1:55-57 writes initial configuration only when absent",
+    "dataNotReplaced": "Install.ps1:20 creates/protects data directory; no workspace content overwrite/delete path",
+    "sameWindowsAccountRequired": "Install.ps1:58-61 verifies DPAPI token is decryptable before startup",
+    "stopAndLease": "Stop.ps1 requests graceful shutdown and waits for exclusive OS lease; Install.ps1:22-25 rejects active supervisor",
+    "tailscalePreserved": "Install and Stop do not invoke Tailscale; Connect rejects other proxies/Funnel/foreground 443, creates proxy only when 443 is free, verifies exact proxy and authenticated schema-gate before persisting URL",
+    "sameURLCondition": "URL remains the same while existing Tailscale DNS name remains the same; a DNS rename intentionally updates config.url after validation",
+    "failureLimit": "Program replacement uses sequential Copy-Item, not a transactional rollback; interruption can require re-running installer while original config/token/data remain preserved"
+  },
+  "tests": {
+    "existingVerifier": "node /tmp/recanto-native-0.3.0/verify-server.mjs exit 0",
+    "powershell": "PowerShell 7.5.3 on Linux: aplicativo/scripts/test-sync-windows.ps1 exit 0, 29 checks passed",
+    "initialPowerShellRetry": "First launch failed on read-only default XDG data path; rerun with XDG data/config/cache paths under /tmp passed",
+    "physicalWindowsTested": false
+  },
+  "limitations": [
+    "Windows PowerShell 5.1 was not executed",
+    "Native DPAPI, ACL, Startup COM shortcut, installed upgrade and login restart were not executed",
+    "Tailscale HTTPS and Android cellular connectivity were not executed",
+    "ZIP/server scripts are evaluation artifacts without a package signature; SHA256 detects integrity but does not itself establish publisher authenticity",
+    "All checks are local; no publishing or external service activation occurred"
+  ]
+}

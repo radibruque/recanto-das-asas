@@ -1,3 +1,4 @@
+import { useUiState } from '../lib/ui-context';
 import { useEffect, useMemo, useState } from 'react';
 import type { Attachment, IssuedDocument, ModuleProps, State } from '../domain/types';
 import { birdLabel, dateLabel, today } from '../domain/shared';
@@ -10,11 +11,11 @@ import { RecordDetailsDialog } from '../components/RecordDialog';
 const message = (error: unknown) => error instanceof Error ? error.message : 'Não foi possível concluir. Seus dados foram preservados.';
 const safeName = (value: string) => value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9_-]/g, '_').slice(0, 70) || 'ave';
 
-export default function DigitalBooklet({ state, scope, command, notify, search, target }: ModuleProps) {
-  const [birdId, setBirdId] = useState(''), [saleId, setSaleId] = useState(''), [fields, setFields] = useState<DigitalBookletFields>({});
-  const [attachments, setAttachments] = useState<PendingAttachment[]>([]), [includePhoto, setIncludePhoto] = useState(true);
+export default function DigitalBooklet({ state, scope, command, notify, search, target, uiContext }: ModuleProps) {
+  const [birdId, setBirdId] = useUiState(uiContext,'booklet:birdId',''), [saleId, setSaleId] = useUiState(uiContext,'booklet:saleId',''), [fields, setFields] = useUiState<DigitalBookletFields>(uiContext,'booklet:fields',{});
+  const [attachments, setAttachments] = useState<PendingAttachment[]>([]), [includePhoto, setIncludePhoto] = useUiState(uiContext,'booklet:includePhoto',true);
   const [busy, setBusy] = useState(false), [preparing, setPreparing] = useState(false), [error, setError] = useState('');
-  const [historyBirdId, setHistoryBirdId] = useState(''), [selectedClinical, setSelectedClinical] = useState<string[]>([]);
+  const [historyBirdId, setHistoryBirdId] = useUiState(uiContext,'booklet:historyBirdId',''), [selectedClinical, setSelectedClinical] = useUiState<string[]>(uiContext,'booklet:selectedClinical',[]);
   const birds = state.birds.filter(value => value.scope === scope);
   const bird = birds.find(value => value.id === birdId);
   const sales = state.sales.filter(value => value.scope === scope && value.items.some(item => item.kind === 'ave' && item.refId === birdId));
@@ -25,7 +26,7 @@ export default function DigitalBooklet({ state, scope, command, notify, search, 
   const history = issued.filter(value => value.birdId === historyBirdId).sort((a, b) => b.createdAt.localeCompare(a.createdAt));
   const historyBird = birds.find(value => value.id === historyBirdId);
 
-  useEffect(() => { setBirdId(''); setSaleId(''); setFields({}); setAttachments([]); setHistoryBirdId(''); setSelectedClinical([]); setError(''); }, [scope]);
+
 
   useEffect(()=>{
     if(target?.birdId){setBirdId(target.birdId);setSaleId(target.saleId??'');setFields(deriveBookletFields(state,scope,target.birdId,target.saleId));setAttachments([]);setSelectedClinical([]);setError('');}

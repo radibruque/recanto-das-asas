@@ -75,6 +75,8 @@ for (const layout of layouts) for (const theme of ['light', 'dark'] as const) {
     const search = page.getByLabel('Buscar aves', { exact: true });
     await search.fill('Ave do atalho');
     await expect(active.locator('.bird-list-row')).toHaveCount(1);
+    // Thumbnail preparation begins near the viewport; inspect the filtered row through a real scroll.
+    await active.locator('.bird-list-photo').scrollIntoViewIfNeeded();
     const image = active.locator('.bird-list-photo img'); await expect(image).toBeVisible();
     await expect.poll(() => image.evaluate(element => (element as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
     if (layout.platform === 'web') {

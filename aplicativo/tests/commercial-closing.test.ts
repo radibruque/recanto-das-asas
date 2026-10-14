@@ -98,7 +98,7 @@ describe('integridade e compatibilidade dos fechamentos armazenados',()=>{
   closing.expectedCents=1234;closing.countedCents=1200;
   const old={...state,schemaVersion:1};
   const result=validateState(old);
-  expect(result.schemaVersion).toBe(2);expect(result.closings[0]).toEqual(closing);
+  expect(result.schemaVersion).toBe(3);expect(result.closings[0]).toEqual(closing);
  });
  it('accepts a valid earlier closing from the same account and rejects missing, equal-date or later references',()=>{
   const {state,cash,closing}=closingFixture();

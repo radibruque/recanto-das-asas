@@ -1,11 +1,13 @@
+import { useUiState, rememberUiRoute, recallUiRoute } from '../lib/ui-context';
+import { taskTarget } from '../lib/navigation';
 import { useEffect, useId, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import type { ModuleProps, Task } from '../domain/types';
 import { birdLabel, dateLabel, today } from '../domain/shared';
 import { addTaskToCalendar, downloadTaskCalendar, hasNativeCalendar } from '../lib/calendar';
 
-type StatusFilter = 'pendentes' | 'todas' | 'vencidas' | 'concluídas';
-const statusLabel = (task: Task) => task.done ? 'Concluída' : task.dueDate < today() ? 'Vencida' : task.dueDate === today() ? 'Hoje' : 'Pendente';
+type StatusFilter = 'pendentes' | 'todas' | 'vencidas' | 'concluídas' | 'resolvidas';
+const statusLabel = (task: Task) => task.resolvedAt ? 'Resolvida pelo acompanhamento' : task.done ? 'Concluída' : task.dueDate < today() ? 'Vencida' : task.dueDate === today() ? 'Hoje' : 'Pendente';
 const byDate = (a: Task, b: Task) => Number(a.done) - Number(b.done) || a.dueDate.localeCompare(b.dueDate) || (a.reminderTime ?? '').localeCompare(b.reminderTime ?? '') || a.title.localeCompare(b.title, 'pt-BR');
 
 function AgendaDialog({ title, children, onClose }: { title: string; children: ReactNode; onClose: () => void }) {
@@ -16,12 +18,19 @@ function AgendaDialog({ title, children, onClose }: { title: string; children: R
   </dialog>;
 }
 
-export default function Agenda({ state, scope, command, notify, search, target, navigate, onEdit }: ModuleProps & { onEdit: (task: Task) => void }) {
-  const [status, setStatus] = useState<StatusFilter>('pendentes');
-  const [birdFilter, setBirdFilter] = useState(''), [from, setFrom] = useState(''), [until, setUntil] = useState('');
-  const [groupId, setGroupId] = useState<string | null>(null), [taskId, setTaskId] = useState<string | null>(null), [busy, setBusy] = useState(false);
-  useEffect(() => { setGroupId(null); setTaskId(null); setBirdFilter(''); setFrom(''); setUntil(''); setStatus('pendentes'); }, [scope]);
+export default function Agenda({ state, scope, command, notify, search, target, navigate, uiContext, onEdit }: ModuleProps & { onEdit: (task: Task) => void }) {
+  const [status, setStatus] = useUiState<StatusFilter>(uiContext,'agenda:status','pendentes');
+  const [birdFilter, setBirdFilter] = useUiState(uiContext,'agenda:bird',''), [from, setFrom] = useUiState(uiContext,'agenda:from',''), [until, setUntil] = useUiState(uiContext,'agenda:until','');
+  const [groupId, setGroupId] = useUiState<string | null>(uiContext,'agenda:group',null), [taskId, setTaskId] = useUiState<string | null>(uiContext,'agenda:task',null), [busy, setBusy] = useState(false);
+  const previousRequest=useRef<number|undefined>(target?.request);
+  type AgendaContext={status:StatusFilter;birdFilter:string;from:string;until:string;groupId:string|null;taskId:string|null};
+  useEffect(()=>()=>{rememberUiRoute(uiContext,'agenda',previousRequest.current,{status,birdFilter,from,until,groupId,taskId});},[uiContext,status,birdFilter,from,until,groupId,taskId]);
   useEffect(() => {
+    if(previousRequest.current!==target?.request)rememberUiRoute(uiContext,'agenda',previousRequest.current,{status,birdFilter,from,until,groupId,taskId});
+    previousRequest.current=target?.request;
+    const saved=recallUiRoute<AgendaContext>(uiContext,'agenda',target?.request);
+    if(saved){setStatus(saved.status);setBirdFilter(saved.birdFilter);setFrom(saved.from);setUntil(saved.until);setGroupId(saved.groupId);setTaskId(saved.taskId);return;}
+    if(target?.filter){setBirdFilter('');setFrom('');setUntil('');setGroupId(null);setTaskId(null);}
     if(target?.taskId){const task=state.tasks.find(t=>t.id===target.taskId&&t.scope===scope);if(task){setTaskId(task.id);setGroupId(task.birdId??'geral');}}
     if(target?.filter==='pending')setStatus('pendentes');
     if(target?.filter==='overdue')setStatus('vencidas');
@@ -31,7 +40,7 @@ export default function Agenda({ state, scope, command, notify, search, target, 
   const findBird = (id: string | null) => birds.find(bird => bird.id === id);
   const taskBirdLabel = (task: Task) => task.birdId ? birdLabel(findBird(task.birdId)) : 'Tarefas gerais';
   const filtered = tasks.filter(task =>
-    (status === 'todas' || (status === 'concluídas' ? task.done : !task.done && (status !== 'vencidas' || task.dueDate < today()))) &&
+    (status === 'todas' || (status === 'resolvidas' ? !!task.resolvedAt : status === 'concluídas' ? task.done&&!task.resolvedAt : !task.done && (status !== 'vencidas' || task.dueDate < today()))) &&
     (!birdFilter || (birdFilter === 'geral' ? !task.birdId : task.birdId === birdFilter)) &&
     (!from || task.dueDate >= from) && (!until || task.dueDate <= until) &&
     `${task.title} ${task.notes} ${taskBirdLabel(task)}`.toLocaleLowerCase('pt-BR').includes(search.toLocaleLowerCase('pt-BR'))
@@ -70,9 +79,9 @@ export default function Agenda({ state, scope, command, notify, search, target, 
       <article className="card metric-card"><h3>Vencidas</h3><p><strong>{tasks.filter(task => !task.done && task.dueDate < today()).length}</strong> tarefas aguardando conclusão</p></article>
     </div>
     <div className="card stack">
-      <h2 className="section-title">Tarefas por ave</h2>
+      <h2 className="section-title">Tarefas por ave</h2><div className="toolbar"><button type="button" className="button secondary" disabled={busy} onClick={async()=>{if(busy)return;setBusy(true);try{await command('task.recalculate',{});notify('Acompanhamentos recalculados sem duplicar tarefas ou reabrir conclusões.');}catch(error){notify(error instanceof Error?error.message:'Não foi possível recalcular.');}finally{setBusy(false);}}}>Recalcular acompanhamentos</button><button type="button" className="button secondary" onClick={()=>navigate?.({view:'settings'})}>Configurar acompanhamentos</button></div>
       <div className="filters">
-        <label className="field"><span>Situação das tarefas</span><select value={status} onChange={event => setStatus(event.target.value as StatusFilter)}><option value="pendentes">Pendentes</option><option value="vencidas">Vencidas</option><option value="concluídas">Concluídas</option><option value="todas">Todas</option></select></label>
+        <label className="field"><span>Situação das tarefas</span><select value={status} onChange={event => setStatus(event.target.value as StatusFilter)}><option value="pendentes">Pendentes</option><option value="vencidas">Vencidas</option><option value="concluídas">Concluídas</option><option value="resolvidas">Resolvidas pelo acompanhamento</option><option value="todas">Todas</option></select></label>
         <label className="field"><span>Ave da tarefa</span><select value={birdFilter} onChange={event => setBirdFilter(event.target.value)}><option value="">Todas</option>{tasks.some(task => !task.birdId) && <option value="geral">Tarefas gerais</option>}{birds.filter(bird => tasks.some(task => task.birdId === bird.id)).map(bird => <option key={bird.id} value={bird.id}>{birdLabel(bird)}</option>)}</select></label>
         <label className="field"><span>Data a partir de</span><input type="date" value={from} onChange={event => setFrom(event.target.value)}/></label>
         <label className="field"><span>Data até</span><input type="date" value={until} onChange={event => setUntil(event.target.value)}/></label>
@@ -83,15 +92,15 @@ export default function Agenda({ state, scope, command, notify, search, target, 
     <div className="notice"><p><strong>Lembretes no telefone e no computador</strong></p><p className="muted">Defina um horário na tarefa. No Android, abra os detalhes e adicione ao calendário do telefone; confira o lembrete e confirme em Salvar. No Windows, importe o arquivo .ics no seu calendário. O calendário escolhido cuida do aviso mesmo com este aplicativo fechado. Os horários usam Brasília.</p><p className="muted">O título, a ave e as observações serão enviados ao calendário escolhido. Editar ou concluir a tarefa no Recanto das Asas não altera esse evento: ajuste ou exclua o lembrete também no calendário.</p></div>
     {groupId !== null && !selectedTask && <AgendaDialog title={selectedGroup?.title ?? (groupId === 'geral' ? 'Tarefas gerais' : birdLabel(findBird(groupId)))} onClose={() => setGroupId(null)}>
       <p className="muted">Histórico de tarefas da ave ou categoria, conforme os filtros selecionados.</p>
-      <div className="list record-list">{selectedGroup?.records.map(task => <article className="stack record-list-item" key={task.id}><div className="row"><strong>{task.title}</strong><span className="badge status-badge">{statusLabel(task)}</span></div><p className="muted">{dateLabel(task.dueDate)}{task.reminderTime && ` às ${task.reminderTime} (Brasília)`}</p>{task.notes && <p>{task.notes}</p>}<div className="row modal-actions"><button className="button secondary" onClick={() => setTaskId(task.id)}>Ver detalhes</button><button className="button" disabled={busy} onClick={() => void toggle(task)}>{task.done ? 'Reabrir tarefa' : 'Concluir tarefa'}</button></div></article>)}</div>
+      <div className="list record-list">{selectedGroup?.records.map(task => <article className="stack record-list-item" key={task.id}><div className="row"><strong>{task.title}</strong><span className="badge status-badge">{statusLabel(task)}</span></div><p className="muted">{dateLabel(task.dueDate)}{task.reminderTime && ` às ${task.reminderTime} (Brasília)`}</p>{task.origin==='derived'&&<p className="muted">Derivada do acompanhamento{task.resolvedAt?' · '+task.resolutionReason:''}</p>}{task.notes && <p>{task.notes}</p>}<div className="row modal-actions"><button className="button secondary" onClick={() => setTaskId(task.id)}>Ver detalhes</button><button className="button" disabled={busy||!!task.resolvedAt} onClick={() => void toggle(task)}>{task.done ? 'Reabrir tarefa' : 'Concluir tarefa'}</button></div></article>)}</div>
       {!selectedGroup?.records.length && <p className="empty">Nenhuma tarefa neste grupo corresponde aos filtros.</p>}
     </AgendaDialog>}
     {selectedTask && <AgendaDialog title={selectedTask.title} onClose={() => setTaskId(null)}>
-      {selectedTask.birdId&&navigate&&<button className="button" onClick={()=>{setTaskId(null);setGroupId(null);navigate({view:'birds',birdId:selectedTask.birdId!});}}>Abrir ave relacionada</button>}
-      <dl className="agenda-details"><dt>Ave</dt><dd>{taskBirdLabel(selectedTask)}</dd><dt>Data</dt><dd>{dateLabel(selectedTask.dueDate)}</dd><dt>Horário</dt><dd>{selectedTask.reminderTime ? `${selectedTask.reminderTime} (Brasília)` : 'Não definido'}</dd><dt>Situação</dt><dd>{statusLabel(selectedTask)}</dd><dt>Antecedência</dt><dd>{(selectedTask.reminderMinutes ?? 15) === 0 ? 'No horário da tarefa' : `${selectedTask.reminderMinutes ?? 15} minutos antes`}</dd><dt>Observações</dt><dd style={{ whiteSpace: 'pre-wrap' }}>{selectedTask.notes || 'Não informadas'}</dd></dl>
-      <div className="row modal-actions"><button className="button secondary" onClick={() => { setTaskId(null); setGroupId(null); onEdit(selectedTask); }}>Editar tarefa</button><button className="button" disabled={busy} onClick={() => void toggle(selectedTask)}>{selectedTask.done ? 'Reabrir tarefa' : 'Concluir tarefa'}</button></div>
+      {navigate&&(selectedTask.birdId||selectedTask.sourceId)&&<button className="button" onClick={()=>{setTaskId(null);setGroupId(null);navigate(taskTarget(selectedTask));}}>Abrir registro relacionado</button>}
+      <dl className="agenda-details"><dt>Ave</dt><dd>{taskBirdLabel(selectedTask)}</dd><dt>Data</dt><dd>{dateLabel(selectedTask.dueDate)}</dd><dt>Horário</dt><dd>{selectedTask.reminderTime ? `${selectedTask.reminderTime} (Brasília)` : 'Não definido'}</dd><dt>Situação</dt><dd>{statusLabel(selectedTask)}</dd><dt>Antecedência</dt><dd>{(selectedTask.reminderMinutes ?? 15) === 0 ? 'No horário da tarefa' : `${selectedTask.reminderMinutes ?? 15} minutos antes`}</dd><dt>Origem</dt><dd>{selectedTask.origin==='derived'?'Derivada do acompanhamento':'Manual'}</dd>{selectedTask.derivationNotes&&<><dt>Referência do acompanhamento</dt><dd>{selectedTask.derivationNotes}</dd></>}{selectedTask.resolutionReason&&<><dt>Resolução</dt><dd>{selectedTask.resolutionReason}</dd></>}<dt>Observações</dt><dd style={{ whiteSpace: 'pre-wrap' }}>{selectedTask.notes || 'Não informadas'}</dd></dl>
+      <div className="row modal-actions"><button className="button secondary" onClick={() => { setTaskId(null); setGroupId(null); onEdit(selectedTask); }}>Editar tarefa</button><button className="button" disabled={busy||!!selectedTask.resolvedAt} onClick={() => void toggle(selectedTask)}>{selectedTask.done ? 'Reabrir tarefa' : 'Concluir tarefa'}</button></div>
       {!selectedTask.done && <div className="notice"><p className="muted">{selectedTask.reminderTime ? 'Ao abrir o calendário, confira e confirme o evento e o lembrete. Evite adicionar a mesma tarefa duas vezes.' : 'Edite a tarefa e informe um horário para criar um lembrete.'}</p><div className="row modal-actions"><button className="button" disabled={busy || !selectedTask.reminderTime} onClick={() => void calendar(selectedTask)}>{hasNativeCalendar() ? 'Adicionar ao calendário' : 'Baixar lembrete (.ics)'}</button>{hasNativeCalendar() && <button className="button secondary" disabled={busy || !selectedTask.reminderTime} onClick={() => void calendar(selectedTask, true)}>Baixar lembrete (.ics)</button>}</div></div>}
-      <button className="button secondary" onClick={() => setTaskId(null)}>Voltar às tarefas</button>
+      {selectedTask.history?.length? <details className="record-subsection"><summary>Histórico da tarefa</summary><ol>{selectedTask.history.map((event,index)=><li key={index}>{dateLabel(event.at)} · {event.action} · previsão {dateLabel(event.dueDate)} · {event.reason}</li>)}</ol></details>:null}<button className="button secondary" onClick={() => setTaskId(null)}>Voltar às tarefas</button>
     </AgendaDialog>}
   </div>;
 }

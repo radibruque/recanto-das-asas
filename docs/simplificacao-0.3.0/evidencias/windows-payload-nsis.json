@@ -1,0 +1,24 @@
+{
+  "installer": "/workspace/recanto-das-asas/aplicativo/release/windows/Recanto-das-Asas-0.3.0-x64-Setup.exe",
+  "headerVersion": "0.3.0",
+  "headerBytes": 42834,
+  "headerAppId": "br.com.recantodasasas.app",
+  "headerProfileName": "RecantoDasAsas",
+  "solidLzma": true,
+  "records": 77,
+  "embeddedPayloads": {
+    "Recanto das Asas.exe": {
+      "recordIndex": 5,
+      "bytes": 246302208,
+      "sha256": "6c2dfeb95bdcb7efeee2c25898fd12d50b18271308139094aef8fe47f635d2ef"
+    },
+    "app.asar": {
+      "recordIndex": 74,
+      "bytes": 28595000,
+      "sha256": "fd2fa134a11f0ebe2aba0f33c7543020e1f330e7d87d51f00448090f4c064129"
+    }
+  },
+  "embeddedAsarMatchesUnpacked": true,
+  "embeddedExeMatchesUnpacked": true,
+  "executedInstaller": false
+}

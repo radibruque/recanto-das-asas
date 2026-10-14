@@ -335,6 +335,7 @@ describe('clutch and egg chronology', () => {
   it('computes configured estimates from incubation and keeps numbering per clutch and scope', () => {
     const state = emptyState();
     state.settings.speciesEstimates[species] = 22;
+    Object.assign(state.settings.speciesCatalog.find(entry=>entry.name===species)!,{incubationDays:22,parameterSource:'Parâmetro fictício isolado do teste'});
     const { clutchId } = clutchFixture(state);
     command(state, 'createEgg', { clutchId, laidDate: '2024-01-11', incubationDate: '2024-01-12' });
     command(state, 'createEgg', { clutchId, laidDate: '2024-01-12', expectedHatchDate: '2024-02-10' });

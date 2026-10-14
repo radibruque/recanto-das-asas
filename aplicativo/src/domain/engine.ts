@@ -1,15 +1,34 @@
 import { z } from 'zod';
 import { breedingHandler } from './breeding';
 import { commercialHandler } from './commercial';
-import { documentsHandler } from './documents';
-import { id, required, text, today } from './shared';
+import { documentsHandler, sha256 } from './documents';
+import { speciesHandler } from './species';
+import { purchaseHandler } from './purchases';
+import { reconcileDerivedTasks } from './derived-tasks';
+import { ensure, id, required, text, today } from './shared';
 import type { State, Scope } from './types';
 import { APP_VERSION } from './types';
 import { previewImport } from '../lib/import';
+const canonicalMetadata=(value:unknown):string=>Array.isArray(value)?'['+value.map(canonicalMetadata).join(',')+']':value&&typeof value==='object'?'{'+Object.entries(value).filter(([,v])=>v!==undefined).sort(([a],[b])=>a.localeCompare(b)).map(([key,v])=>JSON.stringify(key)+':'+canonicalMetadata(v)).join(',')+'}':JSON.stringify(value)??'null';
 export function applyCommand(state:State,scope:Scope,action:string,data:unknown):string|undefined {
  if(!['real','demo'].includes(scope))throw new Error('Espaço inválido.');
+ if(action==='attachment.addBatch'){
+  const input=z.object({birdId:required,attachments:z.array(z.record(z.unknown())).min(1).max(20)}).parse(data);
+  if(input.attachments.reduce((sum,file)=>sum+(typeof file.size==='number'?file.size:0),0)>40*1024*1024)throw new Error('Envie até 40 MB de anexos por registro.');
+  if(input.attachments.filter(file=>file.role==='photo').length>1)throw new Error('Escolha somente uma foto principal da ave.');
+  const draft=structuredClone(state),bird=draft.birds.find(b=>b.id===input.birdId&&b.scope===scope);
+  if(!bird)throw new Error('Ave não encontrada neste espaço.');
+  for(const file of input.attachments){
+   if(file.role==='photo'&&!['image/jpeg','image/png'].includes(String(file.mime)))throw new Error('A foto principal deve ser JPG ou PNG.');
+   const recordId=applyCommand(draft,scope,'attachment.add',{...file,birdId:bird.id,contactId:null,saleId:null,previousId:null,sourceType:'bird',sourceId:bird.id});
+   if(!recordId)throw new Error('Não foi possível vincular o arquivo.');
+   if(file.role==='photo')bird.photoId=recordId;
+  }
+  Object.assign(state,draft);
+  return bird.id;
+ }
  if(action==='save.withAttachments'){
-  const batch=z.object({action:z.enum(['saveBird','bird.booklet','saveHealth','saveTask','saveMutation','contact.save','sale.save','bill.save','payment.record','product.save','closing.create']),data:z.record(z.unknown()),attachments:z.array(z.record(z.unknown())).max(20)}).parse(data);
+  const batch=z.object({action:z.enum(['saveBird','bird.booklet','saveHealth','saveTask','saveMutation','contact.save','sale.save','bill.save','payment.record','product.save','purchase.save','closing.create']),data:z.record(z.unknown()),attachments:z.array(z.record(z.unknown())).max(20)}).parse(data);
   const total=batch.attachments.reduce((sum,a)=>sum+(typeof a.size==='number'?a.size:0),0);
   if(total>40*1024*1024)throw new Error('Envie até 40 MB de anexos por cadastro.');
   if(batch.attachments.filter(a=>a.role==='photo').length>1)throw new Error('Escolha somente uma foto principal da ave.');
@@ -17,13 +36,26 @@ export function applyCommand(state:State,scope:Scope,action:string,data:unknown)
   const draft=structuredClone(state);
   const recordId=applyCommand(draft,scope,batch.action,batch.data);
   if(!recordId)throw new Error('O registro não retornou uma identificação para vincular os arquivos.');
-  const sourceType:Record<string,string>={saveBird:'bird','bird.booklet':'booklet',saveHealth:'health',saveTask:'task',saveMutation:'mutation','contact.save':'contact','sale.save':'sale','bill.save':'bill','payment.record':'payment','product.save':'product','closing.create':'closing'};
+  const purchaseOperation=batch.action==='purchase.save'?draft.purchases.find(p=>p.id===recordId&&p.scope===scope)?.operations.find(op=>op.key===batch.data.idempotencyKey):undefined;
+  const attachmentFingerprint=sha256(new TextEncoder().encode(canonicalMetadata(batch.attachments.map(({base64:_,...metadata})=>metadata))));
+  if(purchaseOperation){
+   const oldOperation=state.purchases.find(p=>p.id===recordId&&p.scope===scope)?.operations.find(op=>op.key===purchaseOperation.key);
+   if(oldOperation){
+    ensure(oldOperation.attachmentFingerprint===attachmentFingerprint||(batch.attachments.length===0&&!oldOperation.attachmentFingerprint),'Esta compra já foi registrada com outro lote de anexos. Abra o registro para anexar arquivos adicionais.');
+    const files=oldOperation.attachmentIds??[];
+    ensure(files.length===batch.attachments.length&&files.every((fileId,index)=>state.attachments.find(a=>a.id===fileId&&a.scope===scope)?.base64===batch.attachments[index].base64),'O conteúdo dos anexos difere do lote já registrado.');
+    Object.assign(state,draft);return recordId;
+   }
+   purchaseOperation.attachmentFingerprint=attachmentFingerprint;purchaseOperation.attachmentIds=[];
+  }
+  const sourceType:Record<string,string>={saveBird:'bird','bird.booklet':'booklet',saveHealth:'health',saveTask:'task',saveMutation:'mutation','contact.save':'contact','sale.save':'sale','bill.save':'bill','payment.record':'payment','product.save':'product','purchase.save':'purchase','closing.create':'closing'};
   let birdId:string|null=null,contactId:string|null=null,saleId:string|null=null;
   if(batch.action==='saveBird'||batch.action==='bird.booklet')birdId=recordId;
   if(batch.action==='saveHealth')birdId=draft.health.find(r=>r.id===recordId&&r.scope===scope)?.birdId??null;
   if(batch.action==='saveTask')birdId=draft.tasks.find(r=>r.id===recordId&&r.scope===scope)?.birdId??null;
   if(batch.action==='saveMutation')birdId=draft.mutations.find(r=>r.id===recordId&&r.scope===scope)?.birdId??null;
   if(batch.action==='contact.save')contactId=recordId;
+  if(batch.action==='purchase.save')contactId=draft.purchases.find(p=>p.id===recordId&&p.scope===scope)?.supplierId??null;
   if(batch.action==='sale.save')saleId=recordId;
   let billId=batch.action==='bill.save'?recordId:batch.action==='payment.record'?draft.payments.find(r=>r.id===recordId&&r.scope===scope)?.billId:null;
   if(billId){const bill=draft.bills.find(b=>b.id===billId&&b.scope===scope);contactId=bill?.contactId??null;saleId=bill?.saleId??null;}
@@ -32,6 +64,7 @@ export function applyCommand(state:State,scope:Scope,action:string,data:unknown)
    if(file.role==='photo'&&(!birdId||!['image/png','image/jpeg'].includes(String(file.mime))))throw new Error('A foto principal deve ser JPG ou PNG e pertencer a uma ave.');
    const added=applyCommand(draft,scope,'attachment.add',{...file,birdId,contactId,saleId,previousId:null,sourceType:sourceType[batch.action],sourceId:recordId});
    if(!added)throw new Error('Não foi possível vincular o arquivo.');
+   purchaseOperation?.attachmentIds?.push(added);
    if(batch.action==='saveHealth'){const health=draft.health.find(r=>r.id===recordId&&r.scope===scope)!;health.attachmentIds.push(added);}
    if(file.role==='photo'){const bird=draft.birds.find(b=>b.id===birdId&&b.scope===scope)!;bird.photoId=added;}
    if(batch.action==='saveMutation'){const mutation=draft.mutations.find(m=>m.id===recordId&&m.scope===scope);if(mutation&&!mutation.attachmentId)mutation.attachmentId=added;}
@@ -59,7 +92,11 @@ export function applyCommand(state:State,scope:Scope,action:string,data:unknown)
   for(const row of rows){const v=row.values;if(!v.pai&&!v.mae)continue;const bird=state.birds.find(b=>b.id===mappings.get(v.identificacao))!;breedingHandler(state,scope,'saveBird',{...bird,fatherId:v.pai?mappings.get(v.pai):null,motherId:v.mae?mappings.get(v.mae):null,mutationSource:'Planilha importada pelo proprietário'});}
   recordId='importacao-'+rows.length;
  }else if(action==='settings.save'){
-  const values=z.object({name:required,phone:text,email:text,address:text,backupDays:z.number().int().min(1).max(365),categories:z.array(required).min(1).max(100),speciesEstimates:z.record(z.number().int().min(1).max(120))}).parse(data);Object.assign(state.settings,values);recordId='settings';
+  const values=z.object({name:required,phone:text,email:text,address:text,backupDays:z.number().int().min(1).max(365),categories:z.array(required).min(1).max(100),speciesEstimates:z.record(z.number().int().min(1).max(365)).optional(),derivedTaskRules:z.object({hatch:z.boolean(),eggCheck:z.boolean(),chickFollowup:z.boolean()}).optional()}).parse(data);
+  if(values.speciesEstimates&&(Object.keys(values.speciesEstimates).length!==Object.keys(state.settings.speciesEstimates).length||Object.entries(values.speciesEstimates).some(([name,days])=>state.settings.speciesEstimates[name]!==days)))throw new Error('Edite os parâmetros pelo catálogo de espécies e informe a fonte.');
+  Object.assign(state.settings,Object.fromEntries(Object.entries(values).filter(([,value])=>value!==undefined)));recordId='settings';
+ }else if(action==='task.recalculate'){
+  recordId='agenda';
  }else if(action==='backup.record'){
   const d=z.object({at:required,sha256:z.string().regex(/^[a-f0-9]{64}$/),size:z.number().int().positive()}).parse(data);state.settings.lastBackupAt=d.at;state.settings.backupHistory.push({...d,verified:true});state.settings.backupHistory=state.settings.backupHistory.slice(-100);recordId=d.sha256;
  }else if(action==='support.save'){
@@ -68,9 +105,11 @@ export function applyCommand(state:State,scope:Scope,action:string,data:unknown)
   const record={...d,id:old?.id??id(),number:old?.number??'RA-'+(state.support.length+1).toString().padStart(5,'0'),createdAt:old?.createdAt??new Date().toISOString(),version:old?.version??APP_VERSION,platform:typeof navigator==='undefined'?'Teste Node.js':navigator.userAgent};
   if(old)state.support[state.support.indexOf(old)]=record;else state.support.push(record);recordId=record.id;
  }else{
-  const result=breedingHandler(state,scope,action,data)??commercialHandler(state,scope,action,data)??documentsHandler(state,scope,action,data);
+  const result=breedingHandler(state,scope,action,data)??purchaseHandler(state,scope,action,data)??commercialHandler(state,scope,action,data)??speciesHandler(state,scope,action,data)??documentsHandler(state,scope,action,data);
   if(!result)throw new Error('Operação não reconhecida.');recordId=result.id;
  }
+ if(['settings.save','species.save'].includes(action)){reconcileDerivedTasks(state,'real');reconcileDerivedTasks(state,'demo');}
+ else if(['saveBird','createPair','closePair','createClutch','closeClutch','createEgg','saveEgg','eggOutcome','hatchEgg','task.recalculate','saveTask','toggleTask'].includes(action))reconcileDerivedTasks(state,scope);
  const reason=data&&typeof data==='object'&&'reason' in data&&typeof data.reason==='string'?data.reason:'';
  state.audit.push({id:id(),scope,at:new Date().toISOString(),author:'Proprietário',action,recordId:recordId??'',reason});
  return recordId;

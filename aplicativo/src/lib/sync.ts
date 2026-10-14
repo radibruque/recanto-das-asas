@@ -52,6 +52,18 @@ export class SyncTransportError extends Error {
   }
 }
 
+/** Short, local status text: never display server payloads or credentials in the header. */
+export function syncFailureLabel(error: unknown): string {
+  if (error instanceof SyncHttpError) {
+    if (error.code === 'SERVER_UPDATE_REQUIRED') return 'Atualize o servidor · fila preservada';
+    if (error.code === 'CLIENT_UPDATE_REQUIRED') return 'Atualize o aplicativo · fila preservada';
+    if (error.status === 401) return 'Chave de acesso não aceita · fila preservada';
+  }
+  return 'Sem conexão · fila preservada';
+}
+
+// Database compatibility is independent of the encrypted-envelope protocol (version 1).
+export const SYNC_CLIENT_SCHEMA_VERSION = 3;
 const MAX_BYTES = 64 * 1024 * 1024;
 const workspacePattern = /^[A-Za-z0-9][A-Za-z0-9_-]{2,63}$/;
 const operationPattern = /^[A-Za-z0-9][A-Za-z0-9_-]{15,127}$/;
@@ -89,12 +101,13 @@ export type SyncClientOptions = {
   timeoutMs?: number;
 };
 
-/** One request per call. Retry the exact persisted operationId and envelope after failure. */
+/** The first write probes schema support. Retry the exact persisted operationId and envelope. */
 export class SyncClient {
   private readonly baseUrl: string;
   private readonly token: string;
   readonly workspaceId: string;
   private readonly timeoutMs: number;
+  private writeCompatibility: Promise<void> | null = null;
 
   constructor(options: SyncClientOptions) {
     let url: URL;
@@ -123,8 +136,11 @@ export class SyncClient {
     if (!revision(operation.expectedRevision) || !operationPattern.test(operation.operationId) || !isSyncEnvelope(operation.envelope)) {
       throw new Error('Operação inválida. Preserve a identificação, a revisão e o conteúdo criptografado da fila.');
     }
-    const body = JSON.stringify(operation);
+    // An older server rejects this extra field rather than accepting an incompatible snapshot.
+    // Keep the queued envelope/operationId/expectedRevision unchanged for idempotent retries.
+    const body = JSON.stringify({ ...operation, requiredClientSchemaVersion: SYNC_CLIENT_SCHEMA_VERSION });
     if (new TextEncoder().encode(body).length > MAX_BYTES) throw new SyncHttpError(413, 'BODY_TOO_LARGE', 'A sincronização aceita até 64 MiB por envio.');
+    await this.ensureWriteCompatibility();
     const data = await this.request('PUT', body);
     if (!isRecord(data) || data.workspaceId !== this.workspaceId || !revision(data.revision) || !revision(data.currentRevision)
       || data.revision < 1 || data.currentRevision < data.revision || typeof data.duplicate !== 'boolean'
@@ -134,19 +150,43 @@ export class SyncClient {
     return data as SyncUploadResult;
   }
 
-  private async request(method: 'GET' | 'PUT', body?: string): Promise<unknown> {
+  private async ensureWriteCompatibility(): Promise<void> {
+    this.writeCompatibility ??= this.request('HEAD').then(() => undefined).catch(error => {
+      this.writeCompatibility = null;
+      throw error;
+    });
+    await this.writeCompatibility;
+  }
+
+  private async request(method: 'GET' | 'PUT' | 'HEAD', body?: string): Promise<unknown> {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), this.timeoutMs);
     try {
       const response = await fetch(`${this.baseUrl}/v1/workspace/${encodeURIComponent(this.workspaceId)}`, {
         method,
-        headers: { Authorization: `Bearer ${this.token}`, ...(body === undefined ? {} : { 'Content-Type': 'application/json' }) },
+        headers: { Authorization: `Bearer ${this.token}`, 'X-Recanto-Schema-Version': String(SYNC_CLIENT_SCHEMA_VERSION), ...(body === undefined ? {} : { 'Content-Type': 'application/json' }) },
         body,
         signal: controller.signal,
         credentials: 'omit',
         redirect: 'error',
         cache: 'no-store',
       });
+      if (method === 'HEAD') {
+        // HEAD negotiates compatibility without downloading the encrypted attachments.
+        const code = response.headers.get('X-Recanto-Error');
+        if (response.status === 401) throw new SyncHttpError(401, code ?? 'UNAUTHORIZED', 'O token privado não foi aceito. Verifique as configurações locais.');
+        if (response.status === 426) throw new SyncHttpError(426, code ?? 'CLIENT_UPDATE_REQUIRED', 'Esta base exige uma versão mais recente do aplicativo. Atualize este aparelho; as alterações locais e a fila foram preservadas.');
+        if (response.headers.get('X-Recanto-Schema-Gate') !== '1' || response.status === 404 || response.status === 405) {
+          throw new SyncHttpError(426, 'SERVER_UPDATE_REQUIRED', 'Atualize o servidor privado do Windows antes de sincronizar esta versão. Seus dados e a fila local foram preservados.');
+        }
+        if (!response.ok) throw new SyncHttpError(response.status, code ?? 'REQUEST_FAILED', 'O servidor não confirmou a compatibilidade. Preserve a fila e verifique a configuração.');
+        const required = response.headers.get('X-Recanto-Required-Schema');
+        if (!required || !/^[1-9]\d*$/.test(required) || !Number.isSafeInteger(Number(required))) {
+          throw new SyncHttpError(502, 'INVALID_RESPONSE', 'O servidor retornou uma confirmação de compatibilidade inválida. A fila foi preservada.');
+        }
+        if (Number(required) > SYNC_CLIENT_SCHEMA_VERSION) throw new SyncHttpError(426, 'CLIENT_UPDATE_REQUIRED', 'Esta base exige uma versão mais recente do aplicativo. Atualize este aparelho; a fila foi preservada.');
+        return undefined;
+      }
       if (Number(response.headers.get('Content-Length') ?? 0) > MAX_BYTES + 4096) {
         await response.body?.cancel();
         throw new SyncHttpError(502, 'INVALID_RESPONSE', 'A resposta do servidor ultrapassou o limite seguro.');
@@ -179,6 +219,8 @@ export class SyncClient {
         const code = isRecord(data) && typeof data.error === 'string' ? data.error : 'REQUEST_FAILED';
         const message = response.status === 401 ? 'O token privado não foi aceito. Verifique as configurações locais.'
           : code === 'OPERATION_ID_REUSED' ? 'Esta identificação de operação já foi usada com outro conteúdo. A fila não foi alterada.'
+          : code === 'CLIENT_UPDATE_REQUIRED' ? 'Esta base exige uma versão mais recente do aplicativo. Atualize este aparelho; as alterações locais e a fila foram preservadas.'
+          : code === 'SCHEMA_DOWNGRADE_FORBIDDEN' ? 'A versão enviada não pode substituir esta base atualizada. Preserve a fila e atualize o aplicativo.'
           : response.status === 413 ? 'O arquivo criptografado ultrapassou o limite de 64 MiB do servidor.'
           : 'O servidor não confirmou a sincronização. Preserve a alteração local e tente novamente após verificar a configuração.';
         throw new SyncHttpError(response.status, code, message);

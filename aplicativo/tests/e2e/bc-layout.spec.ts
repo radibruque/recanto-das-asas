@@ -1,6 +1,6 @@
 import { test, expect, type Page, type TestInfo } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
-import { createVisualVault, navigateVisual, revealVisualContextControl, visualGeometry } from './visual-helpers';
+import { revealFormField, createVisualVault, navigateVisual, revealVisualContextControl, visualGeometry } from './visual-helpers';
 
 const birdName = 'Ave de teste visual';
 const birdIdentification = 'VISUAL-BC-FOTO';
@@ -31,7 +31,7 @@ async function registerVisualBirds(page: Page) {
     await form.getByLabel('Espécie *', { exact: true }).fill('Calopsita');
     await form.getByRole('combobox', { name: 'Situação', exact: true }).selectOption('disponível');
     if (withPhoto) {
-      await form.getByLabel('Foto principal da ave', { exact: true }).setInputFiles({ name: 'foto-qa.png', mimeType: 'image/png', buffer: Buffer.from(photo, 'base64') });
+      await (await revealFormField(form, 'Foto principal da ave')).setInputFiles({ name: 'foto-qa.png', mimeType: 'image/png', buffer: Buffer.from(photo, 'base64') });
       await expect(form.getByText('foto-qa.png', { exact: true })).toBeVisible();
     }
     await form.getByRole('button', { name: 'Salvar', exact: true }).click();
@@ -100,7 +100,7 @@ for (const layout of [
     await form.getByLabel('Título *', { exact: true }).fill(healthTitle);
     await form.getByLabel('Peso (gramas)', { exact: true }).fill('91.5');
     await form.getByLabel('Observações', { exact: true }).fill(healthNotes);
-    await form.getByLabel('Arquivos para anexar', { exact: true }).setInputFiles({ name: 'laudo-qa.txt', mimeType: 'text/plain', buffer: documentBytes });
+    await (await revealFormField(form, 'Arquivos para anexar')).setInputFiles({ name: 'laudo-qa.txt', mimeType: 'text/plain', buffer: documentBytes });
     await expect(form.getByText('laudo-qa.txt', { exact: true })).toBeVisible();
     await form.getByRole('button', { name: 'Salvar', exact: true }).click();
     await expect(form).not.toBeVisible();

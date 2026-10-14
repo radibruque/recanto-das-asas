@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type InvalidEvent } from 'react';
 import type { Bird, ModuleProps } from '../domain/types';
 import { birdLabel, moneyInput, parseMoney, speciesOptions, today } from '../domain/shared';
 import { birdStatusOptions } from '../domain/breeding';
@@ -34,29 +34,31 @@ export default function BirdRegistrationForm({ bird: b, state, scope, command, o
     };
     return command('save.withAttachments', { action: 'saveBird', data, attachments: pending });
   }
+  function revealInvalid(event: InvalidEvent<HTMLDivElement>) {
+    let section = event.target instanceof HTMLElement ? event.target.closest('details') : null;
+    while (section) { section.open = true; section = section.parentElement?.closest('details') ?? null; }
+  }
+  const knownSpecies = [...new Set([...speciesOptions, ...state.settings.speciesCatalog.filter(species => species.active).flatMap(species => [species.name, ...species.aliases]), ...birds.map(bird => bird.species)])];
   return <RecordDialog title={b ? 'Editar ave' : 'Cadastrar ave'} onClose={onClose} onSave={save} preparing={preparing}>
-    <fieldset className="record-form-section"><legend>Identificação</legend><div className="grid form-grid">
+    <div className="bird-registration-sections" onInvalidCapture={revealInvalid}>
+    <fieldset className="record-form-section bird-registration-basics"><legend>Dados principais</legend><div className="grid form-grid">
       <Field label="Identificação ou anilha *"><input name="identification" defaultValue={b?.identification} required maxLength={150}/></Field>
+      <Field label="Espécie *"><input list="species-options" name="species" defaultValue={b?.species} required maxLength={150}/><datalist id="species-options">{knownSpecies.map(s => <option key={s} value={s}/>)}</datalist></Field>
+      <Field label="Sexo *"><select name="sex" defaultValue={b?.sex ?? 'indeterminado'}><option value="indeterminado">Indeterminado</option><option value="macho">Macho</option><option value="fêmea">Fêmea</option></select></Field>
+      <Field label="Origem *"><input name="origin" defaultValue={b?.origin ?? 'Não informada'} required/></Field>
+      <Field label="Situação"><select name="status" defaultValue={b?.status ?? 'manejo'}>{birdStatusOptions.map(s => <option key={s} value={s}>{s}</option>)}</select></Field>
       <Field label="Nome"><input name="name" defaultValue={b?.name}/></Field>
-      <Field label="Espécie *"><input list="species-options" name="species" defaultValue={b?.species} required maxLength={150}/><datalist id="species-options">{speciesOptions.map(s => <option key={s} value={s}/>)}</datalist></Field>
-      <Field label="Nome científico"><input name="scientificName" defaultValue={b?.scientificName}/></Field>
-      <Field label="Microchip"><input name="microchip" defaultValue={b?.microchip}/></Field>
-      <Field label="Código individual para a caderneta"><input name="individualCode" defaultValue={b?.booklet?.individualCode}/></Field>
-      <Field label="Anilha para a caderneta"><input name="ring" defaultValue={b?.booklet?.ring}/></Field>
-    </div></fieldset>
-    <fieldset className="record-form-section"><legend>Foto e documentos da ave</legend>
+    </div><p className="muted">Use a identificação real ou provisória que você conhece. Sexo desconhecido é permitido; complete os detalhes da ficha depois.</p></fieldset>
+    <details className="record-form-section"><summary>Foto e documentos da ave (opcional)</summary>
       {photo && <div className="bird-registration-photo"><p>Foto atual</p><AttachmentThumbnail attachment={photo} maxHeight={180}/></div>}
       <AttachmentPicker value={pending} onChange={setPending} onBusyChange={setPreparing} allowPhoto category="Cadastro de ave"/>
-      <p className="muted">Envie fotos, comprovantes de origem e laudos aqui. Os arquivos serão guardados junto ao cadastro e aparecerão em Documentos. A foto marcada como principal será usada na ficha e na caderneta.</p>
-    </fieldset>
-    <fieldset className="record-form-section"><legend>Sexagem</legend><div className="grid form-grid">
-      <Field label="Sexo *"><select name="sex" defaultValue={b?.sex ?? 'indeterminado'}><option value="indeterminado">Indeterminado</option><option value="macho">Macho</option><option value="fêmea">Fêmea</option></select></Field>
+      <p className="muted">Envie fotos, comprovantes de origem e laudos aqui. A foto marcada como principal será usada na ficha e na caderneta.</p>
+    </details>
+    <details className="record-form-section"><summary>Genética, sexagem e fontes</summary><div className="grid form-grid">
       <Field label="Método da sexagem"><input name="sexMethod" defaultValue={b?.sexMethod}/></Field>
       <Field label="Fonte ou profissional"><input name="sexSource" defaultValue={b?.sexSource}/></Field>
       <Field label="Data do registro de sexagem">{dateInput('sexDate', today(), true)}</Field>
       <Field label="Observação da sexagem"><input name="sexNotes"/></Field>
-    </div><p className="muted">Sexo desconhecido é permitido. Correções preservam o histórico. Anexe o laudo diretamente em Foto e documentos da ave.</p></fieldset>
-    <fieldset className="record-form-section"><legend>Mutação e portadores</legend><div className="grid form-grid">
       <Field label="Mutação declarada *"><input name="mutation" defaultValue={b?.mutation ?? 'Não informada'} required/></Field>
       <Field label="Condição da informação"><select name="certainty" defaultValue={b?.certainty ?? 'informada'}><option value="observada">Observada</option><option value="informada">Informada</option><option value="confirmada">Confirmada</option></select></Field>
       <Field label="Portadores declarados"><input name="carriers" defaultValue={b?.carriers}/></Field>
@@ -64,21 +66,26 @@ export default function BirdRegistrationForm({ bird: b, state, scope, command, o
       <Field label="Data do registro">{dateInput('mutationDate', today(), true)}</Field>
       <Field label="Observações da informação"><input name="mutationNotes"/></Field>
       <Field label="Descrição visual"><textarea name="visualDescription" defaultValue={b?.visualDescription}/></Field>
-    </div></fieldset>
-    <fieldset className="record-form-section"><legend>Nascimento e parentesco</legend><div className="grid form-grid">
+    </div><p className="muted">Correções preservam o histórico. As informações de mutação e portadores são declaradas, sem inferência automática. Anexe laudos diretamente em Foto e documentos da ave.</p></details>
+    <details className="record-form-section"><summary>Nascimento e parentesco</summary><div className="grid form-grid">
       <Field label="Nascimento">{dateInput('birthDate', b?.birthDate ?? '')}</Field>
       <label className="field check-field"><span>Nascimento estimado</span><input name="birthEstimated" type="checkbox" defaultChecked={b?.birthEstimated}/></label>
       <Field label="Pai"><select name="fatherId" defaultValue={b?.fatherId ?? ''}>{parentOptions('macho')}</select></Field>
       <Field label="Mãe"><select name="motherId" defaultValue={b?.motherId ?? ''}>{parentOptions('fêmea')}</select></Field>
-    </div></fieldset>
-    <fieldset className="record-form-section"><legend>Procedência e aquisição</legend><div className="grid form-grid">
-      <Field label="Origem *"><input name="origin" defaultValue={b?.origin ?? 'Não informada'} required/></Field>
+    </div></details>
+    <details className="record-form-section"><summary>Procedência e aquisição</summary><div className="grid form-grid">
       <Field label="Criador de origem"><input name="breeder" defaultValue={b?.breeder}/></Field>
       <Field label="Fornecedor"><select name="supplierId" defaultValue={b?.supplierId ?? ''}><option value="">Não informado</option>{state.contacts.filter(c => c.scope === scope && c.kind === 'fornecedor').map(c => <option key={c.id} value={c.id}>{c.name}</option>)}</select></Field>
       <Field label="Data de aquisição">{dateInput('acquiredDate', b?.acquiredDate ?? '')}</Field>
       <Field label="Forma de aquisição"><input name="acquisitionMethod" defaultValue={b?.acquisitionMethod}/></Field>
       <Field label="Valor da aquisição (R$)"><input name="acquisitionValue" inputMode="decimal" defaultValue={moneyInput(b?.acquisitionCents ?? 0)}/></Field>
-    </div></fieldset>
+    </div></details>
+    <details className="record-form-section"><summary>Identificação complementar e caderneta</summary><div className="grid form-grid">
+      <Field label="Nome científico"><input name="scientificName" defaultValue={b?.scientificName}/></Field>
+      <Field label="Microchip"><input name="microchip" defaultValue={b?.microchip}/></Field>
+      <Field label="Código individual para a caderneta"><input name="individualCode" defaultValue={b?.booklet?.individualCode}/></Field>
+      <Field label="Anilha para a caderneta"><input name="ring" defaultValue={b?.booklet?.ring}/></Field>
+    </div></details>
     <details className="record-form-section"><summary>Desenvolvimento e alimentação para a caderneta</summary><div className="grid form-grid">
       <Field label="Referência da ninhada"><input name="clutchReference" defaultValue={b?.booklet?.clutchReference}/></Field>
       <Field label="Data do anilhamento">{dateInput('ringingDate', b?.booklet?.ringingDate ?? '')}</Field>
@@ -88,11 +95,11 @@ export default function BirdRegistrationForm({ bird: b, state, scope, command, o
       <Field label="Tipo de criação"><select name="rearingType" defaultValue={b?.booklet?.rearingType ?? 'desconhecida'}><option value="desconhecida">Não informado</option><option value="pais">Pelos pais</option><option value="manual">Manual</option><option value="mista">Mista</option></select></Field>
       <Field label="Alimentação atual"><textarea name="currentDiet" defaultValue={b?.booklet?.currentDiet}/></Field>
     </div></details>
-    <fieldset className="record-form-section"><legend>Manejo e situação</legend><div className="grid form-grid">
+    <details className="record-form-section"><summary>Recinto, responsável e observações</summary><div className="grid form-grid">
       <Field label="Recinto"><input name="enclosure" defaultValue={b?.enclosure}/></Field>
       <Field label="Responsável atual"><input name="responsible" defaultValue={b?.responsible}/></Field>
-      <Field label="Situação"><select name="status" defaultValue={b?.status ?? 'manejo'}>{birdStatusOptions.map(s => <option key={s} value={s}>{s}</option>)}</select></Field>
       <Field label="Observações"><textarea name="notes" defaultValue={b?.notes}/></Field>
-    </div></fieldset>
+    </div></details>
+    </div>
   </RecordDialog>;
 }

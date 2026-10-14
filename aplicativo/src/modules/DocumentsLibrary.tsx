@@ -1,3 +1,4 @@
+import { recallUiRoute, rememberUiRoute, useUiState, writeUiContext } from '../lib/ui-context';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Attachment, ModuleProps } from '../domain/types';
 import { attachmentBirdIds, attachmentSourceLabel, attachmentStatus, filterAttachments, groupAttachments, type AttachmentFilters, type AttachmentGrouping } from '../domain/documents';
@@ -8,12 +9,19 @@ const formatNames:Record<string,string>={'application/pdf':'PDF','image/png':'Fo
 const metadata=(attachment:Attachment)=>({title:attachment.title,category:attachment.category,date:attachment.date,issuer:attachment.issuer,reference:attachment.reference,validUntil:attachment.validUntil,notes:attachment.notes,shareWithCustomer:attachment.shareWithCustomer});
 type Metadata=ReturnType<typeof metadata>;
 const emptyMetadata:Metadata={title:'',category:'',date:'',issuer:'',reference:'',validUntil:'',notes:'',shareWithCustomer:false};
+type LibraryRoute={filters:AttachmentFilters;groupBy:AttachmentGrouping;selectedGroup:string;selectedId:string;linkedBird:string;linkedSale:string};
 
-export default function DocumentsLibrary({state,scope,command,notify,search,target}:ModuleProps) {
-  const [filters,setFilters]=useState<AttachmentFilters>({versions:'current'}),[groupBy,setGroupBy]=useState<AttachmentGrouping>('bird'),[selectedGroup,setSelectedGroup]=useState(''),[selectedId,setSelectedId]=useState('');
+export default function DocumentsLibrary({state,scope,command,notify,search,target,uiContext}:ModuleProps) {
+  const hydrated=useRef(false);
+  if(!hydrated.current){
+    hydrated.current=true;
+    const remembered=recallUiRoute<LibraryRoute>(uiContext,'document-library-routes',target?.request);
+    if(remembered)for(const [key,value] of Object.entries(remembered))writeUiContext(uiContext,`documents:${key}`,value);
+  }
+  const [filters,setFilters]=useUiState<AttachmentFilters>(uiContext,'documents:filters',{versions:'current'}),[groupBy,setGroupBy]=useUiState<AttachmentGrouping>(uiContext,'documents:groupBy','bird'),[selectedGroup,setSelectedGroup]=useUiState(uiContext,'documents:selectedGroup',''),[selectedId,setSelectedId]=useUiState(uiContext,'documents:selectedId','');
   const [editing,setEditing]=useState<Metadata>(emptyMetadata),[busy,setBusy]=useState(false),[error,setError]=useState('');
   const dialog=useRef<HTMLDialogElement>(null);
-  const [linkedBird,setLinkedBird]=useState(''),[linkedSale,setLinkedSale]=useState('');
+  const [linkedBird,setLinkedBird]=useUiState(uiContext,'documents:linkedBird',''),[linkedSale,setLinkedSale]=useUiState(uiContext,'documents:linkedSale','');
   const attachments=useMemo(()=>filterAttachments(state,scope,{...filters,text:search}).filter(file=>(!linkedBird||attachmentBirdIds(state,scope,file).includes(linkedBird))&&(!linkedSale||file.saleId===linkedSale)),[state,scope,filters,search,linkedBird,linkedSale]);
   const groups=useMemo(()=>groupAttachments(state,scope,attachments,groupBy),[state,scope,attachments,groupBy]);
   const activeGroup=groups.find(group=>group.key===selectedGroup);
@@ -24,13 +32,20 @@ export default function DocumentsLibrary({state,scope,command,notify,search,targ
   const linkedBirds=state.birds.filter(bird=>bird.scope===scope&&linkedBirdIds.has(bird.id));
   const species=[...new Set(linkedBirds.map(bird=>bird.species))].sort((a,b)=>a.localeCompare(b,'pt-BR'));
   const statuses=[...new Set(linkedBirds.map(bird=>bird.status))].sort((a,b)=>a.localeCompare(b,'pt-BR'));
-  useEffect(()=>{setSelectedGroup('');setSelectedId('');setFilters({versions:'current'});setError('');},[scope]);
+
   useEffect(()=>{
     if(selectedId&&selected){setEditing(metadata(selected));setError('');if(!dialog.current?.open)dialog.current?.showModal();}
     else if(dialog.current?.open)dialog.current.close();
     // Keep an in-progress edit intact while another part of the base is updated.
   },[selectedId,scope]);
-  useEffect(()=>{if(target?.attachmentId){setSelectedId(target.attachmentId);}if(target?.birdId)setLinkedBird(target.birdId);if(target?.saleId)setLinkedSale(target.saleId);},[target?.request]);
+  useEffect(()=>()=>{rememberUiRoute(uiContext,'document-library-routes',target?.request,{filters,groupBy,selectedGroup,selectedId,linkedBird,linkedSale});},[uiContext,target?.request,filters,groupBy,selectedGroup,selectedId,linkedBird,linkedSale]);
+  useEffect(()=>{
+    const remembered=recallUiRoute<LibraryRoute>(uiContext,'document-library-routes',target?.request);
+    if(remembered){setFilters(remembered.filters);setGroupBy(remembered.groupBy);setSelectedGroup(remembered.selectedGroup);setSelectedId(remembered.selectedId);setLinkedBird(remembered.linkedBird);setLinkedSale(remembered.linkedSale);return;}
+    const original=target?.issuedDocumentId?state.documents.find(document=>document.id===target.issuedDocumentId&&document.scope===scope):undefined;
+    if(original||target?.birdId||target?.saleId){setLinkedBird(original?original.birdId||'':target?.birdId||'');setLinkedSale(original?original.saleId||'':target?.saleId||'');setSelectedGroup('');setSelectedId('');}
+    if(target?.attachmentId)setSelectedId(target.attachmentId);
+  },[target?.request]);
   function filter<K extends keyof AttachmentFilters>(key:K,value:AttachmentFilters[K]) {setFilters(current=>({...current,[key]:value}));setSelectedGroup('');}
   async function save() {
     if(!selected)return;

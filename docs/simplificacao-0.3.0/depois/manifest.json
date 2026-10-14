@@ -1,0 +1,313 @@
+{
+  "base": "72cbd1b",
+  "version": "0.3.0",
+  "fictitious": true,
+  "isolatedContexts": true,
+  "externalDataSent": false,
+  "platforms": [
+    {
+      "theme": "light",
+      "platform": "desktop-web",
+      "screens": [
+        {
+          "name": "ficha",
+          "path": "capturas/desktop-web-light-ficha.png",
+          "sha256": "fcec818bbe4c4d6a8ba5c227fcc080cb6cb932d834da6254a610fc0d6305c14c",
+          "geometry": {
+            "viewport": {
+              "width": 1440,
+              "height": 1000
+            },
+            "platform": "web",
+            "layout": "desktop",
+            "theme": "light",
+            "horizontalOverflow": false,
+            "title": "Aves",
+            "bottomBarVisible": false
+          }
+        },
+        {
+          "name": "aves",
+          "path": "capturas/desktop-web-light-aves.png",
+          "sha256": "305e0ab2a7103973637f5f5ada5b5c2ac4399846d8f91ff2cb6493ea819ec429",
+          "geometry": {
+            "viewport": {
+              "width": 1440,
+              "height": 1000
+            },
+            "platform": "web",
+            "layout": "desktop",
+            "theme": "light",
+            "horizontalOverflow": false,
+            "title": "Aves",
+            "bottomBarVisible": false
+          }
+        },
+        {
+          "name": "hoje",
+          "path": "capturas/desktop-web-light-hoje.png",
+          "sha256": "1b1e6f0866df8f415c1e2406cec20c404eaee9d8cf68314d7d9da1b6d9924800",
+          "geometry": {
+            "viewport": {
+              "width": 1440,
+              "height": 1000
+            },
+            "platform": "web",
+            "layout": "desktop",
+            "theme": "light",
+            "horizontalOverflow": false,
+            "title": "Hoje",
+            "bottomBarVisible": false
+          }
+        },
+        {
+          "name": "financeiro",
+          "path": "capturas/desktop-web-light-financeiro.png",
+          "sha256": "cdfda2849491121bb6c02f804c079824514d85370945f62fb4f4f16bbf55f720",
+          "geometry": {
+            "viewport": {
+              "width": 1440,
+              "height": 1000
+            },
+            "platform": "web",
+            "layout": "desktop",
+            "theme": "light",
+            "horizontalOverflow": false,
+            "title": "Financeiro",
+            "bottomBarVisible": false
+          }
+        }
+      ],
+      "errors": []
+    },
+    {
+      "theme": "light",
+      "platform": "android-simulated",
+      "screens": [
+        {
+          "name": "ficha",
+          "path": "capturas/android-simulated-light-ficha.png",
+          "sha256": "8febd5eadf2083ddd921fd48843a7bbac1fb0a8c2fb70538396727c357326fe3",
+          "geometry": {
+            "viewport": {
+              "width": 390,
+              "height": 844
+            },
+            "platform": "android",
+            "layout": "android",
+            "theme": "light",
+            "horizontalOverflow": false,
+            "title": "Aves",
+            "bottomBarVisible": true
+          }
+        },
+        {
+          "name": "aves",
+          "path": "capturas/android-simulated-light-aves.png",
+          "sha256": "97e27001a91b6da78d7511b98f82841f17b1ac3e5bc24319657f43d7b66dc279",
+          "geometry": {
+            "viewport": {
+              "width": 390,
+              "height": 844
+            },
+            "platform": "android",
+            "layout": "android",
+            "theme": "light",
+            "horizontalOverflow": false,
+            "title": "Aves",
+            "bottomBarVisible": true
+          }
+        },
+        {
+          "name": "hoje",
+          "path": "capturas/android-simulated-light-hoje.png",
+          "sha256": "6dc381b12d04f0ee5447dbc718ee5b23524f2e4adb902be4c8d32e220dfa88a5",
+          "geometry": {
+            "viewport": {
+              "width": 390,
+              "height": 844
+            },
+            "platform": "android",
+            "layout": "android",
+            "theme": "light",
+            "horizontalOverflow": false,
+            "title": "Hoje",
+            "bottomBarVisible": true
+          }
+        },
+        {
+          "name": "financeiro",
+          "path": "capturas/android-simulated-light-financeiro.png",
+          "sha256": "cc8ccee173ecfb49623ae147c978aa5728bfa47670962bb16fadee75651cfac9",
+          "geometry": {
+            "viewport": {
+              "width": 390,
+              "height": 844
+            },
+            "platform": "android",
+            "layout": "android",
+            "theme": "light",
+            "horizontalOverflow": false,
+            "title": "Financeiro",
+            "bottomBarVisible": true
+          }
+        }
+      ],
+      "errors": []
+    },
+    {
+      "theme": "dark",
+      "platform": "desktop-web",
+      "screens": [
+        {
+          "name": "ficha",
+          "path": "capturas/desktop-web-dark-ficha.png",
+          "sha256": "dcf818ca5f00294db8dac1ddafe17221ea5026c01b90fc865f673e7e16f27b56",
+          "geometry": {
+            "viewport": {
+              "width": 1440,
+              "height": 1000
+            },
+            "platform": "web",
+            "layout": "desktop",
+            "theme": "dark",
+            "horizontalOverflow": false,
+            "title": "Aves",
+            "bottomBarVisible": false
+          }
+        },
+        {
+          "name": "aves",
+          "path": "capturas/desktop-web-dark-aves.png",
+          "sha256": "c23e943fddad5d2ce0f16b81499f12afba68aae52b08097bbc5f403e1b5d1e62",
+          "geometry": {
+            "viewport": {
+              "width": 1440,
+              "height": 1000
+            },
+            "platform": "web",
+            "layout": "desktop",
+            "theme": "dark",
+            "horizontalOverflow": false,
+            "title": "Aves",
+            "bottomBarVisible": false
+          }
+        },
+        {
+          "name": "hoje",
+          "path": "capturas/desktop-web-dark-hoje.png",
+          "sha256": "53c29dffb773599a459c36461f2592c18a3df4c9a3432f561067d1d4b8856192",
+          "geometry": {
+            "viewport": {
+              "width": 1440,
+              "height": 1000
+            },
+            "platform": "web",
+            "layout": "desktop",
+            "theme": "dark",
+            "horizontalOverflow": false,
+            "title": "Hoje",
+            "bottomBarVisible": false
+          }
+        },
+        {
+          "name": "financeiro",
+          "path": "capturas/desktop-web-dark-financeiro.png",
+          "sha256": "589e0d3975aa9b902d7e2ef5ac9fa34f74e5add07465bead5e5fe1a5ee6497a4",
+          "geometry": {
+            "viewport": {
+              "width": 1440,
+              "height": 1000
+            },
+            "platform": "web",
+            "layout": "desktop",
+            "theme": "dark",
+            "horizontalOverflow": false,
+            "title": "Financeiro",
+            "bottomBarVisible": false
+          }
+        }
+      ],
+      "errors": []
+    },
+    {
+      "theme": "dark",
+      "platform": "android-simulated",
+      "screens": [
+        {
+          "name": "ficha",
+          "path": "capturas/android-simulated-dark-ficha.png",
+          "sha256": "bb1c3327a084310563f4d4548129555698fdc8cac041a111523a2f77da0dfaf7",
+          "geometry": {
+            "viewport": {
+              "width": 390,
+              "height": 844
+            },
+            "platform": "android",
+            "layout": "android",
+            "theme": "dark",
+            "horizontalOverflow": false,
+            "title": "Aves",
+            "bottomBarVisible": true
+          }
+        },
+        {
+          "name": "aves",
+          "path": "capturas/android-simulated-dark-aves.png",
+          "sha256": "fe658e9e4a47d751489e359980ca3d3b08978911c0029b2ec04bf30ecd544ba2",
+          "geometry": {
+            "viewport": {
+              "width": 390,
+              "height": 844
+            },
+            "platform": "android",
+            "layout": "android",
+            "theme": "dark",
+            "horizontalOverflow": false,
+            "title": "Aves",
+            "bottomBarVisible": true
+          }
+        },
+        {
+          "name": "hoje",
+          "path": "capturas/android-simulated-dark-hoje.png",
+          "sha256": "98ea3ed1020947ffc01b73feccbb10a232f0c2661443cc2d5b610158e9b067e2",
+          "geometry": {
+            "viewport": {
+              "width": 390,
+              "height": 844
+            },
+            "platform": "android",
+            "layout": "android",
+            "theme": "dark",
+            "horizontalOverflow": false,
+            "title": "Hoje",
+            "bottomBarVisible": true
+          }
+        },
+        {
+          "name": "financeiro",
+          "path": "capturas/android-simulated-dark-financeiro.png",
+          "sha256": "7512e85187b185e2f0d82a5502485138dea3e5b31352461556afe750b8d74856",
+          "geometry": {
+            "viewport": {
+              "width": 390,
+              "height": 844
+            },
+            "platform": "android",
+            "layout": "android",
+            "theme": "dark",
+            "horizontalOverflow": false,
+            "title": "Financeiro",
+            "bottomBarVisible": true
+          }
+        }
+      ],
+      "errors": []
+    }
+  ],
+  "limitations": [
+    "Android simulated by the Capacitor platform bridge in Chromium; no physical device.",
+    "Desktop captures use the web platform at 1440 px, not a native Windows installation."
+  ]
+}

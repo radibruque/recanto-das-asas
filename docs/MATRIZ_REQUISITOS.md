@@ -1,5 +1,7 @@
 # Matriz do prompt — entrega 0.1.0
 
+Matriz histórica da entrega inicial. Para as etapas 1 a 3 autorizadas e implementadas na versão 0.3.0, consulte a [matriz atual, evidências e limites](ENTREGA_SIMPLIFICACAO_0.3.0.md).
+
 Referência integral: [PROMPT_DESENVOLVIMENTO.txt](../PROMPT_DESENVOLVIMENTO.txt). “Implementado” significa operação real no código; “verificado” identifica a evidência executada. “Parcial” mantém explícito o que falta. A versão não simula bancos, impressão física, publicação ou serviços de atualização.
 
 | Seção | Implementado e verificado | Pendências ou limites |

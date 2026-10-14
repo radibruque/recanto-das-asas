@@ -36,8 +36,8 @@ $token = Get-RecantoToken
 # This is limited to this process; certificate validation remains enabled.
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 try {
-    $response = Invoke-WebRequest -UseBasicParsing -Uri ($url + '/v1/workspace/' + $config.workspaceId) -Headers @{ Authorization = ('Bearer ' + $token) } -TimeoutSec 20
-    if ($response.StatusCode -ne 200) { throw 'Unexpected response' }
+    $response = Invoke-WebRequest -UseBasicParsing -Method Head -Uri ($url + '/v1/workspace/' + $config.workspaceId) -Headers @{ Authorization = ('Bearer ' + $token); 'X-Recanto-Schema-Version' = '3' } -TimeoutSec 20
+    if ($response.StatusCode -ne 200 -or $response.Headers['X-Recanto-Schema-Gate'] -ne '1') { throw 'Unexpected response' }
 } catch { throw 'HTTPS nao respondeu com autenticacao valida. Confira certificados, DNS e acesso privado; os dados locais foram preservados.' }
 finally { $token = $null }
 $config.url = $url

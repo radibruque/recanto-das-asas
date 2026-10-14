@@ -1,0 +1,114 @@
+{
+  "zip": {
+    "path": "/workspace/recanto-das-asas/aplicativo/release/servidor-windows/Recanto-das-Asas-Servidor-Windows-0.3.0.zip",
+    "bytes": 35002789,
+    "sha256": "c1f24137cf3145276bbf642e47c423285c193e791c7002020fa511beb7ffab2d"
+  },
+  "manifest": {
+    "version": "0.3.0",
+    "protocolVersion": 1,
+    "schemaGateVersion": 1,
+    "applicationSchemaVersion": 3,
+    "runtimeVersion": "24.21.0",
+    "runtimeUrl": "https://nodejs.org/dist/v24.21.0/node-v24.21.0-win-x64.zip",
+    "runtimeArchiveSha256": "158f7685b44de51f6c0df1d153526cbcd3e1bc739a8dfc607721cef75de9e541"
+  },
+  "checks": [
+    {
+      "path": "node.exe",
+      "bytes": 93580104,
+      "sha256": "ba4e6d110e8c1592a1ecd390f6b05f3da124b13871a5be62b341a07a853c6c32"
+    },
+    {
+      "path": "NODE-LICENSE.txt",
+      "bytes": 160555,
+      "sha256": "ed34dd8e3f0a78dbaf00d0444ce8e285b015b765379c2e17880455f70370f8e9"
+    },
+    {
+      "path": "server.mjs",
+      "bytes": 16100,
+      "sha256": "3f7f4cbcc9859c4a00d069cdb148187f79ff3fe371eb0736d3cff6b48d49fee4"
+    },
+    {
+      "path": "01-Instalar.cmd",
+      "bytes": 343,
+      "sha256": "fe473573068b0d74e7afdd949c5236091d06846421cfb40ce43cb57af3d1dfdd"
+    },
+    {
+      "path": "02-Iniciar.cmd",
+      "bytes": 341,
+      "sha256": "12c4130aad7a91207042ad547c2ec79ae4888bce0b4dfddb6ae07f27ba37ecd2"
+    },
+    {
+      "path": "03-Conectar-Tailscale.cmd",
+      "bytes": 353,
+      "sha256": "678093de5e69f771b502be7d6461af850d7fb711834db64b7440daad137f3083"
+    },
+    {
+      "path": "04-Mostrar-Conexao.cmd",
+      "bytes": 351,
+      "sha256": "7853e23919450cd736675b52032f250738d26565dc5c293de742f0d68c921e6f"
+    },
+    {
+      "path": "05-Parar.cmd",
+      "bytes": 340,
+      "sha256": "09e045139eca5f745492702bef2dba4c495fc56ff3df5fa3e5fba13d3c32b61b"
+    },
+    {
+      "path": "06-Desativar-Inicio-Automatico.cmd",
+      "bytes": 353,
+      "sha256": "80e86c2a2772dcff185b993807aafa3b5a5e0cce14ddfdf3d043e7a0a2e03f87"
+    },
+    {
+      "path": "windows/Common.ps1",
+      "bytes": 7883,
+      "sha256": "7f85d8b4f2d0aa042c9c8d0caccdfb95fb7c30ad426eeecb018a25e5c5077ac7"
+    },
+    {
+      "path": "windows/Connect-Tailscale.ps1",
+      "bytes": 3362,
+      "sha256": "535a76d14b9a928db773c5db3d933d37425e29fcd8a67388581b691ec74c3f47"
+    },
+    {
+      "path": "windows/Disable-Autostart.ps1",
+      "bytes": 682,
+      "sha256": "5c5ff89f39bc60f270c21770067798ad9de3aaed2e62ece3b008d982be808001"
+    },
+    {
+      "path": "windows/Install.ps1",
+      "bytes": 4777,
+      "sha256": "0963541543f301992eaa0fe23578745f3bc173b63ce9a4452667ccd260f5ac18"
+    },
+    {
+      "path": "windows/Show-Connection.ps1",
+      "bytes": 863,
+      "sha256": "0bdf0abfa64c172b487e4fd13dcfdf31872ae66f81df1b1c7b5889928d7eb1d3"
+    },
+    {
+      "path": "windows/Start.ps1",
+      "bytes": 473,
+      "sha256": "8021e87719e6e09d3d4e7283fb629bc2ee8beeca400ec6c97e9fd55027f3670e"
+    },
+    {
+      "path": "windows/Stop.ps1",
+      "bytes": 931,
+      "sha256": "ef8ebf7c69a217cdc761f2efca7f111640c93f17d5fc04a1d966d3cc1a13973b"
+    },
+    {
+      "path": "windows/Supervisor.ps1",
+      "bytes": 4392,
+      "sha256": "930b1c7c2d0be4920a282ce6baa000f664e75d653c2310819e9f654b6758f061"
+    },
+    {
+      "path": "LEIA_PRIMEIRO.txt",
+      "bytes": 2691,
+      "sha256": "ba65fee103e8e8d5c9cdc46a0557b5acedf5d1590e2b31236508ee3a6565d360"
+    }
+  ],
+  "fileCount": 18,
+  "privateDataIncluded": false,
+  "exactSourceServer": true,
+  "runtimeMatchesOfficialArchive": true,
+  "requiresSameWindowsUserForDPAPI": true,
+  "physicalWindowsTested": false
+}

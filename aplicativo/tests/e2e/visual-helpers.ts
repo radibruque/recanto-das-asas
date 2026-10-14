@@ -1,4 +1,4 @@
-import { expect, type Page } from '@playwright/test';
+import { expect, type Page, type Locator } from '@playwright/test';
 
 export const visualMenus = [
   'Hoje', 'Aves', 'Casais', 'Reprodução', 'Parentesco', 'Saúde e manejo', 'Agenda',
@@ -77,4 +77,39 @@ export async function visualGeometry(page: Page) {
     }
     return { overflow: document.documentElement.scrollWidth > window.innerWidth + 1, overlaps };
   });
+}
+
+/** Expand complementary form sections through their actual disclosure controls. */
+export async function revealFormField(form: Locator, label: string) {
+  await expect(form).toBeVisible();
+  const field = form.getByLabel(label, { exact: true });
+  let closed = field.locator('xpath=ancestor::details[not(@open)][last()]');
+  for (let index = 0; index < 8 && await closed.count(); index++) {
+    await closed.locator(':scope > summary').click();
+    closed = field.locator('xpath=ancestor::details[not(@open)][last()]');
+  }
+  await expect(closed).toHaveCount(0);
+  return field;
+}
+
+/** Independently decrypt only the isolated QA vault, to verify persisted relationships. */
+export async function readVisualState(page: Page, password = visualPassword): Promise<import('../../src/domain/types').State> {
+  return page.evaluate(async password => {
+    const database = await new Promise<IDBDatabase>((resolve, reject) => {
+      const request = indexedDB.open('recanto-das-asas-private');
+      request.onsuccess = () => resolve(request.result); request.onerror = () => reject(request.error);
+    });
+    try {
+      const record = await new Promise<any>((resolve, reject) => {
+        const request = database.transaction('vault', 'readonly').objectStore('vault').get('vault');
+        request.onsuccess = () => resolve(request.result); request.onerror = () => reject(request.error);
+      });
+      const envelope = record.envelope;
+      const bytes = (value: string) => Uint8Array.from(atob(value), letter => letter.charCodeAt(0));
+      const base = await crypto.subtle.importKey('raw', new TextEncoder().encode(password), 'PBKDF2', false, ['deriveKey']);
+      const key = await crypto.subtle.deriveKey({ name: 'PBKDF2', salt: bytes(envelope.salt), iterations: envelope.iterations, hash: 'SHA-256' }, base, { name: 'AES-GCM', length: 256 }, false, ['decrypt']);
+      const plain = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: bytes(envelope.iv) }, key, bytes(envelope.ciphertext));
+      return JSON.parse(new TextDecoder().decode(plain));
+    } finally { database.close(); }
+  }, password);
 }

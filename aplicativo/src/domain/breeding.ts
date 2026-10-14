@@ -2,6 +2,8 @@ import { z } from 'zod';
 import type { Bird, BirdStatus, Handler, HealthEvent, State, Scope } from './types';
 import { cents, date, ensure, id, related, required, text, today } from './shared';
 import { bookletDataSchema } from './booklet-data';
+import { ensureBirdSpecies, incubationDaysForBird, sameSpecies } from './species';
+import { addDays, recordTaskHistory } from './derived-tasks';
 
 const actualDate = date.refine(v => v <= today(), 'A data não pode estar no futuro.');
 const optionalDate = z.union([actualDate, z.literal('')]).default('');
@@ -50,7 +52,7 @@ function validateBird(state:State,scope:Scope,d:z.infer<typeof birdSchema>,recor
     if (!parentId) continue;
     ensure(parentId!==recordId,'Uma ave não pode ser seu próprio ancestral.');
     const p = findBird(state,scope,parentId);
-    ensure(p.species===d.species,'Os pais devem ser da mesma espécie.');
+    ensure(sameSpecies(state,p,d),'Os pais devem ser da mesma espécie.');
     ensure(!d.birthDate||!p.birthDate||p.birthDate<d.birthDate,'O nascimento do filhote deve ser posterior ao dos pais.');
     const ancestors = (currentId:string,seen=new Set<string>()):boolean => {
       if(currentId===recordId) return true;
@@ -64,14 +66,14 @@ function validateBird(state:State,scope:Scope,d:z.infer<typeof birdSchema>,recor
   if(d.fatherId) ensure(findBird(state,scope,d.fatherId).sex==='macho','O pai precisa ter sexo registrado como macho.');
   if(d.motherId) ensure(findBird(state,scope,d.motherId).sex==='fêmea','A mãe precisa ter sexo registrado como fêmea.');
   for (const child of birds.filter(b=>b.fatherId===recordId||b.motherId===recordId)) {
-    ensure(child.species===d.species,'A espécie precisa ser compatível com os descendentes vinculados.');
+    ensure(sameSpecies(state,child,d),'A espécie precisa ser compatível com os descendentes vinculados.');
     ensure(d.sex===(child.fatherId===recordId?'macho':'fêmea'),'A correção de sexo conflita com o papel parental registrado. Corrija os vínculos primeiro.');
     ensure(!d.birthDate||!child.birthDate||d.birthDate<child.birthDate,'O nascimento deve anteceder o dos descendentes.');
   }
   const linkedPairs=state.pairs.filter(p=>p.scope===scope&&(p.maleId===recordId||p.femaleId===recordId));
   for(const p of linkedPairs) {
     const counterpart=findBird(state,scope,p.maleId===recordId?p.femaleId:p.maleId);
-    ensure(d.species===counterpart.species,'A espécie conflita com um casal registrado.');
+    ensure(sameSpecies(state,d,counterpart),'A espécie conflita com um casal registrado.');
     ensure(d.sex===(p.maleId===recordId?'macho':'fêmea'),'A correção de sexo conflita com o papel registrado no casal.');
     ensure(!d.birthDate||d.birthDate<=p.startDate,'O nascimento não pode ser posterior à formação do casal.');
     if(!p.endDate) ensure(!['reservado','vendido','doado','transferido','falecido'].includes(d.status),'Encerre o casal ativo antes de alterar a disponibilidade da ave.');
@@ -119,6 +121,8 @@ export const breedingHandler:Handler = (state,scope,action,data) => {
     const sexHistory=existing?.sexHistory?[...existing.sexHistory]:[];
     if(!existing||existing.sex!==d.sex||existing.sexMethod!==d.sexMethod||existing.sexSource!==d.sexSource) sexHistory.push({date:sexDate??today(),sex:d.sex,method:d.sexMethod,source:d.sexSource,notes:sexNotes,attachmentId:sexAttachmentId});
     const custodyHistory=[...(existing?.custodyHistory??[])];if(!existing||existing.responsible!==d.responsible||existing.enclosure!==d.enclosure){if(existing){ensure(custodyReason.length>0,'Informe o motivo da mudança de recinto ou responsável.');ensure((custodyDate??today())>=(custodyHistory.at(-1)?.date??''),'A movimentação não pode anteceder o último registro de responsabilidade.');}custodyHistory.push({date:custodyDate??today(),responsible:d.responsible,enclosure:d.enclosure,reason:custodyReason||'Cadastro inicial'});}const record:Bird={...fields,id:recordId,scope,createdAt:existing?.createdAt??now,statusHistory,sexHistory,custodyHistory};
+    if(existing?.species===record.species)record.speciesId=existing.speciesId;
+    ensureBirdSpecies(state,record);
     if(existing) state.birds[state.birds.indexOf(existing)]=record; else state.birds.push(record);
     if(!existing||existing.mutation!==d.mutation||existing.certainty!==d.certainty||existing.carriers!==d.carriers||mutationSource||mutationNotes||mutationAttachmentId) state.mutations.push({id:id(),scope,birdId:recordId,mutation:d.mutation,certainty:d.certainty,carriers:d.carriers,recordedAt:now,date:mutationDate??today(),source:mutationSource,notes:mutationNotes,attachmentId:mutationAttachmentId});
     return {id:recordId};
@@ -143,7 +147,7 @@ export const breedingHandler:Handler = (state,scope,action,data) => {
   if(action==='createPair') {
     const d=z.object({name:required,maleId:required,femaleId:required,startDate:actualDate,notes:text,enclosure:text,acknowledgeRelated:z.boolean().default(false)}).parse(data),m=bird(d.maleId),f=bird(d.femaleId);
     ensure(m.id!==f.id&&m.sex==='macho'&&f.sex==='fêmea','Selecione um macho e uma fêmea distintos.');
-    ensure(m.species===f.species,'As aves precisam ser da mesma espécie.');
+    ensure(sameSpecies(state,m,f),'As aves precisam ser da mesma espécie.');
     ensure(![m,f].some(b=>['reservado','vendido','doado','transferido','falecido'].includes(b.status)),'Uma das aves não está disponível para reprodução.');
     ensure(!state.pairs.some(p=>p.scope===scope&&!p.endDate&&[p.maleId,p.femaleId].some(i=>i===m.id||i===f.id)),'Uma das aves já pertence a um casal ativo.');
     ensure([m,f].every(b=>!b.birthDate||b.birthDate<=d.startDate),'A formação do casal não pode anteceder o nascimento das aves.');
@@ -162,12 +166,13 @@ export const breedingHandler:Handler = (state,scope,action,data) => {
     const d=z.object({id:required,endDate:actualDate}).parse(data),c=clutch(d.id);ensure(!c.endDate,'Postura já encerrada.');ensure(d.endDate>=c.startDate,'Data anterior ao início da postura.');const es=state.eggs.filter(e=>e.scope===scope&&e.clutchId===c.id);ensure(!es.some(e=>e.status==='incubando'),'Registre o resultado dos ovos em acompanhamento antes de encerrar.');ensure(es.every(e=>(e.outcomeDate||e.hatchDate||e.laidDate)<=d.endDate&&(e.events??[]).every(event=>event.date<=d.endDate)),'Data anterior ao último evento da postura.');c.endDate=d.endDate;return {id:c.id};
   }
   if(action==='createEgg') {
-    const d=z.object({clutchId:required,laidDate:actualDate,incubationDate:optionalDate,expectedHatchDate:z.union([date,z.literal('')]).default(''),fertility:z.enum(['desconhecida','fértil','infértil']).default('desconhecida'),notes:text}).parse(data),c=clutch(d.clutchId);ensure(!c.endDate,'Esta postura está encerrada.');ensure(d.laidDate>=c.startDate,'O ovo não pode anteceder o início da postura.');ensure(!d.incubationDate||d.incubationDate>=d.laidDate,'A incubação não pode anteceder a postura do ovo.');ensure(!d.expectedHatchDate||d.expectedHatchDate>=(d.incubationDate||d.laidDate),'A previsão não pode anteceder a postura ou a incubação.');const estimate=state.settings.speciesEstimates[bird(pair(c.pairId).maleId).species];let expected=d.expectedHatchDate;
-    if(!expected&&estimate&&Number.isInteger(estimate)&&estimate>0&&estimate<=120) {const dt=new Date((d.incubationDate||d.laidDate)+'T12:00:00Z');dt.setUTCDate(dt.getUTCDate()+estimate);expected=dt.toISOString().slice(0,10);}
+    const d=z.object({clutchId:required,laidDate:actualDate,incubationDate:optionalDate,expectedHatchDate:z.union([date,z.literal('')]).default(''),fertility:z.enum(['desconhecida','fértil','infértil']).default('desconhecida'),notes:text}).parse(data),c=clutch(d.clutchId);ensure(!c.endDate,'Esta postura está encerrada.');ensure(d.laidDate>=c.startDate,'O ovo não pode anteceder o início da postura.');ensure(!d.incubationDate||d.incubationDate>=d.laidDate,'A incubação não pode anteceder a postura do ovo.');ensure(!d.expectedHatchDate||d.expectedHatchDate>=(d.incubationDate||d.laidDate),'A previsão não pode anteceder a postura ou a incubação.');let expected=d.expectedHatchDate;
+    const configured=incubationDaysForBird(state,bird(pair(c.pairId).maleId));
+    if(!expected&&configured&&Number.isInteger(configured)&&configured>0&&configured<=365)expected=addDays(d.incubationDate||d.laidDate,configured);
     const events=[{date:d.laidDate,kind:'postura',notes:d.notes}];
     if(d.incubationDate)events.push({date:d.incubationDate,kind:'início da incubação',notes:''});
     if(d.fertility!=='desconhecida')events.push({date:today(),kind:'fertilidade: '+d.fertility,notes:d.notes});
-    const e={...d,id:id(),scope,number:Math.max(0,...state.eggs.filter(e=>e.scope===scope&&e.clutchId===c.id).map(e=>e.number))+1,status:'incubando',hatchDate:null,chickId:null,expectedHatchDate:expected,outcomeDate:null,events};state.eggs.push(e);return {id:e.id};
+    const e={...d,id:id(),scope,number:Math.max(0,...state.eggs.filter(e=>e.scope===scope&&e.clutchId===c.id).map(e=>e.number))+1,status:'incubando',hatchDate:null,chickId:null,expectedHatchDate:expected,expectedHatchSource:(d.expectedHatchDate?'manual':'species') as 'manual'|'species',outcomeDate:null,events};state.eggs.push(e);return {id:e.id};
   }
   if(action==='saveEgg'||action==='eggOutcome') {
     const d=z.object({id:required,status:z.enum(['incubando','infértil','perdido']).optional(),fertility:z.enum(['desconhecida','fértil','infértil']).optional(),incubationDate:optionalDate.optional(),expectedHatchDate:z.union([date,z.literal('')]).optional(),notes:text.optional(),eventDate:actualDate.optional()}).parse(data),e=egg(d.id);
@@ -188,6 +193,7 @@ export const breedingHandler:Handler = (state,scope,action,data) => {
     if(d.incubationDate!==undefined&&inc!==e.incubationDate)events.push({date:inc||eventDate,kind:inc?'início da incubação corrigido':'incubação não informada',notes:d.notes??''});
     if(d.notes!==undefined&&d.notes!==e.notes)events.push({date:eventDate,kind:'observação',notes:d.notes});
     const {eventDate:_,...fields}=d;const updates=Object.fromEntries(Object.entries(fields).filter(([,v])=>v!==undefined));
+    if(d.expectedHatchDate!==undefined&&d.expectedHatchDate!==e.expectedHatchDate)e.expectedHatchSource='manual';
     Object.assign(e,{...updates,id:e.id,incubationDate:inc,expectedHatchDate:exp,events});
     if(statusChanged)e.outcomeDate=d.status==='incubando'?null:eventDate;
     if(d.status==='infértil')e.fertility='infértil';return {id:e.id};
@@ -200,9 +206,9 @@ export const breedingHandler:Handler = (state,scope,action,data) => {
     const d=z.object({id:required.optional(),birdId:required,date:actualDate,kind:required,title:required,notes:text,weightGrams:z.number().positive().max(100000).nullable().default(null),professional:text,author:required,attachmentIds:z.array(required).max(30).default([])}).parse(data),b=bird(d.birdId);ensure(!b.birthDate||d.date>=b.birthDate,'O registro não pode anteceder o nascimento.');if(d.kind==='pesagem')ensure(d.weightGrams!==null,'Informe o peso em gramas.');for(const a of d.attachmentIds)attachment(state,scope,a,b.id);const existing=d.id?state.health.find(h=>h.id===d.id&&h.scope===scope):undefined;ensure(!d.id||existing,'Registro de saúde não encontrado neste espaço.');ensure(!existing||existing.birdId===b.id,'O registro pertence a outra ave.');const record={...d,id:existing?.id??id(),scope};if(existing)state.health[state.health.indexOf(existing)]=record;else state.health.push(record);return {id:record.id};
   }
   if(action==='saveTask') {
-    const d=z.object({id:required.optional(),birdId:optionalId,title:required,dueDate:date,done:z.boolean().default(false),notes:text,reminderTime:z.union([z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/),z.literal('')]).optional(),reminderMinutes:z.union([z.literal(0),z.literal(5),z.literal(15),z.literal(30),z.literal(60),z.literal(1440)]).optional()}).parse(data);if(d.birdId)bird(d.birdId);const existing=d.id?state.tasks.find(t=>t.id===d.id&&t.scope===scope):undefined;ensure(!d.id||existing,'Tarefa não encontrada neste espaço.');const updates=Object.fromEntries(Object.entries(d).filter(([,v])=>v!==undefined));const record={...existing,...updates,...d,id:existing?.id??id(),scope,reminderTime:d.reminderTime??existing?.reminderTime,reminderMinutes:d.reminderMinutes??existing?.reminderMinutes};if(existing)state.tasks[state.tasks.indexOf(existing)]=record;else state.tasks.push(record);return {id:record.id};
+    const d=z.object({id:required.optional(),birdId:optionalId,title:required,dueDate:date,done:z.boolean().default(false),notes:text,reminderTime:z.union([z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/),z.literal('')]).optional(),reminderMinutes:z.union([z.literal(0),z.literal(5),z.literal(15),z.literal(30),z.literal(60),z.literal(1440)]).optional()}).parse(data);if(d.birdId)bird(d.birdId);const existing=d.id?state.tasks.find(t=>t.id===d.id&&t.scope===scope):undefined;ensure(!d.id||existing,'Tarefa não encontrada neste espaço.');ensure(!existing||existing.origin!=='derived'||(d.dueDate===existing.dueDate&&d.birdId===existing.birdId),'Esta tarefa é derivada. Corrija a data ou a ave no registro relacionado.');const updates=Object.fromEntries(Object.entries(d).filter(([,v])=>v!==undefined));const record={...existing,...updates,...d,id:existing?.id??id(),scope,origin:existing?.origin??'manual' as const,history:[...(existing?.history??[])],reminderTime:d.reminderTime??existing?.reminderTime,reminderMinutes:d.reminderMinutes??existing?.reminderMinutes};if(existing)recordTaskHistory(record,'editada','Tarefa atualizada pelo proprietário.');if(existing)state.tasks[state.tasks.indexOf(existing)]=record;else state.tasks.push(record);return {id:record.id};
   }
-  if(action==='toggleTask') {const d=z.object({id:required,done:z.boolean()}).parse(data),t=state.tasks.find(t=>t.id===d.id&&t.scope===scope);ensure(t,'Tarefa não encontrada neste espaço.');t.done=d.done;return {id:t.id};}
+  if(action==='toggleTask') {const d=z.object({id:required,done:z.boolean()}).parse(data),t=state.tasks.find(t=>t.id===d.id&&t.scope===scope);ensure(t,'Tarefa não encontrada neste espaço.');ensure(d.done||!t.resolvedAt,'Reabra o acompanhamento no registro relacionado antes de reativar esta tarefa.');if(t.done!==d.done){t.done=d.done;recordTaskHistory(t,d.done?'concluída':'reaberta','Alteração manual da situação.');}return {id:t.id};}
   return null;
 };
 

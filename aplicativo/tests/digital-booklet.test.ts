@@ -8,6 +8,8 @@ import { PDFDocument, PDFName } from 'pdf-lib';
 import { bookletDataFromFields, deriveBookletFields, digitalBookletFieldKeys, exportDigitalBooklet } from '../src/lib/booklet';
 import { emptyState, type Bird } from '../src/domain/types';
 import { bytesToBase64, sha256 } from '../src/domain/documents';
+import { applyCommand } from '../src/domain/engine';
+import { issuedPayload } from '../src/lib/exports';
 
 const templateBytes = new Uint8Array(readFileSync(new URL('../public/templates/Caderneta_Recanto_das_Asas_Digital_Vertical.pdf', import.meta.url)));
 const fontBytes = new Uint8Array(readFileSync(new URL('../public/fonts/NotoSans-Regular-Static.ttf', import.meta.url)));
@@ -57,6 +59,35 @@ describe('caderneta digital no design fornecido', () => {
     expect(bird.booklet.fieldOverrides).toEqual({ bird_name: 'Nome revisto' });
     state.health.push({ ...state.health[0], id: 'weight-new', date: '2025-03-01', weightGrams: 105, title: 'Peso atualizado' });
     expect(deriveBookletFields(state, 'real', bird.id)).toMatchObject({ bird_name: 'Nome revisto', weight_3_weight: '105', weight_3_date: '2025-03-01' });
+  });
+  it('uses the current linked tutor after a return without exposing the old tutor or changing issued originals', async () => {
+    const { state, bird } = fixture();
+    const run = (action: string, data: unknown) => applyCommand(state, 'real', action, data)!;
+    const oldContactId = run('contact.save', { kind: 'cliente', name: 'Tutor anterior fictício', phone: '11 90000-0001' });
+    const newContactId = run('contact.save', { kind: 'cliente', name: 'Tutor atual fictício', phone: '' });
+    const saleData = (contactId: string, date: string) => ({ contactId, date, status: 'vendida', items: [{ kind: 'ave', refId: bird.id, description: bird.identification, quantity: 1, unitCents: 1000 }] });
+    const oldSaleId = run('sale.save', saleData(oldContactId, '2025-04-01'));
+    run('sale.transition', { id: oldSaleId, status: 'entregue', date: '2025-04-02', reason: 'Entrega fictícia anterior' });
+    const previousFields = deriveBookletFields(state, 'real', bird.id, oldSaleId);
+    expect(bird.responsible).toBe('Tutor anterior fictício');
+    expect(previousFields.breeder_name).toBe(state.settings.name);
+    bird.booklet = { ...bird.booklet, ...bookletDataFromFields({ ...previousFields, bird_ring: 'ANILHA REVISADA', tutor_name: 'Tutor anterior revisado', delivery_date: '2025-04-01' }, deriveBookletFields(state, 'real', bird.id, oldSaleId, false)) };
+    const originalBytes = await exportDigitalBooklet(state, 'real', bird.id, { fields: { ...previousFields, tutor_name: 'Tutor anterior revisado' } }, resources);
+    run('document.issue', { ...issuedPayload(originalBytes, 'caderneta-anterior.pdf', 'application/pdf'), kind: 'Caderneta digital', title: 'Caderneta anterior', birdId: bird.id, saleId: oldSaleId });
+    run('sale.transition', { id: oldSaleId, status: 'devolvida', date: '2025-04-03', reason: 'Devolução fictícia' });
+    const newSaleId = run('sale.save', saleData(newContactId, '2025-04-04'));
+    const preserved = structuredClone({ booklet: bird.booklet, documents: state.documents });
+
+    const current = deriveBookletFields(state, 'real', bird.id, newSaleId);
+    expect(current).toMatchObject({ tutor_name: 'Tutor atual fictício', tutor_phone: '', delivery_date: '', bird_ring: 'ANILHA REVISADA' });
+    expect(JSON.stringify(current)).not.toContain('Tutor anterior');
+    expect(deriveBookletFields(state, 'real', bird.id)).toMatchObject({ tutor_name: 'Tutor anterior revisado', tutor_phone: '11 90000-0001', bird_ring: 'ANILHA REVISADA' });
+    expect({ booklet: bird.booklet, documents: state.documents }).toEqual(preserved);
+    // Edits reviewed in this form still have priority in this new emission.
+    const reviewedBytes = await exportDigitalBooklet(state, 'real', bird.id, { fields: { ...current, tutor_name: 'Tutor atual revisto no formulário' } }, resources);
+    expect(text(reviewedBytes)).toContain('Tutor atual revisto no formulário');
+    expect(text(reviewedBytes)).not.toContain('Tutor anterior');
+    expect(state.documents[0].base64).toBe(bytesToBase64(originalBytes));
   });
   it('generates four vertical pages, real visible accents, no editable widgets and a bounded nonempty PDF', async () => {
     const { state, bird } = fixture(); const fields = { ...deriveBookletFields(state, 'real', bird.id), tutor_name: 'Márcia Gonçalves', medical_observations: 'Observações revisadas: saúde estável.', clinical_1_date: '2025-03-01', clinical_1_record: 'Exame revisado', clinical_1_professional: 'Dra. Maria / CRMV 1234' };

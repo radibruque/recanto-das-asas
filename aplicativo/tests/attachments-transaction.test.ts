@@ -52,7 +52,7 @@ describe('migração dos registros existentes',()=>{
  it('reads schema 1 without altering its records and upgrades the schema to prevent old clients stripping new data',()=>{
   const state=emptyState();applyCommand(state,'real','saveBird',bird);
   const old={...structuredClone(state),schemaVersion:1};const upgraded=validateState(old);
-  expect(old.schemaVersion).toBe(1);expect(upgraded.schemaVersion).toBe(2);expect(upgraded.birds).toEqual(old.birds);
+  expect(old.schemaVersion).toBe(1);expect(upgraded.schemaVersion).toBe(3);expect(upgraded.birds).toEqual(old.birds);
  });
  it('keeps all new optional fields through validation used by backup and synchronization',()=>{
   const state=emptyState();const birdId=applyCommand(state,'real','saveBird',bird)!;

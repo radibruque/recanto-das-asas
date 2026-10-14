@@ -1,6 +1,6 @@
 # Recanto das Asas
 
-Aplicativo privado em português para criação e operação comercial, desenvolvido a partir do painel React/TypeScript fornecido. Destinos: Android 10 ou superior e Windows 10/11 de 64 bits. Os registros locais funcionam sem internet e ficam criptografados; a sincronização entre aparelhos depende de um serviço privado que ainda precisa ser hospedado.
+Aplicativo privado em português para criação e operação comercial, desenvolvido a partir do painel React/TypeScript fornecido. Destinos: Android 10 ou superior, Windows 10/11 de 64 bits e navegador. Os registros locais funcionam sem internet e ficam criptografados; a sincronização usa um serviço privado, que pode funcionar no seu Windows com Tailscale.
 
 O ZIP foi extraído preservando sua organização. `painel-base/` e `identidade-visual/` são os originais recebidos, conservados para consulta. `PROMPT_DESENVOLVIMENTO.txt` mantém o escopo completo. A adaptação está em `aplicativo/`; a hospedagem anterior não foi modificada.
 
@@ -23,6 +23,16 @@ RECANTO_E2E_PREVIEW=1 npm run test:e2e
 ```
 
 Os testes de navegador requerem Chromium, instalado com `npx playwright install chromium`, ou `RECANTO_CHROMIUM_PATH` apontando para uma instalação existente. A configuração também reconhece `/usr/bin/chromium`.
+
+## Atualização 0.3.0 — simplificação e integração
+
+Setores Criatório/Comercial na mesma base, busca global local, navegação com contexto, ficha e pesagem rápidas, reprodução integrada, catálogo de espécies, agenda derivada, compras ligadas ao financeiro e revisão de entrega. Biometria Android opcional e sessão mantida na memória ao minimizar. Os temas e a identidade visual existentes foram preservados.
+
+Veja [a matriz e os novos caminhos](docs/ENTREGA_SIMPLIFICACAO_0.3.0.md) e [como atualizar e recuperar](docs/ATUALIZACAO_0.3.0.md). Faça backups verificados e atualize **o servidor Windows antes dos aplicativos**, mantendo dados, configurações e Tailscale. Não desinstale para atualizar. A entrega 0.3.0 é local; nenhuma nova publicação foi realizada.
+
+## Atualização 0.2.3 — atalhos Android
+
+A barra fixa de atalhos foi habilitada também no APK Android. Esta foi a base funcional preservada para a evolução 0.3.0.
 
 ## Atualização 0.2.2 — correção do menu e atalhos web
 

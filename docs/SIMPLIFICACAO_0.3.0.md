@@ -31,5 +31,5 @@ Não adicionar calculadora genética/COI, QR, incubadoras, transferência de ovo
 ## Progresso
 
 - Auditoria e ponto de recuperação concluídos.
-- Etapa 1 validada: build TypeScript/Vite, 30 testes unitários específicos e 9 fluxos de navegador em produção, sem falhas na rodada final. Busca no retorno e estado aberto dos filtros foram corrigidos. Etapas 2 e 3 em integração.
-- Validação e matriz detalhada serão atualizadas com resultados observados, distinguindo simulação, build e teste físico.
+- Etapa 1 validada: build TypeScript/Vite, 30 testes unitários específicos e 9 fluxos de navegador em produção, sem falhas na rodada final. Busca no retorno e estado aberto dos filtros foram corrigidos. Etapas 2 e 3 integradas e validadas.
+- Validação final: 408 testes unitários e 92 cenários de navegador aprovados, sem falhas/omissões na rodada final; build e APK/EXE/servidor locais verificados. A [matriz final](ENTREGA_SIMPLIFICACAO_0.3.0.md) e o [comparativo](simplificacao-0.3.0/COMPARATIVO.md) distinguem simulação, compilação e testes físicos pendentes.

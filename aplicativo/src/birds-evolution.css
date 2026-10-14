@@ -1,0 +1,72 @@
+/* Compact bird work, keeping the approved identity and both theme tokens. */
+.bird-registration-sections { display: flex; flex-direction: column; gap: var(--space-3); }
+.bird-registration-sections > .record-form-section { margin: 0; }
+.bird-registration-sections summary { font-weight: 750; cursor: pointer; min-height: 30px; }
+.bird-registration-basics > p { margin-bottom: 0; }
+.bird-profile-hero.bird-profile-compact { display: grid; grid-template-columns: 88px minmax(0,1fr); gap: 16px; padding: 18px; align-items: center; overflow: visible; }
+.bird-profile-compact .bird-profile-photo { height: 88px; width: 88px; border-radius: var(--radius-md); overflow: hidden; padding: 0; border: 1px solid var(--line); background: var(--surface-secondary); color: var(--muted); }
+.bird-profile-photo-button { cursor: zoom-in; }
+.bird-profile-compact .bird-profile-no-photo { gap: 2px; font-size: 10px; }
+.bird-profile-compact .bird-profile-overview { padding: 0; gap: 16px; align-items: center; }
+.bird-profile-compact .bird-profile-name { font-size: 23px; line-height: 1.3; letter-spacing: -.3px; overflow-wrap: anywhere; }
+.bird-profile-compact .bird-profile-identification { overflow-wrap: anywhere; margin: 2px 0 6px; }
+.bird-profile-compact .bird-profile-weight dd strong { font-size: 21px; }
+.bird-profile-compact .bird-profile-weight { min-width: 120px; }
+.bird-profile-location { margin: 7px 0 0; color: var(--muted); font-size: 12px; overflow-wrap: anywhere; }
+.bird-profile-actions { justify-content: flex-start; flex-wrap: wrap; }
+.bird-profile-actions .button { min-height: 44px; }
+.bird-profile-tabs { display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); }
+.bird-profile-tabs button { line-height: 1.3; overflow-wrap: normal; }
+.bird-summary-known { margin-bottom: var(--space-4); }
+.bird-summary-known .record-details { grid-template-columns: repeat(auto-fit,minmax(min(100%,150px),1fr)); }
+.bird-summary-pending { display: flex; flex-wrap: wrap; gap: var(--space-2); padding-left: 20px; color: var(--muted); }
+.bird-complete-records { margin-top: var(--space-4); }
+.bird-complete-records > summary { font-weight: 750; }
+.bird-complete-records .bird-profile-content { margin-top: var(--space-4); }
+.bird-file-actions { margin-bottom: var(--space-4); }
+.quick-weight-bird { overflow-wrap: anywhere; }
+.weight-chart { margin: var(--space-4) 0; }
+.weight-chart svg { display: block; width: 100%; max-height: 300px; min-height: 150px; }
+.weight-chart-grid { stroke: var(--line); stroke-width: 1; }
+.weight-chart-label { fill: var(--muted); font-size: 12px; font-family: inherit; }
+.weight-chart-point { fill: var(--primary); stroke: var(--surface); stroke-width: 2; }
+.weight-chart-mobile-scale,.weight-chart-mobile-dates { display: none; }
+.weight-chart figcaption { font-size: var(--text-sm); }
+.weight-records { list-style: none; padding-left: 0; }
+.weight-records li { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.weight-records li > span { min-width: 0; overflow-wrap: anywhere; }
+.weight-records li small { display: block; color: var(--muted); }
+.reproduction-navigation { margin: 8px 0 20px; }
+.reproduction-navigation button[aria-pressed='true'] { background: var(--primary); border-color: var(--primary); color: var(--primary-text); }
+.egg-board { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,260px),1fr)); gap: var(--space-3); }
+.egg-board .egg-card { padding: var(--space-4); margin: 0; background: var(--surface-secondary); }
+.egg-board .egg-status-row { display: flex; gap: 8px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+.egg-card-details { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; margin: 12px 0; }
+.egg-card-details > div { min-width: 0; }
+.egg-card-details dt { color: var(--muted); font-size: var(--text-sm); }
+.egg-card-details dd { margin: 3px 0 0; font-weight: 700; overflow-wrap: anywhere; }
+.egg-board .toolbar { gap: 8px; }
+.egg-board .toolbar .button { min-height: 44px; padding: 10px; }
+.hatchling-origin { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); }
+:root[data-layout='android'] .bird-profile-hero.bird-profile-compact { display: grid; grid-template-columns: 72px minmax(0,1fr); padding: 12px; gap: 12px; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--surface); }
+:root[data-layout='android'] .bird-profile-compact .bird-profile-photo { height: 72px; width: 72px; }
+:root[data-layout='android'] .bird-profile-compact .bird-profile-overview { padding: 0; display: block; }
+:root[data-layout='android'] .bird-profile-compact .bird-profile-name { font-size: 19px; letter-spacing: -.2px; }
+:root[data-layout='android'] .bird-profile-compact .bird-profile-weight { border: 0; padding: 6px 0 0; max-width: none; min-width: 0; }
+:root[data-layout='android'] .bird-profile-compact .bird-profile-weight dt { display: none; }
+:root[data-layout='android'] .bird-profile-compact .bird-profile-weight dd { display: flex; flex-direction: row; gap: 8px; align-items: baseline; flex-wrap: wrap; }
+:root[data-layout='android'] .bird-profile-compact .bird-profile-weight dd strong { font-size: 15px; }
+:root[data-layout='android'] .bird-profile-compact .bird-profile-weight dd span { font-size: 11px; }
+:root[data-layout='android'] .bird-profile-actions { grid-template-columns: repeat(2,minmax(0,1fr)); }
+:root[data-layout='android'] .bird-profile-actions .button { font-size: 12px; }
+:root[data-layout='android'] .bird-profile-tabs { display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); }
+:root[data-layout='android'] .bird-profile-tabs button { padding: 10px 3px; font-size: 10px; }
+@media(max-width:600px) {
+  .weight-chart-label { display: none; }
+  .weight-chart-mobile-scale,.weight-chart-mobile-dates { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; font-size: var(--text-sm); color: var(--muted); }
+  .weight-chart-mobile-dates { margin-top: -8px; margin-bottom: 10px; }
+  .bird-profile-tabs button { padding: 10px 3px; font-size: 10px; }
+  .bird-profile-compact .bird-profile-overview { display: block; }
+  .bird-profile-compact .bird-profile-weight { border: 0; padding: 8px 0 0; max-width: none; }
+  .bird-profile-compact .bird-profile-weight dd { flex-direction: row; align-items: baseline; flex-wrap: wrap; }
+}

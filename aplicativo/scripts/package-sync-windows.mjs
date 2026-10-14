@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 import JSZip from 'jszip';
 
 const app = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const version = '0.1.0';
+const version = JSON.parse(await readFile(join(app, 'package.json'), 'utf8')).version;
 const runtimeVersion = '24.21.0';
 const runtimeName = `node-v${runtimeVersion}-win-x64.zip`;
 const runtimeUrl = `https://nodejs.org/dist/v${runtimeVersion}/${runtimeName}`;
@@ -39,6 +39,18 @@ for (const name of (await readdir(join(app, 'sync-server', 'windows'))).sort()) 
   }
 }
 files.set('LEIA_PRIMEIRO.txt', Buffer.from(`RECANTO DAS ASAS - SERVIDOR PRIVADO WINDOWS ${version}\r\n\r\n` +
+  'ATUALIZACAO EXISTENTE (apps 0.3.0 / esquema 3):\r\n' +
+  'A. Guarde backup completo verificado de cada aparelho antes de atualizar.\r\n' +
+  'B. Atualize PRIMEIRO este servidor, depois Windows e Android; nao desinstale os apps.\r\n' +
+  'C. Use 05-Parar.cmd da pasta instalada e aguarde a parada do processo do servidor.\r\n' +
+  'D. Extraia este ZIP em pasta nova e execute 01-Instalar.cmd com o mesmo usuario Windows.\r\n' +
+  '   O instalador troca somente program; preserve data, config.json e token.dpapi.\r\n' +
+  'E. A instalacao retoma o servidor; confira a resposta e use 03-Conectar-Tailscale.cmd\r\n' +
+  '   na pasta program instalada. A chave, a base e o endereco existentes sao mantidos.\r\n' +
+  'F. Atualize ambos os aplicativos antes de editar/sincronizar a base migrada.\r\n' +
+  '   Clientes antigos sao bloqueados quando a primeira gravacao esquema 3 e aceita.\r\n' +
+  'Nao apague dados/travas por tentativa e nao ative Funnel nem recrie a rede Tailscale.\r\n\r\n' +
+  'PRIMEIRA INSTALACAO:\r\n' +
   '1. Se aparecer Desbloquear nas Propriedades do ZIP, marque antes de extrair.\r\n' +
   '2. Extraia tudo e execute 01-Instalar.cmd. Node oficial incluido; nao requer npm.\r\n' +
   '3. Instale Tailscale no Windows e no Android, conectando os dois a sua rede privada.\r\n' +
@@ -64,13 +76,13 @@ files.set('LEIA_PRIMEIRO.txt', Buffer.from(`RECANTO DAS ASAS - SERVIDOR PRIVADO 
   'ser validados. Guia completo: docs/SERVIDOR_WINDOWS.md no projeto.\r\n'));
 
 const manifest = {
-  version, runtimeVersion, runtimeUrl, runtimeArchiveSha256: runtimeSha256,
+  version, protocolVersion: 1, schemaGateVersion: 1, applicationSchemaVersion: 3, runtimeVersion, runtimeUrl, runtimeArchiveSha256: runtimeSha256,
   files: [...files].map(([path, data]) => ({ path, bytes: data.length, sha256: sha(data) })),
 };
 files.set('bundle-manifest.json', Buffer.from(JSON.stringify(manifest, null, 2) + '\n'));
 const zip = new JSZip();
 const root = `Recanto-das-Asas-Servidor-Windows-${version}/`;
-for (const [path, data] of files) zip.file(root + path, data, { date: new Date('2026-10-08T00:00:00Z') });
+for (const [path, data] of files) zip.file(root + path, data, { date: new Date('2026-10-14T00:00:00Z') });
 const result = await zip.generateAsync({ type: 'nodebuffer', compression: 'DEFLATE', compressionOptions: { level: 6 } });
 const output = join(app, 'release', 'servidor-windows');
 await mkdir(output, { recursive: true });

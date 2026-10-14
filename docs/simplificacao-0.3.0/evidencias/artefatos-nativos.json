@@ -1,0 +1,82 @@
+{
+  "version": "0.3.0",
+  "artifacts": [
+    {
+      "target": "Android debug",
+      "path": "/workspace/recanto-das-asas/aplicativo/release/android/Recanto-das-Asas-0.3.0-debug.apk",
+      "bytes": 31769759,
+      "sha256": "177571194d016b347b75e03c1ae039ee9c827afac21b15a3f47c97a243986fdb"
+    },
+    {
+      "target": "Windows x64 NSIS",
+      "path": "/workspace/recanto-das-asas/aplicativo/release/windows/Recanto-das-Asas-0.3.0-x64-Setup.exe",
+      "bytes": 137058911,
+      "sha256": "38b489ffb27cd1d6321af5293738a51d0141e48151c7f02533500f4570be302f"
+    },
+    {
+      "target": "Windows sync server",
+      "path": "/workspace/recanto-das-asas/aplicativo/release/servidor-windows/Recanto-das-Asas-Servidor-Windows-0.3.0.zip",
+      "bytes": 35002789,
+      "sha256": "c1f24137cf3145276bbf642e47c423285c193e791c7002020fa511beb7ffab2d"
+    }
+  ],
+  "web": {
+    "count": 94,
+    "js": "assets/index-CmGD_SQM.js",
+    "css": "assets/index-Cv0drBPW.css",
+    "androidAndWindowsMatchAllDistFiles": true,
+    "manifestPath": "/tmp/recanto-native-0.3.0/dist-manifest.json",
+    "manifestSHA256": "97f7eae01bb22873d190664c5550bc19d067939af787ab8f82dd98f88f86134b"
+  },
+  "checks": {
+    "androidBuildAndLint": "passed",
+    "androidCertificateSameAs023": true,
+    "androidVersionCode": 3000,
+    "androidPreviousVersionCode": 2004,
+    "androidMinSDK": 29,
+    "androidTargetSDK": 36,
+    "androidOrigin": "https://localhost",
+    "androidAddedPermission": "android.permission.USE_BIOMETRIC",
+    "androidLint": {
+      "counts": {
+        "Warning": 33,
+        "Hint": 5
+      },
+      "activeErrorsOrFatal": 0,
+      "errorsFilteredByExistingDependencyBaseline": 6
+    },
+    "windowsAsar": "passed",
+    "windowsNSISPECRCAndEmbeddedPayloads": "passed",
+    "windowsVersion": "0.3.0",
+    "windowsProfileAndOriginSameAsPrevious": true,
+    "windowsAppId": "br.com.recantodasasas.app",
+    "windowsUserData": "APPDATA/RecantoDasAsas",
+    "windowsOrigin": "app://recanto",
+    "windowsCommerciallySigned": false,
+    "serverManifestSourcesOfficialRuntime": "passed",
+    "serverWindowsPowerShellChecksOnLinux": 29,
+    "serverRuntime": "Node.js 24.21.0 AMD64",
+    "serverApplicationSchemaVersion": 3,
+    "privateCredentialsIncluded": false
+  },
+  "evidenceFiles": [
+    "/tmp/recanto-native-0.3.0/android-build.log",
+    "/tmp/recanto-native-0.3.0/apk-verification.json",
+    "/tmp/recanto-native-0.3.0/windows-build.log",
+    "/tmp/recanto-native-0.3.0/asar-verification.json",
+    "/tmp/recanto-native-0.3.0/windows-verification.json",
+    "/tmp/recanto-native-0.3.0/nsis-stream-verification.json",
+    "/tmp/recanto-native-0.3.0/server-verification.json",
+    "/tmp/recanto-native-0.3.0/server-artifact-audit.json"
+  ],
+  "repositoryChangeByThisAgent": "docs/COMPILACAO.md only; generated artifacts and verifier helpers ignored/outside checkout",
+  "limitations": [
+    "No physical Android device or emulator: biometric sensor/Keystore, installation/upgrade over real profile, native keyboard and power policies remain manual checks.",
+    "No physical Windows host: NSIS installation/upgrade, DPAPI/ACL/Startup login and printing remain manual checks.",
+    "No Tailscale network service or cellular connection was activated/tested.",
+    "Minimizing/session and native navigation browser bridge checks are platform simulations, not physical platform evidence.",
+    "Existing Capacitor dependency lint baseline filters 6 errors; the baseline was not changed.",
+    "Server program copy is sequential; interrupted replacement can require installer rerun while config/token/data remain preserved."
+  ],
+  "externalPublicationOrUploadPerformed": false
+}

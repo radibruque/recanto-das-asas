@@ -6,7 +6,7 @@ O computador precisa ficar **ligado, com seu usuário conectado, internet e Tail
 
 ## O que você precisa
 
-- O [ZIP do servidor Windows](../aplicativo/release/servidor-windows/Recanto-das-Asas-Servidor-Windows-0.1.0.zip), extraído por completo. Ele inclui o runtime oficial **Node.js 24.21.0**; você não precisa instalar Node ou executar comandos npm. O [SHA-256](../aplicativo/release/servidor-windows/Recanto-das-Asas-Servidor-Windows-0.1.0.zip.sha256) acompanha o arquivo.
+- O [ZIP do servidor Windows](../aplicativo/release/servidor-windows/Recanto-das-Asas-Servidor-Windows-0.3.0.zip), extraído por completo. Ele inclui o runtime oficial **Node.js 24.21.0**; você não precisa instalar Node ou executar comandos npm. O [SHA-256](../aplicativo/release/servidor-windows/Recanto-das-Asas-Servidor-Windows-0.3.0.zip.sha256) acompanha o arquivo.
 - Tailscale instalado no Windows e no Android, com os dois aparelhos na mesma conta/rede privada.
 - Os aplicativos Recanto das Asas nos dois aparelhos e a mesma senha para abrir a base.
 - Um destino fora do computador para guardar backups.
@@ -14,6 +14,20 @@ O computador precisa ficar **ligado, com seu usuário conectado, internet e Tail
 Confira no [site do Tailscale](https://tailscale.com/pricing) um plano e condições compatíveis com o uso no criatório. Não pressupomos gratuidade para atividade comercial. Este pacote não contrata serviços nem ativa cobranças.
 
 Não é necessário comprar um domínio, contratar serviço Google ou abrir portas no roteador. O Tailscale fornece um endereço HTTPS para a rede privada. A emissão do certificado pode tornar público **o nome DNS do computador** em registros de transparência de certificados; o conteúdo do criatório continua privado. Prefira um nome de dispositivo sem informações pessoais.
+
+## Atualizar uma instalação existente para 0.3.0
+
+A versão 0.3.0 utiliza o esquema de dados 3. Atualize **primeiro o servidor** e depois **ambos os aplicativos**. O serviço mantém o protocolo criptografado anterior e acrescenta a verificação da versão do cliente. Depois da primeira gravação do esquema 3, um cliente antigo recebe uma recusa de atualização obrigatória; ele não pode sobrescrever a base nova.
+
+1. Em cada aparelho, salve um backup completo `.ra-backup` e verifique sua prévia, guardando os arquivos fora da pasta instalada. Preserve também qualquer alteração pendente ou conflito que ainda não tenha sido revisado.
+2. No mesmo usuário Windows que instalou o servidor, execute `%LOCALAPPDATA%\RecantoDasAsasSync\program\05-Parar.cmd`. Aguarde a confirmação da parada. Isso para o processo do Recanto e mantém o Tailscale instalado e conectado.
+3. Extraia o ZIP 0.3.0 **em uma pasta nova** e execute `01-Instalar.cmd` dessa pasta. Ele verifica os arquivos, substitui os arquivos da subpasta `program` e retoma o processo. Não substitua a pasta de dados inteira.
+4. Preserve `%LOCALAPPDATA%\RecantoDasAsasSync\data`, `config.json` e `token.dpapi`. A chave continua protegida por DPAPI para a mesma conta Windows. O instalador não cria outra chave quando já existe uma instalação válida. Não limpe o perfil nem recrie a rede Tailscale.
+5. Na pasta `program` instalada, execute `03-Conectar-Tailscale.cmd` para conferir o HTTPS privado com autenticação e a capacidade do servidor para o novo esquema. O endereço, o identificador e a chave usados nos aplicativos continuam os mesmos.
+6. Feche o aplicativo Windows e execute o instalador 0.3.0 sobre a instalação atual. No Android, abra o APK 0.3.0 e confirme **Atualizar**, sem desinstalar. Atualize os dois antes de editar ou sincronizar a base migrada.
+7. Abra cada aplicativo, confira seus registros e a versão. Sincronize e revise eventuais conflitos existentes antes de continuar o trabalho. Uma cópia vazia nunca deve substituir a remota existente.
+
+Se `01-Instalar.cmd` informar que o servidor está em execução, volte à etapa 2 e aguarde; não apague `supervisor.lease` ou `server.lock`. Se a chave estiver ausente ou não puder ser aberta, preserve todos os arquivos e use a conta Windows original. Não há recuperação automática de DPAPI entre usuários. O [guia de atualização e recuperação 0.3.0](ATUALIZACAO_0.3.0.md) detalha os aplicativos e a cópia anterior.
 
 ## 1. Preparar o ZIP e instalar o servidor
 
@@ -40,7 +54,7 @@ No painel do Tailscale, mantenha somente aparelhos autorizados com acesso ao ser
 
 ## 3. Configurar primeiro o aplicativo no Windows
 
-Os instaladores atuais estão em [Windows](../aplicativo/release/windows/Recanto-das-Asas-0.1.0-x64-Setup.exe) e [Android](../aplicativo/release/android/Recanto-das-Asas-0.1.0-debug.apk). O instalador Windows é de avaliação sem Authenticode; o APK é de avaliação com identidade separada da futura versão definitiva. Instalação e atualização em aparelhos físicos ainda precisam ser conferidas.
+Os instaladores atuais estão em [Windows](../aplicativo/release/windows/Recanto-das-Asas-0.3.0-x64-Setup.exe) e [Android](../aplicativo/release/android/Recanto-das-Asas-0.3.0-debug.apk). O instalador Windows é de avaliação sem Authenticode; o APK é de avaliação com identidade separada da futura versão definitiva. Instalação e atualização em aparelhos físicos ainda precisam ser conferidas.
 
 1. Abra o aplicativo no Windows e crie ou desbloqueie sua base. Guarde a senha: ela é necessária para abrir os mesmos registros no Android e restaurar backups.
 2. Entre em **Backup e recuperação**, faça um backup completo e baixe o arquivo `.ra-backup`. Guarde uma cópia fora do computador antes de configurar a sincronização.

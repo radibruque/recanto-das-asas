@@ -23,7 +23,7 @@ export default function HealthRegistrationForm({ state, scope, command, event, b
     <div className="grid form-grid">
       <Field label="Ave *"><select name="birdId" defaultValue={event?.birdId ?? birdId ?? ''} required disabled={!!event}><option value="">Selecione</option>{birds.map(b => <option key={b.id} value={b.id}>{birdLabel(b)}</option>)}</select></Field>
       <Field label="Data *"><input type="date" name="date" defaultValue={event?.date ?? today()} required max={today()}/></Field>
-      <Field label="Tipo"><select name="kind" defaultValue={event?.kind ?? 'pesagem'}>{healthKinds.map(kind => <option key={kind}>{kind}</option>)}</select></Field>
+      <Field label="Tipo"><select name="kind" defaultValue={event?.kind ?? 'acompanhamento'}>{healthKinds.map(kind => <option key={kind}>{kind}</option>)}</select></Field>
       <Field label="Título *"><input name="title" defaultValue={event?.title} required/></Field>
       <Field label="Peso (gramas)"><input name="weightGrams" type="number" min="0.001" max="100000" step="any" defaultValue={event?.weightGrams ?? ''}/></Field>
       <Field label="Profissional"><input name="professional" defaultValue={event?.professional}/></Field>
