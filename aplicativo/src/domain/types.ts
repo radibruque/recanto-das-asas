@@ -1,5 +1,6 @@
-export const APP_VERSION = '0.2.3';
+export const APP_VERSION = '0.3.0';
 import type { BirdBookletData } from './booklet-data';
+import type { NavigationTarget } from './ui-target';
 export type { BirdBookletData } from './booklet-data';
 import type { Bird as BaseBird, Pair as BasePair, Clutch as BaseClutch, Egg as BaseEgg, MutationEntry, Scope } from './base-model';
 export type { Scope };
@@ -28,6 +29,6 @@ export type SupportReport = {id:string;number:string;createdAt:string;version:st
 export type AuditEntry = {id:string;scope:Scope;at:string;author:string;action:string;recordId:string;reason:string};
 export type Settings = {name:string;phone:string;email:string;address:string;version:string;backupDays:number;lastBackupAt:string;backupHistory:{at:string;sha256:string;size:number;verified:boolean}[];categories:string[];speciesEstimates:Record<string,number>;reportSchedules:{id:string;scope:Scope;name:string;module:string;days:number;lastRun:string}[]};
 export type State = {schemaVersion:2;revision:number;birds:Bird[];pairs:Pair[];clutches:Clutch[];eggs:Egg[];mutations:Mutation[];health:HealthEvent[];tasks:Task[];contacts:Contact[];sales:Sale[];accounts:Account[];bills:Bill[];payments:Payment[];transfers:Transfer[];products:Product[];stock:StockMovement[];closings:CashClosing[];attachments:Attachment[];documents:IssuedDocument[];support:SupportReport[];audit:AuditEntry[];settings:Settings};
-export type ModuleProps = {state:State;scope:Scope;command:(action:string,data:unknown)=>Promise<string|undefined>;notify:(message:string)=>void;search:string};
+export type ModuleProps = {state:State;scope:Scope;command:(action:string,data:unknown)=>Promise<string|undefined>;notify:(message:string)=>void;search:string;target?:NavigationTarget;navigate?:(target:NavigationTarget)=>void;back?:()=>void};
 export type Handler = (state:State,scope:Scope,action:string,data:unknown)=>{id?:string}|null;
 export const emptyState = ():State => ({schemaVersion:2,revision:0,birds:[],pairs:[],clutches:[],eggs:[],mutations:[],health:[],tasks:[],contacts:[],sales:[],accounts:[],bills:[],payments:[],transfers:[],products:[],stock:[],closings:[],attachments:[],documents:[],support:[],audit:[],settings:{name:'Recanto das Asas',phone:'',email:'',address:'',version:APP_VERSION,backupDays:1,lastBackupAt:'',backupHistory:[],categories:['Venda','Alimentação','Veterinário','Manutenção','Aporte','Retirada'],speciesEstimates:{},reportSchedules:[]}});

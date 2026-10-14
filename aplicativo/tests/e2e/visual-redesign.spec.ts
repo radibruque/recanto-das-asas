@@ -76,7 +76,7 @@ for (const theme of ['light', 'dark'] as const) {
       await page.setViewportSize({ width, height: 900 });
       expect(await visualGeometry(page), `${width}px populated plantel`).toEqual({ overflow: false, overlaps: [] });
     }
-    await page.getByLabel('Buscar registros', { exact: true }).fill('VISUAL-LONGO-7');
+    await page.getByLabel('Buscar aves', { exact: true }).fill('VISUAL-LONGO-7');
     await expect(page.getByRole('button', { name: /VISUAL-LONGO-/ })).toHaveCount(1);
     await page.getByRole('button', { name: /VISUAL-LONGO-7/ }).click();
     expect(await visualGeometry(page), 'Long bird sheet').toEqual({ overflow: false, overlaps: [] });

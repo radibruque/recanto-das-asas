@@ -46,7 +46,7 @@ test('blocked visual storage keeps theme usable without preventing vault creatio
   await page.getByLabel('Senha da base', { exact: true }).fill('senha-ficticia-armazenamento');
   await page.getByLabel('Confirmar senha', { exact: true }).fill('senha-ficticia-armazenamento');
   await page.getByRole('button', { name: 'Criar base privada', exact: true }).click();
-  await expect(page.getByRole('heading', { name: 'Painel Criatório', exact: true })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Hoje no criatório', exact: true })).toBeVisible();
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
 });
 

@@ -1,8 +1,8 @@
 import { expect, type Page } from '@playwright/test';
 
 export const visualMenus = [
-  'Início', 'Aves', 'Casais', 'Reprodução', 'Parentesco', 'Saúde e manejo', 'Agenda',
-  'Clientes e fornecedores', 'Vendas e reservas', 'Financeiro', 'Estoque', 'Relatórios',
+  'Hoje', 'Aves', 'Casais', 'Reprodução', 'Parentesco', 'Saúde e manejo', 'Agenda',
+  'Pessoas', 'Vendas e reservas', 'Financeiro', 'Materiais', 'Relatórios',
   'Documentos', 'Caderneta do pet', 'Identidade visual', 'Backup e recuperação',
   'Sincronização', 'Configurações', 'Atualizações', 'Reportar problema',
 ] as const;
@@ -15,7 +15,7 @@ export async function createVisualVault(page: Page, theme: 'light' | 'dark' = 'l
   await page.getByLabel('Senha da base', { exact: true }).fill(visualPassword);
   await page.getByLabel('Confirmar senha', { exact: true }).fill(visualPassword);
   await page.getByRole('button', { name: 'Criar base privada', exact: true }).click();
-  await expect(page.getByRole('heading', { name: 'Painel Criatório', exact: true })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Hoje no criatório', exact: true })).toBeVisible();
   if (demo) {
     await clickVisualContextControl(page, 'Demonstração');
     await page.getByRole('button', { name: 'Criar exemplos fictícios', exact: true }).click();
@@ -41,17 +41,24 @@ export async function clickVisualContextControl(page: Page, name: string) {
 }
 
 export async function navigateVisual(page: Page, name: string) {
+  await expect(page.locator('.app-layout')).toBeVisible();
+  const aliases: Record<string, string> = { 'Início': 'Hoje', 'Clientes e fornecedores': 'Pessoas', 'Estoque': 'Materiais' };
+  const destinationName = aliases[name] ?? name;
   const menu = page.getByRole('button', { name: 'Abrir menu', exact: true });
   if (await menu.isVisible() && await menu.getAttribute('aria-expanded') !== 'true') await menu.click();
+  // Sector selection is a real interaction, never a replacement data context.
+  if (destinationName === 'Hoje' || destinationName === 'Resumo') {
+    const sector = page.getByRole('group', { name: 'Setor de trabalho', exact: true });
+    await sector.getByRole('button', { name: destinationName === 'Hoje' ? 'Criatório' : 'Comercial', exact: true }).click();
+    if (await menu.isVisible() && await menu.getAttribute('aria-expanded') !== 'true') await menu.click();
+  }
   const navigation = page.getByRole('navigation', { name: 'Navegação principal', includeHidden: true });
-  const destination = navigation.getByRole('button', { name, exact: true, includeHidden: true }).and(navigation.locator('button.nav-item'));
-  // Desktop navigation may group existing destinations inside disclosure menus.
-  // Open their real controls rather than changing visibility through page scripts.
+  const destination = navigation.getByRole('button', { name: destinationName, exact: true, includeHidden: true }).and(navigation.locator('button.nav-item'));
   const disclosure = destination.locator('xpath=ancestor::details[not(@open)][1]');
   if (await disclosure.count()) await disclosure.locator(':scope > summary').click();
   await destination.click();
-  await expect(navigation.locator('button[aria-current="page"]')).toHaveText(name);
-  await expect(page.locator('.page-title h1')).toHaveText(name);
+  await expect(navigation.locator('button[aria-current="page"]')).toHaveText(destinationName);
+  await expect(page.locator('.page-title h1')).toHaveText(destinationName);
 }
 
 export async function visualGeometry(page: Page) {

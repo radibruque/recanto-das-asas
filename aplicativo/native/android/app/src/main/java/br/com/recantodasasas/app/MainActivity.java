@@ -8,6 +8,8 @@ public class MainActivity extends BridgeActivity {
     public void onCreate(Bundle savedInstanceState) {
         registerPlugin(RecantoFilesPlugin.class);
         registerPlugin(RecantoCalendarPlugin.class);
+        registerPlugin(RecantoBiometricsPlugin.class);
+        registerPlugin(RecantoNavigationPlugin.class);
         super.onCreate(savedInstanceState);
     }
 }

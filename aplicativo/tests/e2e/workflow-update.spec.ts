@@ -13,7 +13,7 @@ async function create(page:Page) {
   await page.getByLabel('Senha da base', {exact:true}).fill(password);
   await page.getByLabel('Confirmar senha', {exact:true}).fill(password);
   await page.getByRole('button', {name:'Criar base privada', exact:true}).click();
-  await expect(page.getByRole('heading', {name:'Painel Criatório', exact:true})).toBeVisible();
+  await expect(page.getByRole('heading', {name:'Hoje no criatório', exact:true})).toBeVisible();
 }
 async function nav(page:Page, name:string) {
   await navigateVisual(page, name);

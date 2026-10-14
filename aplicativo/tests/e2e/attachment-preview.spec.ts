@@ -28,7 +28,7 @@ async function seedPhotos(page:Page,count=30,tampered=false){
   await page.reload();
   await page.getByLabel('Senha da base',{exact:true}).fill(password);
   await page.getByRole('button',{name:'Desbloquear',exact:true}).click();
-  await expect(page.getByRole('heading',{name:'Painel Criatório',exact:true})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'Hoje no criatório',exact:true})).toBeVisible();
   await navigateVisual(page,'Aves');
   return record.envelope.ciphertext;
 }
@@ -53,7 +53,7 @@ test('bird thumbnails prepare near the viewport, share verified work and release
   await rows.last().scrollIntoViewIfNeeded();
   await expect(rows.last().getByRole('img')).toBeVisible();
   await expect(rows.first().getByRole('img')).toHaveCount(0);
-  await page.getByLabel('Buscar registros',{exact:true}).fill('Nenhuma ave corresponde');
+  await page.getByLabel('Buscar aves',{exact:true}).fill('Nenhuma ave corresponde');
   await expect(rows).toHaveCount(0);
   await expect.poll(()=>page.evaluate(()=>(window as unknown as {previewUrls:Set<string>}).previewUrls.size)).toBe(0);
   const persisted=await page.evaluate(async()=>{

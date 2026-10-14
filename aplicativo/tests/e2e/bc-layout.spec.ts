@@ -88,7 +88,7 @@ for (const layout of [
     const nameWeight = await row.locator('.bird-list-name').evaluate(element => Number.parseInt(getComputedStyle(element).fontWeight, 10));
     expect(nameWeight).toBeGreaterThanOrEqual(700);
     await capture(page, testInfo, 'aves-lista-horizontal');
-    await page.getByLabel('Buscar registros', { exact: true }).fill(birdIdentification);
+    await page.getByLabel('Buscar aves', { exact: true }).fill(birdIdentification);
     await expect(collection.locator('.bird-list-row')).toHaveCount(1);
     await page.getByRole('button', { name: birdLabel, exact: true }).click();
     await expect(page.locator('.bird-profile-name')).toContainText(birdName);

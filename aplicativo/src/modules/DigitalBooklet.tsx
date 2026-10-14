@@ -10,7 +10,7 @@ import { RecordDetailsDialog } from '../components/RecordDialog';
 const message = (error: unknown) => error instanceof Error ? error.message : 'Não foi possível concluir. Seus dados foram preservados.';
 const safeName = (value: string) => value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9_-]/g, '_').slice(0, 70) || 'ave';
 
-export default function DigitalBooklet({ state, scope, command, notify, search }: ModuleProps) {
+export default function DigitalBooklet({ state, scope, command, notify, search, target }: ModuleProps) {
   const [birdId, setBirdId] = useState(''), [saleId, setSaleId] = useState(''), [fields, setFields] = useState<DigitalBookletFields>({});
   const [attachments, setAttachments] = useState<PendingAttachment[]>([]), [includePhoto, setIncludePhoto] = useState(true);
   const [busy, setBusy] = useState(false), [preparing, setPreparing] = useState(false), [error, setError] = useState('');
@@ -26,6 +26,11 @@ export default function DigitalBooklet({ state, scope, command, notify, search }
   const historyBird = birds.find(value => value.id === historyBirdId);
 
   useEffect(() => { setBirdId(''); setSaleId(''); setFields({}); setAttachments([]); setHistoryBirdId(''); setSelectedClinical([]); setError(''); }, [scope]);
+
+  useEffect(()=>{
+    if(target?.birdId){setBirdId(target.birdId);setSaleId(target.saleId??'');setFields(deriveBookletFields(state,scope,target.birdId,target.saleId));setAttachments([]);setSelectedClinical([]);setError('');}
+    if(target?.issuedDocumentId){const original=issued.find(d=>d.id===target.issuedDocumentId);if(original?.birdId)setHistoryBirdId(original.birdId);}
+  },[target?.request]);
 
   function chooseBird(id: string) {
     setBirdId(id); setSaleId(''); setSelectedClinical([]); setAttachments([]); setError('');

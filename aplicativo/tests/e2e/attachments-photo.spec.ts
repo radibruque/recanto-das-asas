@@ -7,7 +7,7 @@ test('large principal photo keeps the original and uses a bounded image for the 
   await page.getByLabel('Senha da base',{exact:true}).fill(password);
   await page.getByLabel('Confirmar senha',{exact:true}).fill(password);
   await page.getByRole('button',{name:'Criar base privada',exact:true}).click();
-  await expect(page.getByRole('heading',{name:'Painel Criatório',exact:true})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'Hoje no criatório',exact:true})).toBeVisible();
   const photoBase64=await page.evaluate(async()=>{
     const canvas=document.createElement('canvas');canvas.width=2400;canvas.height=1200;
     const context=canvas.getContext('2d')!;const gradient=context.createLinearGradient(0,0,2400,1200);gradient.addColorStop(0,'#054973');gradient.addColorStop(1,'#67994b');context.fillStyle=gradient;context.fillRect(0,0,2400,1200);

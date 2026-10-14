@@ -66,7 +66,7 @@ for (const layout of [
     await page.screenshot({ path: footerCapture });
     await testInfo.attach('Menu com rodapé acessível', { path: footerCapture, contentType: 'image/png' });
     await sidebar.evaluate(element => { element.scrollTop = 0; });
-    await expect(sidebar.getByRole('button', { name: 'Início', exact: true })).toBeInViewport({ ratio: 1 });
+    await expect(sidebar.getByRole('button', { name: 'Hoje', exact: true })).toBeInViewport({ ratio: 1 });
 
     // Exercise the existing close action using the keyboard, then open afresh.
     const close = page.getByRole('button', { name: 'Fechar menu', exact: true });

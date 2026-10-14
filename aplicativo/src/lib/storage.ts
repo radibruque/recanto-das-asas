@@ -81,6 +81,7 @@ export class Vault {
  }
  async create(password:string){if(password.length<10)throw new Error('Use uma senha com pelo menos 10 caracteres.');const state=emptyState();await this.replace({key:'vault',revision:0,envelope:await encryptObject(state,password),metadata:await encryptObject({sync:null,queue:[]},password)},null);this.password=password;return state;}
  async unlock(password:string){const rec=await this.read();if(!rec)throw new Error('Crie a base privada primeiro.');const state=validateState(await decryptObject(rec.envelope,password));this.password=password;return state;}
+ async verifyPassword(password:string):Promise<void>{const rec=await this.read();if(!rec)throw new Error('Crie a base privada primeiro.');validateState(await decryptObject(rec.envelope,password));}
  lock(){this.password='';}
  private check(){if(!this.password)throw new Error('Desbloqueie a base privada.');}
  async load(){this.check();const rec=await this.read();if(!rec)throw new Error('Base ausente.');return validateState(await decryptObject(rec.envelope,this.password));}

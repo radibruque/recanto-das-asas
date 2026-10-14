@@ -9,11 +9,12 @@ const metadata=(attachment:Attachment)=>({title:attachment.title,category:attach
 type Metadata=ReturnType<typeof metadata>;
 const emptyMetadata:Metadata={title:'',category:'',date:'',issuer:'',reference:'',validUntil:'',notes:'',shareWithCustomer:false};
 
-export default function DocumentsLibrary({state,scope,command,notify,search}:ModuleProps) {
+export default function DocumentsLibrary({state,scope,command,notify,search,target}:ModuleProps) {
   const [filters,setFilters]=useState<AttachmentFilters>({versions:'current'}),[groupBy,setGroupBy]=useState<AttachmentGrouping>('bird'),[selectedGroup,setSelectedGroup]=useState(''),[selectedId,setSelectedId]=useState('');
   const [editing,setEditing]=useState<Metadata>(emptyMetadata),[busy,setBusy]=useState(false),[error,setError]=useState('');
   const dialog=useRef<HTMLDialogElement>(null);
-  const attachments=useMemo(()=>filterAttachments(state,scope,{...filters,text:search}),[state,scope,filters,search]);
+  const [linkedBird,setLinkedBird]=useState(''),[linkedSale,setLinkedSale]=useState('');
+  const attachments=useMemo(()=>filterAttachments(state,scope,{...filters,text:search}).filter(file=>(!linkedBird||attachmentBirdIds(state,scope,file).includes(linkedBird))&&(!linkedSale||file.saleId===linkedSale)),[state,scope,filters,search,linkedBird,linkedSale]);
   const groups=useMemo(()=>groupAttachments(state,scope,attachments,groupBy),[state,scope,attachments,groupBy]);
   const activeGroup=groups.find(group=>group.key===selectedGroup);
   const selected=state.attachments.find(attachment=>attachment.id===selectedId&&attachment.scope===scope);
@@ -29,6 +30,7 @@ export default function DocumentsLibrary({state,scope,command,notify,search}:Mod
     else if(dialog.current?.open)dialog.current.close();
     // Keep an in-progress edit intact while another part of the base is updated.
   },[selectedId,scope]);
+  useEffect(()=>{if(target?.attachmentId){setSelectedId(target.attachmentId);}if(target?.birdId)setLinkedBird(target.birdId);if(target?.saleId)setLinkedSale(target.saleId);},[target?.request]);
   function filter<K extends keyof AttachmentFilters>(key:K,value:AttachmentFilters[K]) {setFilters(current=>({...current,[key]:value}));setSelectedGroup('');}
   async function save() {
     if(!selected)return;
@@ -38,6 +40,7 @@ export default function DocumentsLibrary({state,scope,command,notify,search}:Mod
     finally{setBusy(false);}
   }
   return <section className="stack documents-library">
+    {(linkedBird||linkedSale)&&<div className="notice"><span>Arquivos do registro relacionado</span><button className="button secondary" onClick={()=>{setLinkedBird('');setLinkedSale('');}}>Mostrar todo o acervo</button></div>}
     <div className="card document-library-filters"><h3 className="section-title">Acervo de documentos e fotos</h3><p>Arquivos anexados nos cadastros e registros. Abra uma ave ou um grupo para consultar os arquivos, visualizar os originais e acrescentar observações.</p>
       <div className="form-grid filter-grid">
         <label>Organizar por<select value={groupBy} onChange={event=>{setGroupBy(event.target.value as AttachmentGrouping);setSelectedGroup('');}}><option value="bird">Ave</option><option value="category">Categoria</option><option value="contact">Cliente ou fornecedor</option><option value="sale">Venda ou reserva</option><option value="source">Menu de origem</option></select></label>

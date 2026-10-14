@@ -16,11 +16,16 @@ function AgendaDialog({ title, children, onClose }: { title: string; children: R
   </dialog>;
 }
 
-export default function Agenda({ state, scope, command, notify, search, onEdit }: ModuleProps & { onEdit: (task: Task) => void }) {
+export default function Agenda({ state, scope, command, notify, search, target, navigate, onEdit }: ModuleProps & { onEdit: (task: Task) => void }) {
   const [status, setStatus] = useState<StatusFilter>('pendentes');
   const [birdFilter, setBirdFilter] = useState(''), [from, setFrom] = useState(''), [until, setUntil] = useState('');
   const [groupId, setGroupId] = useState<string | null>(null), [taskId, setTaskId] = useState<string | null>(null), [busy, setBusy] = useState(false);
   useEffect(() => { setGroupId(null); setTaskId(null); setBirdFilter(''); setFrom(''); setUntil(''); setStatus('pendentes'); }, [scope]);
+  useEffect(() => {
+    if(target?.taskId){const task=state.tasks.find(t=>t.id===target.taskId&&t.scope===scope);if(task){setTaskId(task.id);setGroupId(task.birdId??'geral');}}
+    if(target?.filter==='pending')setStatus('pendentes');
+    if(target?.filter==='overdue')setStatus('vencidas');
+  },[target?.request]);
   const tasks = state.tasks.filter(task => task.scope === scope);
   const birds = state.birds.filter(bird => bird.scope === scope);
   const findBird = (id: string | null) => birds.find(bird => bird.id === id);
@@ -82,6 +87,7 @@ export default function Agenda({ state, scope, command, notify, search, onEdit }
       {!selectedGroup?.records.length && <p className="empty">Nenhuma tarefa neste grupo corresponde aos filtros.</p>}
     </AgendaDialog>}
     {selectedTask && <AgendaDialog title={selectedTask.title} onClose={() => setTaskId(null)}>
+      {selectedTask.birdId&&navigate&&<button className="button" onClick={()=>{setTaskId(null);setGroupId(null);navigate({view:'birds',birdId:selectedTask.birdId!});}}>Abrir ave relacionada</button>}
       <dl className="agenda-details"><dt>Ave</dt><dd>{taskBirdLabel(selectedTask)}</dd><dt>Data</dt><dd>{dateLabel(selectedTask.dueDate)}</dd><dt>Horário</dt><dd>{selectedTask.reminderTime ? `${selectedTask.reminderTime} (Brasília)` : 'Não definido'}</dd><dt>Situação</dt><dd>{statusLabel(selectedTask)}</dd><dt>Antecedência</dt><dd>{(selectedTask.reminderMinutes ?? 15) === 0 ? 'No horário da tarefa' : `${selectedTask.reminderMinutes ?? 15} minutos antes`}</dd><dt>Observações</dt><dd style={{ whiteSpace: 'pre-wrap' }}>{selectedTask.notes || 'Não informadas'}</dd></dl>
       <div className="row modal-actions"><button className="button secondary" onClick={() => { setTaskId(null); setGroupId(null); onEdit(selectedTask); }}>Editar tarefa</button><button className="button" disabled={busy} onClick={() => void toggle(selectedTask)}>{selectedTask.done ? 'Reabrir tarefa' : 'Concluir tarefa'}</button></div>
       {!selectedTask.done && <div className="notice"><p className="muted">{selectedTask.reminderTime ? 'Ao abrir o calendário, confira e confirme o evento e o lembrete. Evite adicionar a mesma tarefa duas vezes.' : 'Edite a tarefa e informe um horário para criar um lembrete.'}</p><div className="row modal-actions"><button className="button" disabled={busy || !selectedTask.reminderTime} onClick={() => void calendar(selectedTask)}>{hasNativeCalendar() ? 'Adicionar ao calendário' : 'Baixar lembrete (.ics)'}</button>{hasNativeCalendar() && <button className="button secondary" disabled={busy || !selectedTask.reminderTime} onClick={() => void calendar(selectedTask, true)}>Baixar lembrete (.ics)</button>}</div></div>}
