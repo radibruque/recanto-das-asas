@@ -1,0 +1,13 @@
+﻿RECANTO DAS ASAS 0.3.0 — ATUALIZAÇÃO
+
+1. Baixe o ZIP desta branch pelo botão Code > Download ZIP e extraia todas as pastas.
+2. Faça e verifique backups nos dois aparelhos antes de atualizar. Guarde as cópias fora do computador.
+3. Na pasta atualizacao-0.3.0, execute 01-Preparar-Windows.cmd. Ele reúne as três partes e verifica o SHA-256 do instalador. Aguarde a confirmação; essa etapa não instala.
+4. Atualize PRIMEIRO o servidor: extraia Recanto-das-Asas-Servidor-Windows-0.3.0.zip em pasta nova. Pare o servidor anterior com 05-Parar.cmd e execute 01-Instalar.cmd do pacote novo, na mesma conta Windows. Preserve config.json, token.dpapi, data e Tailscale.
+5. Feche o aplicativo Windows e abra Recanto-das-Asas-0.3.0-x64-Setup.exe recém-preparado, sobre a instalação atual.
+6. No Android, abra Recanto-das-Asas-0.3.0-debug.apk e confirme Atualizar. Não desinstale e não limpe o armazenamento.
+7. Abra os dois aplicativos com sua senha atual, confira a versão 0.3.0 e os registros. Só então sincronize.
+
+Guia completo: LEIA-PRIMEIRO.md ou ../docs/ATUALIZACAO_0.3.0.md.
+Código e capturas estão nas pastas do repositório. O ZIP web mantém a origem anterior; não representa publicação de um site.
+408 testes unitários e 92 cenários de navegador aprovados. Sensores e instalação física ainda exigem conferência. APK debug de avaliação com assinatura anterior; Windows sem Authenticode.

@@ -1,3 +1,15 @@
+# Downloads da atualização 0.3.0
+
+Esta branch contém código, guias, capturas e instaladores de avaliação para Android/Windows, além do servidor privado.
+
+**Baixe tudo:** clique em **Code → Download ZIP**, extraia e abra a pasta [`atualizacao-0.3.0`](atualizacao-0.3.0). Leia [`PASSO-A-PASSO.txt`](atualizacao-0.3.0/PASSO-A-PASSO.txt).
+
+O instalador Windows está dividido em três partes por causa do limite de arquivos do GitHub. Execute `01-Preparar-Windows.cmd` na pasta extraída; ele reúne as partes e verifica a integridade antes da instalação.
+
+Faça backups verificados; atualize primeiro o servidor e depois ambos os aplicativos. Não desinstale para atualizar. A `main` foi preservada. Código validado: `886a255`.
+
+---
+
 # Recanto das Asas
 
 Aplicativo privado em português para criação e operação comercial, desenvolvido a partir do painel React/TypeScript fornecido. Destinos: Android 10 ou superior, Windows 10/11 de 64 bits e navegador. Os registros locais funcionam sem internet e ficam criptografados; a sincronização usa um serviço privado, que pode funcionar no seu Windows com Tailscale.
