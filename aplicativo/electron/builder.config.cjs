@@ -9,7 +9,7 @@ module.exports = {
   directories: { app: 'release/staging', output: 'release/windows' },
   asar: true,
   toolsets: { wine: '1.0.1' },
-  files: ['!node_modules/**/*', 'dist/**/*', 'electron/main.cjs', 'native/icon.png', 'package.json'],
+  files: ['!node_modules/**/*', 'dist/**/*', 'electron/main.cjs', 'electron/preload.cjs', 'native/icon.png', 'package.json'],
   artifactName: 'Recanto-das-Asas-${version}-${arch}-Setup.${ext}',
   win: {
     target: [{ target: 'nsis', arch: ['x64'] }],

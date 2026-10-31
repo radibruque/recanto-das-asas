@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import type { ModuleProps, Species } from '../domain/types';
 import { RecordDialog, RecordField } from './RecordDialog';
-import './species-settings.css';
 
 const parameter = (form: FormData, name: string) => {
   const value = String(form.get(name) ?? '').trim();

@@ -23,7 +23,7 @@ export default function BirdRegistrationForm({ bird: b, state, scope, command, o
       sex: value(form, 'sex'), sexMethod: value(form, 'sexMethod'), sexSource: value(form, 'sexSource'), sexDate: value(form, 'sexDate'), sexNotes: value(form, 'sexNotes'),
       mutation: value(form, 'mutation'), certainty: value(form, 'certainty'), carriers: value(form, 'carriers'), mutationSource: value(form, 'mutationSource'), mutationDate: value(form, 'mutationDate'), mutationNotes: value(form, 'mutationNotes'),
       visualDescription: value(form, 'visualDescription'), microchip: value(form, 'microchip'), birthDate: value(form, 'birthDate'), birthEstimated: form.has('birthEstimated'), fatherId: nullable(form, 'fatherId'), motherId: nullable(form, 'motherId'),
-      origin: value(form, 'origin'), breeder: value(form, 'breeder'), supplierId: nullable(form, 'supplierId'), acquiredDate: value(form, 'acquiredDate'), acquisitionMethod: value(form, 'acquisitionMethod'), acquisitionCents: parseMoney(value(form, 'acquisitionValue') || '0'),
+      origin: value(form, 'origin'), breeder: value(form, 'breeder'), supplierId: nullable(form, 'supplierId'), acquiredDate: value(form, 'acquiredDate'), acquisitionMethod: value(form, 'acquisitionMethod'), acquisitionCents: parseMoney(value(form, 'acquisitionValue') || '0'), priceCents: value(form, 'priceValue') ? parseMoney(value(form, 'priceValue')) : undefined,
       enclosure: value(form, 'enclosure'), responsible: value(form, 'responsible'), status: value(form, 'status'), statusDate: today(), statusReason: 'Situação atualizada no cadastro da ave', custodyDate: today(), custodyReason: 'Recinto ou responsável atualizado no cadastro da ave', photoId: b?.photoId ?? null, notes: value(form, 'notes'),
       booklet: {
         ...b?.booklet,
@@ -78,7 +78,7 @@ export default function BirdRegistrationForm({ bird: b, state, scope, command, o
       <Field label="Fornecedor"><select name="supplierId" defaultValue={b?.supplierId ?? ''}><option value="">Não informado</option>{state.contacts.filter(c => c.scope === scope && c.kind === 'fornecedor').map(c => <option key={c.id} value={c.id}>{c.name}</option>)}</select></Field>
       <Field label="Data de aquisição">{dateInput('acquiredDate', b?.acquiredDate ?? '')}</Field>
       <Field label="Forma de aquisição"><input name="acquisitionMethod" defaultValue={b?.acquisitionMethod}/></Field>
-      <Field label="Valor da aquisição (R$)"><input name="acquisitionValue" inputMode="decimal" defaultValue={moneyInput(b?.acquisitionCents ?? 0)}/></Field>
+      <Field label="Valor da aquisição (R$)"><input name="acquisitionValue" inputMode="decimal" defaultValue={moneyInput(b?.acquisitionCents ?? 0)}/></Field><Field label="Preço de venda (R$, opcional)"><input name="priceValue" inputMode="decimal" defaultValue={b?.priceCents ? moneyInput(b.priceCents) : ''} placeholder="Aparece no cartão da ave"/></Field>
     </div></details>
     <details className="record-form-section"><summary>Identificação complementar e caderneta</summary><div className="grid form-grid">
       <Field label="Nome científico"><input name="scientificName" defaultValue={b?.scientificName}/></Field>

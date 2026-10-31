@@ -13,8 +13,9 @@ const result=(fn:()=>Uint8Array)=>{try{return {bytes:Array.from(fn())};}catch(er
 const openDatabase=()=>new Promise<IDBDatabase>((resolve,reject)=>{const req=indexedDB.open('recanto-das-asas-private',2);req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);});
 async function seedBackups(rows:BackupRecord[]){const db=await openDatabase();try{await new Promise<void>((resolve,reject)=>{const tx=db.transaction('backups','readwrite');for(const row of rows)tx.objectStore('backups').put(row);tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error);});}finally{db.close();}}
 function legacyRetention(rows:BackupSummary[]){
- const keep=new Set<string>(),days=new Set<string>(),weeks=new Set<string>(),months=new Set<string>();
- for(const b of [...rows].sort((a,b)=>b.at.localeCompare(a.at))){if(b.pinned){keep.add(b.at);continue;}const date=new Date(b.at.slice(0,24)),day=b.at.slice(0,10),week=Math.floor(date.valueOf()/(7*86400000)).toString(),month=b.at.slice(0,7);if(!days.has(day)&&days.size<7){keep.add(b.at);days.add(day);}if(!weeks.has(week)&&weeks.size<4){keep.add(b.at);weeks.add(week);}if(!months.has(month)&&months.size<6){keep.add(b.at);months.add(month);}}
+ // 0.4 rule: 3 daily, 4 weekly, 3 monthly copies and at most the 2 newest safety (pinned) copies.
+ const keep=new Set<string>(),days=new Set<string>(),weeks=new Set<string>(),months=new Set<string>();let pinnedKept=0;
+ for(const b of [...rows].sort((a,b)=>b.at.localeCompare(a.at))){if(b.pinned){if(pinnedKept<2){keep.add(b.at);pinnedKept++;}continue;}const date=new Date(b.at.slice(0,24)),day=b.at.slice(0,10),week=Math.floor(date.valueOf()/(7*86400000)).toString(),month=b.at.slice(0,7);if(!days.has(day)&&days.size<3){keep.add(b.at);days.add(day);}if(!weeks.has(week)&&weeks.size<4){keep.add(b.at);weeks.add(week);}if(!months.has(month)&&months.size<3){keep.add(b.at);months.add(month);}}
  return [...keep].sort();
 }
 beforeEach(()=>{Object.defineProperty(globalThis,'indexedDB',{value:new IDBFactory(),configurable:true});vi.restoreAllMocks();});
@@ -71,12 +72,12 @@ describe('metadados e retenção das cópias locais sem carregar todos os envelo
   expect(await vault.backups()).toEqual(records);
   vault.lock();await expect(vault.backupSummaries()).rejects.toThrow('Desbloqueie a base privada.');await expect(vault.readBackup(records[0].at)).rejects.toThrow('Desbloqueie a base privada.');
  });
- it('retains exactly the same daily, weekly, monthly and pinned copies across dates and ties',async()=>{
+ it('keeps only 3 daily, 4 weekly, 3 monthly and the 2 newest safety copies across dates and ties',async()=>{
   const vault=new Vault();await vault.create(password);const envelope:Envelope=await vault.exportEnvelope();
   const rows:BackupRecord[]=[];
   for(let i=0;i<420;i++){const date=new Date(Date.UTC(2025,7,1)+i*86400000);for(let j=0;j<(i%19===0?3:1);j++)rows.push({at:date.toISOString()+'-'+j,hash:String(i)+'-'+j,size:i+100,pinned:i%37===0,envelope});}
   await seedBackups(rows);
   const getAll=vi.spyOn(IDBObjectStore.prototype,'getAll').mockImplementation(()=>{throw new Error('getAll não deve ser usado na retenção.');});
-  try{await vault.retainBackup(envelope,'cópia-nova',500);const result=await vault.backupSummaries(),added=result.find(row=>row.hash==='cópia-nova');expect(added).toBeDefined();expect(result.map(row=>row.at).sort()).toEqual(legacyRetention([...rows,added!]));expect(result.filter(row=>row.pinned).map(row=>row.at).sort()).toEqual(rows.filter(row=>row.pinned).map(row=>row.at).sort());for(const row of result)expect(await vault.readBackup(row.at)).toEqual(row.at===added!.at?{...added,envelope}:rows.find(original=>original.at===row.at));}finally{getAll.mockRestore();}
+  try{await vault.retainBackup(envelope,'cópia-nova',500);const result=await vault.backupSummaries(),added=result.find(row=>row.hash==='cópia-nova');expect(added).toBeDefined();expect(result.map(row=>row.at).sort()).toEqual(legacyRetention([...rows,added!]));expect(result.filter(row=>row.pinned).map(row=>row.at).sort()).toEqual(rows.filter(row=>row.pinned).map(row=>row.at).sort().slice(-2));for(const row of result)expect(await vault.readBackup(row.at)).toEqual(row.at===added!.at?{...added,envelope}:rows.find(original=>original.at===row.at));}finally{getAll.mockRestore();}
  },20000);
 });

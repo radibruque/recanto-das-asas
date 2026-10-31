@@ -11,7 +11,7 @@ export type { PendingAttachment } from '../lib/attachment-input';
 const errorMessage=(error:unknown)=>error instanceof Error ? error.message : 'Não foi possível abrir o arquivo.';
 const sizeLabel=(size:number)=>size>=1024*1024 ? `${(size/1024/1024).toFixed(1)} MB` : `${(size/1024).toFixed(1)} KB`;
 
-function useAttachmentUrl(attachment:{base64:string;mime:string;sha256:string}|null,enabled=true) {
+export function useAttachmentUrl(attachment:{base64:string;mime:string;sha256:string}|null,enabled=true) {
   const [url,setUrl]=useState(''),[error,setError]=useState('');
   useEffect(()=>{
     setUrl('');setError('');

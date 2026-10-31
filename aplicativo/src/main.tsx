@@ -1,11 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App';
-import './style.css';
-import './bc-layout.css';
-import './web-shortcuts.css';
-import './simplification.css';
-import './design-asas.css';
+import './ui/theme.css';
 import { hasNativeBiometrics, minimizeNativeApp, watchNativeBack } from './lib/biometrics';
 import { Capacitor } from '@capacitor/core';
 

@@ -1,0 +1,103 @@
+/* Skin for the existing forms, tables and dialogs so they match the new screens.
+   Only visual: every class name, field and button keeps working as before. */
+:root {
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --background: var(--ui-background);
+  --surface: var(--ui-card);
+  --surface-secondary: var(--ui-secondary);
+  --surface-hover: var(--ui-muted);
+  --text: var(--ui-foreground);
+  --muted: var(--ui-muted-foreground);
+  --primary: var(--ui-ink);
+  --primary-hover: var(--ui-ink-2);
+  --primary-text: var(--ui-ink-foreground);
+  --accent-soft: var(--ui-tint-teal);
+  --accent-text: var(--ui-primary);
+  --line: var(--ui-border);
+  --input-border: color-mix(in oklab, var(--ui-muted-foreground) 45%, var(--ui-border));
+  --focus: var(--ui-teal);
+  --info-background: var(--ui-tint-sky);
+  --info-text: var(--ui-foreground);
+  --info-line: color-mix(in oklab, var(--ui-sky) 35%, transparent);
+  --warning-background: var(--ui-tint-sun);
+  --warning-line: color-mix(in oklab, var(--ui-sun) 45%, transparent);
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --shadow-sm: var(--ui-shadow-soft);
+  --shadow-md: var(--ui-shadow-soft);
+  --shadow-modal: var(--ui-shadow-float);
+}
+:root[data-theme='dark'] {
+  --primary: var(--ui-primary);
+  --primary-hover: color-mix(in oklab, var(--ui-primary) 85%, white);
+  --primary-text: var(--ui-primary-foreground);
+  --accent-text: var(--ui-primary);
+}
+
+.legacy h1, .legacy h2, .legacy h3, dialog.modal h2, dialog.modal h3 {
+  font-family: 'Fraunces', ui-serif, Georgia, serif; letter-spacing: -0.01em; font-weight: 600;
+}
+.legacy .section-title, dialog.modal .section-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1rem; font-weight: 700; }
+
+.legacy .card, dialog.modal .card {
+  border: 0; border-radius: 28px; background: var(--ui-card);
+  box-shadow: var(--ui-shadow-soft), 0 0 0 1px color-mix(in oklab, var(--ui-border) 60%, transparent);
+  padding: 20px;
+  animation: ui-rise .5s cubic-bezier(.22,1,.36,1) both;
+}
+@media (min-width: 768px) { .legacy .card { padding: 24px; } }
+
+.legacy .button, dialog.modal .button {
+  border-radius: 14px; font-weight: 700; border: 0;
+  transition: transform 220ms cubic-bezier(.22,1,.36,1), background-color 200ms ease, box-shadow 220ms ease;
+}
+.legacy .button:hover:not(:disabled), dialog.modal .button:hover:not(:disabled) { transform: translateY(-1px); }
+.legacy .button:active:not(:disabled), dialog.modal .button:active:not(:disabled) { transform: scale(.97); }
+.legacy .button.secondary, dialog.modal .button.secondary {
+  background: var(--ui-secondary); color: var(--ui-secondary-foreground); border: 0;
+}
+.legacy .button.secondary:hover:not(:disabled), dialog.modal .button.secondary:hover:not(:disabled) {
+  background: color-mix(in oklab, var(--ui-secondary) 70%, var(--ui-teal) 12%);
+}
+.legacy .link, dialog.modal .link { color: var(--ui-teal); font-weight: 700; }
+
+.legacy input:not([type='checkbox']):not([type='radio']):not([type='file']), .legacy select, .legacy textarea,
+dialog.modal input:not([type='checkbox']):not([type='radio']):not([type='file']), dialog.modal select, dialog.modal textarea {
+  border-radius: 14px; border: 1px solid var(--ui-border); background: var(--ui-card);
+  transition: box-shadow 200ms ease, border-color 200ms ease;
+}
+.legacy input:focus, .legacy select:focus, .legacy textarea:focus,
+dialog.modal input:focus, dialog.modal select:focus, dialog.modal textarea:focus {
+  border-color: var(--ui-teal); box-shadow: 0 0 0 3px color-mix(in oklab, var(--ui-teal) 25%, transparent); outline: 0;
+}
+.legacy .field, dialog.modal .field { font-size: .8125rem; font-weight: 600; color: var(--ui-muted-foreground); }
+
+.legacy .table-wrap { border: 0; border-radius: 20px; background: var(--ui-card); box-shadow: 0 0 0 1px var(--ui-border); }
+.legacy th { background: var(--ui-secondary); color: var(--ui-muted-foreground); font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; }
+.legacy tbody tr { transition: background-color 180ms ease; }
+.legacy tbody tr:hover { background: color-mix(in oklab, var(--ui-secondary) 60%, transparent); }
+
+.legacy .badge, .legacy .status-badge, dialog.modal .badge, dialog.modal .status-badge {
+  background: var(--ui-tint-teal); color: var(--ui-teal); font-weight: 700; font-size: 11px; padding: 4px 10px;
+}
+.legacy .notice, dialog.modal .notice { border: 0; border-radius: 20px; background: var(--ui-tint-sky); }
+.legacy .error, dialog.modal .error { border: 0; border-radius: 16px; }
+.legacy .tabs { border: 0; gap: 4px; padding: 4px; border-radius: 16px; background: var(--ui-secondary); width: fit-content; max-width: 100%; overflow-x: auto; }
+.legacy .tabs button { border: 0; border-radius: 12px; background: transparent; font-weight: 700; color: var(--ui-muted-foreground); transition: background-color 250ms ease, color 250ms ease; }
+.legacy .tabs button.active, .legacy .tabs button[aria-selected='true'] { background: var(--ui-ink); color: var(--ui-ink-foreground); box-shadow: var(--ui-shadow-soft); }
+
+dialog.modal { border: 0; border-radius: 30px; background: var(--ui-card); color: var(--ui-foreground); box-shadow: var(--ui-shadow-float); }
+dialog.modal[open] { animation: ui-pop .35s cubic-bezier(.22,1,.36,1) both; }
+dialog.modal::backdrop { background: color-mix(in oklab, var(--ui-ink) 45%, transparent); backdrop-filter: blur(3px); }
+dialog.modal .modal-heading, dialog.modal .modal-actions { border-color: var(--ui-border); }
+dialog.modal fieldset.record-form-section { border: 1px solid var(--ui-border); border-radius: 20px; }
+
+@keyframes ui-rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+@keyframes ui-pop { from { opacity: 0; transform: translateY(10px) scale(.98); } to { opacity: 1; transform: none; } }
+
+/* The new page header already shows the screen title. */
+.legacy .module-heading > h1, .legacy h2.module-heading { display: none; }
+.legacy .module-heading { justify-content: flex-end; }
+.legacy .module-heading:not(:has(> :not(h1))) { display: none; }

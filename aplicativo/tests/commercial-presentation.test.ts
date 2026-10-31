@@ -61,7 +61,7 @@ describe('apresentação de operações e recebimentos sem duplicação por ave'
     expect(markup.match(new RegExp(`data-payment-id="${first}"`, 'g'))).toHaveLength(1);
     expect(markup.match(new RegExp(`data-payment-id="${second}"`, 'g'))).toHaveLength(1);
     expect(markup).toContain('Itens: FICTICIA-A · FICTICIA-B');
-    expect(markup).toContain('Contas vencidas a pagar e receber');
+    expect(markup).toContain('Contas a pagar e receber');
     expect(markup).not.toContain('Parcelas atrasadas');
   });
 });

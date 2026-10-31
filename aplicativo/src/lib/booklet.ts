@@ -149,7 +149,7 @@ function wrapText(value: string, font: PDFFont, size: number, width: number): st
 }
 
 /** Shrink old large images before decoding/embedding where the browser permits it. */
-async function printablePhoto(bytes: Uint8Array, mime: string): Promise<{ bytes: Uint8Array; mime: string }> {
+export async function printablePhoto(bytes: Uint8Array, mime: string): Promise<{ bytes: Uint8Array; mime: string }> {
   const dimensions = imageDimensions(bytes, mime);
   if (!dimensions || !dimensions.width || !dimensions.height) throw new Error('Não foi possível reconhecer a foto da ave. Anexe outra imagem.');
   if (dimensions.width > 20000 || dimensions.height > 20000 || dimensions.width * dimensions.height > 64_000_000) throw new Error('A foto tem resolução muito alta. Anexe uma foto menor antes de emitir.');

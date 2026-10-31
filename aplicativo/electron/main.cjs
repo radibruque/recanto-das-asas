@@ -1,4 +1,4 @@
-const { app, BrowserWindow, protocol, net, session, shell, dialog } = require('electron');
+const { app, BrowserWindow, protocol, net, session, shell, dialog, ipcMain, Notification, Tray, Menu, nativeImage } = require('electron');
 const path = require('node:path');
 const fs = require('node:fs');
 const { pathToFileURL } = require('node:url');
@@ -14,6 +14,48 @@ const origin = 'app://recanto';
 const contentRoot = path.resolve(__dirname, '../dist');
 const contentSecurityPolicy = "default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https:; worker-src 'self' blob:; frame-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'none'";
 const safeLocalUrl = (url) => url.startsWith(`${origin}/`) || url.startsWith(`blob:${origin}/`);
+
+// ---- 0.4: keep in tray (optional), local notifications, single window reference
+const settingsFile = () => path.join(app.getPath('userData'), 'desktop-settings.json');
+function readSettings() { try { return JSON.parse(fs.readFileSync(settingsFile(), 'utf8')); } catch { return {}; } }
+function writeSettings(change) { const next = { ...readSettings(), ...change }; try { fs.writeFileSync(settingsFile(), JSON.stringify(next)); } catch { /* keep defaults */ } return next; }
+let mainWindow = null, tray = null, quitting = false, timers = [];
+const startHidden = process.argv.includes('--hidden');
+
+function showWindow() {
+  if (!mainWindow || mainWindow.isDestroyed()) { createWindow(); return; }
+  if (mainWindow.isMinimized()) mainWindow.restore();
+  mainWindow.show(); mainWindow.focus();
+}
+function applyTray(enabled) {
+  if (enabled && !tray) {
+    tray = new Tray(nativeImage.createFromPath(path.join(__dirname, '../native/icon.png')).resize({ width: 16, height: 16 }));
+    tray.setToolTip('Recanto das Asas');
+    tray.setContextMenu(Menu.buildFromTemplate([
+      { label: 'Abrir Recanto das Asas', click: showWindow },
+      { type: 'separator' },
+      { label: 'Sair', click: () => { quitting = true; app.quit(); } },
+    ]));
+    tray.on('click', showWindow);
+  } else if (!enabled && tray) { tray.destroy(); tray = null; }
+  // Start with Windows (minimized) only while "keep in tray" is on.
+  try { app.setLoginItemSettings({ openAtLogin: enabled, args: ['--hidden'] }); } catch { /* not available on this system */ }
+}
+function scheduleNotifications(items) {
+  timers.forEach(clearTimeout); timers = [];
+  if (!Notification.isSupported()) return;
+  const now = Date.now();
+  for (const item of items) {
+    if (!item || typeof item.title !== 'string' || typeof item.at !== 'number') continue;
+    const wait = item.at - now;
+    if (wait <= 0 || wait > 2147000000) continue;
+    timers.push(setTimeout(() => {
+      const n = new Notification({ title: item.title.slice(0, 120), body: String(item.body || '').slice(0, 240), icon: path.join(__dirname, '../native/icon.png') });
+      n.on('click', () => { showWindow(); if (item.target && mainWindow) mainWindow.webContents.send('recanto:open-target', item.target); });
+      n.show();
+    }, wait));
+  }
+}
 
 function protectWindow(window) {
   window.webContents.on('will-navigate', (event, url) => {
@@ -38,9 +80,14 @@ function createWindow() {
     title: 'Recanto das Asas', width: 1280, height: 840, minWidth: 360, minHeight: 560,
     backgroundColor: '#f7f4ed', autoHideMenuBar: true,
     icon: path.join(__dirname, '../native/icon.png'),
-    webPreferences: { nodeIntegration: false, contextIsolation: true, sandbox: true, webSecurity: true },
+    show: !startHidden,
+    webPreferences: { nodeIntegration: false, contextIsolation: true, sandbox: true, webSecurity: true, preload: path.join(__dirname, 'preload.cjs') },
   });
   protectWindow(window);
+  mainWindow = window;
+  window.on('close', (event) => {
+    if (!quitting && readSettings().keepInTray) { event.preventDefault(); window.hide(); }
+  });
   void window.loadURL(`${origin}/index.html`);
 }
 
@@ -48,7 +95,7 @@ if (!app.requestSingleInstanceLock()) app.quit();
 else {
   app.on('second-instance', () => {
     const window = BrowserWindow.getAllWindows()[0];
-    if (window) { if (window.isMinimized()) window.restore(); window.focus(); }
+    if (window) { if (window.isMinimized()) window.restore(); window.show(); window.focus(); }
   });
   app.whenReady().then(() => {
     protocol.handle('app', (request) => {
@@ -70,6 +117,11 @@ else {
       callback(permission === 'clipboard-sanitized-write');
     });
     session.defaultSession.setPermissionCheckHandler((_contents, permission) => permission === 'clipboard-sanitized-write');
+    app.setAppUserModelId('br.com.recantodasasas.app');
+    ipcMain.handle('recanto:schedule-notifications', (_event, items) => { scheduleNotifications(Array.isArray(items) ? items : []); });
+    ipcMain.handle('recanto:get-keep-in-tray', () => readSettings().keepInTray === true);
+    ipcMain.handle('recanto:set-keep-in-tray', (_event, enabled) => { writeSettings({ keepInTray: enabled === true }); applyTray(enabled === true); });
+    applyTray(readSettings().keepInTray === true);
     createWindow();
     app.on('activate', () => { if (BrowserWindow.getAllWindows().length === 0) createWindow(); });
   }).catch((error) => {
@@ -77,5 +129,6 @@ else {
     dialog.showErrorBox('Recanto das Asas', `Não foi possível iniciar o aplicativo (${error.code || 'E_START'}).`);
     app.quit();
   });
-  app.on('window-all-closed', () => { if (process.platform !== 'darwin') app.quit(); });
+  app.on('before-quit', () => { quitting = true; });
+  app.on('window-all-closed', () => { if (process.platform !== 'darwin' && !readSettings().keepInTray) app.quit(); });
 }

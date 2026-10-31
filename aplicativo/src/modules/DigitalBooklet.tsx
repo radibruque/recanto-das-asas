@@ -3,7 +3,9 @@ import { useEffect, useMemo, useState } from 'react';
 import type { Attachment, IssuedDocument, ModuleProps, State } from '../domain/types';
 import { birdLabel, dateLabel, today } from '../domain/shared';
 import { base64ToBytes, sha256 } from '../domain/documents';
-import { bookletDataFromFields, deriveBookletFields, digitalBookletSections, exportDigitalBooklet, type DigitalBookletFields } from '../lib/booklet';
+import { bookletDataFromFields, deriveBookletFields, type DigitalBookletFields } from '../lib/booklet';
+import { exportFoldableBooklet, tutorBookletSections } from '../lib/booklet-fold';
+import BookletPreview from '../components/BookletPreview';
 import { downloadBytes, issuedPayload } from '../lib/exports';
 import { AttachmentPicker, AttachmentThumbnail, type PendingAttachment } from '../components/DirectAttachments';
 import { RecordDetailsDialog } from '../components/RecordDialog';
@@ -78,15 +80,15 @@ export default function DigitalBooklet({ state, scope, command, notify, search, 
     const previewState: State = { ...state, birds: state.birds.map(value => value.id === bird.id ? { ...value, booklet, photoId: previewPhoto?.id || value.photoId } : value), attachments: previewPhoto ? [...state.attachments, previewPhoto] : state.attachments };
     // Finish and validate the PDF before storing anything or opening Android's
     // file picker. A generation error can never leave a zero-byte export.
-    const bytes = await exportDigitalBooklet(previewState, scope, bird.id, { fields, includePhoto });
-    const name = `caderneta_${safeName(bird.identification)}_${scope}_digital_${today()}.pdf`;
+    const bytes = await exportFoldableBooklet(previewState, scope, bird.id, { fields, includePhoto });
+    const name = `caderneta_${safeName(bird.identification)}_${scope}_${today()}.pdf`;
     await saveData();
-    const id = await command('document.issue', { ...issuedPayload(bytes, name, 'application/pdf'), kind: 'Caderneta digital', title: `Caderneta digital ${birdLabel(bird)}`, birdId: bird.id, saleId: saleId || null });
+    const id = await command('document.issue', { ...issuedPayload(bytes, name, 'application/pdf'), kind: 'Caderneta do pet', title: `Caderneta do pet ${birdLabel(bird)}`, birdId: bird.id, saleId: saleId || null });
     if (!id) throw new Error('O PDF foi gerado, mas não foi arquivado. Seus dados foram preservados; tente emitir novamente.');
-    setHistoryBirdId(bird.id);
-    notify('Caderneta digital emitida. O original foi preservado no histórico da ave.');
+
+    notify('Caderneta gerada. Imprima frente e verso e dobre ao meio. Uma cópia ficou nos documentos da ave.');
     try { await downloadBytes(bytes, name, 'application/pdf'); }
-    catch (failure) { throw new Error(`A caderneta já está no histórico da ave. O salvamento no aparelho não foi concluído: ${message(failure)} Use “Baixar original” para tentar novamente.`); }
+    catch (failure) { throw new Error(`A caderneta já está no histórico da ave. O salvamento no aparelho não foi concluído: ${message(failure)} Abra a ficha da ave, aba Documentos e fotos, para baixar de novo.`); }
   }
   async function recover(document: IssuedDocument, view: boolean) {
     const bytes = base64ToBytes(document.base64);
@@ -99,8 +101,8 @@ export default function DigitalBooklet({ state, scope, command, notify, search, 
     {error && <p role="alert" className="error">{error}</p>}
     {busy && <p role="status">Processando caderneta… aguarde.</p>}
     <section className="card booklet-editor">
-      <h3 className="section-title">Caderneta digital da ave</h3>
-      <p>O modelo tem quatro páginas verticais, com identificação, origem, desenvolvimento, saúde e contatos. Revise os dados destinados ao tutor antes de emitir.</p>
+      <h3 className="section-title">Caderneta da ave</h3>
+      <p>Uma folha A4 impressa frente e verso e dobrada ao meio: capa, identificação, cuidados e contatos. Só o que o tutor precisa saber.</p>
       <div className="form-grid">
         <label>Ave<select disabled={busy || preparing} value={birdId} onChange={event => chooseBird(event.target.value)}><option value="">Selecione uma ave</option>{birds.map(value => <option key={value.id} value={value.id}>{birdLabel(value)}</option>)}</select></label>
         <label>Vínculo com venda / entrega<select disabled={!bird || busy || preparing} value={saleId} onChange={event => chooseSale(event.target.value)}><option value="">Sem vínculo</option>{sales.map(value => <option key={value.id} value={value.id}>{value.number} · {dateLabel(value.date)}</option>)}</select></label>
@@ -116,24 +118,18 @@ export default function DigitalBooklet({ state, scope, command, notify, search, 
           <AttachmentPicker value={attachments} onChange={value => { setAttachments(value); const photo = [...value].reverse().find(file => file.role === 'photo'); if (photo) setFields(current => ({ ...current, photo_date: photo.date })); }} category="Caderneta / identificação" allowPhoto disabled={busy} onBusyChange={setPreparing} />
         </fieldset>
         {clinical.length > 0 && <details className="record-form-section"><summary>Copiar consultas ou exames registrados</summary><p>Selecione até dois registros e revise o texto nos campos de Saúde e contatos. Esta seleção não cria prescrições nem altera o histórico clínico.</p>{clinical.map(record => <label className="check" key={record.id}><input type="checkbox" disabled={busy} checked={selectedClinical.includes(record.id)} onChange={event => chooseClinical(record.id, event.target.checked)} />{dateLabel(record.date)} · {record.kind} · {record.title}</label>)}</details>}
-        {digitalBookletSections.map((section, index) => <details className="record-form-section booklet-page" key={section.title} open={index === 0}>
-          <summary>Página {index + 1} — {section.title}</summary>
+        <BookletPreview bird={bird} photo={currentPhoto} fields={fields} organization={state.settings.name}/>
+        {tutorBookletSections.map((section, index) => <details className="record-form-section booklet-page" key={section.title} open={index === 0}>
+          <summary>Páginas {index + 2} — {section.title}</summary>
           <div className="form-grid">{section.fields.map(field => <label key={field.key}>{field.label}
             {field.type === 'choice' ? <select disabled={busy} value={fields[field.key] || ''} onChange={event => setFields(value => ({ ...value, [field.key]: event.target.value }))}>{field.options?.map(option => <option key={option.value} value={option.value}>{option.label}</option>)}</select>
               : field.type === 'textarea' ? <textarea disabled={busy} rows={3} maxLength={4096} value={fields[field.key] || ''} onChange={event => setFields(value => ({ ...value, [field.key]: event.target.value }))} />
                 : <input disabled={busy} type={field.type === 'date' ? 'date' : 'text'} maxLength={4096} value={fields[field.key] || ''} onChange={event => setFields(value => ({ ...value, [field.key]: event.target.value }))} />}
           </label>)}</div>
         </details>)}
-        <p>Pesagens: o modelo traz as três últimas registradas; revise os valores e as observações. Datas desconhecidas podem ficar vazias. Textos que não couberem serão apontados antes da emissão.</p>
-        <div className="toolbar"><button className="button secondary" disabled={busy || preparing} onClick={() => void run(async () => { await saveData(); notify('Dados da caderneta e anexos salvos na ave.'); })}>Salvar dados da caderneta</button><button className="button" disabled={busy || preparing} onClick={() => void run(emit)}>Emitir caderneta digital</button></div>
+        <p className="muted">As pesagens trazem as três últimas registradas. Campos sem informação ficam com um traço. Se algum texto não couber, o app avisa antes de gerar.</p>
+        <div className="toolbar"><button className="button secondary" disabled={busy || preparing} onClick={() => void run(async () => { await saveData(); notify('Dados da caderneta e anexos salvos na ave.'); })}>Salvar dados da caderneta</button><button className="button" disabled={busy || preparing} onClick={() => void run(emit)}>Gerar caderneta para imprimir</button></div>
       </>}
-    </section>
-    <section className="card booklet-history">
-      <h3 className="section-title">Cadernetas emitidas por ave</h3>
-      {!historicBirds.length ? <p>Nenhuma ave com caderneta emitida neste filtro.</p> : <div className="table-wrap"><table><thead><tr><th>Ave</th><th>Emissões</th><th>Última emissão</th><th>Ações</th></tr></thead><tbody>{historicBirds.map(value => {
-        const documents = issued.filter(document => document.birdId === value.id).sort((a, b) => b.createdAt.localeCompare(a.createdAt));
-        return <tr key={value.id}><td><strong>{birdLabel(value)}</strong><small>{value.species}</small></td><td>{documents.length}</td><td>{new Date(documents[0].createdAt).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })}</td><td><div className="toolbar"><button className="button secondary" disabled={busy} onClick={() => setHistoryBirdId(value.id)}>Ver cadernetas</button></div></td></tr>;
-      })}</tbody></table></div>}
     </section>
     {historyBird && <RecordDetailsDialog title={`Cadernetas — ${birdLabel(historyBird)}`} onClose={() => setHistoryBirdId('')}>
       <p>Cada emissão preserva seu PDF original. Atualizar os dados da ave não modifica as versões anteriores.</p>

@@ -105,7 +105,7 @@ function createBills(state:State,scope:Scope,sale:Sale,installments:{dueDate:str
 const contactInput=z.object({id:z.string().optional(),kind:z.enum(['cliente','fornecedor','interessado']),name:required,phone:text,email:z.union([z.literal(''),z.string().trim().email('E-mail inválido.')]).default(''),address:text,taxId:z.string().trim().max(30).default(''),notes:text,interest:text});
 const itemInput=z.object({kind:z.enum(['ave','produto','serviço']),refId:maybeId,description:required,quantity,unitCents:cents});
 const installmentInput=z.object({dueDate:date,amountCents:cents});
-const saleInput=z.object({id:z.string().optional(),contactId:required,date,status:z.enum(['orçamento','reservada','vendida']),items:z.array(itemInput).min(1,'Inclua pelo menos um item.').max(300),discountCents:cents.default(0),feeCents:cents.default(0),notes:text,installments:z.array(installmentInput).max(120).default([])});
+const saleInput=z.object({id:z.string().optional(),contactId:required,date,status:z.enum(['orçamento','reservada','vendida']),items:z.array(itemInput).min(1,'Inclua pelo menos um item.').max(300),discountCents:cents.default(0),feeCents:cents.default(0),notes:text,installments:z.array(installmentInput).max(120).default([]),receipt:z.object({amountCents:cents,method:required}).optional()});
 
 export const commercialHandler:Handler=(state,scope,action,data)=>{
  if(action==='contact.save'){
@@ -129,6 +129,17 @@ export const commercialHandler:Handler=(state,scope,action,data)=>{
    activate(state,scope,sale,input.status,input.date);createBills(state,scope,sale,input.installments);
   }
   if(previous)Object.assign(previous,sale);else state.sales.push(sale);
+  // Optional payment received at the moment of the sale/reservation (sinal), applied to the oldest installments.
+  if(input.receipt&&input.receipt.amountCents>0&&input.status!=='orçamento'){
+   ensure(input.receipt.amountCents<=totalCents,'O valor recebido não pode ser maior que o total da operação.');
+   let account=state.accounts.find(a=>a.scope===scope);
+   if(!account){commercialHandler(state,scope,'account.save',{name:'Caixa',openingCents:0});account=state.accounts.find(a=>a.scope===scope)!;}
+   let left=input.receipt.amountCents;
+   for(const bill of state.bills.filter(b=>b.scope===scope&&b.saleId===sale.id&&b.direction==='receber'&&!b.cancelled).sort((a,b)=>a.dueDate.localeCompare(b.dueDate))){
+    if(left<=0)break;const open=billOutstanding(state,scope,bill);if(open<=0)continue;const pay=Math.min(open,left);
+    commercialHandler(state,scope,'payment.record',{billId:bill.id,accountId:account.id,date:input.date,amountCents:pay,method:input.receipt.method,idempotencyKey:id()});left-=pay;
+   }
+  }
   return {id:sale.id};
  }
  if(action==='sale.transition'){

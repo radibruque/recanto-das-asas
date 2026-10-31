@@ -91,6 +91,10 @@ export function applyCommand(state:State,scope:Scope,action:string,data:unknown)
   for(const row of rows){const v=row.values;const result=breedingHandler(state,scope,'saveBird',{identification:v.identificacao,name:v.nome,species:v.especie,sex:v.sexo,mutation:v.mutacao,certainty:'informada',mutationSource:'Planilha importada pelo proprietário',origin:v.origem,birthDate:v.nascimento,status:'manejo'});if(result?.id)mappings.set(v.identificacao,result.id);}
   for(const row of rows){const v=row.values;if(!v.pai&&!v.mae)continue;const bird=state.birds.find(b=>b.id===mappings.get(v.identificacao))!;breedingHandler(state,scope,'saveBird',{...bird,fatherId:v.pai?mappings.get(v.pai):null,motherId:v.mae?mappings.get(v.mae):null,mutationSource:'Planilha importada pelo proprietário'});}
   recordId='importacao-'+rows.length;
+ }else if(action==='device.seen'){
+  // Devices that synchronize this base (listed in Configurações → Sincronização). No server change needed.
+  const d=z.object({id:required,name:required,platform:text,lastSeen:required}).parse(data);
+  const list=(state.settings.devices??[]).filter(x=>x.id!==d.id);list.push(d);state.settings.devices=list.sort((a,b)=>b.lastSeen.localeCompare(a.lastSeen)).slice(0,30);recordId=d.id;
  }else if(action==='settings.save'){
   const values=z.object({name:required,phone:text,email:text,address:text,backupDays:z.number().int().min(1).max(365),categories:z.array(required).min(1).max(100),speciesEstimates:z.record(z.number().int().min(1).max(365)).optional(),derivedTaskRules:z.object({hatch:z.boolean(),eggCheck:z.boolean(),chickFollowup:z.boolean()}).optional()}).parse(data);
   if(values.speciesEstimates&&(Object.keys(values.speciesEstimates).length!==Object.keys(state.settings.speciesEstimates).length||Object.entries(values.speciesEstimates).some(([name,days])=>state.settings.speciesEstimates[name]!==days)))throw new Error('Edite os parâmetros pelo catálogo de espécies e informe a fonte.');

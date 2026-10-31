@@ -4,7 +4,6 @@ import { useEffect, useId, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import type { ModuleProps, Task } from '../domain/types';
 import { birdLabel, dateLabel, today } from '../domain/shared';
-import { addTaskToCalendar, downloadTaskCalendar, hasNativeCalendar } from '../lib/calendar';
 
 type StatusFilter = 'pendentes' | 'todas' | 'vencidas' | 'concluídas' | 'resolvidas';
 const statusLabel = (task: Task) => task.resolvedAt ? 'Resolvida pelo acompanhamento' : task.done ? 'Concluída' : task.dueDate < today() ? 'Vencida' : task.dueDate === today() ? 'Hoje' : 'Pendente';
@@ -56,19 +55,8 @@ export default function Agenda({ state, scope, command, notify, search, target, 
     setBusy(true);
     try {
       const id = await command('toggleTask', { id: task.id, done: !task.done });
-      if (id) notify(task.done ? 'Tarefa reaberta.' : 'Tarefa concluída. Se criou um evento no calendário, ajuste ou remova o lembrete nele.');
+      if (id) notify(task.done ? 'Tarefa reaberta.' : 'Tarefa concluída.');
     } catch (error) { notify(error instanceof Error ? error.message : 'Não foi possível alterar a tarefa.'); }
-    finally { setBusy(false); }
-  }
-
-  async function calendar(task: Task, fileOnly = false) {
-    if (busy) return;
-    setBusy(true);
-    try {
-      const name = task.birdId ? taskBirdLabel(task) : '';
-      if (fileOnly) await downloadTaskCalendar(task, name); else await addTaskToCalendar(task, name);
-      notify(!fileOnly && hasNativeCalendar() ? 'Calendário aberto. Confira data, horário e lembrete, e toque em Salvar no calendário.' : 'Lembrete .ics preparado. Importe-o no seu calendário e confira a notificação.');
-    } catch (error) { notify(error instanceof Error ? error.message : 'Não foi possível abrir o calendário. Você pode baixar o lembrete .ics.'); }
     finally { setBusy(false); }
   }
 
@@ -89,7 +77,7 @@ export default function Agenda({ state, scope, command, notify, search, target, 
       {from && until && from > until ? <p role="alert" className="error">A data inicial deve ser anterior ou igual à data final.</p> : groups.length ? <div className="table-wrap record-table-wrap"><table><thead><tr><th>Ave ou categoria</th><th>Tarefas</th><th>Primeira data do filtro</th><th>Histórico</th></tr></thead><tbody>{groups.map(group => <tr key={group.id}><td><strong>{group.title}</strong></td><td>{group.records.length} · {group.records.filter(task => !task.done).length} pendentes</td><td>{dateLabel(group.records[0].dueDate)}{group.records[0].reminderTime && <> às {group.records[0].reminderTime}</>}</td><td><button className="button secondary" onClick={() => { setGroupId(group.id); setTaskId(null); }}>Ver tarefas</button></td></tr>)}</tbody></table></div> : <p className="empty">{tasks.length ? 'Nenhuma tarefa corresponde aos filtros.' : 'Nenhuma tarefa cadastrada. Use Nova tarefa para organizar os cuidados.'}</p>}
       <p className="muted">Aves aparecem quando têm tarefas nos filtros selecionados. Tarefas sem ave ficam em Tarefas gerais.</p>
     </div>
-    <div className="notice"><p><strong>Lembretes no telefone e no computador</strong></p><p className="muted">Defina um horário na tarefa. No Android, abra os detalhes e adicione ao calendário do telefone; confira o lembrete e confirme em Salvar. No Windows, importe o arquivo .ics no seu calendário. O calendário escolhido cuida do aviso mesmo com este aplicativo fechado. Os horários usam Brasília.</p><p className="muted">O título, a ave e as observações serão enviados ao calendário escolhido. Editar ou concluir a tarefa no Recanto das Asas não altera esse evento: ajuste ou exclua o lembrete também no calendário.</p></div>
+    <div className="notice"><p><strong>Avisos no celular e no computador</strong></p><p className="muted">Tarefas com horário aparecem na barra de notificação no horário escolhido, com o aviso antecipado definido em Configurações e suporte. Tarefas sem horário avisam pela manhã. Os horários usam Brasília.</p></div>
     {groupId !== null && !selectedTask && <AgendaDialog title={selectedGroup?.title ?? (groupId === 'geral' ? 'Tarefas gerais' : birdLabel(findBird(groupId)))} onClose={() => setGroupId(null)}>
       <p className="muted">Histórico de tarefas da ave ou categoria, conforme os filtros selecionados.</p>
       <div className="list record-list">{selectedGroup?.records.map(task => <article className="stack record-list-item" key={task.id}><div className="row"><strong>{task.title}</strong><span className="badge status-badge">{statusLabel(task)}</span></div><p className="muted">{dateLabel(task.dueDate)}{task.reminderTime && ` às ${task.reminderTime} (Brasília)`}</p>{task.origin==='derived'&&<p className="muted">Derivada do acompanhamento{task.resolvedAt?' · '+task.resolutionReason:''}</p>}{task.notes && <p>{task.notes}</p>}<div className="row modal-actions"><button className="button secondary" onClick={() => setTaskId(task.id)}>Ver detalhes</button><button className="button" disabled={busy||!!task.resolvedAt} onClick={() => void toggle(task)}>{task.done ? 'Reabrir tarefa' : 'Concluir tarefa'}</button></div></article>)}</div>
@@ -99,7 +87,7 @@ export default function Agenda({ state, scope, command, notify, search, target, 
       {navigate&&(selectedTask.birdId||selectedTask.sourceId)&&<button className="button" onClick={()=>{setTaskId(null);setGroupId(null);navigate(taskTarget(selectedTask));}}>Abrir registro relacionado</button>}
       <dl className="agenda-details"><dt>Ave</dt><dd>{taskBirdLabel(selectedTask)}</dd><dt>Data</dt><dd>{dateLabel(selectedTask.dueDate)}</dd><dt>Horário</dt><dd>{selectedTask.reminderTime ? `${selectedTask.reminderTime} (Brasília)` : 'Não definido'}</dd><dt>Situação</dt><dd>{statusLabel(selectedTask)}</dd><dt>Antecedência</dt><dd>{(selectedTask.reminderMinutes ?? 15) === 0 ? 'No horário da tarefa' : `${selectedTask.reminderMinutes ?? 15} minutos antes`}</dd><dt>Origem</dt><dd>{selectedTask.origin==='derived'?'Derivada do acompanhamento':'Manual'}</dd>{selectedTask.derivationNotes&&<><dt>Referência do acompanhamento</dt><dd>{selectedTask.derivationNotes}</dd></>}{selectedTask.resolutionReason&&<><dt>Resolução</dt><dd>{selectedTask.resolutionReason}</dd></>}<dt>Observações</dt><dd style={{ whiteSpace: 'pre-wrap' }}>{selectedTask.notes || 'Não informadas'}</dd></dl>
       <div className="row modal-actions"><button className="button secondary" onClick={() => { setTaskId(null); setGroupId(null); onEdit(selectedTask); }}>Editar tarefa</button><button className="button" disabled={busy||!!selectedTask.resolvedAt} onClick={() => void toggle(selectedTask)}>{selectedTask.done ? 'Reabrir tarefa' : 'Concluir tarefa'}</button></div>
-      {!selectedTask.done && <div className="notice"><p className="muted">{selectedTask.reminderTime ? 'Ao abrir o calendário, confira e confirme o evento e o lembrete. Evite adicionar a mesma tarefa duas vezes.' : 'Edite a tarefa e informe um horário para criar um lembrete.'}</p><div className="row modal-actions"><button className="button" disabled={busy || !selectedTask.reminderTime} onClick={() => void calendar(selectedTask)}>{hasNativeCalendar() ? 'Adicionar ao calendário' : 'Baixar lembrete (.ics)'}</button>{hasNativeCalendar() && <button className="button secondary" disabled={busy || !selectedTask.reminderTime} onClick={() => void calendar(selectedTask, true)}>Baixar lembrete (.ics)</button>}</div></div>}
+
       {selectedTask.history?.length? <details className="record-subsection"><summary>Histórico da tarefa</summary><ol>{selectedTask.history.map((event,index)=><li key={index}>{dateLabel(event.at)} · {event.action} · previsão {dateLabel(event.dueDate)} · {event.reason}</li>)}</ol></details>:null}<button className="button secondary" onClick={() => setTaskId(null)}>Voltar às tarefas</button>
     </AgendaDialog>}
   </div>;

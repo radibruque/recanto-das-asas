@@ -1,0 +1,4 @@
+*.cmd -text
+*.ps1 -text
+Windows.parte* -text
+*.apk -text

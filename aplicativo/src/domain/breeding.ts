@@ -18,7 +18,7 @@ const birdSchema = z.object({
   status: z.enum(statuses).default('manejo'), scientificName: text, microchip: text,
   sexMethod: text, sexSource: text, visualDescription: text, birthEstimated: z.boolean().default(false),
   breeder: text, supplierId: optionalId, acquiredDate: optionalDate,
-  acquisitionCents: cents.default(0), acquisitionMethod: text,
+  acquisitionCents: cents.default(0), priceCents: cents.optional(), acquisitionMethod: text,
   enclosure: text, responsible: text, photoId: optionalId, custodyDate:actualDate.optional(),custodyReason:text,
   statusDate: actualDate.optional(), statusReason: text,
   sexDate: actualDate.optional(), sexNotes: text, sexAttachmentId: optionalId,
