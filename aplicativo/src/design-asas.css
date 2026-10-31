@@ -1,0 +1,357 @@
+/*
+ * Recanto das Asas — camada visual "Contraste azul-marinho".
+ * Somente apresentação: nenhuma regra altera dados, fluxos, navegação ou comandos.
+ * Carregada por último em main.tsx, sobre os estilos aprovados existentes.
+ * Paleta oficial (07_Guia/Paleta_RGB.json): #054973 #078FA8 #29AAEA #67994B #FBC732.
+ */
+
+@font-face {
+  font-family: RecantoDisplay;
+  src: url('/fonts/Fraunces.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------- Tokens ---------- */
+:root {
+  --ra-ink: #0b2236;
+  --ra-ink-2: #123554;
+  --ra-teal: #078fa8;
+  --ra-sun: #fbc732;
+  --ra-shell: radial-gradient(120% 70% at 100% 0%, #078fa833 0%, transparent 60%),
+    radial-gradient(90% 60% at 0% 100%, #29aaea22 0%, transparent 60%),
+    linear-gradient(160deg, var(--ra-ink-2) 0%, var(--ra-ink) 70%);
+  --ra-ease: cubic-bezier(.22, 1, .36, 1);
+  --ra-fast: 180ms;
+  --ra-med: 320ms;
+  --transition: var(--ra-fast) var(--ra-ease);
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+  --ra-display: RecantoDisplay, Georgia, 'Times New Roman', serif;
+}
+
+:root:not([data-theme='dark']) {
+  --background: #f2f6f9;
+  --surface-secondary: #e9f1f5;
+  --surface-hover: #dceaf0;
+  --line: #d6e3ea;
+  --shadow-sm: 0 1px 2px #0b22360d, 0 6px 18px -10px #0b22362e;
+  --shadow-md: 0 1px 2px #0b22360d, 0 18px 40px -22px #0b223659;
+  --shadow-modal: 0 30px 80px -24px #0b223680;
+  --backdrop: #0b223673;
+}
+
+/* Dentro da navegação, as variáveis passam a cores claras sobre o marinho. */
+.sidebar,
+.topbar,
+.web-shortcuts {
+  --text: #eef5f9;
+  --muted: #b4c8d4;
+  --surface: #17324a;
+  --surface-secondary: #ffffff14;
+  --surface-hover: #ffffff1f;
+  --primary: #ffffff;
+  --primary-text: #0b2236;
+  --accent-soft: #ffffff1a;
+  --accent-text: #eef5f9;
+  --line: #ffffff1f;
+  --input-border: #ffffff40;
+  --nav-text: #eef5f9;
+  --sidebar: var(--ra-ink);
+  --sidebar-active: #ffffff1a;
+  --focus: var(--ra-sun);
+  color: var(--text);
+}
+
+/* ---------- Tipografia ---------- */
+.page-title h1,
+.gate-card h1,
+.bird-profile-name,
+.modal-heading > h2 {
+  font-family: var(--ra-display);
+  font-weight: 650;
+  letter-spacing: -.01em;
+}
+
+/* ---------- Navegação lateral (Windows) e gaveta (Android) ---------- */
+.sidebar,
+:root[data-layout='desktop'] .simplified-layout > .sidebar {
+  background: var(--ra-shell);
+  border-color: transparent;
+  color: var(--text);
+}
+:root[data-layout='desktop'] .simplified-layout .brand { color: var(--text); }
+:root[data-layout='desktop'] .simplified-layout .brand small { color: var(--muted); }
+.brand img { background: #ffffff; border-radius: 14px; transition: transform var(--ra-med) var(--ra-ease); }
+.brand:hover img { transform: rotate(-4deg) scale(1.04); }
+.sidebar .nav-section-label { color: var(--muted); letter-spacing: .2em; }
+
+.sidebar .nav-item,
+.sidebar .nav-menu > summary {
+  position: relative;
+  border-radius: 12px;
+  transition: background-color var(--ra-fast) var(--ra-ease), color var(--ra-fast) var(--ra-ease),
+    transform var(--ra-fast) var(--ra-ease), box-shadow var(--ra-med) var(--ra-ease);
+}
+:root[data-layout='desktop'] .simplified-layout .nav-item,
+:root[data-layout='desktop'] .simplified-layout .nav-menu > summary { color: var(--text); border-radius: 12px; }
+.sidebar .nav-item svg { transition: transform var(--ra-med) var(--ra-ease), color var(--ra-fast); }
+.sidebar .nav-item:hover:not(:disabled) svg { transform: scale(1.12); }
+:root[data-layout='desktop'] .simplified-layout .nav-item:hover:not(:disabled),
+:root[data-layout='desktop'] .simplified-layout .nav-menu > summary:hover {
+  background: #ffffff12;
+  color: #ffffff;
+  transform: translateX(2px);
+}
+.sidebar .nav-item.active,
+:root[data-layout='desktop'] .simplified-layout .nav-item.active,
+:root[data-layout='desktop'] .simplified-layout .nav-popover .nav-item.active {
+  background: #ffffff1a;
+  color: #ffffff;
+  box-shadow: inset 3px 0 0 var(--ra-sun), 0 0 0 1px #ffffff14;
+}
+.sidebar .nav-item.active svg { color: var(--ra-sun); }
+
+/* Grupos recolhíveis do menu: seta e abertura suave. */
+:root[data-layout='desktop'] .simplified-layout .nav-menu > summary::after,
+.sidebar.open .nav-menu > summary::after {
+  content: '';
+  width: 7px;
+  height: 7px;
+  margin-left: auto;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(-45deg);
+  opacity: .7;
+  transition: transform var(--ra-med) var(--ra-ease);
+}
+:root[data-layout='desktop'] .simplified-layout .nav-menu[open] > summary::after,
+.sidebar.open .nav-menu[open] > summary::after { transform: rotate(45deg); }
+.nav-menu[open] > .nav-popover,
+.session-menu[open] > .session-panel { animation: ra-drop var(--ra-med) var(--ra-ease) backwards; }
+.nav-menu[open] > .nav-popover .nav-item { animation: ra-slide var(--ra-med) var(--ra-ease) backwards; }
+.nav-menu[open] > .nav-popover .nav-item:nth-child(2) { animation-delay: 30ms; }
+.nav-menu[open] > .nav-popover .nav-item:nth-child(3) { animation-delay: 60ms; }
+.nav-menu[open] > .nav-popover .nav-item:nth-child(4) { animation-delay: 90ms; }
+.nav-menu[open] > .nav-popover .nav-item:nth-child(n+5) { animation-delay: 120ms; }
+
+/* Criatório/Comercial e aparência: pílula com destaque deslizante. */
+.sector-control,
+.sidebar .theme-options,
+:root[data-layout='desktop'] .simplified-layout .theme-options {
+  background: #ffffff0f;
+  border-color: #ffffff1a;
+  border-radius: 14px;
+}
+.sector-control button,
+.sidebar .theme-options button,
+:root[data-layout='desktop'] .simplified-layout .theme-options button {
+  color: var(--muted);
+  border-radius: 10px;
+  transition: background-color var(--ra-med) var(--ra-ease), color var(--ra-fast), transform var(--ra-fast) var(--ra-ease);
+}
+.sector-control button:hover:not(:disabled),
+.sidebar .theme-options button:hover:not(:disabled) { color: #ffffff; }
+.sector-control button[aria-pressed='true'],
+.sidebar .theme-options button[aria-pressed='true'],
+:root[data-layout='desktop'] .simplified-layout .theme-options button[aria-pressed='true'] {
+  background: #ffffff;
+  color: var(--ra-ink);
+  border-color: transparent;
+  box-shadow: 0 6px 16px -8px #00000080;
+}
+.sector-control button:active:not(:disabled) { transform: scale(.96); }
+
+:root[data-layout='desktop'] .simplified-layout .sidebar-footer { border-top-color: #ffffff1f; }
+:root[data-layout='desktop'] .simplified-layout .session-menu > summary { color: var(--text); border-radius: 12px; transition: background-color var(--ra-fast); }
+:root[data-layout='desktop'] .simplified-layout .session-menu > summary:hover { background: #ffffff12; }
+.session-panel .scope-control button.selected,
+.session-panel .scope-control button[aria-pressed='true'] { background: #ffffff; color: var(--ra-ink); }
+.session-panel .status-dot { animation: ra-pulse 2.4s ease-out infinite; }
+
+/* Barra superior (Android). */
+.topbar,
+:root[data-layout='android'] .topbar { background: var(--ra-shell); border-color: transparent; color: var(--text); }
+:root[data-layout='android'] .app-layout:has(.bird-detail-page) .topbar { background: transparent; }
+.topbar .mobile-brand { color: var(--text); }
+.topbar .mobile-brand small { color: var(--muted); }
+.topbar .icon-button { color: var(--text); background: #ffffff14; border-color: transparent; }
+
+.drawer-backdrop { background: #0b223680; backdrop-filter: blur(3px); animation: ra-fade var(--ra-med) ease backwards; }
+.sidebar.open { animation: ra-drawer var(--ra-med) var(--ra-ease) backwards; box-shadow: 24px 0 60px -20px #00000080; }
+
+/* Barra de atalhos inferior (Android e navegador). */
+/* Mantém a barra encostada na borda inferior (posição validada pelos testes); só muda o visual. */
+:root:is([data-platform='web'], [data-platform='android']) .web-shortcuts {
+  border: 0;
+  border-radius: 24px 24px 0 0;
+  background: var(--ra-ink);
+  box-shadow: 0 22px 44px -18px #0b2236b3, 0 0 0 1px #ffffff14;
+}
+.web-shortcut {
+  color: var(--muted);
+  border-radius: 16px;
+  transition: background-color var(--ra-med) var(--ra-ease), color var(--ra-fast), transform var(--ra-fast) var(--ra-ease);
+}
+.web-shortcut svg { transition: transform var(--ra-med) var(--ra-ease), color var(--ra-fast); }
+.web-shortcut:hover:not(:disabled),
+.web-shortcut.active { background: #ffffff1a; color: #ffffff; border-color: transparent; }
+.web-shortcut.active svg { color: var(--ra-sun); transform: translateY(-1px) scale(1.08); }
+.web-shortcut:active:not(:disabled) { transform: scale(.94); }
+
+/* ---------- Superfícies ---------- */
+.card,
+.record-form-section,
+dialog.modal fieldset.record-form-section {
+  border-radius: 20px;
+  box-shadow: var(--shadow-sm);
+}
+.dashboard-stats .stat-card,
+.simplified-layout .dashboard-stats .stat-card,
+.metric-card,
+.transaction-card,
+.settings-card,
+.document-card {
+  border-radius: 20px;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--ra-med) var(--ra-ease), box-shadow var(--ra-med) var(--ra-ease), background-color var(--ra-fast);
+}
+.dashboard-stats .stat-card:hover:not(:disabled),
+.metric-card:hover,
+.document-card:hover,
+.settings-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+
+/* Indicadores com tons suaves da paleta (modo claro). */
+/* Texto secundário um pouco mais escuro sobre os tons, para manter contraste AA (4,5:1). */
+:root:not([data-theme='dark']) .dashboard-stats .stat-card { --muted: #435a67; }
+:root:not([data-theme='dark']) .dashboard-stats .stat-card:nth-child(4n+1) { background: #e3f1fb; }
+:root:not([data-theme='dark']) .dashboard-stats .stat-card:nth-child(4n+2) { background: #e0f2f4; }
+:root:not([data-theme='dark']) .dashboard-stats .stat-card:nth-child(4n+3) { background: #fdf3d4; }
+:root:not([data-theme='dark']) .dashboard-stats .stat-card:nth-child(4n+4) { background: #e8f1e2; }
+.stat-icon { background: var(--surface); box-shadow: var(--shadow-sm); transition: transform var(--ra-med) var(--ra-ease); }
+.stat-card:hover .stat-icon { transform: rotate(-8deg) scale(1.1); }
+.dashboard-stats strong { font-family: var(--ra-display); font-weight: 650; }
+
+.demo-banner { border-radius: 18px; }
+.message { border-radius: 16px; animation: ra-rise var(--ra-med) var(--ra-ease) backwards; }
+
+/* ---------- Botões ---------- */
+.button,
+.icon-button,
+.tabs button,
+.bird-profile-tabs button,
+.quick-filters button,
+.commercial-quick-filters button {
+  transition: background-color var(--ra-fast) var(--ra-ease), color var(--ra-fast) var(--ra-ease),
+    border-color var(--ra-fast) var(--ra-ease), box-shadow var(--ra-med) var(--ra-ease),
+    transform var(--ra-fast) var(--ra-ease);
+}
+.button { border-radius: 12px; }
+.button:hover:not(:disabled),
+.icon-button:hover:not(:disabled) { transform: translateY(-1px); }
+.button:active:not(:disabled),
+.icon-button:active:not(:disabled),
+.tabs button:active:not(:disabled),
+.quick-filters button:active:not(:disabled),
+.commercial-quick-filters button:active:not(:disabled) { transform: translateY(0) scale(.97); }
+:root:not([data-theme='dark']) .button:not(.secondary):not(.danger):not(.link) { box-shadow: 0 10px 24px -12px #054973b3; }
+:root:not([data-theme='dark']) .button:not(.secondary):not(.danger):not(.link):hover:not(:disabled) { box-shadow: 0 14px 30px -12px #078fa8b3; }
+.button.secondary:hover:not(:disabled) { box-shadow: var(--shadow-sm); }
+.button.contextual-new svg { transition: transform var(--ra-med) var(--ra-ease); }
+.button.contextual-new:hover:not(:disabled) svg { transform: rotate(90deg); }
+
+/* Abas e filtros. */
+.tabs button,
+.bird-profile-tabs button { border-radius: 12px; }
+.tabs button.active,
+.tabs button[aria-selected='true'] { box-shadow: 0 8px 20px -10px #054973b3; }
+.bird-profile-tabs button[aria-selected='true'] { animation: ra-pop var(--ra-med) var(--ra-ease); }
+.status-badge,
+.badge { border-radius: 999px; }
+
+/* ---------- Campos ---------- */
+input,
+select,
+textarea {
+  border-radius: 12px;
+  transition: border-color var(--ra-fast) var(--ra-ease), box-shadow var(--ra-med) var(--ra-ease), background-color var(--ra-fast);
+}
+input:focus,
+select:focus,
+textarea:focus { box-shadow: 0 0 0 4px #078fa82e; }
+
+/* ---------- Listas ---------- */
+.bird-list-open,
+.task-preview,
+.global-search-result,
+.ledger-entry {
+  transition: background-color var(--ra-fast) var(--ra-ease), transform var(--ra-fast) var(--ra-ease), box-shadow var(--ra-med) var(--ra-ease);
+}
+.bird-list-open:hover:not(:disabled) { transform: translateX(3px); }
+.bird-list-photo img,
+.bird-profile-photo img { transition: transform 600ms var(--ra-ease); }
+.bird-list-open:hover .bird-list-photo img { transform: scale(1.08); }
+.bird-list-action { transition: transform var(--ra-med) var(--ra-ease); }
+.bird-list-open:hover .bird-list-action { transform: translateX(4px); }
+tbody tr { transition: background-color var(--ra-fast); }
+
+/* Relatórios e gráfico de peso: realce interativo. */
+.weight-chart .weight-chart-point { transition: r var(--ra-fast) var(--ra-ease); animation: ra-fade 600ms var(--ra-ease) 300ms backwards; }
+.weight-chart .weight-chart-point:hover { r: 7; }
+.weight-chart polyline { stroke-dasharray: 3000; animation: ra-draw 1.2s var(--ra-ease) backwards; }
+
+/* ---------- Janelas ---------- */
+dialog.modal { border-radius: 26px; }
+dialog.modal[open] { animation: ra-pop var(--ra-med) var(--ra-ease); }
+dialog.modal[open]::backdrop { backdrop-filter: blur(4px); animation: ra-fade var(--ra-med) ease; }
+
+/* ---------- Transições entre telas ---------- */
+.cached-view:not([hidden]) { animation: ra-view 460ms var(--ra-ease) backwards; }
+.cached-view:not([hidden]) .card,
+.cached-view:not([hidden]) .stat-card,
+.cached-view:not([hidden]) .metric-card { animation: ra-rise 520ms var(--ra-ease) backwards; }
+.cached-view .dashboard-stats > :nth-child(2),
+.cached-view .metrics-grid > :nth-child(2) { animation-delay: 50ms; }
+.cached-view .dashboard-stats > :nth-child(3),
+.cached-view .metrics-grid > :nth-child(3) { animation-delay: 100ms; }
+.cached-view .dashboard-stats > :nth-child(4),
+.cached-view .metrics-grid > :nth-child(4) { animation-delay: 150ms; }
+.cached-view .dashboard-stats > :nth-child(n+5),
+.cached-view .metrics-grid > :nth-child(n+5) { animation-delay: 200ms; }
+.cached-view .dashboard-columns > :nth-child(2) .card { animation-delay: 140ms; }
+.page-title h1 { animation: ra-rise 420ms var(--ra-ease) backwards; }
+
+/* ---------- Entrada (senha) ---------- */
+.gate { background: var(--ra-shell); }
+.gate .gate-appearance { --text: #eef5f9; --muted: #d6e4ec; --surface-secondary: #ffffff14; --line: #ffffff1f; color: #eef5f9; }
+.gate .gate-appearance .theme-control-label { color: #eef5f9; }
+.gate .gate-appearance .theme-options { background: #ffffff0f; border-color: #ffffff1a; border-radius: 14px; }
+.gate .gate-appearance .theme-options button { color: #d6e4ec; border-radius: 10px; }
+.gate .gate-appearance .theme-options button[aria-pressed='true'] { background: #ffffff; color: var(--ra-ink); border-color: transparent; }
+.gate-card { border: 0; border-radius: 30px; box-shadow: 0 40px 90px -30px #000000a6; animation: ra-rise 700ms var(--ra-ease) 80ms backwards; }
+.gate-logo { animation: ra-float 6s ease-in-out infinite; background: #ffffff; }
+.gate-card .button { min-height: 52px; border-radius: 16px; }
+
+/* ---------- Animações ---------- */
+@keyframes ra-view { from { opacity: 0; transform: translateY(12px); } }
+@keyframes ra-rise { from { opacity: 0; transform: translateY(14px); } }
+@keyframes ra-drop { from { opacity: 0; transform: translateY(-6px) scale(.98); } }
+@keyframes ra-slide { from { opacity: 0; transform: translateX(-8px); } }
+@keyframes ra-pop { from { opacity: 0; transform: scale(.96) translateY(8px); } }
+@keyframes ra-fade { from { opacity: 0; } }
+@keyframes ra-drawer { from { transform: translateX(-24px); opacity: .4; } }
+@keyframes ra-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+@keyframes ra-pulse { 0% { box-shadow: 0 0 0 0 #67994b99; } 100% { box-shadow: 0 0 0 8px transparent; } }
+@keyframes ra-draw { from { stroke-dashoffset: 3000; } to { stroke-dashoffset: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+
+@media print {
+  .sidebar, .topbar, .web-shortcuts, .gate { background: none !important; }
+  .cached-view, .card, .gate-card { animation: none !important; box-shadow: none !important; }
+}

@@ -5,6 +5,7 @@ import './style.css';
 import './bc-layout.css';
 import './web-shortcuts.css';
 import './simplification.css';
+import './design-asas.css';
 import { hasNativeBiometrics, minimizeNativeApp, watchNativeBack } from './lib/biometrics';
 import { Capacitor } from '@capacitor/core';
 
