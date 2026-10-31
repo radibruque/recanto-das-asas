@@ -1,0 +1,15 @@
+﻿RECANTO DAS ASAS 0.3.0 — NOVO DESIGN (WINDOWS)
+
+Mesmo aplicativo 0.3.0, com o novo visual azul-marinho. Nenhuma função ou dado muda.
+O servidor Windows NÃO precisa ser atualizado.
+
+1. Faça um backup em Configurações > Backup e recuperação e guarde uma cópia fora do computador.
+2. Baixe o ZIP desta branch (botão Code > Download ZIP) e extraia todas as pastas.
+3. Na pasta atualizacao-0.3.0-design, dê dois cliques em 01-Preparar-Windows.cmd.
+   Ele junta as partes e confere o instalador. Aguarde a mensagem "Instalador verificado".
+4. Feche o Recanto das Asas e abra Recanto-das-Asas-0.3.0-x64-Setup.exe.
+   Instale sobre a instalação atual, no mesmo usuário. NÃO desinstale antes.
+5. O Windows pode avisar que o instalador não tem assinatura comercial: clique em "Mais informações" > "Executar assim mesmo".
+6. Abra o app com sua senha de sempre e confira seus registros.
+
+Para voltar ao visual anterior, reinstale pelo instalador da pasta atualizacao-0.3.0.
