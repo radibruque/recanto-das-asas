@@ -28,8 +28,9 @@ function fixture() {
 function render(state: State, view: 'sales' | 'finance') {
   return renderToStaticMarkup(createElement(Commercial, { state, scope, view, search: '', command: async () => undefined, notify: () => undefined }));
 }
+/** Text of the single operation row (total + what is still open). */
 function saleValues(markup: string) {
-  return markup.match(/<div class="commercial-sale-values">(.*?)<\/div>/)?.[1].replace(/<[^>]+>/g, '') ?? '';
+  return markup.match(/data-sale-id="[^"]+"[^>]*>(.*?)<\/li>/)?.[1].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ') ?? '';
 }
 
 describe('apresentação de operações e recebimentos sem duplicação por ave', () => {
@@ -40,13 +41,13 @@ describe('apresentação de operações e recebimentos sem duplicação por ave'
     expect(markup.match(/data-sale-id=/g)).toHaveLength(1);
     expect(markup).toContain('FICTICIA-A');
     expect(markup).toContain('FICTICIA-B');
-    expect(saleValues(markup)).toMatch(/Total R\$\s*1\.000,00Recebido líquido R\$\s*200,00Em aberto R\$\s*800,00/);
+    expect(saleValues(markup)).toMatch(/R\$\s*1\.000,00 falta R\$\s*800,00/);
     receive(30000, 'parcial-ficticio');
     markup = render(state, 'sales');
-    const beforeDelivery = saleValues(markup).split('Entrega:')[0];
-    expect(beforeDelivery).toMatch(/Total R\$\s*1\.000,00Recebido líquido R\$\s*500,00Em aberto R\$\s*500,00/);
+    const beforeDelivery = saleValues(markup).replace(/vendida|entregue/i, '');
+    expect(beforeDelivery).toMatch(/R\$\s*1\.000,00 falta R\$\s*500,00/);
     applyCommand(state, scope, 'sale.transition', { id: saleId, status: 'entregue', date, reason: 'Entrega fictícia de teste' });
-    expect(saleValues(render(state, 'sales')).split('Entrega:')[0]).toBe(beforeDelivery);
+    expect(saleValues(render(state, 'sales')).replace(/vendida|entregue/i, '')).toBe(beforeDelivery);
     expect(state.sales).toHaveLength(1);
     expect(state.payments).toHaveLength(2);
   });
@@ -61,7 +62,5 @@ describe('apresentação de operações e recebimentos sem duplicação por ave'
     expect(markup.match(new RegExp(`data-payment-id="${first}"`, 'g'))).toHaveLength(1);
     expect(markup.match(new RegExp(`data-payment-id="${second}"`, 'g'))).toHaveLength(1);
     expect(markup).toContain('Itens: FICTICIA-A · FICTICIA-B');
-    expect(markup).toContain('Contas a pagar e receber');
-    expect(markup).not.toContain('Parcelas atrasadas');
   });
 });

@@ -32,7 +32,7 @@ export function MobileNav({ active, onOpen, sector, onSector, scope, onScope, ac
         {left.map(id => <Item key={id} id={id}/>)}
         <div className="-mt-8 flex flex-1 justify-center"><QuickActions actions={actions}/></div>
         {right.map(id => <Item key={id} id={id}/>)}
-        <button type="button" onClick={() => setMoreOpen(true)} className="relative flex h-14 flex-1 flex-col items-center justify-center gap-0.5 text-[10px] font-bold">
+        <button type="button" aria-label="Mais menus" onClick={() => setMoreOpen(true)} className="relative flex h-14 flex-1 flex-col items-center justify-center gap-0.5 text-[10px] font-bold">
           {!inPrimary && <motion.span layoutId="mobile-active" className="absolute inset-x-1 inset-y-1 rounded-2xl bg-ink-foreground/12"/>}
           <Menu className={cn('relative size-5', !inPrimary ? 'text-sun' : 'text-ink-muted')}/>
           <span className={cn('relative', !inPrimary ? 'text-ink-foreground' : 'text-ink-muted')}>{!inPrimary ? current?.short ?? 'Mais' : 'Mais'}</span>

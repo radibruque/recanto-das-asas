@@ -3,6 +3,7 @@ import type { ModuleProps, Sale } from '../domain/types';
 import { billOutstanding, deliveryCandidates, salePaid } from '../domain/commercial';
 import { birdLabel, dateLabel, money } from '../domain/shared';
 import { AttachmentPreview } from './DirectAttachments';
+import { BirdChip } from '../ui/bits';
 import { downloadBytes, zipFiles } from '../lib/exports';
 import { deliverySelectionKey, prepareDeliveryFiles, type DeliverySelection } from '../lib/delivery-files';
 
@@ -35,7 +36,7 @@ export default function DeliveryReview({ state, scope, sale, selected, onChange,
   }
   return <section className="card record-form-section delivery-review" aria-label={delivered ? 'Arquivos da entrega registrada' : 'Revisão da entrega'}>
     <h3>{delivered ? 'Entrega registrada e arquivos originais' : 'Revisão da entrega'}</h3>
-    <dl className="delivery-summary"><div><dt>Cliente</dt><dd>{contact?.name ?? 'Não informado'}{contact?.phone && <small>{contact.phone}</small>}</dd></div><div><dt>Aves</dt><dd>{birds.length ? birds.map(record => <span key={record.id}>{birdLabel(record)} · {record.species}</span>) : 'Esta operação não contém aves.'}</dd></div><div><dt>Recebido líquido</dt><dd>{money(salePaid(state, scope, sale.id))}</dd></div><div><dt>Em aberto</dt><dd>{money(remaining)}</dd></div><div><dt>Entrega</dt><dd>{sale.deliveryDate ? dateLabel(sale.deliveryDate) : 'Ainda não registrada'}</dd></div></dl>
+    <dl className="delivery-summary"><div><dt>Cliente</dt><dd>{contact?.name ?? 'Não informado'}{contact?.phone && <small>{contact.phone}</small>}</dd></div><div><dt>Aves</dt><dd>{birds.length ? birds.map(record => <span key={record.id} className="block py-0.5"><BirdChip state={state} scope={scope} bird={record} size={34} sub={record.species}/></span>) : 'Esta operação não contém aves.'}</dd></div><div><dt>Recebido líquido</dt><dd>{money(salePaid(state, scope, sale.id))}</dd></div><div><dt>Em aberto</dt><dd>{money(remaining)}</dd></div><div><dt>Entrega</dt><dd>{sale.deliveryDate ? dateLabel(sale.deliveryDate) : 'Ainda não registrada'}</dd></div></dl>
     {!delivered && <p className="notice">Confirmar a entrega preserva as parcelas e os pagamentos. Saldo pendente continua a receber.</p>}
     {navigate && <div className="row action-row">{birds.map(record => <button type="button" className="button" key={record.id} disabled={busy || disabled} onClick={() => navigate({ view: 'booklet', saleId: sale.id, birdId: record.id })}>Caderneta · {birdLabel(record)}</button>)}<button type="button" className="button" disabled={busy || disabled} onClick={() => navigate({ view: 'documents', saleId: sale.id, filter: 'Recibo de pagamento' })}>Revisar recibo</button><button type="button" className="button" disabled={busy || disabled} onClick={() => navigate({ view: 'documents', saleId: sale.id, filter: 'Termo de entrega' })}>Revisar termo de entrega</button></div>}
     <h4>{delivered ? 'Seleção preservada no momento da entrega' : 'Arquivos para o tutor'}</h4>

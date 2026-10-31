@@ -3,6 +3,7 @@ import { Bird as BirdIcon, LayoutGrid, List, Mars, Plus, Venus } from 'lucide-re
 import { useMemo, useState } from 'react';
 import type { Bird, Scope, State } from '../domain/types';
 import { money } from '../domain/shared';
+import { birdTablePrice } from '../domain/prices';
 import { BirdPhoto, Button, SegmentedTabs, StatusBadge, shortSpecies } from '../ui/bits';
 import { cn } from '../ui/cn';
 
@@ -13,6 +14,9 @@ type BirdCollectionProps = {
   onOpen: (birdId: string) => void;
   variant?: 'compact' | 'full';
   onCreate?: () => void;
+  /** Optional extra line on each card (e.g. the clutch a chick came from). */
+  caption?: (bird: Bird) => string | undefined;
+  countLabel?: string;
 };
 
 const VIEW_KEY = 'recanto.ui.birds-view';
@@ -22,11 +26,11 @@ export function birdPrice(state: State, scope: Scope, bird: Bird): number | null
   if (bird.priceCents) return bird.priceCents;
   const sale = state.sales.filter(s => s.scope === scope && !['cancelada', 'devolvida'].includes(s.status) && s.items.some(i => i.kind === 'ave' && i.refId === bird.id)).sort((a, b) => b.date.localeCompare(a.date))[0];
   const item = sale?.items.find(i => i.kind === 'ave' && i.refId === bird.id);
-  return item ? item.unitCents : null;
+  return item ? item.unitCents : birdTablePrice(state, scope, bird);
 }
 
 /** Plantel as photo cards (like the presentation) or as a compact list. Selection opens the bird record. */
-export default function BirdCollection({ birds, state, scope, onOpen, variant = 'full', onCreate }: BirdCollectionProps) {
+export default function BirdCollection({ birds, state, scope, onOpen, variant = 'full', onCreate, caption, countLabel }: BirdCollectionProps) {
   const photos = useMemo(() => new Map(state.attachments.filter(file => file.scope === scope && file.mime.startsWith('image/')).map(file => [file.id, file])), [state.attachments, scope]);
   const [mode, setMode] = useState<'grade' | 'lista'>(() => { try { return (localStorage.getItem(VIEW_KEY) as 'grade' | 'lista') || 'grade'; } catch { return 'grade'; } });
   const changeMode = (m: 'grade' | 'lista') => { setMode(m); try { localStorage.setItem(VIEW_KEY, m); } catch { /* session only */ } };
@@ -40,7 +44,7 @@ export default function BirdCollection({ birds, state, scope, onOpen, variant = 
 
   return <div className="ui flex flex-col gap-4">
     {variant === 'full' && <div className="flex items-center justify-between gap-3">
-      <p className="text-sm text-muted-foreground">{birds.length} {birds.length === 1 ? 'ave' : 'aves'}</p>
+      <p className="text-sm text-muted-foreground">{countLabel ?? `${birds.length} ${birds.length === 1 ? 'ave' : 'aves'}`}</p>
       <SegmentedTabs size="sm" value={mode} onChange={changeMode} options={[{ value: 'grade', label: 'Cartões', icon: LayoutGrid }, { value: 'lista', label: 'Lista', icon: List }]}/>
     </div>}
     <motion.div layout className={cn('grid gap-3', shown === 'grade' ? 'grid-cols-2 md:grid-cols-3 xl:grid-cols-4 md:gap-4' : 'grid-cols-1 lg:grid-cols-2')}>
@@ -66,6 +70,7 @@ export default function BirdCollection({ birds, state, scope, onOpen, variant = 
                 {bird.enclosure && <span className="shrink-0 text-[11px] font-bold text-muted-foreground">{bird.enclosure}</span>}
               </div>
               <p className="truncate text-xs text-muted-foreground">{shortSpecies(bird.species)} · {bird.mutation}</p>
+              {caption?.(bird) && <p className="mt-0.5 truncate text-[11px] font-semibold text-teal">{caption(bird)}</p>}
               <div className="mt-2.5 flex items-center justify-between gap-2">
                 <span className="truncate rounded-lg bg-secondary px-2 py-0.5 font-mono text-[11px] font-semibold text-secondary-foreground">{bird.identification}</span>
                 {price !== null ? <span className="shrink-0 text-sm font-bold text-primary">{money(price)}</span> : <span className="shrink-0 text-[11px] text-muted-foreground">Sem preço</span>}

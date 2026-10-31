@@ -15,6 +15,8 @@ import { cashBalance } from './Today';
 
 const monthNames = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
 const reais = (n: number) => money(Math.round(n));
+/** Short axis labels: 0, 250, 1,5 mil, 12 mil. */
+const axisMoney = (v: number) => Math.abs(v) >= 1000 ? `${(v / 1000).toLocaleString('pt-BR', { maximumFractionDigits: 1 })} mil` : String(Math.round(v));
 const lastMonths = (count: number) => { const iso = today(); const [y, m] = iso.split('-').map(Number) as [number, number]; return Array.from({ length: count }, (_, i) => { const d = new Date(Date.UTC(y, m - 1 - (count - 1 - i), 1)); return { key: d.toISOString().slice(0, 7), mes: monthNames[d.getUTCMonth()]! }; }); };
 const daysBetween = (a: string, b: string) => Math.round((new Date(b + 'T12:00:00Z').valueOf() - new Date(a + 'T12:00:00Z').valueOf()) / 86400000);
 type Props = { state: State; scope: Scope; navigate: (t: NavigationTarget) => void };
@@ -68,7 +70,7 @@ export function CashOverview({ state, scope, navigate }: Props) {
           <BarChart data={serie} margin={{ left: -8, right: 0 }} barGap={4}>
             <CartesianGrid vertical={false} stroke="var(--ui-border)" strokeDasharray="4 4"/>
             <XAxis dataKey="mes" tickLine={false} axisLine={false} tick={{ fontSize: 11, fill: 'var(--ui-muted-foreground)' }}/>
-            <YAxis tickLine={false} axisLine={false} tick={{ fontSize: 11, fill: 'var(--ui-muted-foreground)' }} tickFormatter={v => `${Math.round(v / 1000)}k`}/>
+            <YAxis tickLine={false} axisLine={false} tick={{ fontSize: 11, fill: 'var(--ui-muted-foreground)' }} tickFormatter={axisMoney} width={44}/>
             <Tooltip content={<ChartTooltip format={n => reais(n * 100)}/>} cursor={{ fill: 'var(--ui-secondary)' }}/>
             <Bar dataKey="entradas" name="Entradas" fill="var(--ui-leaf)" radius={[8, 8, 0, 0]} animationDuration={800}/>
             <Bar dataKey="saidas" name="Saídas" fill="var(--ui-coral)" radius={[8, 8, 0, 0]} animationDuration={800}/>

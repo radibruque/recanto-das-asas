@@ -1,0 +1,14 @@
+{
+	"appId": "br.com.recantodasasas.app",
+	"appName": "Recanto das Asas",
+	"webDir": "dist",
+	"server": {
+		"hostname": "localhost",
+		"androidScheme": "https"
+	},
+	"android": {
+		"path": "native/android",
+		"allowMixedContent": false,
+		"webContentsDebuggingEnabled": false
+	}
+}

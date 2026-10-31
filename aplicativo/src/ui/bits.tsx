@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from 'motion/react';
-import { ArrowDownRight, ArrowUpRight, X, type LucideIcon } from 'lucide-react';
+import { ArrowDownRight, ArrowUpRight, ChevronDown, X, type LucideIcon } from 'lucide-react';
 import { useEffect, useId, type ButtonHTMLAttributes, type ReactNode } from 'react';
-import type { Attachment, Bird } from '../domain/types';
+import type { Attachment, Bird, Scope, State } from '../domain/types';
 import { useAttachmentUrl } from '../components/DirectAttachments';
 import { cn } from './cn';
 import { AnimatedNumber, riseItem } from './motion';
@@ -45,7 +45,7 @@ export function StatCard({ label, value, format, icon: Icon, tone = 'sky', delta
   const dark = tone === 'ink';
   const Tag = onClick ? motion.button : motion.div;
   return <Tag type={onClick ? 'button' : undefined} onClick={onClick} variants={riseItem} whileHover={{ y: -3 }} transition={{ type: 'spring', stiffness: 300, damping: 24 }}
-    className={cn('group relative block w-full overflow-hidden rounded-3xl p-5 text-left', dark ? 'bg-feather text-ink-foreground shadow-float' : cn(t.bg, 'text-foreground'))}>
+    className={cn('group relative block w-full min-w-0 overflow-hidden rounded-3xl p-4 text-left sm:p-5', dark ? 'bg-feather text-ink-foreground shadow-float' : cn(t.bg, 'text-foreground'))}>
     <div className="flex items-start justify-between">
       <span className={cn('grid size-10 place-items-center rounded-2xl transition-transform duration-500 group-hover:rotate-[-8deg] group-hover:scale-110', dark ? 'bg-ink-foreground/12' : 'bg-card shadow-soft')}>
         <Icon className={cn('size-5', dark ? 'text-sun' : t.fg)}/>
@@ -54,8 +54,8 @@ export function StatCard({ label, value, format, icon: Icon, tone = 'sky', delta
         {delta >= 0 ? <ArrowUpRight className="size-3"/> : <ArrowDownRight className="size-3"/>}{Math.abs(delta)}%
       </span>}
     </div>
-    <p className={cn('mt-5 text-sm font-medium', dark ? 'text-ink-muted' : 'text-muted-foreground')}>{label}</p>
-    <p className="mt-0.5 font-display text-3xl font-semibold"><AnimatedNumber value={value} format={format}/></p>
+    <p className={cn('mt-4 truncate text-sm font-medium sm:mt-5', dark ? 'text-ink-muted' : 'text-muted-foreground')}>{label}</p>
+    <p className="mt-0.5 whitespace-nowrap font-display text-xl font-semibold tabular-nums min-[400px]:text-2xl md:text-3xl"><AnimatedNumber value={value} format={format}/></p>
     {hint && <p className={cn('mt-1 text-xs', dark ? 'text-ink-muted' : 'text-muted-foreground')}>{hint}</p>}
   </Tag>;
 }
@@ -112,7 +112,7 @@ export function ChartTooltip({ active, payload, label, format }: { active?: bool
 export interface SegmentOption<T extends string> { value: T; label: string; icon?: LucideIcon; count?: number }
 export function SegmentedTabs<T extends string>({ options, value, onChange, tone = 'light', size = 'md', className }: { options: SegmentOption<T>[]; value: T; onChange: (v: T) => void; tone?: 'light' | 'ink'; size?: 'sm' | 'md'; className?: string }) {
   const id = useId();
-  return <div role="tablist" className={cn('relative inline-flex max-w-full items-center gap-1 overflow-x-auto rounded-2xl p-1 scrollbar-none', tone === 'light' ? 'bg-secondary' : 'bg-ink-foreground/8 ring-1 ring-ink-foreground/10', className)}>
+  return <div role="tablist" className={cn('relative inline-flex w-fit max-w-full items-center gap-1 overflow-x-auto rounded-2xl p-1 scrollbar-none', tone === 'light' ? 'bg-secondary' : 'bg-ink-foreground/8 ring-1 ring-ink-foreground/10', className)}>
     {options.map(o => {
       const active = o.value === value;
       const Icon = o.icon;
@@ -164,4 +164,33 @@ export function Sheet({ open, onClose, title, children, side = 'bottom', classNa
       </motion.div>
     </div>}
   </AnimatePresence>;
+}
+
+/** Small photo + name of a bird, used wherever a bird is mentioned. */
+export function BirdChip({ state, scope, birdId, bird: given, onClick, size = 32, sub, className }: { state: State; scope: Scope; birdId?: string | null; bird?: Bird; onClick?: () => void; size?: number; sub?: ReactNode; className?: string }) {
+  const bird = given ?? (birdId ? state.birds.find(b => b.id === birdId && b.scope === scope) : undefined);
+  if (!bird) return <span className={cn('inline-flex items-center gap-2 text-sm text-muted-foreground', className)}>{birdId === undefined ? '' : 'Ave não informada'}</span>;
+  const photo = bird.photoId ? state.attachments.find(a => a.id === bird.photoId && a.scope === scope) : undefined;
+  const body = <>
+    <BirdPhoto bird={bird} photo={photo} size={size} className="rounded-xl ring-1"/>
+    <span className="min-w-0 text-left leading-tight">
+      <span className="block truncate text-sm font-semibold text-foreground">{bird.name || bird.identification}</span>
+      <span className="block truncate text-[11px] text-muted-foreground">{sub ?? [bird.name ? bird.identification : '', bird.mutation].filter(Boolean).join(' · ')}</span>
+    </span>
+  </>;
+  const cls = cn('ui inline-flex min-w-0 max-w-full items-center gap-2 align-middle', onClick && 'press rounded-2xl pr-2 hover:bg-secondary', className);
+  return onClick ? <button type="button" onClick={onClick} className={cls} aria-label={`Abrir ficha de ${bird.name || bird.identification}`}>{body}</button> : <span className={cls}>{body}</span>;
+}
+
+/** Compact pill select used by the simple filters. */
+export function PillSelect({ label, value, onChange, options, className }: { label: string; value: string; onChange: (v: string) => void; options: { value: string; label: string }[]; className?: string }) {
+  const active = !!value;
+  return <label className={cn('relative inline-flex h-9 shrink-0 items-center rounded-full text-xs font-semibold transition-colors', active ? 'bg-ink text-ink-foreground' : 'bg-secondary text-secondary-foreground hover:bg-muted', className)}>
+    <span className="sr-only">{label}</span>
+    <select value={value} onChange={e => onChange(e.target.value)} className="h-9 cursor-pointer appearance-none rounded-full bg-transparent py-2 pl-3.5 pr-8 outline-none [&>option]:bg-card [&>option]:text-foreground">
+      <option value="">{label}</option>
+      {options.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
+    </select>
+    <ChevronDown className="pointer-events-none absolute right-2.5 size-3.5 opacity-70"/>
+  </label>;
 }

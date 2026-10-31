@@ -101,3 +101,46 @@ dialog.modal fieldset.record-form-section { border: 1px solid var(--ui-border); 
 .legacy .module-heading > h1, .legacy h2.module-heading { display: none; }
 .legacy .module-heading { justify-content: flex-end; }
 .legacy .module-heading:not(:has(> :not(h1))) { display: none; }
+
+/* 0.4.1 — calmer buttons and spacing in the existing screens (Windows and Android). */
+.legacy .button, dialog.modal .button, .commercial-portal .button {
+  min-height: 40px; padding: 8px 16px; font-size: .875rem; line-height: 1.2; border-radius: 14px; font-weight: 700; border: 0;
+}
+.commercial-portal .button { transition: transform 220ms cubic-bezier(.22,1,.36,1), background-color 200ms ease; }
+.commercial-portal .button:hover:not(:disabled) { transform: translateY(-1px); }
+.commercial-portal .button:active:not(:disabled) { transform: scale(.97); }
+/* In the commercial area only "primary" buttons are filled; the rest are quiet. */
+.commercial-module .button:not(.primary):not(.danger), .commercial-portal .button:not(.primary):not(.danger) {
+  background: var(--ui-secondary); color: var(--ui-secondary-foreground);
+}
+.commercial-module .button:not(.primary):not(.danger):hover:not(:disabled), .commercial-portal .button:not(.primary):not(.danger):hover:not(:disabled) { background: var(--ui-muted); }
+.commercial-module .button.primary, .commercial-portal .button.primary { background: var(--ui-primary); color: var(--ui-primary-foreground); }
+.legacy .row.action-row, .legacy .toolbar, .legacy .filter-bar, .commercial-portal .row.action-row { justify-content: flex-start; gap: 8px; }
+.legacy .metrics-grid { margin-bottom: 16px; }
+.legacy .module > * + *, .legacy .commercial-module > * + * { margin-top: 0; }
+.legacy .card + .card { margin-top: 12px; }
+.legacy .grid > .card + .card { margin-top: 0; }
+
+/* Commercial windows: always centred inside the whole screen, never cut. */
+.commercial-portal .modal { position: fixed; inset: 0; z-index: 80; display: flex; align-items: flex-start; justify-content: center; padding: max(16px, env(safe-area-inset-top)) 16px 16px; overflow-y: auto;
+  background: color-mix(in oklab, var(--ui-ink) 50%, transparent); backdrop-filter: blur(3px); animation: ui-fade .25s ease both; }
+.commercial-portal .modal > .card { width: min(860px, 100%); max-height: none; margin: auto 0; overflow: visible; border-radius: 28px; background: var(--ui-card); color: var(--ui-foreground); padding: 20px;
+  box-shadow: var(--ui-shadow-float); animation: ui-pop .35s cubic-bezier(.22,1,.36,1) both; }
+@media (min-width: 768px) { .commercial-portal .modal { padding: 32px; align-items: center; } .commercial-portal .modal > .card { padding: 28px; } }
+.commercial-portal .modal-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 12px; margin-bottom: 16px; border-bottom: 1px solid var(--ui-border); }
+.commercial-portal .modal-heading h2 { font-family: 'Fraunces', ui-serif, Georgia, serif; font-size: 1.5rem; font-weight: 600; margin: 0; }
+.commercial-portal .card .card { box-shadow: none; border: 1px solid var(--ui-border); border-radius: 20px; padding: 14px; animation: none; }
+.commercial-portal input:not([type='checkbox']):not([type='radio']):not([type='file']), .commercial-portal select, .commercial-portal textarea {
+  border-radius: 14px; border: 1px solid var(--ui-border); background: var(--ui-card); width: 100%; }
+.commercial-portal .ui input, .commercial-portal .ui select, .commercial-portal .ui textarea { border: 0; background: var(--ui-secondary); }
+@keyframes ui-fade { from { opacity: 0; } to { opacity: 1; } }
+
+/* Tables (reports): scroll sideways instead of breaking words letter by letter on phones. */
+.legacy .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.legacy .table-wrap table { width: max-content; min-width: 100%; }
+.legacy .table-wrap th, .legacy .table-wrap td { overflow-wrap: normal; word-break: normal; }
+.legacy .table-wrap th { white-space: nowrap; }
+.legacy .table-wrap td { min-width: 6.5rem; max-width: 22rem; }
+
+/* Bird delete button in the record header. */
+.legacy .bird-delete-button { color: var(--ui-coral) !important; }

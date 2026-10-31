@@ -34,7 +34,7 @@ if(!compiler&&process.platform==='linux'&&cache) {
 }
 if(!compiler)compiler=process.platform==='win32'?'makensis.exe':'makensis';
 const installer=path.join(root,'release/windows',`Recanto-das-Asas-${manifest.version}-x64-Setup.exe`);
-const result=spawnSync(compiler,[`-DAPP_ICON=${path.join(root,'native/icon.ico')}`,`-DAPP_DIR=${path.join(root,'release/windows/win-unpacked')}`,`-DOUT_FILE=${installer}`,`-DAPP_VERSION=${manifest.version}`,path.join(root,'native/installer.nsi')],{stdio:'inherit',env:{...process.env,...(process.platform==='linux'&&compiler.includes('/')?{NSISDIR:path.dirname(path.dirname(compiler))}:{})}});
+const result=spawnSync(compiler,[`-DAPP_ICON=${path.join(root,'native/icon.ico')}`,`-DAPP_DIR=${path.join(root,'release/windows/win-unpacked')}`,`-DOUT_FILE=${installer}`,`-DAPP_VERSION=${manifest.version}`,path.join(root,'native/installer.nsi')],{stdio:'inherit',env:{...process.env,...(process.platform==='linux'&&compiler.includes('/')?{NSISDIR:process.env.RECANTO_NSISDIR||path.dirname(path.dirname(compiler))}:{})}});
 if(result.error)throw new Error('NSIS indisponível. Instale o compilador NSIS oficial e configure RECANTO_MAKENSIS.');
 if(result.status!==0)process.exit(result.status||1);
 if(process.env.CSC_LINK)throw new Error('O instalador foi gerado; assine-o com sua ferramenta Authenticode e verifique a assinatura antes de distribuir.');

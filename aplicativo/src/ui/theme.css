@@ -1,5 +1,5 @@
 /*
- * Recanto das Asas 0.4.0 — visual system (same tokens as the approved presentation).
+ * Recanto das Asas — visual system (same tokens as the approved presentation).
  * Layer order: Tailwind theme < legacy module styles < new-component reset < utilities.
  * Legacy CSS keeps every existing form/table working; new screens use utilities.
  */
@@ -101,6 +101,7 @@
   --color-tint-leaf: var(--ui-tint-leaf);
   --color-tint-sun: var(--ui-tint-sun);
   --color-tint-coral: var(--ui-tint-coral);
+  --color-plate: var(--ui-plate);
 
   --animate-pulse-ring: pulse-ring 2s ease-out infinite;
 }
@@ -134,6 +135,8 @@
   --ui-tint-leaf: oklch(0.95 0.04 135);
   --ui-tint-sun: oklch(0.96 0.06 90);
   --ui-tint-coral: oklch(0.95 0.035 32);
+  /* Same white as the approved full-colour logo artwork, so the logo sits on its own plate. */
+  --ui-plate: oklch(0.996 0.001 145);
 
   --ui-gradient-brand: linear-gradient(135deg, var(--ui-primary) 0%, var(--ui-teal) 100%);
   --ui-gradient-sky: linear-gradient(135deg, var(--ui-teal) 0%, var(--ui-sky) 100%);
@@ -224,4 +227,9 @@ body { font-family: var(--font-sans); -webkit-font-smoothing: antialiased; color
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+/* Hide the datalist arrow on suggestion inputs (looks like a stray triangle). */
+@layer uireset {
+  .ui input[list]::-webkit-calendar-picker-indicator { display: none !important; }
 }

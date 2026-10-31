@@ -138,11 +138,36 @@ export const breedingHandler:Handler = (state,scope,action,data) => {
     return {id:b.id};
   }
   if(action==='deleteBird') {
+    // The owner may delete a bird at any time. Everything that belongs only to it is removed
+    // (health, weights, mutations, tasks, photos/files, pairs with their clutches and eggs).
+    // Shared records keep working: children lose the parent link, sales keep their money
+    // records and the item becomes a text line ("Ave excluída"), delivered files stay.
     const d=z.object({id:required}).parse(data), b=bird(d.id);
-    const linked=state.birds.some(v=>v.scope===scope&&(v.fatherId===b.id||v.motherId===b.id))||state.pairs.some(p=>p.scope===scope&&(p.maleId===b.id||p.femaleId===b.id))||state.eggs.some(e=>e.scope===scope&&e.chickId===b.id)||state.sales.some(s=>s.scope===scope&&s.items.some(i=>i.refId===b.id&&i.kind==='ave'))||state.attachments.some(a=>a.scope===scope&&a.birdId===b.id)||state.documents.some(a=>a.scope===scope&&a.birdId===b.id)||state.health.some(h=>h.scope===scope&&h.birdId===b.id)||state.tasks.some(t=>t.scope===scope&&t.birdId===b.id);
-    ensure(!linked,'A ave possui vínculos. Preserve o cadastro e altere sua situação.');
-    ensure(b.statusHistory.length<=1&&state.mutations.filter(m=>m.scope===scope&&m.birdId===b.id).length<=1&&(b.sexHistory?.length??0)<=1&&(b.custodyHistory?.length??0)<=1,'A ave possui histórico. Preserve o cadastro e altere sua situação.');
-    state.birds=state.birds.filter(v=>v!==b); state.mutations=state.mutations.filter(v=>v.scope!==scope||v.birdId!==b.id); return {id:b.id};
+    const label=[b.name,b.identification].filter(Boolean).join(' · ');
+    const pairIds=new Set(state.pairs.filter(p=>p.scope===scope&&(p.maleId===b.id||p.femaleId===b.id)).map(p=>p.id));
+    const clutchIds=new Set(state.clutches.filter(c=>c.scope===scope&&pairIds.has(c.pairId)).map(c=>c.id));
+    const eggIds=new Set(state.eggs.filter(e=>e.scope===scope&&clutchIds.has(e.clutchId)).map(e=>e.id));
+    const healthIds=new Set(state.health.filter(h=>h.scope===scope&&h.birdId===b.id).map(h=>h.id));
+    const delivered=new Set(state.sales.filter(s=>s.scope===scope).flatMap(s=>(s.deliveryManifest??[]).map(f=>f.type+':'+f.id)));
+    const keepFile=(a:{id:string;saleId?:string|null;contactId?:string|null;sourceType?:string},type:'attachment'|'document')=>delivered.has(type+':'+a.id)||!!a.saleId||!!a.contactId||(type==='attachment'&&!!a.sourceType&&!['bird','health'].includes(a.sourceType));
+    const removedFiles=new Set<string>();
+    state.attachments=state.attachments.filter(a=>{if(a.scope!==scope||a.birdId!==b.id)return true;if(keepFile(a,'attachment')){a.birdId=null;return true;}removedFiles.add(a.id);return false;});
+    for(const a of state.attachments)if(a.scope===scope&&a.previousId&&removedFiles.has(a.previousId))a.previousId=null;
+    state.documents=state.documents.filter(doc=>{if(doc.scope!==scope||doc.birdId!==b.id)return true;if(keepFile(doc,'document')){doc.birdId=null;return true;}return false;});
+    for(const other of state.birds)if(other.scope===scope){if(other.fatherId===b.id)other.fatherId=null;if(other.motherId===b.id)other.motherId=null;if(other.photoId&&removedFiles.has(other.photoId))other.photoId=null;}
+    for(const e of state.eggs)if(e.scope===scope&&e.chickId===b.id)e.chickId=null;
+    for(const s of state.sales)if(s.scope===scope)s.items=s.items.map(i=>i.kind==='ave'&&i.refId===b.id?{...i,kind:'serviço' as const,refId:null,description:('Ave excluída · '+(label||i.description)).slice(0,150)}:i);
+    for(const m of state.mutations)if(m.scope===scope&&m.attachmentId&&removedFiles.has(m.attachmentId))m.attachmentId=null;
+    for(const h of state.health)if(h.scope===scope)h.attachmentIds=h.attachmentIds.filter(x=>!removedFiles.has(x));
+    for(const x of state.birds)if(x.scope===scope)for(const h of x.sexHistory??[])if(h.attachmentId&&removedFiles.has(h.attachmentId))h.attachmentId=null;
+    state.tasks=state.tasks.filter(t=>t.scope!==scope||!(t.birdId===b.id||(t.sourceType==='bird'&&t.sourceId===b.id)||(t.sourceType==='pair'&&pairIds.has(t.sourceId??''))||(t.sourceType==='clutch'&&clutchIds.has(t.sourceId??''))||(t.sourceType==='egg'&&eggIds.has(t.sourceId??''))));
+    state.eggs=state.eggs.filter(e=>e.scope!==scope||!eggIds.has(e.id));
+    state.clutches=state.clutches.filter(c=>c.scope!==scope||!clutchIds.has(c.id));
+    state.pairs=state.pairs.filter(p=>p.scope!==scope||!pairIds.has(p.id));
+    state.health=state.health.filter(h=>h.scope!==scope||!healthIds.has(h.id));
+    state.mutations=state.mutations.filter(m=>m.scope!==scope||m.birdId!==b.id);
+    state.birds=state.birds.filter(v=>v!==b);
+    return {id:b.id};
   }
   if(action==='createPair') {
     const d=z.object({name:required,maleId:required,femaleId:required,startDate:actualDate,notes:text,enclosure:text,acknowledgeRelated:z.boolean().default(false)}).parse(data),m=bird(d.maleId),f=bird(d.femaleId);

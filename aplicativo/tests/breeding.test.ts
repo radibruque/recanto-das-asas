@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { breedingHandler } from '../src/domain/breeding';
 import { emptyState, type Bird, type Scope, type State } from '../src/domain/types';
 import { today } from '../src/domain/shared';
+import { validateState } from '../src/lib/validation';
 
 const species = 'Calopsita (Nymphicus hollandicus)';
 const otherSpecies = 'Agapornis roseicollis';
@@ -624,8 +625,8 @@ describe('care agenda', () => {
   });
 });
 
-describe('safe bird deletion', () => {
-  it('removes only an unused registration and its initial mutation in the selected scope', () => {
+describe('bird deletion (owner can delete anytime, linked records go with it)', () => {
+  it('removes only the bird of the selected scope', () => {
     const state = emptyState();
     const realId = addBird(state, { identification: 'MESMA' });
     const demoId = addBird(state, { identification: 'MESMA' }, 'demo');
@@ -634,30 +635,52 @@ describe('safe bird deletion', () => {
     expect(state.mutations.map(entry => entry.birdId)).toEqual([demoId]);
   });
 
-  it('preserves ancestors, members of closed pairs and hatchlings', () => {
+  it('deletes a parent: children stay, without the parent link', () => {
     const state = emptyState();
     const fatherId = addBird(state, { sex: 'macho' });
-    addBird(state, { birthDate: '2021-01-01', fatherId });
-    expect(() => command(state, 'deleteBird', { id: fatherId })).toThrow(/possui vínculos/);
-    const pair = pairFixture(state);
-    command(state, 'closePair', { id: pair.pairId, endDate: '2024-02-01' });
-    expect(() => command(state, 'deleteBird', { id: pair.maleId })).toThrow(/possui vínculos/);
+    const childId = addBird(state, { birthDate: '2021-01-01', fatherId });
+    command(state, 'deleteBird', { id: fatherId });
+    expect(state.birds.map(b => b.id)).toEqual([childId]);
+    expect(getBird(state, childId).fatherId).toBeNull();
+    expect(() => validateState(state)).not.toThrow();
+  });
+
+  it('deletes a pair member together with the pair, its clutches and eggs; the chick stays', () => {
+    const state = emptyState();
     const egg = eggFixture(state);
     const chickId = hatch(state, egg.eggId);
-    expect(() => command(state, 'deleteBird', { id: chickId })).toThrow(/possui vínculos/);
+    const pair = state.pairs[0]!;
+    command(state, 'deleteBird', { id: pair.maleId });
+    expect(state.pairs).toHaveLength(0);
+    expect(state.clutches).toHaveLength(0);
+    expect(state.eggs).toHaveLength(0);
+    expect(state.birds.some(b => b.id === chickId)).toBe(true);
+    expect(getBird(state, chickId).fatherId).toBeNull();
+    expect(() => validateState(state)).not.toThrow();
   });
 
-  it('preserves birds with care tasks or health records', () => {
+  it('deletes a hatched chick and clears the egg link', () => {
     const state = emptyState();
-    const taskBirdId = addBird(state);
-    const healthBirdId = addBird(state);
-    command(state, 'saveTask', { birdId: taskBirdId, title: 'Pesagem', dueDate: '2024-02-01' });
-    command(state, 'saveHealth', { birdId: healthBirdId, date: '2024-02-01', kind: 'consulta', title: 'Registro informado', author: 'Criador' });
-    expect(() => command(state, 'deleteBird', { id: taskBirdId })).toThrow(/possui vínculos/);
-    expect(() => command(state, 'deleteBird', { id: healthBirdId })).toThrow(/possui vínculos/);
+    const egg = eggFixture(state);
+    const chickId = hatch(state, egg.eggId);
+    command(state, 'deleteBird', { id: chickId });
+    expect(state.eggs.find(e => e.id === egg.eggId)?.chickId).toBeNull();
+    expect(() => validateState(state)).not.toThrow();
   });
 
-  it.each(['sex', 'mutation', 'status'])('preserves a bird after a %s history correction', field => {
+  it('deletes care tasks and health records of the bird', () => {
+    const state = emptyState();
+    const birdId = addBird(state);
+    const otherId = addBird(state);
+    command(state, 'saveTask', { birdId, title: 'Pesagem', dueDate: '2024-02-01' });
+    command(state, 'saveHealth', { birdId, date: '2024-02-01', kind: 'consulta', title: 'Registro informado', author: 'Criador' });
+    command(state, 'saveHealth', { birdId: otherId, date: '2024-02-01', kind: 'consulta', title: 'Outra ave', author: 'Criador' });
+    command(state, 'deleteBird', { id: birdId });
+    expect(state.tasks).toHaveLength(0);
+    expect(state.health.map(h => h.birdId)).toEqual([otherId]);
+  });
+
+  it.each(['sex', 'mutation', 'status'])('deletes a bird even after a %s history correction', field => {
     const state = emptyState();
     const birdId = addBird(state);
     const changes: Record<string, Record<string, unknown>> = {
@@ -666,13 +689,14 @@ describe('safe bird deletion', () => {
       status: { status: 'disponível', statusReason: 'Pronto', statusDate: '2024-02-01' },
     };
     command(state, 'saveBird', { id: birdId, ...changes[field] });
-    expect(() => command(state, 'deleteBird', { id: birdId })).toThrow(/possui histórico/);
-    expect(state.birds).toHaveLength(1);
+    command(state, 'deleteBird', { id: birdId });
+    expect(state.birds).toHaveLength(0);
+    expect(state.mutations).toHaveLength(0);
   });
 });
 
 describe('responsabilidade e recintos',()=>{
- it('preserves every move with date and reason and blocks deleting that history',()=>{
+ it('preserves every move with date and reason',()=>{
   const state=emptyState(),birdId=addBird(state,{responsible:'Criador A',enclosure:'Viveiro A',custodyDate:'2024-01-01'});
   expect(()=>command(state,'saveBird',{id:birdId,enclosure:'Viveiro B'})).toThrow(/motivo/);
   command(state,'saveBird',{id:birdId,enclosure:'Viveiro B',responsible:'Criador B',custodyDate:'2024-03-01',custodyReason:'Mudança de manejo'});
@@ -681,7 +705,7 @@ describe('responsabilidade e recintos',()=>{
    {date:'2024-03-01',responsible:'Criador B',enclosure:'Viveiro B',reason:'Mudança de manejo'}
   ]);
   expect(()=>command(state,'saveBird',{id:birdId,enclosure:'Viveiro C',custodyDate:'2024-02-01',custodyReason:'Motivo'})).toThrow(/último registro/);
-  expect(()=>command(state,'deleteBird',{id:birdId})).toThrow(/histórico/);
+  command(state,'deleteBird',{id:birdId});expect(state.birds).toHaveLength(0);
  });
  it('rejects a movement before birth',()=>{
   expect(()=>addBird(emptyState(),{custodyDate:'2019-12-31'})).toThrow(/anteceder o nascimento/);

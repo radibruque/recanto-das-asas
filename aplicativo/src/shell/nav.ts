@@ -1,16 +1,16 @@
 import {
-  Bird, BookOpen, ChartPie, ClipboardCheck, Egg, Landmark, LayoutGrid, Network, Palette, Settings, ShoppingBag, Truck, Users,
+  Bird, BookOpen, ChartPie, ClipboardCheck, Egg, Landmark, LayoutGrid, Network, Palette, Settings, ShoppingBag, Tag, Truck, Users,
   type LucideIcon,
 } from 'lucide-react';
 
 /** Internal screen ids. Several ids can live in one menu item as tabs. */
 export type View =
   | 'home' | 'birds' | 'breeding' | 'pairs' | 'family' | 'health' | 'tasks'
-  | 'clients' | 'suppliers' | 'sales' | 'finance' | 'stock'
+  | 'clients' | 'suppliers' | 'sales' | 'finance' | 'stock' | 'prices'
   | 'reports' | 'booklet' | 'arts'
   | 'settings' | 'backup' | 'sync' | 'updates' | 'support';
 
-export type MenuId = 'home' | 'birds' | 'breeding' | 'family' | 'care' | 'clients' | 'suppliers' | 'sales' | 'money' | 'reports' | 'booklet' | 'arts' | 'system';
+export type MenuId = 'home' | 'birds' | 'breeding' | 'family' | 'care' | 'clients' | 'suppliers' | 'sales' | 'prices' | 'money' | 'reports' | 'booklet' | 'arts' | 'system';
 
 export interface MenuItem {
   id: MenuId;
@@ -37,6 +37,7 @@ export const menuGroups: { label: string; items: MenuItem[] }[] = [
     { id: 'clients', label: 'Clientes', short: 'Clientes', icon: Users, group: 'Comercial', eyebrow: 'Comercial', description: 'Quem compra as aves do Recanto.', views: [{ view: 'clients', label: 'Clientes' }] },
     { id: 'suppliers', label: 'Fornecedores', short: 'Fornecedores', icon: Truck, group: 'Comercial', eyebrow: 'Comercial', description: 'Pessoas e empresas de quem você compra materiais, insumos e aves.', views: [{ view: 'suppliers', label: 'Fornecedores' }] },
     { id: 'sales', label: 'Vendas e reservas', short: 'Vendas', icon: ShoppingBag, group: 'Comercial', eyebrow: 'Comercial', description: 'Orçamentos, reservas, vendas e entregas.', views: [{ view: 'sales', label: 'Vendas e reservas' }] },
+    { id: 'prices', label: 'Tabela de preços', short: 'Preços', icon: Tag, group: 'Comercial', eyebrow: 'Comercial', description: 'Preços de aves, produtos e serviços. As vendas preenchem o valor sozinhas.', views: [{ view: 'prices', label: 'Tabela de preços' }] },
     { id: 'money', label: 'Caixa e materiais', short: 'Caixa', icon: Landmark, group: 'Comercial', eyebrow: 'Comercial', description: 'Saldo, contas a pagar e receber, compras e estoque.', views: [{ view: 'finance', label: 'Caixa' }, { view: 'stock', label: 'Materiais' }] },
   ] },
   { label: 'Central', items: [
@@ -54,4 +55,4 @@ export const allViews = allMenu.flatMap(m => m.views.map(v => v.view));
 export const menuForView = (view: string) => allMenu.find(m => m.views.some(v => v.view === view)) ?? allMenu[0]!;
 
 export const breedingViews = new Set<string>(['birds', 'pairs', 'breeding', 'family', 'health', 'tasks']);
-export const commercialViews = new Set<string>(['clients', 'suppliers', 'sales', 'finance', 'stock', 'contacts']);
+export const commercialViews = new Set<string>(['clients', 'suppliers', 'sales', 'prices', 'finance', 'stock', 'contacts']);

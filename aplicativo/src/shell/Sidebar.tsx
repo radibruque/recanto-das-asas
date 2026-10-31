@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'motion/react';
-import { Bird, ChevronsLeft, FlaskConical, MonitorSmartphone, ShoppingBag } from 'lucide-react';
+import { Bird, ChevronsLeft, MonitorSmartphone, ShoppingBag } from 'lucide-react';
 import { useState } from 'react';
 import type { Scope } from '../domain/types';
 import type { Sector } from '../lib/navigation';
@@ -13,11 +13,11 @@ export function Sidebar({ active, onOpen, sector, onSector, scope, onScope, sync
   const [collapsed, setCollapsed] = useState(false);
   return <motion.aside animate={{ width: collapsed ? 88 : 268 }} transition={{ type: 'spring', stiffness: 260, damping: 30 }}
     className="ui sticky top-0 hidden h-screen shrink-0 flex-col overflow-hidden px-4 py-6 text-ink-foreground lg:flex">
-    <div className={cn('flex items-center', collapsed ? 'justify-center' : 'justify-between pl-2')}>
-      <button type="button" onClick={() => onOpen('home')} aria-label="Ir para Hoje"><BrandLockup compact={collapsed}/></button>
+    <div className={cn('flex items-center', collapsed ? 'justify-center' : 'px-1')}>
+      <button type="button" onClick={() => onOpen('home')} aria-label="Ir para Hoje" className="press block w-full"><BrandLockup compact={collapsed} className={collapsed ? 'mx-auto' : undefined}/></button>
     </div>
-    {!collapsed && <div className="mt-6 px-1">
-      <SegmentedTabs tone="ink" size="sm" value={sector} onChange={onSector} className="w-full [&>button]:flex-1 [&>button]:justify-center"
+    {!collapsed && <div className="mt-5 px-1">
+      <SegmentedTabs tone="ink" size="sm" value={sector} onChange={onSector} className="grid w-full grid-cols-2 [&>button]:min-w-0 [&>button]:justify-center [&>button]:px-2"
         options={[{ value: 'breeding', label: 'Criatório', icon: Bird }, { value: 'commercial', label: 'Comercial', icon: ShoppingBag }]}/>
     </div>}
 
@@ -48,8 +48,8 @@ export function Sidebar({ active, onOpen, sector, onSector, scope, onScope, sync
       {!collapsed && <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-2 rounded-2xl bg-ink-foreground/6 p-3 ring-1 ring-ink-foreground/10">
         <div className="flex items-center gap-2 text-xs font-semibold"><MonitorSmartphone className="size-4 text-sky"/>Windows + Android</div>
         <p className="text-[11px] text-ink-muted">{syncText}</p>
-        <SegmentedTabs tone="ink" size="sm" value={scope} onChange={onScope} className="w-full [&>button]:flex-1 [&>button]:justify-center"
-          options={[{ value: 'real', label: 'Meu criatório' }, { value: 'demo', label: 'Demonstração', icon: FlaskConical }]}/>
+        <SegmentedTabs tone="ink" size="sm" value={scope} onChange={onScope} className="grid w-full grid-cols-2 [&>button]:min-w-0 [&>button]:justify-center [&>button]:px-2"
+          options={[{ value: 'real', label: 'Meu criatório' }, { value: 'demo', label: 'Demonstração' }]}/>
       </motion.div>}
       <div className={cn('flex items-center gap-2', collapsed && 'flex-col')}>
         <ThemeSwitch compact={collapsed}/>

@@ -5,7 +5,7 @@ import type { Scope, State } from '../domain/types';
 import type { NavigationTarget } from '../domain/ui-target';
 import { buildLocalSearchIndex, searchLocalIndex } from '../lib/navigation';
 import type { Notice } from '../lib/notices';
-import { BrandLockup } from '../ui/Brand';
+import { BrandBadge } from '../ui/Brand';
 import { cn } from '../ui/cn';
 import { QuickActions, type QuickAction } from './QuickActions';
 
@@ -98,13 +98,13 @@ export function DesktopTopBar({ state, scope, navigate, notices, onNotice, actio
 export function MobileTopBar({ section, state, scope, navigate, notices, onNotice, ownerName, onProfile }: { section: string; state: State; scope: Scope; navigate: (t: NavigationTarget) => void; notices: Notice[]; onNotice: (n: Notice) => void; ownerName: string; onProfile: () => void }) {
   const [searching, setSearching] = useState(false);
   return <div className="ui px-5 pt-5 text-ink-foreground lg:hidden" style={{ paddingTop: 'max(1.25rem, env(safe-area-inset-top))' }}>
-    <div className="flex items-center justify-between">
-      <div className="flex items-center gap-3">
-        <BrandLockup compact className="[&_img]:h-9"/>
-        <div className="leading-tight">
-          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-sky">Recanto das Asas{scope === 'demo' ? ' · Demonstração' : ''}</p>
+    <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
+      <div className="flex min-w-0 items-center gap-3">
+        <BrandBadge size={42}/>
+        <div className="min-w-0 leading-tight">
+          <p className="truncate text-[10px] font-bold uppercase tracking-[0.2em] text-sky">Recanto das Asas{scope === 'demo' ? ' · Demonstração' : ''}</p>
           <AnimatePresence mode="wait">
-            <motion.p key={section} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} className="font-display text-lg font-semibold">{section}</motion.p>
+            <motion.p key={section} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} className="truncate font-display text-lg font-semibold">{section}</motion.p>
           </AnimatePresence>
         </div>
       </div>

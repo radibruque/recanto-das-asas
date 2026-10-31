@@ -95,6 +95,18 @@ export function applyCommand(state:State,scope:Scope,action:string,data:unknown)
   // Devices that synchronize this base (listed in Configurações → Sincronização). No server change needed.
   const d=z.object({id:required,name:required,platform:text,lastSeen:required}).parse(data);
   const list=(state.settings.devices??[]).filter(x=>x.id!==d.id);list.push(d);state.settings.devices=list.sort((a,b)=>b.lastSeen.localeCompare(a.lastSeen)).slice(0,30);recordId=d.id;
+ }else if(action==='prices.save'){
+  // Replaces this space's price table (real and demo are kept apart).
+  const entry=z.object({id:z.string().optional(),kind:z.enum(['ave','produto','serviço']),species:text,mutation:text,sex:z.enum(['','macho','fêmea']).default(''),productId:z.string().nullable().default(null),name:text,priceCents:z.number().int().nonnegative().max(Number.MAX_SAFE_INTEGER)});
+  const d=z.object({entries:z.array(entry).max(1500)}).parse(data);
+  for(const e of d.entries){
+   if(e.kind==='ave')ensure(!!e.species.trim(),'Informe a espécie de cada preço de ave.');
+   if(e.kind==='produto')ensure(!!e.productId&&state.products.some(p=>p.id===e.productId&&p.scope===scope),'Selecione o produto de cada preço.');
+   if(e.kind==='serviço')ensure(!!e.name.trim(),'Informe o nome de cada serviço.');
+  }
+  const others=(state.settings.priceTable??[]).filter(e=>e.scope!==scope);
+  state.settings.priceTable=[...others,...d.entries.map(e=>({id:e.id||id(),scope,kind:e.kind,species:e.kind==='ave'?e.species.trim():'',mutation:e.kind==='ave'?e.mutation.trim():'',sex:e.kind==='ave'?e.sex:'' as const,productId:e.kind==='produto'?e.productId:null,name:e.kind==='serviço'?e.name.trim():'',priceCents:e.priceCents}))];
+  recordId='prices';
  }else if(action==='settings.save'){
   const values=z.object({name:required,phone:text,email:text,address:text,backupDays:z.number().int().min(1).max(365),categories:z.array(required).min(1).max(100),speciesEstimates:z.record(z.number().int().min(1).max(365)).optional(),derivedTaskRules:z.object({hatch:z.boolean(),eggCheck:z.boolean(),chickFollowup:z.boolean()}).optional()}).parse(data);
   if(values.speciesEstimates&&(Object.keys(values.speciesEstimates).length!==Object.keys(state.settings.speciesEstimates).length||Object.entries(values.speciesEstimates).some(([name,days])=>state.settings.speciesEstimates[name]!==days)))throw new Error('Edite os parâmetros pelo catálogo de espécies e informe a fonte.');

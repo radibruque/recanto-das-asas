@@ -25,6 +25,7 @@ import type { QuickAction } from './shell/QuickActions';
 import { allMenu, allViews, breedingViews, commercialViews, menuForView, type MenuId, type View } from './shell/nav';
 import Today from './screens/Today';
 import { BreedingOverview, CashOverview, ReportsOverview, SalesOverview } from './screens/Overviews';
+import Prices from './screens/Prices';
 import DeviceSettings from './screens/DeviceSettings';
 import Identity from './screens/Identity';
 import { Button, PageHeader, SegmentedTabs } from './ui/bits';
@@ -243,7 +244,7 @@ export default function App() {
           {view === 'home' ? <div className="ui"><Today {...props} navigate={navigate} sector={sector} notices={notices}/></div> : <>
             <Stagger className="ui mb-6 flex flex-col gap-4">
               <PageHeader eyebrow={menu.eyebrow} title={menu.label} description={menu.description}
-                actions={menu.views.length > 1 ? <SegmentedTabs value={view} onChange={v => navigate({ view: v })} options={menu.views.map(v => ({ value: v.view, label: v.label }))}/> : undefined}/>
+                actions={menu.views.length > 1 && menu.id !== 'breeding' ? <SegmentedTabs value={view} onChange={v => navigate({ view: v })} options={menu.views.map(v => ({ value: v.view, label: v.label }))}/> : undefined}/>
               {searchLabel && <label className="group flex h-11 max-w-md items-center gap-3 rounded-2xl bg-card px-4 shadow-soft ring-1 ring-border transition-shadow focus-within:ring-2 focus-within:ring-teal/50">
                 <Search className="size-4 text-muted-foreground group-focus-within:text-teal"/>
                 <input value={search} onChange={e => { setSearch(e.target.value); searches.current.set(activeKey, e.target.value); }} placeholder={searchLabel} type="search" aria-label={searchLabel} className="h-full flex-1 bg-transparent text-sm outline-none"/>
@@ -254,7 +255,7 @@ export default function App() {
             {(view === 'breeding' || view === 'pairs') && <BreedingOverview state={state} scope={scope} navigate={navigate}/>}
             {view === 'reports' && <ReportsOverview state={state} scope={scope} navigate={navigate}/>}
             {view === 'settings' && <DeviceSettings state={state} notify={notify}/>}
-            {view === 'arts' ? <Identity notify={notify}/> : <div key={activeKey} className="legacy cached-view" data-view={view}><RoutedModule props={props} vault={vault} commitState={commitState} view={view}/></div>}
+            {view === 'arts' ? <Identity notify={notify}/> : view === 'prices' ? <Prices state={state} scope={scope} command={command} notify={notify}/> : <div key={activeKey} className="legacy cached-view" data-view={view}><RoutedModule props={props} vault={vault} commitState={commitState} view={view}/></div>}
           </>}
           <footer className="ui mt-10 flex flex-wrap justify-between gap-2 pb-4 text-[11px] text-muted-foreground"><span>Recanto das Asas · {APP_VERSION}</span><span>{scope === 'demo' ? 'Exemplos fictícios' : 'Seu criatório'} · Horário de Brasília</span></footer>
         </motion.div>

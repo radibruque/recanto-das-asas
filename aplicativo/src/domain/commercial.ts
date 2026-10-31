@@ -105,7 +105,7 @@ function createBills(state:State,scope:Scope,sale:Sale,installments:{dueDate:str
 const contactInput=z.object({id:z.string().optional(),kind:z.enum(['cliente','fornecedor','interessado']),name:required,phone:text,email:z.union([z.literal(''),z.string().trim().email('E-mail inválido.')]).default(''),address:text,taxId:z.string().trim().max(30).default(''),notes:text,interest:text});
 const itemInput=z.object({kind:z.enum(['ave','produto','serviço']),refId:maybeId,description:required,quantity,unitCents:cents});
 const installmentInput=z.object({dueDate:date,amountCents:cents});
-const saleInput=z.object({id:z.string().optional(),contactId:required,date,status:z.enum(['orçamento','reservada','vendida']),items:z.array(itemInput).min(1,'Inclua pelo menos um item.').max(300),discountCents:cents.default(0),feeCents:cents.default(0),notes:text,installments:z.array(installmentInput).max(120).default([]),receipt:z.object({amountCents:cents,method:required}).optional()});
+const saleInput=z.object({id:z.string().optional(),contactId:required,date,status:z.enum(['orçamento','reservada','vendida']),items:z.array(itemInput).min(1,'Inclua pelo menos um item.').max(300),discountCents:cents.default(0),feeCents:cents.default(0),interestCents:cents.default(0),notes:text,installments:z.array(installmentInput).max(120).default([]),receipt:z.object({amountCents:cents,method:required}).optional(),paymentMethod:text.optional(),paymentPlan:text.optional()});
 
 export const commercialHandler:Handler=(state,scope,action,data)=>{
  if(action==='contact.save'){
@@ -120,8 +120,8 @@ export const commercialHandler:Handler=(state,scope,action,data)=>{
   const items:SaleItem[]=input.items.map(i=>{if(i.kind==='ave'){ensure(i.refId&&i.quantity===1,'Cada ave deve ser um item individual de quantidade 1.');scoped(state.birds,scope,i.refId,'Ave');}else if(i.kind==='produto'){ensure(i.refId,'Selecione o produto.');scoped(state.products,scope,i.refId,'Produto');}return {...i,id:id(),refId:i.kind==='serviço'?null:i.refId!};});
   ensure(new Set(items.filter(i=>i.kind==='ave').map(i=>i.refId)).size===items.filter(i=>i.kind==='ave').length,'A mesma ave não pode aparecer duas vezes.');
   const subtotal=safeSum(items.map(itemTotal));ensure(input.discountCents<=subtotal,'O desconto não pode exceder os itens.');
-  const totalCents=safeSum([subtotal,-input.discountCents,input.feeCents]);
-  const sale:Sale={id:previous?.id??id(),scope,number:previous?.number??`${scope==='demo'?'DEMO-':''}V-${String(state.sales.filter(s=>s.scope===scope).length+1).padStart(6,'0')}`,contactId:input.contactId,date:input.date,status:input.status,items,discountCents:input.discountCents,feeCents:input.feeCents,totalCents,notes:input.notes,deliveryDate:'',statusHistory:[...(previous?.statusHistory??[]),{date:input.date,status:input.status,reason:previous?'Orçamento atualizado':'Operação criada'}]};
+  const totalCents=safeSum([subtotal,-input.discountCents,input.feeCents,input.interestCents]);
+  const sale:Sale={id:previous?.id??id(),scope,number:previous?.number??`${scope==='demo'?'DEMO-':''}V-${String(state.sales.filter(s=>s.scope===scope).length+1).padStart(6,'0')}`,contactId:input.contactId,date:input.date,status:input.status,items,discountCents:input.discountCents,feeCents:input.feeCents,...(input.interestCents?{interestCents:input.interestCents}:{}),totalCents,notes:input.notes,deliveryDate:'',...(input.paymentMethod?{paymentMethod:input.paymentMethod}:{}),...(input.paymentPlan?{paymentPlan:input.paymentPlan}:{}),statusHistory:[...(previous?.statusHistory??[]),{date:input.date,status:input.status,reason:previous?'Orçamento atualizado':'Operação criada'}]};
   if(input.status!=='orçamento'){
    const plan=input.installments.length?input.installments:[{dueDate:input.date,amountCents:totalCents}];
    ensure(safeSum(plan.map(v=>v.amountCents))===totalCents,'A soma das parcelas precisa ser igual ao total da operação.');
