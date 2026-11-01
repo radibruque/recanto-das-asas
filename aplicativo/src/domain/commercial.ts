@@ -102,12 +102,21 @@ function createBills(state:State,scope:Scope,sale:Sale,installments:{dueDate:str
  ensure(safeSum(plan.map(v=>v.amountCents))===sale.totalCents,'A soma das parcelas precisa ser igual ao total da operação.');
  plan.forEach((part,index)=>state.bills.push({id:id(),scope,direction:'receber',contactId:sale.contactId,saleId:sale.id,category:'Venda',costCenter:'Comercial',description:`${sale.number} · parcela ${index+1}/${plan.length}`,dueDate:part.dueDate,amountCents:part.amountCents,cancelled:false}));
 }
-const contactInput=z.object({id:z.string().optional(),kind:z.enum(['cliente','fornecedor','interessado']),name:required,phone:text,email:z.union([z.literal(''),z.string().trim().email('E-mail inválido.')]).default(''),address:text,taxId:z.string().trim().max(30).default(''),notes:text,interest:text});
+const contactInput=z.object({id:z.string().optional(),kind:z.enum(['cliente','fornecedor','interessado']),name:required,phone:text,email:z.union([z.literal(''),z.string().trim().email('E-mail inválido.')]).default(''),address:text,taxId:z.string().trim().max(30).default(''),notes:text,interest:text,website:text.optional(),socialLinks:text.optional()});
 const itemInput=z.object({kind:z.enum(['ave','produto','serviço']),refId:maybeId,description:required,quantity,unitCents:cents});
 const installmentInput=z.object({dueDate:date,amountCents:cents});
 const saleInput=z.object({id:z.string().optional(),contactId:required,date,status:z.enum(['orçamento','reservada','vendida']),items:z.array(itemInput).min(1,'Inclua pelo menos um item.').max(300),discountCents:cents.default(0),feeCents:cents.default(0),interestCents:cents.default(0),notes:text,installments:z.array(installmentInput).max(120).default([]),receipt:z.object({amountCents:cents,method:required}).optional(),paymentMethod:text.optional(),paymentPlan:text.optional()});
 
 export const commercialHandler:Handler=(state,scope,action,data)=>{
+ if(action==='contact.delete'){
+  const input=z.object({id:required}).parse(data),contact=scoped(state.contacts,scope,input.id,'Cliente');
+  ensure(contact.kind==='cliente','Esta exclusão está disponível para clientes.');
+  const linked=state.sales.some(s=>s.scope===scope&&s.contactId===contact.id)||state.bills.some(b=>b.scope===scope&&b.contactId===contact.id)||state.attachments.some(a=>a.scope===scope&&a.contactId===contact.id)||state.birds.some(b=>b.scope===scope&&b.supplierId===contact.id)||state.products.some(p=>p.scope===scope&&p.supplierId===contact.id)||state.purchases.some(p=>p.scope===scope&&(p.supplierId===contact.id||p.history.some(h=>h.supplierId===contact.id)));
+  // A hidden anonymous reference keeps existing backups and older clients valid.
+  if(linked)Object.assign(contact,{kind:'interessado',name:'Cliente excluído',phone:'',email:'',address:'',taxId:'',notes:'',interest:'',website:'',socialLinks:''});
+  else state.contacts=state.contacts.filter(c=>c!==contact);
+  return {id:contact.id};
+ }
  if(action==='contact.save'){
   const input=contactInput.parse(data);const contact:Contact={...input,id:input.id??id(),scope};
   if(input.id){const old=scoped(state.contacts,scope,input.id,'Contato');Object.assign(old,contact);}else state.contacts.push(contact);
@@ -143,8 +152,9 @@ export const commercialHandler:Handler=(state,scope,action,data)=>{
   return {id:sale.id};
  }
  if(action==='sale.transition'){
-  const input=z.object({id:required,status:z.enum(['reservada','vendida','entregue','cancelada','devolvida']),date,reason:required,refundAccountId:z.string().optional(),installments:z.array(installmentInput).max(120).default([]),deliveryFiles:z.array(z.object({type:z.enum(['attachment','document']),id:required})).max(20).optional()}).parse(data);
+  const input=z.object({id:required,status:z.enum(['reservada','vendida','entregue','cancelada','devolvida']),date,reason:text,refundAccountId:z.string().optional(),installments:z.array(installmentInput).max(120).default([]),deliveryFiles:z.array(z.object({type:z.enum(['attachment','document']),id:required})).max(20).optional()}).parse(data);
   const sale=scoped(state.sales,scope,input.id,'Operação');
+  if(!input.reason){ensure(['reservada','vendida'].includes(input.status),'Informe o motivo desta alteração.');input.reason=input.status==='vendida'?'Venda confirmada':'Reserva confirmada';}
   if(sale.status===input.status)return {id:sale.id};
   ensure(!['cancelada','devolvida'].includes(sale.status),'Esta operação já foi encerrada.');
   ensure(input.date>=sale.date,'A data do evento não pode anteceder a operação.');

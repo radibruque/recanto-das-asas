@@ -55,7 +55,7 @@ export function ContactCards({ state, scope, contacts, kind, onOpen, onEdit, onC
           <span className={cn('grid size-12 shrink-0 place-items-center rounded-2xl font-display text-lg font-semibold', supplier ? 'bg-tint-sun' : 'bg-tint-teal text-teal')}>{initials(c.name)}</span>
           <span className="min-w-0 flex-1">
             <span className="flex items-center gap-1.5"><span className="truncate font-semibold">{c.name}</span>{supplier ? <Building2 className="size-3.5 shrink-0 text-muted-foreground"/> : <User className="size-3.5 shrink-0 text-muted-foreground"/>}</span>
-            <span className="block truncate text-xs text-muted-foreground">{c.phone || c.email || 'Sem contato'}{c.interest ? ` · ${c.interest}` : ''}</span>
+            <span className="block truncate text-xs text-muted-foreground">{c.phone || c.email || 'Sem contato'}{supplier&&c.interest ? ` · ${c.interest}` : ''}</span>
             <span className="mt-1 flex flex-wrap gap-1 text-[11px] font-bold">
               <span className="rounded-lg bg-secondary px-1.5 py-0.5">{count} {count === 1 ? 'compra' : 'compras'}</span>
               {reservations > 0 && <span className="rounded-lg bg-tint-sun px-1.5 py-0.5">{reservations} reserva{reservations > 1 ? 's' : ''}</span>}

@@ -1,7 +1,7 @@
 import { APP_VERSION } from './domain/types';
 import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
-import { Bird, ClipboardPlus, Egg, FlaskConical, HeartPulse, KeyRound, Receipt, Search, ShoppingBag, ShoppingCart, Sparkles, UserPlus, X } from 'lucide-react';
+import { ArrowLeft, Bird, ClipboardPlus, Egg, FlaskConical, HeartPulse, KeyRound, Receipt, Search, ShoppingBag, ShoppingCart, Sparkles, UserPlus, X } from 'lucide-react';
 import Breeding from './modules/Breeding';
 import Commercial from './modules/Commercial';
 import Documents from './modules/Documents';
@@ -14,6 +14,7 @@ import { applyCommand } from './domain/engine';
 import type { State, Scope, ModuleProps } from './domain/types';
 import type { NavigationTarget } from './domain/ui-target';
 import type { Sector } from './lib/navigation';
+import { navigationScroll, restorePageScroll, pushNavigation, type NavigationEntry } from './lib/navigation';
 import { clearDeviceKey, generateBaseKey, readDeviceKey, saveDeviceKey } from './lib/device-key';
 import { defaultDeviceName, devicePlatform, getPreferences, usePreferences } from './lib/preferences';
 import { buildNotices, buildSchedule, type Notice } from './lib/notices';
@@ -26,6 +27,7 @@ import { allMenu, allViews, breedingViews, commercialViews, menuForView, type Me
 import Today from './screens/Today';
 import { BreedingOverview, CashOverview, ReportsOverview, SalesOverview } from './screens/Overviews';
 import Prices from './screens/Prices';
+import Enclosures from './screens/Enclosures';
 import DeviceSettings from './screens/DeviceSettings';
 import Identity from './screens/Identity';
 import { Button, PageHeader, SegmentedTabs } from './ui/bits';
@@ -34,7 +36,7 @@ import { Stagger } from './ui/motion';
 import { cn } from './ui/cn';
 
 const moduleSearch: Partial<Record<View, string>> = {
-  birds: 'Nome, anilha ou espécie', family: 'Nome, anilha ou espécie', pairs: 'Buscar casais', breeding: 'Buscar reprodução', health: 'Buscar saúde e manejo', tasks: 'Buscar tarefas',
+  enclosures: 'Buscar recintos', birds: 'Nome, anilha ou espécie', family: 'Nome, anilha ou espécie', pairs: 'Buscar casais', breeding: 'Buscar reprodução', health: 'Buscar saúde e manejo', tasks: 'Buscar tarefas',
   clients: 'Buscar clientes', suppliers: 'Buscar fornecedores', sales: 'Número, cliente ou ave', finance: 'Buscar movimentações', stock: 'Buscar materiais', booklet: 'Buscar cadernetas', reports: 'Buscar relatórios',
 };
 
@@ -110,6 +112,7 @@ export default function App() {
   const [target, setTarget] = useState<NavigationTarget>({ view: 'home' }), [sector, setSector] = useState<Sector>('breeding');
   const prefs = usePreferences();
   const targets = useRef(new Map<string, NavigationTarget>()), searches = useRef(new Map<string, string>()), positions = useRef(new Map<string, number>()), request = useRef(0);
+  const contextTrail=useRef<NavigationEntry[]>([]);
   const uiContexts = useRef(new Map<string, Map<string, unknown>>()), backHandler = useRef<() => void>(() => {});
   const sessionVersion = useRef(0), backupRunning = useRef(false), stateRef = useRef(state); stateRef.current = state;
   const notify = useCallback((text: string) => setMessage(text), []);
@@ -175,19 +178,23 @@ export default function App() {
   }
 
   const viewKey = (name: string, space = scope) => space + ':' + name;
-  const restoreScroll = (position: number) => requestAnimationFrame(() => requestAnimationFrame(() => (document.getElementById('main-scroll') ?? window).scrollTo({ top: position, behavior: 'instant' as ScrollBehavior })));
+  const restoreScroll = (position: number) => requestAnimationFrame(() => requestAnimationFrame(() => restorePageScroll(position)));
   const scrollPos = () => document.getElementById('main-scroll')?.scrollTop || window.scrollY;
   function navigate(raw: NavigationTarget) {
-    const destination = normalizeTarget(state!, scope, raw);
+    const current = stateRef.current;
+    if (!current) return;
+    const destination = normalizeTarget(current, scope, raw);
     if (destination.view === 'home' && destination.filter) { setSector(destination.filter === 'commercial' ? 'commercial' : 'breeding'); }
     if (!allViews.includes(destination.view as View)) return;
     const next = destination.view as View, key = viewKey(next), currentKey = viewKey(view);
+    if(destination.birdId||destination.saleId||destination.contactId||destination.billId||destination.issuedDocumentId)contextTrail.current=pushNavigation(contextTrail.current,{target,sector,scope,scroll:scrollPos(),search});
+    else if(!destination.createAction)contextTrail.current=[];
     searches.current.set(currentKey, search); positions.current.set(currentKey, scrollPos());
     if (breedingViews.has(next)) setSector('breeding'); else if (commercialViews.has(next)) setSector('commercial');
     const resolved = { ...destination, request: ++request.current }; targets.current.set(key, resolved);
     setTarget(resolved); setView(next);
     setSearch(destination.filter || destination.birdId || destination.saleId || destination.contactId || destination.attachmentId || destination.issuedDocumentId ? '' : searches.current.get(key) ?? '');
-    restoreScroll(destination.birdId || destination.saleId || destination.contactId || destination.createAction ? 0 : positions.current.get(key) ?? 0);
+    restoreScroll(navigationScroll(destination, positions.current.get(key) ?? 0));
   }
   // Android back: close an open window, then leave the record, then go to Hoje, then minimize.
   const goBack = () => {
@@ -197,7 +204,11 @@ export default function App() {
     if (otherDialog) { document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })); window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' })); return; }
     const event = new CustomEvent('recanto:back', { cancelable: true });
     if (!window.dispatchEvent(event)) return;
-    if (target.birdId || target.saleId || target.contactId || target.billId) { navigate({ view }); return; }
+    if (target.birdId || target.saleId || target.contactId || target.billId || target.issuedDocumentId) {
+      const previous=contextTrail.current.pop();
+      if(previous){setScope(previous.scope);setSector(previous.sector);setView(previous.target.view as View);setTarget(previous.target);setSearch(previous.search??'');restoreScroll(previous.scroll);return;}
+      navigate({ view }); return;
+    }
     if (view !== 'home') navigate({ view: 'home' });
     else window.dispatchEvent(new CustomEvent('recanto:native-root-back'));
   };
@@ -227,7 +238,7 @@ export default function App() {
     { label: 'Novo cliente', icon: UserPlus, tone: 'bg-tint-teal text-teal', run: () => navigate({ view: 'clients', createAction: 'contact' }) },
   ];
 
-  const sectionLabel = view === 'home' ? (sector === 'commercial' ? 'Resumo' : 'Hoje') : menu.label;
+  const sectionLabel = view === 'home' ? 'HOME' : menu.label;
   const searchLabel = moduleSearch[view];
 
   return <div className="min-h-screen bg-feather lg:flex">
@@ -262,6 +273,7 @@ export default function App() {
       </main>
     </div>
     <MobileNav active={menu.id} onOpen={openMenu} sector={sector} onSector={switchSector} scope={scope} onScope={changeScope} actions={actions}/>
+    {(target.birdId||target.saleId||target.contactId||target.billId||target.issuedDocumentId)&&<div className="ui fixed inset-x-4 bottom-24 z-40 mx-auto flex max-w-lg items-center rounded-xl border border-border bg-card p-2 shadow-soft lg:bottom-4 lg:left-auto lg:right-8"><Button size="sm" variant="outline" onClick={goBack}><ArrowLeft/>Voltar à tela anterior</Button></div>}
     <AnimatePresence>
       {message && <motion.div role="status" initial={{ opacity: 0, y: 16, scale: 0.96 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 16, scale: 0.96 }}
         className={cn('ui fixed inset-x-4 bottom-24 z-[70] mx-auto flex max-w-md items-start gap-3 rounded-2xl bg-ink px-4 py-3 text-sm text-ink-foreground shadow-float lg:bottom-6 lg:right-6 lg:left-auto')}>
@@ -276,6 +288,7 @@ type RoutedProps = ModuleProps & { target?: NavigationTarget; navigate: (target:
 function RoutedModule({ props, vault, commitState, view }: { props: RoutedProps; vault: Vault; commitState: (state: State) => void; view: View }) {
   const moduleTarget = props.target ? { ...props.target, view: props.target.view === 'clients' || props.target.view === 'suppliers' ? 'contacts' : props.target.view } : props.target;
   const p = { ...props, target: moduleTarget };
+  if (view === 'enclosures') return <Enclosures {...p}/>;
   if (['birds', 'pairs', 'breeding', 'family', 'health', 'tasks'].includes(view)) return <Breeding {...p} view={view as 'birds'} initialBirdId={props.target?.birdId ?? null} initialCreate={props.target?.createAction === 'bird'}/>;
   if (view === 'clients' || view === 'suppliers') return <Commercial {...p} view="contacts" contactKind={view === 'clients' ? 'cliente' : 'fornecedor'}/>;
   if (['sales', 'finance', 'stock'].includes(view)) return <Commercial {...p} view={view as 'sales'}/>;

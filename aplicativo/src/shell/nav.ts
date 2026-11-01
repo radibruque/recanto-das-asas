@@ -1,16 +1,16 @@
 import {
-  Bird, BookOpen, ChartPie, ClipboardCheck, Egg, Landmark, LayoutGrid, Network, Palette, Settings, ShoppingBag, Tag, Truck, Users,
+  Bird, BookOpen, ChartPie, ClipboardCheck, Egg, House, Landmark, LayoutGrid, Network, Palette, Settings, ShoppingBag, Tag, Truck, Users,
   type LucideIcon,
 } from 'lucide-react';
 
 /** Internal screen ids. Several ids can live in one menu item as tabs. */
 export type View =
-  | 'home' | 'birds' | 'breeding' | 'pairs' | 'family' | 'health' | 'tasks'
+  | 'home' | 'birds' | 'enclosures' | 'breeding' | 'pairs' | 'family' | 'health' | 'tasks'
   | 'clients' | 'suppliers' | 'sales' | 'finance' | 'stock' | 'prices'
   | 'reports' | 'booklet' | 'arts'
   | 'settings' | 'backup' | 'sync' | 'updates' | 'support';
 
-export type MenuId = 'home' | 'birds' | 'breeding' | 'family' | 'care' | 'clients' | 'suppliers' | 'sales' | 'prices' | 'money' | 'reports' | 'booklet' | 'arts' | 'system';
+export type MenuId = 'home' | 'birds' | 'enclosures' | 'breeding' | 'family' | 'care' | 'clients' | 'suppliers' | 'sales' | 'prices' | 'money' | 'reports' | 'booklet' | 'arts' | 'system';
 
 export interface MenuItem {
   id: MenuId;
@@ -25,9 +25,10 @@ export interface MenuItem {
 
 export const menuGroups: { label: string; items: MenuItem[] }[] = [
   { label: 'Visão geral', items: [
-    { id: 'home', label: 'Hoje', short: 'Hoje', icon: LayoutGrid, group: 'Visão geral', eyebrow: 'Visão geral', description: '', views: [{ view: 'home', label: 'Hoje' }] },
+    { id: 'home', label: 'HOME', short: 'HOME', icon: LayoutGrid, group: 'Visão geral', eyebrow: 'Visão geral', description: '', views: [{ view: 'home', label: 'HOME' }] },
   ] },
   { label: 'Criatório', items: [
+    { id: 'enclosures', label: 'Recintos', short: 'Recintos', icon: House, group: 'Criatório', eyebrow: 'Criatório', description: '', views: [{ view: 'enclosures', label: 'Recintos' }] },
     { id: 'birds', label: 'Aves', short: 'Aves', icon: Bird, group: 'Criatório', eyebrow: 'Criatório', description: 'Ficha, fotos, documentos e história de cada ave.', views: [{ view: 'birds', label: 'Aves' }] },
     { id: 'breeding', label: 'Casais e reprodução', short: 'Reprodução', icon: Egg, group: 'Criatório', eyebrow: 'Criatório', description: 'Casais, posturas, ovos e filhotes.', views: [{ view: 'breeding', label: 'Reprodução' }, { view: 'pairs', label: 'Casais' }] },
     { id: 'family', label: 'Parentesco', short: 'Parentesco', icon: Network, group: 'Criatório', eyebrow: 'Criatório', description: 'Pais, avós e descendentes de cada ave.', views: [{ view: 'family', label: 'Parentesco' }] },
@@ -54,5 +55,5 @@ export const allMenu = menuGroups.flatMap(g => g.items);
 export const allViews = allMenu.flatMap(m => m.views.map(v => v.view));
 export const menuForView = (view: string) => allMenu.find(m => m.views.some(v => v.view === view)) ?? allMenu[0]!;
 
-export const breedingViews = new Set<string>(['birds', 'pairs', 'breeding', 'family', 'health', 'tasks']);
+export const breedingViews = new Set<string>(['birds', 'enclosures', 'pairs', 'breeding', 'family', 'health', 'tasks']);
 export const commercialViews = new Set<string>(['clients', 'suppliers', 'sales', 'prices', 'finance', 'stock', 'contacts']);

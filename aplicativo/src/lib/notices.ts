@@ -9,6 +9,13 @@ export type NoticeKind = 'task' | 'hatch' | 'bill' | 'delivery' | 'stock' | 'rep
 export type Notice = { id: string; kind: NoticeKind; title: string; detail: string; tone: 'coral' | 'sun' | 'teal' | 'sky' | 'leaf'; target?: NavigationTarget; reportKey?: string };
 export type ScheduledNotice = { id: string; at: Date; title: string; body: string; target?: NavigationTarget };
 
+/** Scope + contents distinguish a new or updated notice from one already read. */
+export const noticeReadKey = (notice: Notice, scope: Scope) => JSON.stringify([scope, notice.id, notice.title, notice.detail]);
+export const unreadNoticeCount = (notices: Notice[], scope: Scope, read: string[]) => {
+  const seen = new Set(read);
+  return notices.filter(n => !seen.has(noticeReadKey(n, scope))).length;
+};
+
 const addDays = (iso: string, days: number) => { const d = new Date(iso + 'T12:00:00Z'); d.setUTCDate(d.getUTCDate() + days); return d.toISOString().slice(0, 10); };
 const relative = (iso: string, now: string) => iso === now ? 'hoje' : iso === addDays(now, 1) ? 'amanhã' : iso < now ? `atrasado desde ${dateLabel(iso)}` : dateLabel(iso);
 

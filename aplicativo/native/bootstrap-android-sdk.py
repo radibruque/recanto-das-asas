@@ -52,8 +52,8 @@ env["JAVA_HOME"] = env.get("JAVA_HOME", "/usr/lib/jvm/java-21-openjdk-amd64")
 env["JAVA_TOOL_OPTIONS"] = env.get("JAVA_TOOL_OPTIONS", "") + " -Djava.util.prefs.userRoot=" + str(SDK.parent / "java-preferences")
 Path(env["ANDROID_USER_HOME"]).mkdir(parents=True, exist_ok=True)
 # Google SDK licenses are displayed by the official tool and accepted for this build.
-subprocess.run([str(manager), "--no-metrics", "--sdk_root=" + str(SDK), "--licenses"],
+subprocess.run([str(manager), "--sdk_root=" + str(SDK), "--licenses"],
                input="y\n" * 100, text=True, env=env, check=True)
-subprocess.run([str(manager), "--no-metrics", "--sdk_root=" + str(SDK), "platform-tools",
+subprocess.run([str(manager), "--sdk_root=" + str(SDK), "platform-tools",
                 "platforms;android-36", "build-tools;36.0.0"], env=env, check=True)
 print("SDK pronto em", SDK)

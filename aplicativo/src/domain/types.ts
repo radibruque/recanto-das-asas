@@ -1,4 +1,4 @@
-export const APP_VERSION = '0.4.1';
+export const APP_VERSION = '0.4.2';
 import type { NavigationTarget } from './ui-target';
 import { speciesOptions } from './base-model';
 import { newSpecies } from './species';
@@ -17,7 +17,9 @@ export type TaskHistory = {at:string;action:'gerada'|'reprogramada'|'concluída'
 export type Task = {id:string;scope:Scope;birdId:string|null;title:string;dueDate:string;done:boolean;notes:string;reminderTime?:string;reminderMinutes?:number;origin?:'manual'|'derived';sourceType?:'bird'|'clutch'|'egg'|'pair';sourceId?:string;derivationKey?:string;resolvedAt?:string;resolutionReason?:string;derivationNotes?:string;history?:TaskHistory[]};
 export type Species = {id:string;name:string;aliases:string[];incubationDays:number|null;eggCheckDays:number|null;chickFollowupDays:number|null;parameterSource:string;active:boolean};
 export type DerivedTaskRules = {hatch:boolean;eggCheck:boolean;chickFollowup:boolean};
-export type Contact = {id:string;scope:Scope;kind:'cliente'|'fornecedor'|'interessado';name:string;phone:string;email:string;address:string;taxId:string;notes:string;interest:string};
+export type Enclosure = {id:string;scope:Scope;name:string;status:'disponível'|'vazio'|'ocupado'|'manutenção'|'fora de uso'};
+export type FormCatalogs = {mutations:string[];sexMethods:string[];healthKinds:string[]};
+export type Contact = {id:string;scope:Scope;kind:'cliente'|'fornecedor'|'interessado';name:string;phone:string;email:string;address:string;taxId:string;notes:string;interest:string;website?:string;socialLinks?:string};
 export type SaleItem = {id:string;kind:'ave'|'produto'|'serviço';refId:string|null;description:string;quantity:number;unitCents:number};
 export type DeliveryFileSnapshot = {type:'attachment'|'document';id:string;sha256:string;fileName:string};
 export type Sale = {id:string;scope:Scope;number:string;contactId:string;date:string;status:'orçamento'|'reservada'|'vendida'|'entregue'|'cancelada'|'devolvida';items:SaleItem[];discountCents:number;feeCents:number;interestCents?:number;totalCents:number;notes:string;deliveryDate:string;deliveryManifest?:DeliveryFileSnapshot[];deliveryManifestDate?:string;paymentMethod?:string;paymentPlan?:string;statusHistory:{date:string;status:string;reason:string}[]};
@@ -36,7 +38,7 @@ export type IssuedDocument = {id:string;scope:Scope;birdId:string|null;saleId:st
 export type ArtFile = {path:string;name:string;category:string;mime:string;size:number;sha256:string;width?:number;height?:number};
 export type SupportReport = {id:string;number:string;createdAt:string;version:string;platform:string;description:string;steps:string;expected:string;actual:string;errorCode:string;priority:'baixa'|'normal'|'alta';status:'aberto'|'em análise'|'corrigido';fixedVersion:string};
 export type AuditEntry = {id:string;scope:Scope;at:string;author:string;action:string;recordId:string;reason:string};
-export type Settings = {name:string;phone:string;email:string;address:string;version:string;backupDays:number;lastBackupAt:string;backupHistory:{at:string;sha256:string;size:number;verified:boolean}[];categories:string[];speciesEstimates:Record<string,number>;speciesCatalog:Species[];derivedTaskRules:DerivedTaskRules;reportSchedules:{id:string;scope:Scope;name:string;module:string;days:number;lastRun:string}[];devices?:{id:string;name:string;platform:string;lastSeen:string}[];priceTable?:PriceEntry[]};
+export type Settings = {enclosures?:Enclosure[];formCatalogs?:FormCatalogs;name:string;phone:string;email:string;address:string;version:string;backupDays:number;lastBackupAt:string;backupHistory:{at:string;sha256:string;size:number;verified:boolean}[];categories:string[];speciesEstimates:Record<string,number>;speciesCatalog:Species[];derivedTaskRules:DerivedTaskRules;reportSchedules:{id:string;scope:Scope;name:string;module:string;days:number;lastRun:string}[];devices?:{id:string;name:string;platform:string;lastSeen:string}[];priceTable?:PriceEntry[]};
 /** Price table (Comercial → Tabela de preços): base for every price field. Birds by species + mutation + sex; products by product; services by name. */
 export type PriceEntry = {id:string;scope:Scope;kind:'ave'|'produto'|'serviço';species:string;mutation:string;sex:''|'macho'|'fêmea';productId:string|null;name:string;priceCents:number};
 export type State = {schemaVersion:3;revision:number;birds:Bird[];pairs:Pair[];clutches:Clutch[];eggs:Egg[];mutations:Mutation[];health:HealthEvent[];tasks:Task[];contacts:Contact[];sales:Sale[];accounts:Account[];bills:Bill[];payments:Payment[];transfers:Transfer[];products:Product[];purchases:Purchase[];stock:StockMovement[];closings:CashClosing[];attachments:Attachment[];documents:IssuedDocument[];support:SupportReport[];audit:AuditEntry[];settings:Settings};

@@ -8,7 +8,7 @@
 .bird-profile-photo-button { cursor: zoom-in; }
 .bird-profile-compact .bird-profile-no-photo { gap: 2px; font-size: 10px; }
 .bird-profile-compact .bird-profile-overview { padding: 0; gap: 16px; align-items: center; }
-.bird-profile-compact .bird-profile-name { font-size: 23px; line-height: 1.3; letter-spacing: -.3px; overflow-wrap: anywhere; }
+.bird-profile-compact .bird-profile-name { font-size: 23px; line-height: 1.3; letter-spacing: 0; overflow-wrap: anywhere; }
 .bird-profile-compact .bird-profile-identification { overflow-wrap: anywhere; margin: 2px 0 6px; }
 .bird-profile-compact .bird-profile-weight dd strong { font-size: 21px; }
 .bird-profile-compact .bird-profile-weight { min-width: 120px; }
@@ -51,7 +51,7 @@
 :root[data-layout='android'] .bird-profile-hero.bird-profile-compact { display: grid; grid-template-columns: 72px minmax(0,1fr); padding: 12px; gap: 12px; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--surface); }
 :root[data-layout='android'] .bird-profile-compact .bird-profile-photo { height: 72px; width: 72px; }
 :root[data-layout='android'] .bird-profile-compact .bird-profile-overview { padding: 0; display: block; }
-:root[data-layout='android'] .bird-profile-compact .bird-profile-name { font-size: 19px; letter-spacing: -.2px; }
+:root[data-layout='android'] .bird-profile-compact .bird-profile-name { font-size: 19px; letter-spacing: 0; }
 :root[data-layout='android'] .bird-profile-compact .bird-profile-weight { border: 0; padding: 6px 0 0; max-width: none; min-width: 0; }
 :root[data-layout='android'] .bird-profile-compact .bird-profile-weight dt { display: none; }
 :root[data-layout='android'] .bird-profile-compact .bird-profile-weight dd { display: flex; flex-direction: row; gap: 8px; align-items: baseline; flex-wrap: wrap; }
@@ -70,3 +70,22 @@
   .bird-profile-compact .bird-profile-weight { border: 0; padding: 8px 0 0; max-width: none; }
   .bird-profile-compact .bird-profile-weight dd { flex-direction: row; align-items: baseline; flex-wrap: wrap; }
 }
+
+.bird-attachment-item { padding: 12px 0; border-bottom: 1px solid var(--line); min-width: 0; }
+.bird-attachment-item .attachment-image { width: auto; max-width: 100%; object-fit: contain; border-radius: var(--radius-md); }
+.health-timeline-notes { margin: 4px 0; font-size: var(--text-sm); overflow-wrap: anywhere; }
+.health-timeline-entry { padding-bottom: 12px; }
+.health-timeline-heading { gap: 8px; flex-wrap: wrap; }
+.health-timeline { list-style: none; padding: 0; margin: 0; }
+.health-timeline-entry { display: flex; align-items: flex-start; gap: 10px; border-bottom: 1px solid var(--line); margin-bottom: 12px; }
+.health-timeline-marker { display: grid; place-items: center; flex-shrink: 0; width: 28px; height: 28px; border-radius: var(--radius-md); background: var(--surface-secondary); color: var(--primary); font-weight: 700; }
+.health-timeline-content { min-width: 0; flex: 1; }
+.health-timeline-heading,.health-timeline-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.health-timeline-date,.health-timeline-kind,.health-timeline-meta { font-size: var(--text-sm); color: var(--muted); }
+.health-timeline-meta { margin: 4px 0 8px; }
+.weight-chart-period { display: flex; justify-content: flex-end; margin-bottom: 8px; }
+.bird-profile-documents .pdf-preview-compact { height: 160px; }
+.date-input-control { display: flex; align-items: center; gap: 6px; min-width: 0; }
+.date-input-control > input { flex: 1; min-width: 0; }
+.date-input-control > .ui { flex-shrink: 0; }
+.date-input-control > .ui .button { min-width: 38px; }

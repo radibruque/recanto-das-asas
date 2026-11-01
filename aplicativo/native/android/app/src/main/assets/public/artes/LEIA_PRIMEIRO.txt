@@ -1,0 +1,28 @@
+RECANTO DAS ASAS — PACOTE DE APLICAÇÕES v1.0
+06 outubro 2026
+
+COMECE PELO Guia_de_Aplicacao_Recanto_das_Asas.pdf, em 07_Guia.
+
+1. A logo aprovada está em 01_Principal/Logo_Aprovada_Original_1254px.png.
+   Esse arquivo original foi preservado sem alteração.
+2. Para montagem, use a colorida transparente. Para rotina, o JPEG branco.
+3. Para serigrafia, gravação e grandes aplicações em uma cor, prefira os
+   vetores SVG / PDF / EPS de 03_Vetores_1_Cor. São curvas reais e não
+   dependem de fontes instaladas. Preto, azul e branco têm a mesma geometria.
+4. A versão técnica é uma simplificação para reprodução: não é uma cópia
+   dos gradientes da principal. Há símbolo, nome isolado e assinatura horizontal.
+5. O monograma RA é uma variante auxiliar para ícones pequenos.
+6. A colorida tem matriz raster de 1254 px. Exportações de 2048/4096 px
+   são interpoladas e não acrescentam detalhe. PDF colorido não é vetor.
+7. TIFF CMYK SWOP é referência de conversão, não perfil universal de gráfica.
+   Use o perfil informado pelo fornecedor para a produção final.
+8. Uniformes: provas de peito 8/10 cm, vetor de costas 28 cm, símbolo 6 cm
+   e nome 12 cm. As medidas são sugestões, não um gabarito de peça.
+9. Bordado: os arquivos são artes-base. A matriz de pontos DST/PES/EMB deve
+   ser feita pela bordadeira para a máquina, tecido e medida específicos.
+10. Caneca 21x9 cm é layout genérico. Confirme o gabarito do produto.
+    Normal = leitura normal. Espelhada = já invertida; não espelhar duas vezes.
+
+O catálogo CSV relaciona as exportações. SHA256SUMS.txt permite verificar
+a integridade dos arquivos. Os arquivos brancos aparecem vazios sobre
+fundo branco: visualize sobre um fundo escuro.

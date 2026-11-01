@@ -14,7 +14,7 @@ export default function QuickWeightForm({ state, scope, command, birdId, onClose
       <Field label="Peso (gramas) *"><input name="weightGrams" type="number" inputMode="decimal" min="0.001" max="100000" step="any" required autoFocus/></Field>
       <Field label="Data da pesagem *"><input name="date" type="date" defaultValue={today()} required min={bird.birthDate || undefined} max={today()}/></Field>
     </div>
-    <details className="record-form-section"><summary>Observações da pesagem</summary><Field label="Observações"><textarea name="notes"/></Field></details>
+    <Field label="Observações"><textarea name="notes" rows={3}/></Field>
     <p className="muted">Ave e unidade já definidas. Esta pesagem aparece no mesmo histórico de Saúde e manejo.</p>
   </RecordDialog>;
 }

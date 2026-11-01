@@ -1,0 +1,16 @@
+RECANTO DAS ASAS — ATUALIZAÇÃO 0.4.2
+
+Antes: faça um backup no app e guarde fora do aparelho. Atualize Windows e Android antes de sincronizar. Não desinstale a versão atual.
+
+WINDOWS 10/11, 64 BITS
+1. Extraia todo o ZIP em uma pasta.
+2. Abra 01-Preparar-Windows.cmd. Ele junta e verifica as 6 partes.
+3. Feche o Recanto das Asas (inclusive na bandeja) e execute Recanto-das-Asas-0.4.2-x64-Setup.exe.
+4. O instalador não tem assinatura comercial; o Windows pode pedir confirmação da origem.
+
+ANDROID 10 OU MAIS RECENTE
+Abra Recanto-das-Asas-0.4.2-release.apk e confirme a atualização. A assinatura foi preservada. Se necessário, permita instalar arquivos desta origem. Não desinstale para atualizar.
+
+Após conferir o funcionamento, pode apagar o ZIP e a pasta extraída; não apague a pasta de dados do app.
+
+Inclui os ajustes do vídeo, HOME no topo, relatórios e números corrigidos, recintos, fichas compactas, clientes, orçamento e caderneta provisória. Arquivos da conexão Tailscale mantidos. Testes: 444 verificações automáticas e emissão/histórico/retorno da caderneta nos dois formatos. A instalação em aparelhos físicos não foi testada neste ambiente.

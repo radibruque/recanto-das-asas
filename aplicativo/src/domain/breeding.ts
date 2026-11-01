@@ -38,6 +38,8 @@ function attachment(state:State,scope:Scope,attachmentId:string|null,birdId:stri
 }
 function validateBird(state:State,scope:Scope,d:z.infer<typeof birdSchema>,recordId:string,existing?:Bird) {
   const birds = state.birds.filter(v=>v.scope===scope);
+  const enclosure = state.settings.enclosures?.find(e => e.scope === scope && e.name === d.enclosure);
+  if(enclosure && d.enclosure !== existing?.enclosure) ensure(!['manutenção','fora de uso'].includes(enclosure.status), 'Este recinto está em manutenção ou fora de uso. Escolha outro.');
   ensure(!birds.some(b=>b.id!==recordId&&sameIdentification(b.identification,d.identification)), 'Esta identificação já está cadastrada.');
   ensure(!d.microchip || !birds.some(b=>b.id!==recordId&&b.microchip&&sameIdentification(b.microchip,d.microchip)), 'Este microchip já está cadastrado.');
   if (d.supplierId) ensure(state.contacts.some(c=>c.id===d.supplierId&&c.scope===scope&&c.kind==='fornecedor'), 'Fornecedor não encontrado neste espaço.');
@@ -229,6 +231,14 @@ export const breedingHandler:Handler = (state,scope,action,data) => {
   }
   if(action==='saveHealth') {
     const d=z.object({id:required.optional(),birdId:required,date:actualDate,kind:required,title:required,notes:text,weightGrams:z.number().positive().max(100000).nullable().default(null),professional:text,author:required,attachmentIds:z.array(required).max(30).default([])}).parse(data),b=bird(d.birdId);ensure(!b.birthDate||d.date>=b.birthDate,'O registro não pode anteceder o nascimento.');if(d.kind==='pesagem')ensure(d.weightGrams!==null,'Informe o peso em gramas.');for(const a of d.attachmentIds)attachment(state,scope,a,b.id);const existing=d.id?state.health.find(h=>h.id===d.id&&h.scope===scope):undefined;ensure(!d.id||existing,'Registro de saúde não encontrado neste espaço.');ensure(!existing||existing.birdId===b.id,'O registro pertence a outra ave.');const record={...d,id:existing?.id??id(),scope};if(existing)state.health[state.health.indexOf(existing)]=record;else state.health.push(record);return {id:record.id};
+  }
+  if(action==='deleteHealth') {
+    const d=z.object({id:required}).parse(data);
+    const event=state.health.find(h=>h.id===d.id&&h.scope===scope);
+    ensure(event,'Registro de saúde não encontrado neste espaço.');
+    state.health=state.health.filter(h=>h!==event);
+    // Attached documents remain in the bird's record; deleting an entry is not deleting its files.
+    return {id:event.id};
   }
   if(action==='saveTask') {
     const d=z.object({id:required.optional(),birdId:optionalId,title:required,dueDate:date,done:z.boolean().default(false),notes:text,reminderTime:z.union([z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/),z.literal('')]).optional(),reminderMinutes:z.union([z.literal(0),z.literal(5),z.literal(15),z.literal(30),z.literal(60),z.literal(1440)]).optional()}).parse(data);if(d.birdId)bird(d.birdId);const existing=d.id?state.tasks.find(t=>t.id===d.id&&t.scope===scope):undefined;ensure(!d.id||existing,'Tarefa não encontrada neste espaço.');ensure(!existing||existing.origin!=='derived'||(d.dueDate===existing.dueDate&&d.birdId===existing.birdId),'Esta tarefa é derivada. Corrija a data ou a ave no registro relacionado.');const updates=Object.fromEntries(Object.entries(d).filter(([,v])=>v!==undefined));const record={...existing,...updates,...d,id:existing?.id??id(),scope,origin:existing?.origin??'manual' as const,history:[...(existing?.history??[])],reminderTime:d.reminderTime??existing?.reminderTime,reminderMinutes:d.reminderMinutes??existing?.reminderMinutes};if(existing)recordTaskHistory(record,'editada','Tarefa atualizada pelo proprietário.');if(existing)state.tasks[state.tasks.indexOf(existing)]=record;else state.tasks.push(record);return {id:record.id};

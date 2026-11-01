@@ -26,7 +26,7 @@ export default function DeleteBirdDialog({ state, scope, bird, open, onClose, on
   const [busy, setBusy] = useState(false);
   const { lines, children, sales } = deletionSummary(state, scope, bird);
   const photo = bird.photoId ? state.attachments.find(a => a.id === bird.photoId && a.scope === scope) : undefined;
-  return <Sheet open={open} onClose={() => !busy && onClose()} title="Excluir ave" className="sm:inset-x-auto sm:left-1/2 sm:w-[min(520px,calc(100%-2rem))] sm:-translate-x-1/2">
+  return <Sheet open={open} side="center" onClose={() => !busy && onClose()} title="Excluir ave">
     <div className="flex flex-col gap-4 text-sm">
       <div className="flex items-center gap-3 rounded-2xl bg-secondary p-3">
         <BirdPhoto bird={bird} photo={photo} size={56}/>

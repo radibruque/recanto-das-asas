@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from 'motion/react';
 import { ArrowDownRight, ArrowUpRight, ChevronDown, X, type LucideIcon } from 'lucide-react';
 import { useEffect, useId, type ButtonHTMLAttributes, type ReactNode } from 'react';
+import { createPortal } from 'react-dom';
 import type { Attachment, Bird, Scope, State } from '../domain/types';
 import { useAttachmentUrl } from '../components/DirectAttachments';
 import { cn } from './cn';
@@ -119,7 +120,7 @@ export function SegmentedTabs<T extends string>({ options, value, onChange, tone
       return <button type="button" key={o.value} role="tab" aria-selected={active} onClick={() => onChange(o.value)}
         className={cn('relative z-0 inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-xl font-semibold transition-colors duration-300', size === 'sm' ? 'h-8 px-3 text-xs' : 'h-9 px-4 text-sm',
           tone === 'light' ? (active ? 'text-ink-foreground' : 'text-muted-foreground hover:text-foreground') : (active ? 'text-ink' : 'text-ink-muted hover:text-ink-foreground'))}>
-        {active && <motion.span layoutId={`seg-${id}`} className={cn('absolute inset-0 -z-10 rounded-xl', tone === 'light' ? 'bg-ink shadow-soft' : 'bg-ink-foreground')} transition={{ type: 'spring', stiffness: 420, damping: 34 }}/>}
+        {active && <span className={cn('absolute inset-0 -z-10 rounded-xl', tone === 'light' ? 'bg-ink shadow-soft' : 'bg-ink-foreground')}/>} 
         {Icon && <Icon className="size-4"/>}{o.label}
         {o.count !== undefined && <span className={cn('rounded-full px-1.5 text-[10px] leading-4 transition-colors', active ? (tone === 'light' ? 'bg-ink-foreground/20' : 'bg-ink/10') : 'bg-card/70 text-muted-foreground')}>{o.count}</span>}
       </button>;
@@ -142,20 +143,20 @@ export function Button({ variant = 'ink', size = 'md', className, children, ...p
 }
 
 /** Sheet that slides from the bottom on phones and from the right on desktop. */
-export function Sheet({ open, onClose, title, children, side = 'bottom', className }: { open: boolean; onClose: () => void; title: ReactNode; children: ReactNode; side?: 'bottom' | 'right'; className?: string }) {
+export function Sheet({ open, onClose, title, children, side = 'bottom', className }: { open: boolean; onClose: () => void; title: ReactNode; children: ReactNode; side?: 'bottom' | 'right' | 'center'; className?: string }) {
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [open, onClose]);
-  return <AnimatePresence>
+  return createPortal(<AnimatePresence>
     {open && <div className="ui fixed inset-0 z-[60]" role="dialog" aria-modal="true">
       <motion.button aria-label="Fechar" className="absolute inset-0 cursor-default bg-ink/40 backdrop-blur-[2px]" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose}/>
       <motion.div
-        initial={side === 'bottom' ? { y: '100%' } : { x: '100%' }} animate={side === 'bottom' ? { y: 0 } : { x: 0 }} exit={side === 'bottom' ? { y: '100%' } : { x: '100%' }}
+        initial={side === 'center' ? { opacity: 0, scale: 0.96 } : side === 'bottom' ? { y: '100%' } : { x: '100%' }} animate={side === 'center' ? { opacity: 1, scale: 1 } : side === 'bottom' ? { y: 0 } : { x: 0 }} exit={side === 'center' ? { opacity: 0, scale: 0.96 } : side === 'bottom' ? { y: '100%' } : { x: '100%' }}
         transition={{ type: 'spring', stiffness: 320, damping: 34 }}
-        className={cn('absolute overflow-y-auto bg-background text-foreground shadow-float', side === 'bottom' ? 'inset-x-0 bottom-0 max-h-[88vh] rounded-t-[32px] px-5 pb-10 pt-5' : 'inset-y-0 right-0 w-full max-w-xl rounded-l-[32px] p-6', className)}>
+        className={cn('absolute overflow-y-auto bg-background text-foreground shadow-float', side === 'center' ? 'inset-0 m-auto h-fit max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] max-w-xl rounded-3xl p-5' : side === 'bottom' ? 'inset-x-0 bottom-0 max-h-[88vh] rounded-t-[32px] px-5 pb-10 pt-5' : 'inset-y-0 right-0 w-full max-w-xl rounded-l-[32px] p-6', className)}>
         <div className="mb-4 flex items-center justify-between gap-3">
           <div className="font-display text-2xl font-semibold">{title}</div>
           <button type="button" onClick={onClose} aria-label="Fechar" className="press grid size-10 place-items-center rounded-xl bg-secondary"><X className="size-4"/></button>
@@ -163,7 +164,7 @@ export function Sheet({ open, onClose, title, children, side = 'bottom', classNa
         {children}
       </motion.div>
     </div>}
-  </AnimatePresence>;
+  </AnimatePresence>, document.body);
 }
 
 /** Small photo + name of a bird, used wherever a bird is mentioned. */

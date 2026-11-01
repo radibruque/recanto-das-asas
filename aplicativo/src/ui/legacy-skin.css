@@ -89,6 +89,10 @@ dialog.modal input:focus, dialog.modal select:focus, dialog.modal textarea:focus
 .legacy .tabs button.active, .legacy .tabs button[aria-selected='true'] { background: var(--ui-ink); color: var(--ui-ink-foreground); box-shadow: var(--ui-shadow-soft); }
 
 dialog.modal { border: 0; border-radius: 30px; background: var(--ui-card); color: var(--ui-foreground); box-shadow: var(--ui-shadow-float); }
+dialog.modal { position: fixed; inset: 0; margin: auto; width: min(960px, calc(100% - 32px)); max-width: none; max-height: calc(100dvh - 32px); overflow-y: auto; }
+dialog.modal .record-form-content { min-width: 0; }
+dialog.modal .modal-heading { gap: 12px; }
+@media (min-width: 768px) { dialog.modal .form-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 dialog.modal[open] { animation: ui-pop .35s cubic-bezier(.22,1,.36,1) both; }
 dialog.modal::backdrop { background: color-mix(in oklab, var(--ui-ink) 45%, transparent); backdrop-filter: blur(3px); }
 dialog.modal .modal-heading, dialog.modal .modal-actions { border-color: var(--ui-border); }
@@ -126,6 +130,8 @@ dialog.modal fieldset.record-form-section { border: 1px solid var(--ui-border); 
   background: color-mix(in oklab, var(--ui-ink) 50%, transparent); backdrop-filter: blur(3px); animation: ui-fade .25s ease both; }
 .commercial-portal .modal > .card { width: min(860px, 100%); max-height: none; margin: auto 0; overflow: visible; border-radius: 28px; background: var(--ui-card); color: var(--ui-foreground); padding: 20px;
   box-shadow: var(--ui-shadow-float); animation: ui-pop .35s cubic-bezier(.22,1,.36,1) both; }
+.commercial-portal .modal { opacity: 1; animation: none; }
+.commercial-portal .modal > .commercial-dialog { opacity: 1; animation: none; }
 @media (min-width: 768px) { .commercial-portal .modal { padding: 32px; align-items: center; } .commercial-portal .modal > .card { padding: 28px; } }
 .commercial-portal .modal-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 12px; margin-bottom: 16px; border-bottom: 1px solid var(--ui-border); }
 .commercial-portal .modal-heading h2 { font-family: 'Fraunces', ui-serif, Georgia, serif; font-size: 1.5rem; font-weight: 600; margin: 0; }
@@ -137,10 +143,14 @@ dialog.modal fieldset.record-form-section { border: 1px solid var(--ui-border); 
 
 /* Tables (reports): scroll sideways instead of breaking words letter by letter on phones. */
 .legacy .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-.legacy .table-wrap table { width: max-content; min-width: 100%; }
+.legacy .table-wrap table { width: max-content; min-width: 100%; table-layout: auto; }
 .legacy .table-wrap th, .legacy .table-wrap td { overflow-wrap: normal; word-break: normal; }
 .legacy .table-wrap th { white-space: nowrap; }
 .legacy .table-wrap td { min-width: 6.5rem; max-width: 22rem; }
+.legacy .documents-module .table-wrap { max-width: 100%; }
+.legacy .documents-module .table-wrap th,
+.legacy .documents-module .table-wrap td { white-space: nowrap; min-width: 8rem; }
+.legacy .documents-module .card { min-width: 0; }
 
 /* Bird delete button in the record header. */
 .legacy .bird-delete-button { color: var(--ui-coral) !important; }

@@ -3,6 +3,7 @@ import { breedingHandler } from './breeding';
 import { commercialHandler } from './commercial';
 import { documentsHandler, sha256 } from './documents';
 import { speciesHandler } from './species';
+import { saveEnclosure, deleteEnclosure } from './enclosures';
 import { purchaseHandler } from './purchases';
 import { reconcileDerivedTasks } from './derived-tasks';
 import { ensure, id, required, text, today } from './shared';
@@ -107,6 +108,14 @@ export function applyCommand(state:State,scope:Scope,action:string,data:unknown)
   const others=(state.settings.priceTable??[]).filter(e=>e.scope!==scope);
   state.settings.priceTable=[...others,...d.entries.map(e=>({id:e.id||id(),scope,kind:e.kind,species:e.kind==='ave'?e.species.trim():'',mutation:e.kind==='ave'?e.mutation.trim():'',sex:e.kind==='ave'?e.sex:'' as const,productId:e.kind==='produto'?e.productId:null,name:e.kind==='serviço'?e.name.trim():'',priceCents:e.priceCents}))];
   recordId='prices';
+ }else if(action==='enclosure.save'){
+  recordId=saveEnclosure(state,scope,data);
+ }else if(action==='enclosure.delete'){
+  recordId=deleteEnclosure(state,scope,data);
+ }else if(action==='catalogs.save'){
+  const list=z.array(required).min(1).max(500);
+  state.settings.formCatalogs=z.object({mutations:list,sexMethods:list,healthKinds:list}).parse(data);
+  recordId='catalogs';
  }else if(action==='settings.save'){
   const values=z.object({name:required,phone:text,email:text,address:text,backupDays:z.number().int().min(1).max(365),categories:z.array(required).min(1).max(100),speciesEstimates:z.record(z.number().int().min(1).max(365)).optional(),derivedTaskRules:z.object({hatch:z.boolean(),eggCheck:z.boolean(),chickFollowup:z.boolean()}).optional()}).parse(data);
   if(values.speciesEstimates&&(Object.keys(values.speciesEstimates).length!==Object.keys(state.settings.speciesEstimates).length||Object.entries(values.speciesEstimates).some(([name,days])=>state.settings.speciesEstimates[name]!==days)))throw new Error('Edite os parâmetros pelo catálogo de espécies e informe a fonte.');

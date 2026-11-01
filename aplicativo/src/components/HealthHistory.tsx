@@ -8,6 +8,8 @@ import { BirdChip } from '../ui/bits';
 import { healthKinds } from './HealthRegistrationForm';
 import { RecordDetailsDialog, RecordField as Field } from './RecordDialog';
 import WeightChart from './WeightChart';
+import { ConfirmRecordDeletion } from './ConfirmRecordDeletion';
+import { Button } from '../ui/bits';
 import { useUiState, writeUiContext, rememberUiRoute, recallUiRoute } from '../lib/ui-context';
 type HealthContext={birdId:string|null;kind:string;from:string;to:string};
 
@@ -20,7 +22,7 @@ export function HealthEventDetails({ event, state, scope, onClose, onEdit }: Mod
     <dl className="record-details">
       <div><dt>Ave</dt><dd>{bird ? <BirdChip state={state} scope={scope} bird={bird} size={36}/> : birdLabel(bird)}</dd></div><div><dt>Data</dt><dd>{dateLabel(event.date)}</dd></div>
       <div><dt>Tipo</dt><dd>{event.kind}</dd></div><div><dt>Peso registrado</dt><dd>{event.weightGrams === null ? 'Não informado' : `${event.weightGrams.toLocaleString('pt-BR')} g`}</dd></div>
-      <div><dt>Profissional</dt><dd>{event.professional || 'Não informado'}</dd></div><div><dt>Autor do registro</dt><dd>{event.author}</dd></div>
+      {event.professional && <div><dt>Profissional</dt><dd>{event.professional}</dd></div>}
     </dl>
     <h3 className="section-title">Observações</h3><p className="preserve-lines">{event.notes || 'Nenhuma observação registrada.'}</p>
     <h3 className="section-title">Fotos e documentos</h3>
@@ -29,17 +31,17 @@ export function HealthEventDetails({ event, state, scope, onClose, onEdit }: Mod
   </RecordDetailsDialog>;
 }
 
-export function HealthTimeline({ records, onOpen }: { records: HealthEvent[]; onOpen: (event: HealthEvent) => void }) {
+export function HealthTimeline({ records, onOpen, onEdit, onDelete }: { records: HealthEvent[]; onOpen: (event: HealthEvent) => void; onEdit?: (event: HealthEvent) => void; onDelete?: (event: HealthEvent) => void }) {
   if (!records.length) return <p className="empty muted">Nenhum registro de saúde ou manejo.</p>;
-  return <ol className="health-timeline" aria-label="Registros de saúde e manejo">{records.map(event => {
+  return <ol className="health-timeline" aria-label="Registros de saúde e manejo">{records.map((event,index) => {
     const Icon = event.kind === 'pesagem' ? Scale : ['alimentação', 'desmame', 'independência'].includes(event.kind) ? Sprout : ['consulta', 'exame', 'diagnóstico informado'].includes(event.kind) ? Stethoscope : ['tratamento prescrito', 'procedimento', 'ocorrência'].includes(event.kind) ? Activity : ClipboardList;
     return <li key={event.id} className="health-timeline-entry">
-      <span className="health-timeline-marker" aria-hidden="true"><Icon size={19}/></span>
+      <span className="health-timeline-marker" aria-hidden="true">{onEdit ? index+1 : <Icon size={19}/>}</span>
       <div className="health-timeline-content">
         <div className="health-timeline-heading"><strong>{event.title}</strong><time className="health-timeline-date" dateTime={event.date}>{dateLabel(event.date)}</time></div>
-        <span className="health-timeline-kind">{event.kind}</span>
+        <span className="health-timeline-kind">{event.kind}</span>{event.notes && <p className="health-timeline-notes preserve-lines">{event.notes}</p>}
         <div className="health-timeline-meta">{event.weightGrams !== null && <strong className="health-timeline-weight">{event.weightGrams.toLocaleString('pt-BR')} g</strong>}<span>{event.professional || event.author}</span><span>{event.attachmentIds.length} {event.attachmentIds.length === 1 ? 'arquivo' : 'arquivos'}</span></div>
-        <button className="button secondary health-timeline-action" onClick={() => onOpen(event)} aria-label={`Ver registro: ${event.title}`}>Ver detalhes</button>
+        <div className="ui flex flex-wrap gap-2"><Button variant="outline" size="sm" onClick={() => onOpen(event)} aria-label={`Ver registro: ${event.title}`}>Ver detalhes</Button>{onEdit&&<Button variant="outline" size="sm" onClick={()=>onEdit(event)} aria-label={`Editar registro: ${event.title}`}>Editar</Button>}{onDelete&&<Button variant="outline" size="sm" onClick={()=>onDelete(event)} aria-label={`Excluir registro: ${event.title}`}>Excluir</Button>}</div>
       </div>
     </li>;
   })}</ol>;
@@ -77,7 +79,7 @@ export default function HealthPanel(props: ModuleProps & { onNew: (birdId?: stri
       <Field label="Registros a partir de"><input type="date" value={from} onChange={e => setFrom(e.target.value)}/></Field>
       <Field label="Registros até"><input type="date" value={to} min={from} onChange={e => setTo(e.target.value)}/></Field>
     </div></section>
-    {selected ? <section className="card"><div className="row record-header"><h2 className="section-title"><BirdChip state={props.state} scope={props.scope} bird={selected} size={40} sub="Histórico de saúde e manejo"/></h2><div className="toolbar"><button className="button secondary" onClick={returnToBirds}>{target?.birdId && back ? 'Voltar ao contexto anterior' : 'Voltar às aves com registros'}</button><button className="button" onClick={() => onNew(selected.id)}>Novo registro para esta ave</button></div></div><p>{selectedRecords.length} registros neste filtro.</p><HealthTimeline records={selectedRecords} onOpen={h => setEventId(h.id)}/></section> : <section className="card"><h2 className="section-title">Aves com registros de saúde e manejo</h2><p className="muted">Abra uma ave para consultar seu histórico. Aves sem registros não aparecem nesta lista.</p>{rows.length ? <div className="table-wrap record-table-wrap"><table><thead><tr><th>Ave</th><th>Registros</th><th>Registro mais recente</th><th>Histórico</th></tr></thead><tbody>{rows.map(({ bird, records }) => <tr key={bird.id}><td><BirdChip state={props.state} scope={props.scope} bird={bird} size={36} sub={bird.species}/></td><td>{records.length}</td><td>{dateLabel(records[0].date)}<small>{records[0].title}</small></td><td><button className="button secondary" onClick={() => { setListScroll(scrollY); setBirdId(bird.id); scrollTo(0, 0); }} aria-label={`Ver histórico de ${birdLabel(bird)}`}>Ver histórico</button></td></tr>)}</tbody></table></div> : <p className="empty muted">Nenhuma ave com registros neste filtro. Use Novo registro para cadastrar um manejo, exame ou observação.</p>}</section>}
+    {selected ? <section className="card"><div className="row record-header"><h2 className="section-title"><BirdChip state={props.state} scope={props.scope} bird={selected} size={40} sub="Histórico de saúde e manejo"/></h2><div className="toolbar"><button className="button secondary" onClick={returnToBirds}>{target?.birdId && back ? 'Voltar ao contexto anterior' : 'Voltar às aves com registros'}</button><button className="button" onClick={() => onNew(selected.id)}>Novo registro para esta ave</button></div></div><p>{selectedRecords.length} registros neste filtro.</p><HealthTimeline records={selectedRecords} onOpen={h => setEventId(h.id)}/></section> : <section className="card"><h2 className="section-title">Aves com registros de saúde e manejo</h2><p className="muted">Abra uma ave para consultar seu histórico. Aves sem registros não aparecem nesta lista.</p>{rows.length ? <div className="table-wrap record-table-wrap"><table><thead><tr><th>Ave</th><th>Registros</th><th>Registro mais recente</th><th>Histórico</th></tr></thead><tbody>{rows.map(({ bird, records }) => <tr key={bird.id}><td><BirdChip state={props.state} scope={props.scope} bird={bird} size={36} sub={bird.species}/></td><td>{records.length}</td><td>{dateLabel(records[0].date)}<small>{records[0].title}</small></td><td><button className="button secondary" onClick={() => { if(props.navigate){props.navigate({view:'birds',birdId:bird.id,filter:'saúde'});return;}setListScroll(scrollY); setBirdId(bird.id); scrollTo(0, 0); }} aria-label={`Ver histórico de ${birdLabel(bird)}`}>Ver histórico</button></td></tr>)}</tbody></table></div> : <p className="empty muted">Nenhuma ave com registros neste filtro. Use Novo registro para cadastrar um manejo, exame ou observação.</p>}</section>}
     {event && <HealthEventDetails {...props} event={event} onClose={() => setEventId(null)} onEdit={onEdit}/>}
   </div>;
 }
@@ -88,10 +90,12 @@ export function BirdHealthHistory(props: ModuleProps & { birdId: string; onEdit:
   const records = useMemo(() => healthHistoryForBird(state, scope, birdId), [state.health, scope, birdId]);
   const weights = useMemo(() => records.filter(h => h.weightGrams !== null).slice().reverse(), [records]), last = records.find(h => h.weightGrams !== null);
   const event = records.find(h => h.id === eventId);
+  const [remove,setRemove]=useState<HealthEvent|null>(null);
   return <>
     <section className="card"><h3 className="section-title">Evolução do peso</h3>{last && <p>Peso mais recente: <strong>{last.weightGrams?.toLocaleString('pt-BR')} g</strong> · {dateLabel(last.date)}</p>}<WeightChart records={weights}/>{weights.length > 0 && <><h4 className="subsection-title">Pesagens registradas</h4><ol className="record-history weight-records" aria-label="Lista de pesagens">{weights.map(h => <li key={h.id}><span><time dateTime={h.date}>{dateLabel(h.date)}</time> · <strong>{h.weightGrams?.toLocaleString('pt-BR')} g</strong><small>{h.title}</small></span><button className="button secondary" onClick={() => setEventId(h.id)} aria-label={`Ver pesagem de ${dateLabel(h.date)}: ${h.weightGrams?.toLocaleString('pt-BR')} g`}>Detalhes</button></li>)}</ol></>}</section>
-    <section className="card"><h3 className="section-title">Histórico de saúde e manejo</h3><HealthTimeline records={records} onOpen={h => setEventId(h.id)}/></section>
+    <section className="card"><h3 className="section-title">Histórico de saúde e manejo</h3><HealthTimeline records={records} onOpen={h => setEventId(h.id)} onEdit={onEdit} onDelete={setRemove}/></section>
     {event && <HealthEventDetails {...props} event={event} onClose={() => setEventId(null)} onEdit={onEdit}/>}
+    {remove&&<ConfirmRecordDeletion title="Excluir registro de saúde" description={`${dateLabel(remove.date)} · ${remove.title}. Os arquivos anexados continuarão na ficha da ave.`} onClose={()=>setRemove(null)} onConfirm={()=>props.command('deleteHealth',{id:remove.id})}/>}
   </>;
 }
 
@@ -100,11 +104,13 @@ export function BirdRecentHealthHistory(props: ModuleProps & { birdId: string; o
   const [eventId, setEventId] = useState<string | null>(null);
   const records = useMemo(() => healthHistoryForBird(state, scope, birdId), [state.health, scope, birdId]);
   const event = records.find(record => record.id === eventId);
+  const [remove,setRemove]=useState<HealthEvent|null>(null);
   return <>
     <section className="card bird-recent-health">
       <div className="row record-header"><h3 className="section-title">Histórico recente</h3><button className="button secondary" onClick={onViewAll}>Ver todo o histórico</button></div>
-      <HealthTimeline records={records.slice(0, limit)} onOpen={record => setEventId(record.id)}/>
+      <HealthTimeline records={records.slice(0, limit)} onOpen={record => setEventId(record.id)} onEdit={onEdit} onDelete={setRemove}/>
     </section>
     {event && <HealthEventDetails {...props} event={event} onClose={() => setEventId(null)} onEdit={onEdit}/>}
+    {remove&&<ConfirmRecordDeletion title="Excluir registro de saúde" description={`${dateLabel(remove.date)} · ${remove.title}. Os arquivos anexados continuarão na ficha da ave.`} onClose={()=>setRemove(null)} onConfirm={()=>props.command('deleteHealth',{id:remove.id})}/>}
   </>;
 }

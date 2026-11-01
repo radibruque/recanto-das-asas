@@ -4,20 +4,25 @@ import { useDeferredValue, useEffect, useMemo, useRef, useState } from 'react';
 import type { Scope, State } from '../domain/types';
 import type { NavigationTarget } from '../domain/ui-target';
 import { buildLocalSearchIndex, searchLocalIndex } from '../lib/navigation';
-import type { Notice } from '../lib/notices';
+import { noticeReadKey, unreadNoticeCount, type Notice } from '../lib/notices';
+import { setPreferences, usePreferences } from '../lib/preferences';
+import { Button } from '../ui/bits';
 import { BrandBadge } from '../ui/Brand';
 import { cn } from '../ui/cn';
 import { QuickActions, type QuickAction } from './QuickActions';
 
 const toneDot: Record<Notice['tone'], string> = { coral: 'bg-coral', sun: 'bg-sun', teal: 'bg-teal', sky: 'bg-sky', leaf: 'bg-leaf' };
 
-function Notifications({ notices, onOpen, dark = false }: { notices: Notice[]; onOpen: (n: Notice) => void; dark?: boolean }) {
+function Notifications({ notices, scope, onOpen, dark = false }: { notices: Notice[]; scope: Scope; onOpen: (n: Notice) => void; dark?: boolean }) {
   const [open, setOpen] = useState(false);
+  const prefs = usePreferences();
+  const unread = unreadNoticeCount(notices, scope, prefs.readNotices);
+  const markRead = () => setPreferences({ readNotices: [...new Set([...prefs.readNotices, ...notices.map(n => noticeReadKey(n, scope))])].slice(-1000) });
   return <div className="relative">
-    <button type="button" onClick={() => setOpen(o => !o)} aria-label={`Avisos (${notices.length})`}
+    <button type="button" onClick={() => { if (!open) markRead(); setOpen(o => !o); }} aria-label={`Avisos (${unread} não lidos)`}
       className={cn('press relative grid size-10 place-items-center rounded-xl', dark ? 'bg-ink-foreground/10 text-ink-foreground' : 'bg-card text-foreground shadow-soft ring-1 ring-border')}>
       <Bell className="size-[18px]"/>
-      {notices.length > 0 && <span className="absolute right-2.5 top-2.5 size-2 rounded-full bg-coral ring-2 ring-card"/>}
+      {unread > 0 && <span className="absolute right-2.5 top-2.5 size-2 rounded-full bg-coral ring-2 ring-card"/>}
     </button>
     <AnimatePresence>
       {open && <>
@@ -71,13 +76,13 @@ function SearchBox({ state, scope, navigate }: { state: State; scope: Scope; nav
   </div>;
 }
 
-function SyncPill({ text }: { text: string }) {
+function SyncPill({ text, onOpen }: { text: string; onOpen: () => void }) {
   const ok = /em dia|offline disponível/i.test(text);
   const waiting = /aguardando/i.test(text);
-  return <span title={text} className={cn('inline-flex h-11 items-center gap-2 rounded-2xl px-3 text-xs font-bold', ok ? 'bg-tint-leaf text-leaf' : waiting ? 'bg-tint-sun text-foreground' : 'bg-tint-coral text-coral')}>
+  return <Button title={text} aria-label="Abrir configuração de sincronização" onClick={onOpen} className={cn('inline-flex h-11 items-center gap-2 rounded-2xl px-3 text-xs font-bold', ok ? 'bg-tint-leaf text-leaf' : waiting ? 'bg-tint-sun text-foreground' : 'bg-tint-coral text-coral')}>
     {ok ? <Wifi className="size-4"/> : waiting ? <RefreshCw className="size-4"/> : <CloudOff className="size-4"/>}
     <span className="hidden xl:inline">{/local/i.test(text) ? 'Neste aparelho' : ok ? 'Sincronizado' : waiting ? 'Aguardando' : 'Verificar'}</span>
-  </span>;
+  </Button>;
 }
 
 const initials = (name: string) => name.trim().split(/\s+/).slice(0, 2).map(p => p[0]?.toUpperCase() ?? '').join('') || 'RA';
@@ -85,9 +90,9 @@ const initials = (name: string) => name.trim().split(/\s+/).slice(0, 2).map(p =>
 export function DesktopTopBar({ state, scope, navigate, notices, onNotice, actions, syncText, ownerName, onProfile }: { state: State; scope: Scope; navigate: (t: NavigationTarget) => void; notices: Notice[]; onNotice: (n: Notice) => void; actions: QuickAction[]; syncText: string; ownerName: string; onProfile: () => void }) {
   return <div className="ui sticky top-0 z-30 hidden items-center gap-3 bg-background/80 px-8 py-4 backdrop-blur-xl lg:flex">
     <SearchBox state={state} scope={scope} navigate={navigate}/>
-    <SyncPill text={syncText}/>
+    <SyncPill text={syncText} onOpen={() => navigate({ view: 'sync' })}/>
     <QuickActions placement="top" actions={actions}/>
-    <Notifications notices={notices} onOpen={onNotice}/>
+    <Notifications notices={notices} scope={scope} onOpen={onNotice}/>
     <button type="button" onClick={onProfile} className="press flex items-center gap-3 rounded-2xl bg-card py-1.5 pl-1.5 pr-4 text-left shadow-soft ring-1 ring-border">
       <span className="grid size-8 place-items-center rounded-xl bg-brand text-xs font-bold text-primary-foreground">{initials(ownerName || 'R A')}</span>
       <span className="leading-tight"><span className="block text-sm font-bold">{ownerName || 'Seu nome'}</span><span className="block text-[11px] text-muted-foreground">{scope === 'demo' ? 'Demonstração' : state.settings.name}</span></span>
@@ -110,7 +115,7 @@ export function MobileTopBar({ section, state, scope, navigate, notices, onNotic
       </div>
       <div className="flex items-center gap-2">
         <button type="button" onClick={() => setSearching(s => !s)} aria-label="Buscar" className="press grid size-10 place-items-center rounded-xl bg-ink-foreground/10"><Search className="size-[18px]"/></button>
-        <Notifications dark notices={notices} onOpen={onNotice}/>
+        <Notifications dark notices={notices} scope={scope} onOpen={onNotice}/>
         <button type="button" onClick={onProfile} aria-label="Seu perfil" className="grid size-10 place-items-center rounded-xl bg-brand text-xs font-bold ring-1 ring-ink-foreground/15">{initials(ownerName || 'R A')}</button>
       </div>
     </div>

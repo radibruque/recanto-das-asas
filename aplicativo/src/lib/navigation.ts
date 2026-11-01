@@ -3,8 +3,22 @@ import type { Scope, State, Task } from '../domain/types';
 
 export type Sector = 'breeding' | 'commercial';
 export const commercialViews = new Set(['contacts', 'sales', 'finance', 'stock']);
-export const breedingViews = new Set(['birds', 'pairs', 'breeding', 'family', 'health', 'tasks']);
+export const breedingViews = new Set(['birds', 'enclosures', 'pairs', 'breeding', 'family', 'health', 'tasks']);
 export const historyStatuses = new Set(['vendido', 'transferido', 'doado', 'falecido']);
+
+/** HOME always starts at the top; other screens keep their saved reading position. */
+export function navigationScroll(target: NavigationTarget, saved = 0): number {
+  return target.view === 'home' || target.birdId || target.saleId || target.contactId || target.createAction ? 0 : saved;
+}
+
+export function restorePageScroll(position: number): void {
+  const main = document.getElementById('main-scroll');
+  main?.scrollTo({ top: position, behavior: 'instant' });
+  // Android scrolls the document, whereas desktop scrolls inside main.
+  if (!main || !['auto', 'scroll'].includes(getComputedStyle(main).overflowY)) {
+    window.scrollTo({ top: position, behavior: 'instant' });
+  }
+}
 
 export function sectorForTarget(target: NavigationTarget, current: Sector): Sector {
   if (commercialViews.has(target.view) || target.view === 'home' && target.filter === 'commercial') return 'commercial';
@@ -32,7 +46,7 @@ export function buildLocalSearchIndex(state: State, scope: Scope): LocalSearchRe
   const contacts = new Map(state.contacts.filter(record => record.scope === scope).map(record => [record.id, record]));
   const rows: Omit<LocalSearchResult, 'text'>[] = [];
   for (const bird of birds.values()) rows.push({ id: bird.id, group: 'Aves', title: bird.name ? `${bird.name} · ${bird.identification}` : bird.identification, detail: `${bird.species} · ${bird.status}`, target: { view: 'birds', birdId: bird.id } });
-  for (const contact of contacts.values()) rows.push({ id: contact.id, group: 'Pessoas', title: contact.name, detail: [contact.kind, contact.phone, contact.email].filter(Boolean).join(' · '), target: { view: 'contacts', contactId: contact.id } });
+  for (const contact of contacts.values()) if(contact.kind!=='interessado') rows.push({ id: contact.id, group: 'Pessoas', title: contact.name, detail: [contact.kind, contact.phone, contact.email].filter(Boolean).join(' · '), target: { view: 'contacts', contactId: contact.id } });
   for (const sale of state.sales) if (sale.scope === scope) rows.push({ id: sale.id, group: 'Vendas e reservas', title: `${sale.number} · ${contacts.get(sale.contactId)?.name ?? 'Sem contato'}`, detail: `${sale.status} · ${sale.items.map(item => item.description).join(' · ')}`, target: { view: 'sales', saleId: sale.id } });
   for (const file of state.attachments) if (file.scope === scope) rows.push({ id: file.id, group: 'Documentos', title: file.title, detail: [file.fileName, file.category, birds.get(file.birdId ?? '')?.identification].filter(Boolean).join(' · '), target: { view: 'documents', attachmentId: file.id } });
   for (const file of state.documents) if (file.scope === scope) rows.push({ id: file.id, group: 'Documentos', title: file.title, detail: [file.fileName, file.kind, birds.get(file.birdId ?? '')?.identification].filter(Boolean).join(' · '), target: { view: file.kind.toLocaleLowerCase('pt-BR').includes('caderneta') ? 'booklet' : 'documents', issuedDocumentId: file.id, birdId: file.birdId ?? undefined, saleId: file.saleId ?? undefined } });

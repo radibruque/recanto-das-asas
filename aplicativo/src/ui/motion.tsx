@@ -1,5 +1,5 @@
-import { animate, motion, useInView, useMotionValue, useTransform, type Variants } from 'motion/react';
-import { useEffect, useRef, type ReactNode } from 'react';
+import { animate, motion, useMotionValue, useReducedMotion, useTransform, type Variants } from 'motion/react';
+import { useEffect, type ReactNode } from 'react';
 import { cn } from './cn';
 
 export const ease = [0.22, 1, 0.36, 1] as const;
@@ -22,18 +22,17 @@ export function Rise({ children, className }: { children: ReactNode; className?:
   return <motion.div variants={riseItem} className={className}>{children}</motion.div>;
 }
 
-/** Count-up number that animates when it enters the viewport or its value changes. */
+/** Show the real value on entry; animate only actual changes, never recount on navigation. */
 export function AnimatedNumber({ value, format = (n: number) => Math.round(n).toLocaleString('pt-BR'), className }: { value: number; format?: (n: number) => string; className?: string }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true });
-  const mv = useMotionValue(0);
+  const reduced = useReducedMotion();
+  const mv = useMotionValue(value);
   const text = useTransform(mv, v => format(v));
   useEffect(() => {
-    if (!inView) return;
-    const controls = animate(mv, value, { duration: 1.1, ease });
+    if (reduced) { mv.set(value); return; }
+    const controls = animate(mv, value, { duration: 0.35, ease });
     return () => controls.stop();
-  }, [inView, value, mv]);
-  return <motion.span ref={ref} className={cn('tabular-nums', className)}>{text}</motion.span>;
+  }, [reduced, value, mv]);
+  return <motion.span className={cn('tabular-nums', className)}>{text}</motion.span>;
 }
 
 /** Animated progress bar that fills on mount. */

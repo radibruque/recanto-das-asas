@@ -17,12 +17,13 @@ export function MobileNav({ active, onOpen, sector, onSector, scope, onScope, ac
   const primary = [...left, ...right];
   const inPrimary = primary.includes(active);
   const Item = ({ id }: { id: MenuId }) => {
-    const item = allMenu.find(m => m.id === id)!;
+    const item = allMenu.find(m => m.id === id);
+    if (!item) return null;
     const isActive = active === id;
     return <button type="button" onClick={() => onOpen(id)} className="relative flex h-14 flex-1 flex-col items-center justify-center gap-0.5 text-[10px] font-bold">
       {isActive && <motion.span layoutId="mobile-active" className="absolute inset-x-1 inset-y-1 rounded-2xl bg-ink-foreground/12" transition={{ type: 'spring', stiffness: 420, damping: 32 }}/>}
       <motion.span animate={{ y: isActive ? -1 : 0, scale: isActive ? 1.08 : 1 }} className="relative"><item.icon className={cn('size-5', isActive ? 'text-sun' : 'text-ink-muted')}/></motion.span>
-      <span className={cn('relative', isActive ? 'text-ink-foreground' : 'text-ink-muted')}>{id === 'home' && sector === 'commercial' ? 'Resumo' : item.short}</span>
+      <span className={cn('relative', isActive ? 'text-ink-foreground' : 'text-ink-muted')}>{item.short}</span>
     </button>;
   };
   const current = allMenu.find(m => m.id === active);

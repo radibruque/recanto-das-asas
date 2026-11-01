@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from 'motion/react';
 import { Plus, type LucideIcon } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { cn } from '../ui/cn';
 
 export type QuickAction = { label: string; icon: LucideIcon; tone: string; run: () => void };
@@ -8,8 +8,17 @@ export type QuickAction = { label: string; icon: LucideIcon; tone: string; run: 
 /** Botão central "+" com menu que se abre em leque e abre os cadastros reais. */
 export function QuickActions({ actions, placement = 'bottom' }: { actions: QuickAction[]; placement?: 'bottom' | 'top' }) {
   const [open, setOpen] = useState(false);
+  const root = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!open) return;
+    const outside = (event: PointerEvent) => { if (event.target instanceof Node && !root.current?.contains(event.target)) setOpen(false); };
+    const escape = (event: KeyboardEvent) => { if (event.key === 'Escape') setOpen(false); };
+    document.addEventListener('pointerdown', outside, true);
+    document.addEventListener('keydown', escape);
+    return () => { document.removeEventListener('pointerdown', outside, true); document.removeEventListener('keydown', escape); };
+  }, [open]);
   const list = placement === 'bottom' ? [...actions].reverse() : actions;
-  return <div className="relative">
+  return <div ref={root} className="relative">
     <AnimatePresence>
       {open && <>
         <motion.button type="button" aria-label="Fechar ações" className="fixed inset-0 z-40 cursor-default bg-ink/30 backdrop-blur-[2px]" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setOpen(false)}/>

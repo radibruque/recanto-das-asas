@@ -54,6 +54,18 @@ function checkPayload(data: {base64:string;mime:string;fileName:string;size:numb
   const bytes = base64ToBytes(data.base64); verifyFile(bytes, data.mime, data.fileName, issued); ensure(bytes.length === data.size && sha256(bytes) === data.sha256, 'Falha de integridade: tamanho ou SHA-256 incorreto.');
 }
 export const documentsHandler: Handler = (state, scope, action, input) => {
+  if (action === 'attachment.delete') {
+    const data=z.object({id:z.string().uuid()}).parse(input);
+    const record=state.attachments.find(value=>value.id===data.id&&value.scope===scope);
+    ensure(record,'Arquivo não encontrado nesta base.');
+    ensure(!state.sales.some(s=>s.scope===scope&&s.deliveryManifest?.some(f=>f.type==='attachment'&&f.id===record.id)), 'Este arquivo faz parte de uma entrega já registrada e precisa ser preservado.');
+    state.attachments=state.attachments.filter(value=>value!==record);
+    for(const a of state.attachments)if(a.scope===scope&&a.previousId===record.id)a.previousId=record.previousId;
+    for(const b of state.birds)if(b.scope===scope){if(b.photoId===record.id)b.photoId=null;for(const h of b.sexHistory??[])if(h.attachmentId===record.id)h.attachmentId=null;}
+    for(const h of state.health)if(h.scope===scope)h.attachmentIds=h.attachmentIds.filter(value=>value!==record.id);
+    for(const m of state.mutations)if(m.scope===scope&&m.attachmentId===record.id)m.attachmentId=null;
+    return {id:record.id};
+  }
   if (action === 'attachment.updateMetadata') {
     const data=z.object({id:z.string().uuid(),...attachmentMetadata}).parse(input);
     const record=state.attachments.find(value=>value.id===data.id&&value.scope===scope);

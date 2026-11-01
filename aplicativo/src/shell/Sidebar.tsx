@@ -14,7 +14,7 @@ export function Sidebar({ active, onOpen, sector, onSector, scope, onScope, sync
   return <motion.aside animate={{ width: collapsed ? 88 : 268 }} transition={{ type: 'spring', stiffness: 260, damping: 30 }}
     className="ui sticky top-0 hidden h-screen shrink-0 flex-col overflow-hidden px-4 py-6 text-ink-foreground lg:flex">
     <div className={cn('flex items-center', collapsed ? 'justify-center' : 'px-1')}>
-      <button type="button" onClick={() => onOpen('home')} aria-label="Ir para Hoje" className="press block w-full"><BrandLockup compact={collapsed} className={collapsed ? 'mx-auto' : undefined}/></button>
+      <button type="button" onClick={() => onOpen('home')} aria-label="Ir para HOME" className="press block w-full"><BrandLockup compact={collapsed} className={collapsed ? 'mx-auto' : undefined}/></button>
     </div>
     {!collapsed && <div className="mt-5 px-1">
       <SegmentedTabs tone="ink" size="sm" value={sector} onChange={onSector} className="grid w-full grid-cols-2 [&>button]:min-w-0 [&>button]:justify-center [&>button]:px-2"

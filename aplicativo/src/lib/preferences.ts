@@ -15,12 +15,13 @@ export type Preferences = {
   reportReminders: boolean;
   keepInTray: boolean;
   dismissedReports: string[];
+  readNotices: string[];
 };
 
 const KEY = 'recanto.preferences.v1';
 const defaults: Preferences = {
   deviceId: '', ownerName: '', deviceName: '', notifications: true, notifyTasks: true, notifyHatch: true, notifyBills: true, notifyDeliveries: true,
-  taskAdvanceMinutes: 15, dailyNoticeHour: 8, reportReminders: true, keepInTray: false, dismissedReports: [],
+  taskAdvanceMinutes: 15, dailyNoticeHour: 8, reportReminders: true, keepInTray: false, dismissedReports: [], readNotices: [],
 };
 
 let current: Preferences = load();

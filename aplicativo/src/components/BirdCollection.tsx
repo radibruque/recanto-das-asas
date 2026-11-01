@@ -1,11 +1,13 @@
 import { AnimatePresence, motion } from 'motion/react';
 import { Bird as BirdIcon, LayoutGrid, List, Mars, Plus, Venus } from 'lucide-react';
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import type { Bird, Scope, State } from '../domain/types';
 import { money } from '../domain/shared';
 import { birdTablePrice } from '../domain/prices';
 import { BirdPhoto, Button, SegmentedTabs, StatusBadge, shortSpecies } from '../ui/bits';
 import { cn } from '../ui/cn';
+import { BIRD_PAGE_SIZE, paginate } from '../lib/pagination';
+import { Pagination } from '../ui/Pagination';
 
 type BirdCollectionProps = {
   birds: Bird[];
@@ -35,6 +37,11 @@ export default function BirdCollection({ birds, state, scope, onOpen, variant = 
   const [mode, setMode] = useState<'grade' | 'lista'>(() => { try { return (localStorage.getItem(VIEW_KEY) as 'grade' | 'lista') || 'grade'; } catch { return 'grade'; } });
   const changeMode = (m: 'grade' | 'lista') => { setMode(m); try { localStorage.setItem(VIEW_KEY, m); } catch { /* session only */ } };
   const shown = variant === 'compact' ? 'lista' : mode;
+  const top = useRef<HTMLDivElement>(null);
+  const [paging, setPaging] = useState({ key: '', page: 1 });
+  const key = `${scope}:${birds.map(b => b.id).join(',')}`;
+  const page = paginate(birds, paging.key === key ? paging.page : 1, BIRD_PAGE_SIZE);
+  const changePage = (n: number) => { setPaging({ key, page: n }); top.current?.scrollIntoView({ block: 'start' }); };
 
   if (!birds.length) return <div className="ui flex flex-col items-center gap-3 rounded-3xl border border-dashed border-border p-10 text-center text-sm text-muted-foreground">
     <BirdIcon className="size-8 text-teal"/>
@@ -42,14 +49,14 @@ export default function BirdCollection({ birds, state, scope, onOpen, variant = 
     {onCreate && <Button onClick={onCreate}><Plus/>Cadastrar ave</Button>}
   </div>;
 
-  return <div className="ui flex flex-col gap-4">
+  return <div ref={top} className="ui flex scroll-mt-24 flex-col gap-4">
     {variant === 'full' && <div className="flex items-center justify-between gap-3">
       <p className="text-sm text-muted-foreground">{countLabel ?? `${birds.length} ${birds.length === 1 ? 'ave' : 'aves'}`}</p>
       <SegmentedTabs size="sm" value={mode} onChange={changeMode} options={[{ value: 'grade', label: 'Cartões', icon: LayoutGrid }, { value: 'lista', label: 'Lista', icon: List }]}/>
     </div>}
-    <motion.div layout className={cn('grid gap-3', shown === 'grade' ? 'grid-cols-2 md:grid-cols-3 xl:grid-cols-4 md:gap-4' : 'grid-cols-1 lg:grid-cols-2')}>
+    <motion.div layout className={cn('grid gap-3', shown === 'grade' ? 'grid-cols-2 md:grid-cols-3 lg:grid-cols-5' : 'grid-cols-1 lg:grid-cols-2')}>
       <AnimatePresence mode="popLayout">
-        {birds.map((bird, i) => {
+        {page.rows.map((bird, i) => {
           const photo = bird.photoId ? photos.get(bird.photoId) : undefined;
           const price = birdPrice(state, scope, bird);
           const male = bird.sex === 'macho', female = bird.sex === 'fêmea';
@@ -64,16 +71,16 @@ export default function BirdCollection({ birds, state, scope, onOpen, variant = 
                 {male ? <Mars className="size-3.5"/> : <Venus className="size-3.5"/>}
               </span>}
             </div>
-            <div className="p-3.5">
+            <div className="p-3">
               <div className="flex items-center justify-between gap-2">
-                <p className="truncate font-display text-lg font-semibold">{bird.name || bird.identification}</p>
-                {bird.enclosure && <span className="shrink-0 text-[11px] font-bold text-muted-foreground">{bird.enclosure}</span>}
+                <p className="truncate font-display text-base font-semibold">{bird.name || bird.identification}</p>
               </div>
               <p className="truncate text-xs text-muted-foreground">{shortSpecies(bird.species)} · {bird.mutation}</p>
+              {bird.enclosure && <p className="truncate text-[11px] text-muted-foreground">{bird.enclosure}</p>}
               {caption?.(bird) && <p className="mt-0.5 truncate text-[11px] font-semibold text-teal">{caption(bird)}</p>}
               <div className="mt-2.5 flex items-center justify-between gap-2">
                 <span className="truncate rounded-lg bg-secondary px-2 py-0.5 font-mono text-[11px] font-semibold text-secondary-foreground">{bird.identification}</span>
-                {price !== null ? <span className="shrink-0 text-sm font-bold text-primary">{money(price)}</span> : <span className="shrink-0 text-[11px] text-muted-foreground">Sem preço</span>}
+                {price !== null ? <span className="shrink-0 text-xs font-bold text-primary">{money(price)}</span> : <span className="shrink-0 text-[11px] text-muted-foreground">Sem preço</span>}
               </div>
             </div>
           </motion.button> : <motion.button type="button" layout key={bird.id + shown}
@@ -91,5 +98,6 @@ export default function BirdCollection({ birds, state, scope, onOpen, variant = 
         })}
       </AnimatePresence>
     </motion.div>
+    <Pagination page={page.page} pages={page.pages} onChange={changePage}/>
   </div>;
 }

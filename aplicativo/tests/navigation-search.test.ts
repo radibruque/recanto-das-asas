@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { emptyState, type Attachment, type Bird, type Contact, type IssuedDocument, type Sale, type Task } from '../src/domain/types';
-import { buildLocalSearchIndex, historyStatuses, pushNavigation, searchLocalIndex, sectorForTarget, taskTarget } from '../src/lib/navigation';
+import { buildLocalSearchIndex, historyStatuses, navigationScroll, pushNavigation, searchLocalIndex, sectorForTarget, taskTarget } from '../src/lib/navigation';
 
 function fixture() {
   const state = emptyState();
@@ -13,6 +13,11 @@ function fixture() {
 }
 
 describe('Navegação e busca local isoladas da persistência', () => {
+  it('HOME sempre retorna ao topo, inclusive no resumo comercial', () => {
+    expect(navigationScroll({ view: 'home' }, 890)).toBe(0);
+    expect(navigationScroll({ view: 'home', filter: 'commercial' }, 420)).toBe(0);
+    expect(navigationScroll({ view: 'birds' }, 890)).toBe(890);
+  });
   it('busca anilha, acentos, contato e venda e abre o identificador original', () => {
     const index = buildLocalSearchIndex(fixture(), 'real');
     expect(searchLocalIndex(index, 'ANILHA-001').find(row => row.group === 'Aves')?.target).toEqual({ view: 'birds', birdId: 'bird-real' });

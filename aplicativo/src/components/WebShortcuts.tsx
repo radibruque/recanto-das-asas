@@ -6,7 +6,7 @@ type Props = { currentView: string; sector: Sector; onNavigate: (view: 'home' | 
 /** Navigation destinations only. + Novo is a separate contextual action. */
 export default function WebShortcuts({ currentView, sector, onNavigate, onCommercial, onOpenMenus, menusExpanded = false }: Props) {
   const buttons = [
-    { label: 'Hoje', icon: Home, selected: currentView === 'home' && sector === 'breeding', action: () => onNavigate('home') },
+    { label: 'HOME', icon: Home, selected: currentView === 'home' && sector === 'breeding', action: () => onNavigate('home') },
     { label: 'Aves', icon: Bird, selected: ['birds', 'family', 'health'].includes(currentView), action: () => onNavigate('birds') },
     { label: 'Reprodução', icon: Egg, selected: ['breeding', 'pairs'].includes(currentView), action: () => onNavigate('breeding') },
     { label: 'Comercial', icon: ShoppingBag, selected: sector === 'commercial', action: onCommercial },
